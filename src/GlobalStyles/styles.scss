@@ -1,0 +1,41 @@
+::-webkit-scrollbar {
+  display: none !important;
+}
+/**********************CHAT VIEW**********************/
+
+.rce-container-mlist {
+  border: 1px solid #bdbdbd;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.rce-mlist {
+  height: 450px;
+  overflow: scroll;
+}
+
+.rce-container-input {
+  margin-top: 1rem;
+
+  input {
+    border: 1px solid #bdbdbd;
+  }
+
+  .rce-button {
+    padding: 13px;
+  }
+}
+
+.rce-mbox {
+  background-color: #f96b66;
+  color: white !important;
+  .rce-mbox-time {
+    color: white !important;
+  }
+}
+
+.rce-mbox.rce-mbox-right {
+  background-color: #1890ff;
+  color: white !important;
+}
+/**********************CHAT VIEW**********************/

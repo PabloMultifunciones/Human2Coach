@@ -6,6 +6,7 @@ import ThemeConfig from './theme';
 import ScrollToTop from './components/ScrollToTop';
 
 // ---------------------------------------------------------------------
+import './GlobalStyles/styles.scss';
 
 export default function App() {
   return (

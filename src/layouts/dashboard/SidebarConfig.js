@@ -6,6 +6,7 @@ import fileTextFill from '@iconify/icons-eva/file-text-fill';
 import lockFill from '@iconify/icons-eva/lock-fill';
 import personAddFill from '@iconify/icons-eva/person-add-fill';
 import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
+import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +18,13 @@ const sidebarConfig = [
     path: '/dashboard/app',
     icon: getIcon(pieChart2Fill)
   },
+
+  {
+    title: 'Chat',
+    path: '/dashboard/chat',
+    icon: getIcon(messageCircleFill)
+  },
+
   {
     title: 'user',
     path: '/dashboard/user',

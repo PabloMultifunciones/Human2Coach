@@ -1,5 +1,8 @@
 name: Build and Deploy
-on: [push]
+on: 
+  push:
+    branches:
+      - develop
 
 jobs:
   build:
@@ -7,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@develop
+        uses: actions/checkout@main
       - name: Install Dependencies
         run: npm install
       - name: Build
@@ -23,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@develop
+        uses: actions/checkout@main
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
@@ -34,4 +37,4 @@ jobs:
         with:
           args: deploy --only hosting
         env:
-          FIREBASE_TOKEN: 1//05-_7xtYLg7x3CgYIARAAGAUSNwF-L9Ir_bpv_kwe7splmKmqt1RX8YlFGba9TyEF4LKPMtyarLpRG-BwgbQl4JOc9BF-NWVVOWA
+          FIREBASE_TOKEN: 1//0fYwSEuYwm0N_CgYIARAAGA8SNwF-L9Irkf3zGYgXd-9CPhXevNdXoQ8pxf4WMet3LcdJ9bMLRg-u0nneFnbP5r3sXq8H-4TJ_oU

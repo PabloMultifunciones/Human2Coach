@@ -6,7 +6,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
-import Products from './pages/Products';
+import IndividualFollow from './pages/reports/IndividualFollow';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import Chat from './pages/Chat';
@@ -24,7 +24,7 @@ export default function Router() {
         { path: 'chat', element: <Chat /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
+        { path: 'report-individual-follow', element: <IndividualFollow /> },
         { path: 'blog', element: <Blog /> }
       ]
     },

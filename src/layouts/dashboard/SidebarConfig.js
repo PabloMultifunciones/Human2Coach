@@ -31,8 +31,8 @@ const sidebarConfig = [
     icon: getIcon(peopleFill)
   },
   {
-    title: 'product',
-    path: '/dashboard/products',
+    title: 'Rep. seguimiento individual',
+    path: '/dashboard/report-individual-follow',
     icon: getIcon(shoppingBagFill)
   },
   {

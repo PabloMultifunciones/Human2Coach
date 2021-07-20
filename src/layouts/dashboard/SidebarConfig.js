@@ -22,11 +22,6 @@ const sidebarConfig = [
     path: '/dashboard/chat',
     icon: getIcon(messageCircleFill)
   },
-  {
-    title: 'Chat con empleados',
-    path: '/dashboard/boss/chat',
-    icon: getIcon(messageCircleFill)
-  },
 
   {
     title: 'user',

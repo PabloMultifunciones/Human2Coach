@@ -44,6 +44,11 @@ const sidebarConfig = [
     title: 'Reporte Seg. individual',
     path: '/dashboard/report-individual-follow',
     icon: getIcon(clipboardOutline)
+  },
+  {
+    title: 'Ingreso seg. individual',
+    path: '/dashboard/entry-individual-follow',
+    icon: getIcon(clipboardOutline)
   }
 ];
 

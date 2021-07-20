@@ -7,6 +7,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import IndividualFollow from './pages/reports/IndividualFollow';
+import EntryFollow from './pages/reports/EntryFollow';
+
 import Blog from './pages/Blog';
 import User from './pages/User';
 import Chat from './pages/Chat';
@@ -28,6 +30,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'report-individual-follow', element: <IndividualFollow /> },
+        { path: 'entry-individual-follow', element: <EntryFollow /> },
         { path: 'blog', element: <Blog /> }
       ]
     },

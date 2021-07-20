@@ -9,9 +9,14 @@
   padding: 0.5rem;
 }
 
-.rce-mlist {
+.rce-mlist,
+.rce-container-clist {
   height: 450px;
   overflow: scroll;
+}
+
+.rce-container-clist {
+  margin-top: 1rem;
 }
 
 .rce-container-input {

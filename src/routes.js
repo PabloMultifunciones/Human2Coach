@@ -10,6 +10,8 @@ import IndividualFollow from './pages/reports/IndividualFollow';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import Chat from './pages/Chat';
+import ChatBoss from './pages/ChatBoss';
+
 import NotFound from './pages/Page404';
 
 // ----------------------------------------------------------------------
@@ -22,7 +24,7 @@ export default function Router() {
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" replace /> },
         { path: 'chat', element: <Chat /> },
-        { path: 'chat-boss', element: <Chat /> },
+        { path: 'boss/chat', element: <ChatBoss /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'report-individual-follow', element: <IndividualFollow /> },

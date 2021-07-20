@@ -24,18 +24,6 @@ const sidebarConfig = [
   },
 
   {
-    title: 'user',
-    path: '/dashboard/user',
-    icon: getIcon(peopleFill)
-  },
-
-  {
-    title: 'blog',
-    path: '/dashboard/blog',
-    icon: getIcon(fileTextFill)
-  },
-
-  {
     title: 'Reporte Seg. individual',
     path: '/dashboard/report-individual-follow',
     icon: getIcon(clipboardOutline)
@@ -44,6 +32,12 @@ const sidebarConfig = [
     title: 'Ingreso seg. individual',
     path: '/dashboard/entry-individual-follow',
     icon: getIcon(clipboardOutline)
+  },
+
+  {
+    title: 'user',
+    path: '/dashboard/user',
+    icon: getIcon(peopleFill)
   }
 ];
 

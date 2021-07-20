@@ -22,6 +22,7 @@ export default function Router() {
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" replace /> },
         { path: 'chat', element: <Chat /> },
+        { path: 'chat-boss', element: <Chat /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'report-individual-follow', element: <IndividualFollow /> },

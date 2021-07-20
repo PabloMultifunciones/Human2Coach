@@ -1,12 +1,13 @@
 import { Icon } from '@iconify/react';
 import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import peopleFill from '@iconify/icons-eva/people-fill';
-import shoppingBagFill from '@iconify/icons-eva/shopping-bag-fill';
 import fileTextFill from '@iconify/icons-eva/file-text-fill';
 import lockFill from '@iconify/icons-eva/lock-fill';
 import personAddFill from '@iconify/icons-eva/person-add-fill';
 import alertTriangleFill from '@iconify/icons-eva/alert-triangle-fill';
 import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
+
+import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
 
 // ----------------------------------------------------------------------
 
@@ -24,21 +25,28 @@ const sidebarConfig = [
     path: '/dashboard/chat',
     icon: getIcon(messageCircleFill)
   },
+  {
+    title: 'Chat con empleados',
+    path: '/dashboard/chat-boss',
+    icon: getIcon(messageCircleFill)
+  },
 
   {
     title: 'user',
     path: '/dashboard/user',
     icon: getIcon(peopleFill)
   },
-  {
-    title: 'Rep. seguimiento individual',
-    path: '/dashboard/report-individual-follow',
-    icon: getIcon(shoppingBagFill)
-  },
+
   {
     title: 'blog',
     path: '/dashboard/blog',
     icon: getIcon(fileTextFill)
+  },
+
+  {
+    title: 'Reporte Seg. individual',
+    path: '/dashboard/report-individual-follow',
+    icon: getIcon(clipboardOutline)
   },
   {
     title: 'login',

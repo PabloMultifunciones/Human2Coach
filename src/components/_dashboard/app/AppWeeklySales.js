@@ -4,7 +4,6 @@ import androidFilled from '@iconify/icons-ant-design/android-filled';
 import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
 import { Card, Typography } from '@material-ui/core';
 // utils
-import { fShortenNumber } from '../../../utils/formatNumber';
 
 // ----------------------------------------------------------------------
 
@@ -34,17 +33,15 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 714000;
-
-export default function AppWeeklySales() {
+export default function AppWeeklySales(props) {
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">{props.number}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Weekly Sales
+        {props.title}
       </Typography>
     </RootStyle>
   );

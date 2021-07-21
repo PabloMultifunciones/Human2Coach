@@ -153,6 +153,7 @@ export default function User() {
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
+            title="Search user..."
           />
 
           <Scrollbar>

@@ -4,6 +4,8 @@ import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Login from './pages/Login';
+import RecoverPassword from './pages/RecoverPassword';
+
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import IndividualFollow from './pages/reports/IndividualFollow';
@@ -37,6 +39,7 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: 'login', element: <Login /> },
+        { path: 'recover-password', element: <RecoverPassword /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '/', element: <Navigate to="/dashboard" /> },

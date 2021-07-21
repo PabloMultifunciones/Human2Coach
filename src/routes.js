@@ -42,7 +42,7 @@ export default function Router() {
         { path: 'recover-password', element: <RecoverPassword /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
-        { path: '/', element: <Navigate to="/dashboard" /> },
+        { path: '/', element: <Login /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]
     },

@@ -30,7 +30,7 @@ export default function Router() {
         { path: 'chat', element: <ChatBoss /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
-        { path: 'report-individual-follow', element: <IndividualFollow /> },
+        { path: 'follow-ups', element: <IndividualFollow /> },
         { path: 'new-plan', element: <EntryFollow /> },
         { path: 'coaching-sesion', element: <CoachingSesion /> },
         { path: 'blog', element: <Blog /> }

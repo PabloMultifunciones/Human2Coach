@@ -23,8 +23,8 @@ const sidebarConfig = [
   },
 
   {
-    title: 'Reporte Seg. individual',
-    path: '/dashboard/report-individual-follow',
+    title: 'Follow ups',
+    path: '/dashboard/follow-ups',
     icon: getIcon(clipboardOutline)
   },
   {

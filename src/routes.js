@@ -31,7 +31,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'report-individual-follow', element: <IndividualFollow /> },
-        { path: 'entry-individual-follow', element: <EntryFollow /> },
+        { path: 'new-plan', element: <EntryFollow /> },
         { path: 'coaching-sesion', element: <CoachingSesion /> },
         { path: 'blog', element: <Blog /> }
       ]

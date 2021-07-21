@@ -28,8 +28,8 @@ const sidebarConfig = [
     icon: getIcon(clipboardOutline)
   },
   {
-    title: 'Ingreso seg. individual',
-    path: '/dashboard/entry-individual-follow',
+    title: 'Nuevo plan',
+    path: '/dashboard/new-plan',
     icon: getIcon(clipboardOutline)
   },
 

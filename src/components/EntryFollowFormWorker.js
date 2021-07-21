@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
-import Chip from '@material-ui/core/Chip';
 
 import { format } from 'date-fns';
 import FormControl from '@material-ui/core/FormControl';
@@ -12,8 +11,6 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
 export default function EntryFollowFormWorker() {
   const [state, setState] = React.useState({
@@ -26,6 +23,7 @@ export default function EntryFollowFormWorker() {
     actualPargetPerfomance: 83.54,
     date: format(new Date(), 'yyyy-MM-dd'),
     dateCommitment: format(new Date(), 'yyyy-MM-dd'),
+    addReminder: format(new Date(), 'yyyy-MM-dd'),
     commitment: '',
     comments: '',
     behavior:
@@ -51,6 +49,7 @@ export default function EntryFollowFormWorker() {
     actualPargetPerfomance,
     date,
     dateCommitment,
+    addReminder,
     commitment,
     comments,
     behavior,
@@ -62,15 +61,6 @@ export default function EntryFollowFormWorker() {
       <Grid container spacing={3} justifyContent="center">
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Chip
-                icon={<CalendarTodayIcon />}
-                label="20/07/2021"
-                color="secondary"
-                className="chip-custom"
-              />
-            </Grid>
-
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <FormControl className="w-100">
                 <InputLabel id="demo-simple-select-label">Perfomance Metric</InputLabel>
@@ -176,7 +166,7 @@ export default function EntryFollowFormWorker() {
               />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={6} lg={6}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <TextField
                 className="w-100"
                 id="outlined-date"
@@ -189,7 +179,7 @@ export default function EntryFollowFormWorker() {
               />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={6} lg={6}>
+            <Grid item xs={12} sm={12} md={4} lg={4}>
               <TextField
                 className="w-100"
                 id="outlined-date"
@@ -197,6 +187,19 @@ export default function EntryFollowFormWorker() {
                 type="date"
                 value={dateCommitment}
                 name="dateCommitment"
+                variant="outlined"
+                onChange={handleChange}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={12} md={4} lg={4}>
+              <TextField
+                className="w-100"
+                id="outlined-date"
+                label="Add reminder"
+                type="date"
+                value={addReminder}
+                name="addReminder"
                 variant="outlined"
                 onChange={handleChange}
               />

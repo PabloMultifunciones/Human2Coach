@@ -34,7 +34,13 @@ const sidebarConfig = [
   },
 
   {
-    title: 'user',
+    title: 'Coaching Sesion',
+    path: '/dashboard/coaching-sesion',
+    icon: getIcon(clipboardOutline)
+  },
+
+  {
+    title: 'Usuarios',
     path: '/dashboard/user',
     icon: getIcon(peopleFill)
   }

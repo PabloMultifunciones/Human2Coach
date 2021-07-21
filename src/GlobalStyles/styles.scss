@@ -2,6 +2,22 @@
   display: none !important;
 }
 
+.ml-1 {
+  margin-left: 1rem !important;
+}
+
+.mr-1 {
+  margin-right: 1rem !important;
+}
+
+.ml-2 {
+  margin-left: 2rem !important;
+}
+
+.mt-1 {
+  margin-top: 1rem !important;
+}
+
 .w-100 {
   width: 100% !important;
 }
@@ -10,12 +26,13 @@
   margin-bottom: 2rem !important;
 }
 
-.ml-1 {
-  margin-left: 1rem !important;
+.d-flex {
+  display: flex !important;
+  align-content: center !important;
 }
 
-.ml-2 {
-  margin-left: 2rem !important;
+.justify-between {
+  justify-content: space-between !important;
 }
 
 /******************RECOVER FORM***************/
@@ -78,3 +95,42 @@
 }
 
 /**********************ENTRY FOLLOW**********************/
+
+/**********************COACHING SESSION**********************/
+
+.chip-custom {
+  padding: 0.5rem;
+}
+
+.div-details-coaching {
+  display: flex;
+  justify-content: space-between;
+}
+
+.img-custom-coaching-session {
+  width: 50px;
+  height: 50px;
+  border-radius: 99px;
+}
+
+.button-custom-coaching-session {
+  min-width: 115px !important;
+}
+
+.list-coaching-session {
+  .MuiListItem-root {
+    padding-left: 0px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .div-details-coaching {
+    display: block;
+  }
+
+  .div-access-time {
+    margin-top: 10px;
+  }
+}
+
+/**********************COACHING SESSION**********************/

@@ -10,6 +10,7 @@ import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import IndividualFollow from './pages/reports/IndividualFollow';
 import EntryFollow from './pages/reports/EntryFollow';
+import CoachingSesion from './pages/reports/CoachingSesion';
 
 import Blog from './pages/Blog';
 import User from './pages/User';
@@ -31,6 +32,7 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'report-individual-follow', element: <IndividualFollow /> },
         { path: 'entry-individual-follow', element: <EntryFollow /> },
+        { path: 'coaching-sesion', element: <CoachingSesion /> },
         { path: 'blog', element: <Blog /> }
       ]
     },

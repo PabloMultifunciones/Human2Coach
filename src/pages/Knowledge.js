@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, Container } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { ListColors } from '../utils/colors';
-
 import Page from '../components/Page';
 
+import KnowledgeDialog from '../components/Dialogs/Knowledge';
+
 export default function Knowledge() {
+  const [dialog, setDialog] = useState(false);
+
+  const openDialog = () => {
+    setDialog(!dialog);
+  };
+
   return (
     <>
       <Page title="KnowLedge | Minimal-UI">
@@ -47,6 +54,8 @@ export default function Knowledge() {
             <Grid item xs={12} sm={6} md={6} lg={6}>
               <div
                 className="div-processes"
+                onClick={openDialog}
+                role="presentation"
                 style={{ background: ListColors.GREEN, minHeight: '300px' }}
               >
                 Otros
@@ -54,6 +63,8 @@ export default function Knowledge() {
             </Grid>
           </Grid>
         </Container>
+
+        {dialog && <KnowledgeDialog openDialog={() => openDialog()} />}
       </Page>
     </>
   );

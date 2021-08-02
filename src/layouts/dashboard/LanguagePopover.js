@@ -14,14 +14,14 @@ const LANGS = [
     icon: '/static/icons/ic_flag_en.svg'
   },
   {
-    value: 'de',
-    label: 'German',
-    icon: '/static/icons/ic_flag_de.svg'
+    value: 'es',
+    label: 'Spanish',
+    icon: '/static/icons/es.png'
   },
   {
-    value: 'fr',
-    label: 'French',
-    icon: '/static/icons/ic_flag_fr.svg'
+    value: 'po',
+    label: 'Portuguese',
+    icon: '/static/icons/po.png'
   }
 ];
 
@@ -57,7 +57,7 @@ export default function LanguagePopover() {
       </IconButton>
 
       <MenuPopover open={open} onClose={handleClose} anchorEl={anchorRef.current}>
-        <Box sx={{ py: 1 }}>
+        <Box sx={{ py: 1 }} className="box-message-language">
           {LANGS.map((option) => (
             <MenuItem
               key={option.value}

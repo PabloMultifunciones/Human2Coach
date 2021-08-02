@@ -31,6 +31,10 @@
   align-content: center !important;
 }
 
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
 .justify-between {
   justify-content: space-between !important;
 }
@@ -145,3 +149,23 @@
 }
 
 /**********************COACHING SESSION**********************/
+
+/**********************KNOWLEDGE**********************/
+
+.container-knowledge {
+  a {
+    text-decoration: none !important;
+  }
+}
+
+.div-processes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/**********************KNOWLEDGE**********************/

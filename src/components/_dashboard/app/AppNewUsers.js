@@ -1,5 +1,3 @@
-import { Icon } from '@iconify/react';
-import appleFilled from '@iconify/icons-ant-design/apple-filled';
 // material
 import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
 import { Card, Typography } from '@material-ui/core';
@@ -7,15 +5,15 @@ import { Card, Typography } from '@material-ui/core';
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled(Card)(({ theme }) => ({
+const RootStyle = styled(Card)(({ color, backgroundcolor, theme }) => ({
   boxShadow: 'none',
   textAlign: 'center',
   padding: theme.spacing(5, 0),
-  color: theme.palette.info.darker,
-  backgroundColor: theme.palette.info.lighter
+  color,
+  backgroundColor: backgroundcolor
 }));
 
-const IconWrapperStyle = styled('div')(({ theme }) => ({
+const IconWrapperStyle = styled('div')(({ color, theme }) => ({
   margin: 'auto',
   display: 'flex',
   borderRadius: '50%',
@@ -24,7 +22,7 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   height: theme.spacing(8),
   justifyContent: 'center',
   marginBottom: theme.spacing(3),
-  color: theme.palette.info.dark,
+  color,
   backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.info.dark, 0)} 0%, ${alpha(
     theme.palette.info.dark,
     0.24
@@ -35,10 +33,8 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 export default function AppNewUsers(props) {
   return (
-    <RootStyle>
-      <IconWrapperStyle>
-        <Icon icon={appleFilled} width={24} height={24} />
-      </IconWrapperStyle>
+    <RootStyle color={props.color} backgroundcolor={props.backgroundcolor}>
+      <IconWrapperStyle color={props.color}>{props.icon}</IconWrapperStyle>
       <Typography variant="h3">{props.number}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {props.title}

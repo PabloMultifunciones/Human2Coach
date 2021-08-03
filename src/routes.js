@@ -17,6 +17,7 @@ import CoachingSesion from './pages/reports/CoachingSesion';
 import User from './pages/User';
 import Knowledge from './pages/Knowledge';
 import ProcessDetail from './pages/ProcessDetail';
+import SubProcessDetail from './pages/SubProcessDetail';
 
 import ChatBoss from './pages/ChatBoss';
 
@@ -37,6 +38,7 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'knowledge', element: <Knowledge /> },
         { path: 'process/detail', element: <ProcessDetail /> },
+        { path: 'sub-process/detail', element: <SubProcessDetail /> },
         { path: 'blog', element: <Blog /> }
       ]
     },

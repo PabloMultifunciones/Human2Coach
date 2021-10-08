@@ -10,17 +10,15 @@ const users = [
     teamLead: 'AGUSTINA',
     agent: 'Belen Porcal',
     state: true,
-    january: 'ONE on one',
-    february: 'Plan de seguimiento'
+    description: 'Plan de seguimiento'
   },
   {
     id: faker.datatype.uuid(),
-    tm: 'DAHIANA BERRIEL',
+    tm: 'DAHIANA ORTEGA',
     teamLead: 'AGUSTINA',
     agent: 'Ignacio Carranza (PO)',
     state: true,
-    january: 'ONE on one',
-    february: 'Plan de seguimiento'
+    description: 'Plan de seguimiento'
   }
 ];
 

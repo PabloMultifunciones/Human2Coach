@@ -49,7 +49,7 @@ export default function UserListToolbar({
   numSelected,
   filterName,
   onFilterName,
-  title = 'Search follow up...'
+  title = 'Search...'
 }) {
   return (
     <RootStyle

@@ -30,8 +30,7 @@ const TABLE_HEAD = [
   { id: 'teamLead', label: 'TEAM LEAD', alignRight: false },
   { id: 'agent', label: 'AGENTE', alignRight: false },
   { id: 'state', label: 'Estado', alignRight: false },
-  { id: 'january', label: 'Enero', alignRight: false },
-  { id: 'february', label: 'Febrero', alignRight: false }
+  { id: 'description', label: 'Descripción', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
@@ -60,7 +59,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.tm.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -120,7 +119,6 @@ export default function IndividualFollow() {
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
-
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
@@ -138,7 +136,7 @@ export default function IndividualFollow() {
           <UserListToolbar
             numSelected={selected.length}
             filterName={filterName}
-            onFilterName={handleFilterByName}
+            onFilterName={() => handleFilterByName()}
           />
 
           <Scrollbar>
@@ -155,7 +153,7 @@ export default function IndividualFollow() {
                 />
                 <TableBody>
                   {filteredUsers.map((row) => {
-                    const { id, tm, teamLead, agent, state, january, february } = row;
+                    const { id, tm, teamLead, agent, state, description } = row;
                     const isItemSelected = selected.indexOf(tm) !== -1;
 
                     return (
@@ -195,8 +193,7 @@ export default function IndividualFollow() {
                           )}
                         </TableCell>
 
-                        <TableCell align="left">{january}</TableCell>
-                        <TableCell align="left">{february}</TableCell>
+                        <TableCell align="left">{description}</TableCell>
 
                         <TableCell align="right">
                           <UserMoreMenu />

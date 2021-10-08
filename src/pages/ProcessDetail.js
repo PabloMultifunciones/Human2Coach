@@ -7,7 +7,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { ListColors } from '../utils/colors';
 import Page from '../components/Page';
 
-import KnowledgeDialog from '../components/Dialogs/Knowledge';
+import KnowledgeDialog from '../components/Dialogs/KnowledgeDialog';
 
 export default function ProcessDetail() {
   const [dialog, setDialog] = useState(false);

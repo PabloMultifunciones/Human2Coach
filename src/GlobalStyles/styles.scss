@@ -31,6 +31,12 @@
   align-content: center !important;
 }
 
+.d-flex-between {
+  display: flex !important;
+  align-content: center !important;
+  justify-content: space-between;
+}
+
 .cursor-pointer {
   cursor: pointer !important;
 }
@@ -41,6 +47,14 @@
 
 .button-danger {
   color: #f93154 !important;
+}
+
+.button-success {
+  color: #00b74a !important;
+}
+
+.button-primary {
+  color: #1266f1 !important;
 }
 
 /****************LANGUAGE POPOVER***************/

@@ -12,6 +12,7 @@ import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import IndividualFollow from './pages/reports/IndividualFollow';
+import Alerts from './pages/reports/Alerts';
 import EntryFollow from './pages/reports/EntryFollow';
 import CoachingSesion from './pages/reports/CoachingSesion';
 import User from './pages/User';
@@ -33,6 +34,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'chat', element: <ChatBoss /> },
         { path: 'follow-ups', element: <IndividualFollow /> },
+        { path: 'alerts', element: <Alerts /> },
         { path: 'new-plan', element: <EntryFollow /> },
         { path: 'coaching-sesion', element: <CoachingSesion /> },
         { path: 'user', element: <User /> },

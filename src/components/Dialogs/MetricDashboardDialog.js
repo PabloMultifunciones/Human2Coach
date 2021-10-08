@@ -37,7 +37,7 @@ export default function MetricDashboardDialog() {
         aria-describedby="alert-dialog-description"
         className="knowledge-dialog"
       >
-        <DialogTitle id="alert-dialog-title">Métrica</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Metric</DialogTitle>
         <DialogContent>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={12} lg={12} className="mt-1">

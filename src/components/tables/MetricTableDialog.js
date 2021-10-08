@@ -20,7 +20,7 @@ import Scrollbar from '../Scrollbar';
 import SearchNotFound from '../SearchNotFound';
 //
 
-const USERLIST = [
+const METRICLIST = [
   {
     id: faker.datatype.uuid(),
     metric: 'CSAT',
@@ -66,17 +66,17 @@ export default function MetricTableDialog() {
     setPage(0);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
-  const isMetricNotFound = USERLIST.length === 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - METRICLIST.length) : 0;
+  const isMetricNotFound = METRICLIST.length === 0;
 
   return (
     <Container>
       <div className="d-flex-between">
         <Typography color="textSecondary" gutterBottom>
-          Usuario: José Ortega
+          User: José Ortega
         </Typography>
         <Typography color="textSecondary" gutterBottom>
-          Fecha: 04/10/21
+          Date: 04/10/21
         </Typography>
       </div>
 
@@ -86,12 +86,12 @@ export default function MetricTableDialog() {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Métrica</TableCell>
-                  <TableCell align="left">Valor</TableCell>
+                  <TableCell align="left">Metric</TableCell>
+                  <TableCell align="left">Value</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {USERLIST.map((row) => {
+                {METRICLIST.map((row) => {
                   const { id, metric, value } = row;
                   return (
                     <TableRow hover key={id} tabIndex={-1} role="checkbox">
@@ -128,7 +128,7 @@ export default function MetricTableDialog() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={USERLIST.length}
+          count={METRICLIST.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

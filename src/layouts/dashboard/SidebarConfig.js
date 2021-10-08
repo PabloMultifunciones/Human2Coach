@@ -4,6 +4,7 @@ import peopleFill from '@iconify/icons-eva/people-fill';
 import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
+import alertCircleFill from '@iconify/icons-eva/alert-circle-fill';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,11 @@ const sidebarConfig = [
     title: 'Follow ups',
     path: '/dashboard/follow-ups',
     icon: getIcon(clipboardOutline)
+  },
+  {
+    title: 'Alerts',
+    path: '/dashboard/alerts',
+    icon: getIcon(alertCircleFill)
   },
   {
     title: 'Nuevo plan',

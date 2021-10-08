@@ -64,7 +64,7 @@ export default function AppCurrentVisits() {
 
   return (
     <Card>
-      <CardHeader title="Métricas a trabajar" />
+      <CardHeader title="Metric to work" />
       <ChartWrapperStyle dir="ltr">
         <ReactApexChart type="pie" series={CHART_DATA} options={chartOptions} height={280} />
       </ChartWrapperStyle>

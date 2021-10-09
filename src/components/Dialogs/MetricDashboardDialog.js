@@ -15,8 +15,10 @@ export default function MetricDashboardDialog() {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClose = (e, reason) => {
+    if (reason !== 'backdropClick') {
+      setOpen(false);
+    }
   };
 
   const handleCloseState = () => {
@@ -32,12 +34,12 @@ export default function MetricDashboardDialog() {
       <Dialog
         open={open}
         fullWidth
-        onClose={handleClose}
+        onClose={(e, reason) => handleClose(e, reason)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         className="knowledge-dialog"
       >
-        <DialogTitle id="alert-dialog-title">Metric</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Metrics</DialogTitle>
         <DialogContent>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={12} lg={12} className="mt-1">
@@ -52,9 +54,6 @@ export default function MetricDashboardDialog() {
 
           <Button onClick={handleCloseState} className="button-primary">
             Chat
-          </Button>
-          <Button onClick={handleClose} className="button-danger">
-            Cerrar
           </Button>
         </DialogActions>
       </Dialog>

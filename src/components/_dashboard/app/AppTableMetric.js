@@ -178,6 +178,8 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
                       <TableCell align="left">{row.qa}</TableCell>
                       <TableCell align="left">{row.recontact}</TableCell>
                       <TableCell align="left">{row.signed}</TableCell>
+                      <TableCell align="left">{row.saved}</TableCell>
+
                       <TableCell align="left">{row.slopes}</TableCell>
 
                       <TableCell align="right">

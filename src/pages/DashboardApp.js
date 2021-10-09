@@ -23,6 +23,7 @@ const metrics = [
     qa: 89.0,
     recontact: 24,
     signed: 11,
+    saved: 6,
     slopes: 7
   },
 
@@ -38,6 +39,7 @@ const metrics = [
     qa: 91.0,
     recontact: 22,
     signed: 14,
+    saved: 3,
     slopes: 4
   },
 
@@ -53,6 +55,7 @@ const metrics = [
     qa: 88.0,
     recontact: 25,
     signed: 10,
+    saved: 9,
     slopes: 8
   },
 
@@ -68,6 +71,7 @@ const metrics = [
     qa: 92.0,
     recontact: 23,
     signed: 12,
+    saved: 4,
     slopes: 6
   }
 ];
@@ -85,7 +89,8 @@ export default function DashboardApp() {
       { id: 'qa', label: 'QA', alignRight: false },
       { id: 'recontact', label: 'Recontacto', alignRight: false },
       { id: 'signed', label: 'Firmados', alignRight: false },
-      { id: 'slopes', label: 'Slopes', alignRight: false }
+      { id: 'saved', label: 'Guardados', alignRight: false },
+      { id: 'slopes', label: 'Pendientes', alignRight: false }
     ];
   }
 

@@ -16,6 +16,8 @@ import Alerts from './pages/reports/Alerts';
 import EntryFollow from './pages/reports/EntryFollow';
 import CoachingSesion from './pages/reports/CoachingSesion';
 import User from './pages/User';
+import Metric from './pages/Metric';
+
 import Knowledge from './pages/Knowledge';
 import ProcessDetail from './pages/ProcessDetail';
 import SubProcessDetail from './pages/SubProcessDetail';
@@ -37,7 +39,8 @@ export default function Router() {
         { path: 'alerts', element: <Alerts /> },
         { path: 'new-plan', element: <EntryFollow /> },
         { path: 'coaching-sesion', element: <CoachingSesion /> },
-        { path: 'user', element: <User /> },
+        { path: 'metrics', element: <Metric /> },
+        { path: 'users', element: <User /> },
         { path: 'knowledge', element: <Knowledge /> },
         { path: 'process/detail', element: <ProcessDetail /> },
         { path: 'sub-process/detail', element: <SubProcessDetail /> },

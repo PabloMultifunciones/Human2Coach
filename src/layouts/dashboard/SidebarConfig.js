@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
 import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import peopleFill from '@iconify/icons-eva/people-fill';
+import pieChartFill from '@iconify/icons-eva/pie-chart-fill';
 import messageCircleFill from '@iconify/icons-eva/message-circle-fill';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
@@ -47,8 +48,14 @@ const sidebarConfig = [
 
   {
     title: 'Usuarios',
-    path: '/dashboard/user',
+    path: '/dashboard/users',
     icon: getIcon(peopleFill)
+  },
+
+  {
+    title: 'Métricas',
+    path: '/dashboard/metrics',
+    icon: getIcon(pieChartFill)
   },
 
   {

@@ -1,13 +1,13 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useState } from 'react';
+import Button from '@material-ui/core/Button';
+import faker from 'faker';
+
 // material
 import {
   Card,
   Table,
   Stack,
-  Avatar,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -16,27 +16,86 @@ import {
   TableContainer,
   TablePagination
 } from '@material-ui/core';
+
+// Icons----------------------------------------------------------------------
+
+import BackupIcon from '@material-ui/icons/Backup';
+
 // components
 import Page from '../components/Page';
-import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
+import { UserListHead, UserListToolbar } from '../components/_dashboard/user';
 //
 
 import MetricDialog from '../components/Dialogs/MetricDialog';
+import DeleteDialog from '../components/Dialogs/DeleteDialog';
+import ShowDetailsDialog from '../components/Dialogs/ShowDetails';
 
-import USERLIST from '../_mocks_/userList';
+const METRICLIST = [
+  {
+    id: faker.datatype.uuid(),
+    metric: 'CSAT',
+    description: 'Lorem ipsum',
+    variableType: 'Tiempo',
+    frequency: 'Diaria',
+    points: 'Suam puntos',
+    impact: 'No',
+    status: 'Activo'
+  },
+  {
+    id: faker.datatype.uuid(),
+    metric: 'CSAT',
+    description: 'Lorem ipsum',
+    variableType: 'Tiempo',
+    frequency: 'Diaria',
+    points: 'Suam puntos',
+    impact: 'No',
+    status: 'Activo'
+  },
+  {
+    id: faker.datatype.uuid(),
+    metric: 'CSAT',
+    description: 'Lorem ipsum',
+    variableType: 'Tiempo',
+    frequency: 'Diaria',
+    points: 'Suam puntos',
+    impact: 'No',
+    status: 'Activo'
+  },
+  {
+    id: faker.datatype.uuid(),
+    metric: 'CSAT',
+    description: 'Lorem ipsum',
+    variableType: 'Tiempo',
+    frequency: 'Diaria',
+    points: 'Suam puntos',
+    impact: 'No',
+    status: 'Activo'
+  },
+  {
+    id: faker.datatype.uuid(),
+    metric: 'CSAT',
+    description: 'Lorem ipsum',
+    variableType: 'Tiempo',
+    frequency: 'Diaria',
+    points: 'Suam puntos',
+    impact: 'No',
+    status: 'Activo'
+  }
+];
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'metric', label: 'Metric', alignRight: false },
+  { id: 'description', label: 'Description', alignRight: false },
+  { id: 'variableType', label: 'Variable type', alignRight: false },
+  { id: 'frequency', label: 'Frequency', alignRight: false },
+  { id: 'points', label: 'Points', alignRight: false },
+  { id: 'impact', label: 'Impact/Supervisor', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: '' }
+  { id: 'actions', label: 'Actions', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
@@ -65,7 +124,10 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_metric) => _metric.metric.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -86,29 +148,11 @@ export default function Metric() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = METRICLIST.map((n) => n.metric);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -124,11 +168,15 @@ export default function Metric() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - METRICLIST.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(METRICLIST, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+
+  const deleteField = () => {
+    console.log('DELETE');
+  };
 
   return (
     <Page title="User | Minimal-UI">
@@ -137,7 +185,23 @@ export default function Metric() {
           <Typography variant="h4" gutterBottom>
             Metric
           </Typography>
-          <MetricDialog />
+
+          <div>
+            <MetricDialog />
+            <Button className="button-table mr-1" variant="contained" color="primary">
+              <label htmlFor="avatar" className="d-flex">
+                <BackupIcon className="mr-1" />
+                Import
+                <input
+                  type="file"
+                  className="d-none"
+                  id="avatar"
+                  name="avatar"
+                  // onChange={(e) => this.handleImport(e)}
+                />
+              </label>
+            </Button>
+          </div>
         </Stack>
 
         <Card>
@@ -155,7 +219,7 @@ export default function Metric() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={METRICLIST.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -164,60 +228,54 @@ export default function Metric() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
+                      const {
+                        id,
+                        metric,
+                        description,
+                        variableType,
+                        frequency,
+                        points,
+                        impact,
+                        status
+                      } = row;
+                      const isItemSelected = selected.indexOf(metric) !== -1;
 
                       return (
                         <TableRow
                           hover
                           key={id}
                           tabIndex={-1}
-                          role="checkbox"
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, name)}
-                            />
-                          </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={name} src={avatarUrl} />
-                              <Typography variant="subtitle2" noWrap>
-                                {name}
-                              </Typography>
-                            </Stack>
-                          </TableCell>
-                          <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
-                          <TableCell align="left">
-                            <Label
-                              variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
-                            >
-                              {sentenceCase(status)}
-                            </Label>
-                          </TableCell>
+                          <TableCell align="left">{metric}</TableCell>
+                          <TableCell align="left">{description}</TableCell>
+                          <TableCell align="left">{variableType}</TableCell>
+                          <TableCell align="left">{frequency}</TableCell>
+
+                          <TableCell align="left">{points ? 'Yes' : 'No'}</TableCell>
+                          <TableCell align="left">{impact ? 'Yes' : 'No'}</TableCell>
+                          <TableCell align="left">{status ? 'Yes' : 'No'}</TableCell>
 
                           <TableCell align="right">
-                            <UserMoreMenu />
+                            <ShowDetailsDialog {...row} />
+
+                            <DeleteDialog delete={() => deleteField(row.id)} />
+                            <MetricDialog {...row} typeModal="modalEdit" />
                           </TableCell>
                         </TableRow>
                       );
                     })}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
+                      <TableCell colSpan={8} />
                     </TableRow>
                   )}
                 </TableBody>
                 {isUserNotFound && (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={8} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
                     </TableRow>
@@ -230,7 +288,7 @@ export default function Metric() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={METRICLIST.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

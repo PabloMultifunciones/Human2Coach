@@ -24,32 +24,38 @@ const METRICLIST = [
   {
     id: faker.datatype.uuid(),
     metric: 'CSAT',
-    value: '62'
+    value: '62',
+    pending: 7
   },
   {
     id: faker.datatype.uuid(),
     metric: 'Prod ',
-    value: '11.25'
+    value: '11.25',
+    pending: 8
   },
   {
     id: faker.datatype.uuid(),
     metric: 'AHT',
-    value: '600'
+    value: '600',
+    pending: 7
   },
   {
     id: faker.datatype.uuid(),
     metric: 'ACW',
-    value: '120'
+    value: '120',
+    pending: 10
   },
   {
     id: faker.datatype.uuid(),
     metric: 'QA',
-    value: '89.0'
+    value: '89.0',
+    pending: 3
   },
   {
     id: faker.datatype.uuid(),
     metric: 'Recontacto',
-    value: '24'
+    value: '24',
+    pending: 14
   }
 ];
 
@@ -86,13 +92,14 @@ export default function MetricTableDialog() {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Metric</TableCell>
-                  <TableCell align="left">Value</TableCell>
+                  <TableCell align="left">Metrica</TableCell>
+                  <TableCell align="left">Valor</TableCell>
+                  <TableCell align="left">Pendiente</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {METRICLIST.map((row) => {
-                  const { id, metric, value } = row;
+                  const { id, metric, value, pending } = row;
                   return (
                     <TableRow hover key={id} tabIndex={-1} role="checkbox">
                       <TableCell component="th" scope="row" padding="none">
@@ -103,6 +110,7 @@ export default function MetricTableDialog() {
                         </Stack>
                       </TableCell>
                       <TableCell align="left">{value}</TableCell>
+                      <TableCell align="left">{pending}</TableCell>
                     </TableRow>
                   );
                 })}

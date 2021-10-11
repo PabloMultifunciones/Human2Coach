@@ -1,16 +1,12 @@
 import { filter } from 'lodash';
-import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState } from 'react';
-import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
   Card,
   Table,
   Stack,
   Avatar,
-  Button,
   Checkbox,
   TableRow,
   TableBody,
@@ -27,6 +23,9 @@ import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
 //
+
+import MetricDialog from '../components/Dialogs/MetricDialog';
+
 import USERLIST from '../_mocks_/userList';
 
 // ----------------------------------------------------------------------
@@ -138,14 +137,7 @@ export default function Metric() {
           <Typography variant="h4" gutterBottom>
             Metric
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            New Metric
-          </Button>
+          <MetricDialog />
         </Stack>
 
         <Card>

@@ -153,19 +153,7 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
                       selected={isItemSelected}
                       aria-checked={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          onChange={(event) => handleClick(event, row.type)}
-                        />
-                      </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        <Stack direction="row" alignItems="center" spacing={2}>
-                          <Typography variant="subtitle2" noWrap>
-                            {row.type}
-                          </Typography>
-                        </Stack>
-                      </TableCell>
+                      <TableCell align="left">{row.type}</TableCell>
 
                       <TableCell align="left">{row.csatCases}</TableCell>
                       <TableCell align="left">{row.csatChats}</TableCell>

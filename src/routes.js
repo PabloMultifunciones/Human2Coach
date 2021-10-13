@@ -15,6 +15,8 @@ import IndividualFollow from './pages/reports/IndividualFollow';
 import Alerts from './pages/reports/Alerts';
 import EntryFollow from './pages/reports/EntryFollow';
 import CoachingSesion from './pages/reports/CoachingSesion';
+import Pending from './pages/reports/Pending';
+
 import User from './pages/User';
 import Metric from './pages/Metric';
 
@@ -36,6 +38,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'chat', element: <ChatBoss /> },
         { path: 'follow-ups', element: <IndividualFollow /> },
+        { path: 'pending', element: <Pending /> },
         { path: 'alerts', element: <Alerts /> },
         { path: 'new-plan', element: <EntryFollow /> },
         { path: 'coaching-sesion', element: <CoachingSesion /> },

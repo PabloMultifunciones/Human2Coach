@@ -5,7 +5,6 @@ import {
   Card,
   Table,
   Stack,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -87,24 +86,6 @@ export default function IndividualFollow() {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -136,7 +117,7 @@ export default function IndividualFollow() {
           <UserListToolbar
             numSelected={selected.length}
             filterName={filterName}
-            onFilterName={() => handleFilterByName()}
+            onFilterName={(e) => handleFilterByName(e)}
           />
 
           <Scrollbar>
@@ -165,19 +146,7 @@ export default function IndividualFollow() {
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
                       >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={isItemSelected}
-                            onChange={(event) => handleClick(event, tm)}
-                          />
-                        </TableCell>
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            <Typography variant="subtitle2" noWrap>
-                              {tm}
-                            </Typography>
-                          </Stack>
-                        </TableCell>
+                        <TableCell align="left">{tm}</TableCell>
                         <TableCell align="left">{teamLead}</TableCell>
                         <TableCell align="left">{agent}</TableCell>
 

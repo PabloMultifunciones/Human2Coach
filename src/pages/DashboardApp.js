@@ -8,8 +8,6 @@ import { AppTableMetric } from '../components/_dashboard/app';
 
 // ----------------------------------------------------------------------
 
-import MetricDashboardDialog from '../components/Dialogs/MetricDashboardDialog';
-
 const metrics = [
   {
     id: faker.datatype.uuid(),
@@ -115,8 +113,6 @@ export default function DashboardApp() {
             <AppTableMetric title="PIP" tableHead={getTablehead('PIP')} metrics={metrics} />
           </Grid>
         </Grid>
-
-        {!localStorage.getItem('metricDialog') && <MetricDashboardDialog />}
       </Container>
     </Page>
   );

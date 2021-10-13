@@ -30,6 +30,11 @@ const sidebarConfig = [
     icon: getIcon(clipboardOutline)
   },
   {
+    title: 'Pending',
+    path: '/dashboard/pending',
+    icon: getIcon(clipboardOutline)
+  },
+  {
     title: 'Alerts',
     path: '/dashboard/alerts',
     icon: getIcon(alertCircleFill)

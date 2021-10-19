@@ -105,11 +105,11 @@ export default function IndividualFollow() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="User | Minimal-UI">
+    <Page title="Planes | Minimal-UI">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Follow ups
+            Planes
           </Typography>
         </Stack>
 

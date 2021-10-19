@@ -36,12 +36,12 @@ export default function Router() {
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
-        { path: 'chat', element: <ChatBoss /> },
+        { path: 'chat', element: <ChatBoss /> }, // Maybe this routes will be deleted
         { path: 'follow-ups', element: <IndividualFollow /> },
         { path: 'pending', element: <Pending /> },
         { path: 'alerts', element: <Alerts /> },
         { path: 'new-plan', element: <EntryFollow /> },
-        { path: 'coaching-sesion', element: <CoachingSesion /> },
+        { path: 'coaching-sesion', element: <CoachingSesion /> }, // Maybe this routes will be deleted
         { path: 'metrics', element: <Metric /> },
         { path: 'users', element: <User /> },
         { path: 'knowledge', element: <Knowledge /> },

@@ -53,7 +53,7 @@ export default function LanguagePopover() {
           })
         }}
       >
-        <img src={LANGS[0].icon} alt={LANGS[0].label} />
+        <img src={LANGS[1].icon} alt={LANGS[1].label} width="30" height="30" />
       </IconButton>
 
       <MenuPopover open={open} onClose={handleClose} anchorEl={anchorRef.current}>

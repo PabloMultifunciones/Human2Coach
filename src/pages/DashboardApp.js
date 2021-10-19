@@ -12,49 +12,52 @@ const metrics = [
   {
     id: faker.datatype.uuid(),
     type: 'W1',
-    csatCases: 62,
-    csatChats: 61,
-    prodCases: 11.25,
-    prodChats: 19.0,
-    aht: 600,
-    acw: 120,
-    qa: 89.0,
-    recontact: 24,
-    signed: 11,
-    saved: 6,
-    slopes: 7
+    csatCases: 63,
+    csatChats: 58,
+    prodCases: 11.05,
+    prodChats: 18.0,
+    aht: 619,
+    acw: 121,
+    qa: 92.0,
+    sent: 8,
+    slopes: 6,
+    signed: 12,
+    total: 23,
+    saved: 4
   },
 
   {
     id: faker.datatype.uuid(),
     type: 'W2',
-    csatCases: 60,
-    csatChats: 57,
-    prodCases: 13.8,
-    prodChats: 21.0,
-    aht: 587,
-    acw: 118,
-    qa: 91.0,
-    recontact: 22,
-    signed: 14,
-    saved: 3,
-    slopes: 4
+    csatCases: 63,
+    csatChats: 58,
+    prodCases: 11.05,
+    prodChats: 18.0,
+    aht: 619,
+    acw: 121,
+    qa: 92.0,
+    sent: 8,
+    slopes: 6,
+    signed: 12,
+    total: 23,
+    saved: 4
   },
 
   {
     id: faker.datatype.uuid(),
     type: 'W3',
-    csatCases: 58,
-    csatChats: 63,
-    prodCases: 12.63,
-    prodChats: 22.0,
-    aht: 631,
-    acw: 124,
-    qa: 88.0,
-    recontact: 25,
-    signed: 10,
-    saved: 9,
-    slopes: 8
+    csatCases: 63,
+    csatChats: 58,
+    prodCases: 11.05,
+    prodChats: 18.0,
+    aht: 619,
+    acw: 121,
+    qa: 92.0,
+    sent: 8,
+    slopes: 6,
+    signed: 12,
+    total: 23,
+    saved: 4
   },
 
   {
@@ -67,10 +70,11 @@ const metrics = [
     aht: 619,
     acw: 121,
     qa: 92.0,
-    recontact: 23,
+    sent: 8,
+    slopes: 6,
     signed: 12,
-    saved: 4,
-    slopes: 6
+    total: 23,
+    saved: 4
   }
 ];
 
@@ -85,10 +89,11 @@ export default function DashboardApp() {
       { id: 'aht', label: 'AHT', alignRight: false },
       { id: 'acw', label: 'ACW', alignRight: false },
       { id: 'qa', label: 'QA', alignRight: false },
-      { id: 'recontact', label: 'Recontacto', alignRight: false },
+      { id: 'sent', label: 'Enviados', alignRight: false },
+      { id: 'slopes', label: 'Pendientes', alignRight: false },
       { id: 'signed', label: 'Firmados', alignRight: false },
-      { id: 'saved', label: 'Guardados', alignRight: false },
-      { id: 'slopes', label: 'Pendientes', alignRight: false }
+      { id: 'total', label: 'Total', alignRight: false },
+      { id: 'saved', label: 'Guardados', alignRight: false }
     ];
   }
 
@@ -102,7 +107,7 @@ export default function DashboardApp() {
           <Grid item xs={12} sm={12} md={12}>
             <AppTableMetric
               title="One on One"
-              tableHead={getTablehead('One on One')}
+              tableHead={getTablehead('Uno a uno')}
               metrics={metrics}
             />
           </Grid>

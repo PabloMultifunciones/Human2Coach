@@ -5,7 +5,6 @@ import {
   Card,
   Table,
   Stack,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -16,7 +15,7 @@ import {
 // components
 import Scrollbar from '../../Scrollbar';
 import SearchNotFound from '../../SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
+import { UserListHead, UserListToolbar } from '../user';
 //
 
 // ----------------------------------------------------------------------
@@ -75,24 +74,6 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
       return;
     }
     setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -164,15 +145,12 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
                       <TableCell align="left">{row.acw}</TableCell>
 
                       <TableCell align="left">{row.qa}</TableCell>
-                      <TableCell align="left">{row.recontact}</TableCell>
-                      <TableCell align="left">{row.signed}</TableCell>
-                      <TableCell align="left">{row.saved}</TableCell>
-
+                      <TableCell align="left">{row.sent}</TableCell>
                       <TableCell align="left">{row.slopes}</TableCell>
+                      <TableCell align="left">{row.signed}</TableCell>
 
-                      <TableCell align="right">
-                        <UserMoreMenu />
-                      </TableCell>
+                      <TableCell align="left">{row.total}</TableCell>
+                      <TableCell align="left">{row.saved}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -198,6 +176,7 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
+          labelRowsPerPage="Columnas por página"
           count={metrics.length}
           rowsPerPage={rowsPerPage}
           page={page}

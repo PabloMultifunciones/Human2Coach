@@ -18,18 +18,22 @@ import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_dashboard/user';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/user';
+import DeleteDialog from '../../components/Dialogs/DeleteDialog';
+import PlanDialog from '../../components/Dialogs/PlanDialog';
+
 //
-import USERLIST from '../../_mocks_/user';
+import PLANLIST from '../../_mocks_/plan';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'TM', label: 'TM', alignRight: false },
-  { id: 'teamLead', label: 'TEAM LEAD', alignRight: false },
-  { id: 'agent', label: 'AGENTE', alignRight: false },
+  { id: 'collaborator', label: 'Colaborador', alignRight: false },
+  { id: 'created', label: 'Creado', alignRight: false },
+  { id: 'objective', label: 'Objetivo', alignRight: false },
+  { id: 'feedback', label: 'Feedback', alignRight: false },
   { id: 'state', label: 'Estado', alignRight: false },
-  { id: 'description', label: 'Descripción', alignRight: false }
+  { id: 'actions', label: 'Acciones', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
@@ -58,7 +62,10 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.tm.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_plan) => _plan.collaborator.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -66,7 +73,6 @@ function applySortFilter(array, comparator, query) {
 export default function IndividualFollow() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -75,15 +81,6 @@ export default function IndividualFollow() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -99,10 +96,14 @@ export default function IndividualFollow() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - PLANLIST.length) : 0;
+  const filteredUsers = applySortFilter(PLANLIST, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+
+  const deleteField = () => {
+    console.log('DELETE');
+  };
 
   return (
     <Page title="Planes | Minimal-UI">
@@ -114,11 +115,7 @@ export default function IndividualFollow() {
         </Stack>
 
         <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={(e) => handleFilterByName(e)}
-          />
+          <UserListToolbar filterName={filterName} onFilterName={(e) => handleFilterByName(e)} />
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -127,45 +124,44 @@ export default function IndividualFollow() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
-                  numSelected={selected.length}
+                  rowCount={PLANLIST.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.map((row) => {
-                    const { id, tm, teamLead, agent, state, description } = row;
-                    const isItemSelected = selected.indexOf(tm) !== -1;
+                    const { id, collaborator, created, objective, feedback, state } = row;
 
                     return (
-                      <TableRow
-                        hover
-                        key={id}
-                        tabIndex={-1}
-                        role="checkbox"
-                        selected={isItemSelected}
-                        aria-checked={isItemSelected}
-                      >
-                        <TableCell align="left">{tm}</TableCell>
-                        <TableCell align="left">{teamLead}</TableCell>
-                        <TableCell align="left">{agent}</TableCell>
+                      <TableRow hover key={id} tabIndex={-1}>
+                        <TableCell align="left">{collaborator}</TableCell>
+                        <TableCell align="left">{created}</TableCell>
+                        <TableCell align="left">{objective}</TableCell>
+                        <TableCell align="left">{feedback}</TableCell>
 
                         <TableCell align="left">
-                          {state ? (
+                          {state === 'Guardado' && (
                             <Label variant="ghost" color="success">
-                              Activo
+                              Guardado
                             </Label>
-                          ) : (
+                          )}
+                          {state === 'Envíado' && (
                             <Label variant="ghost" color="error">
-                              Inactivo
+                              Envíado
+                            </Label>
+                          )}{' '}
+                          {state === 'Firmado' && (
+                            <Label variant="ghost" color="error">
+                              Firmado
                             </Label>
                           )}
                         </TableCell>
-
-                        <TableCell align="left">{description}</TableCell>
-
-                        <TableCell align="right">
-                          <UserMoreMenu />
+                        <TableCell align="left">
+                          {state === 'Guardado' && (
+                            <>
+                              <PlanDialog />
+                              <DeleteDialog delete={() => deleteField(row.id)} />
+                            </>
+                          )}
                         </TableCell>
                       </TableRow>
                     );
@@ -192,7 +188,7 @@ export default function IndividualFollow() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={PLANLIST.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

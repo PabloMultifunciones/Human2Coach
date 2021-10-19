@@ -236,10 +236,10 @@ export default function EntryFollowFormWorker() {
 
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <Button variant="contained" color="secondary">
-                Cancel
+                Cancelar
               </Button>
               <Button variant="contained" className="ml-1">
-                Save
+                Guardar
               </Button>
             </Grid>
           </Grid>

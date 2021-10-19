@@ -37,7 +37,7 @@ export default function Router() {
         { path: '/', element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'chat', element: <ChatBoss /> }, // Maybe this routes will be deleted
-        { path: 'follow-ups', element: <IndividualFollow /> },
+        { path: 'plans', element: <IndividualFollow /> },
         { path: 'pending', element: <Pending /> },
         { path: 'alerts', element: <Alerts /> },
         { path: 'new-plan', element: <EntryFollow /> },

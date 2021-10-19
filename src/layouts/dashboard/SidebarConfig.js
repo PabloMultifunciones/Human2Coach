@@ -23,7 +23,7 @@ const sidebarConfig = [
   },
   {
     title: 'Planes',
-    path: '/dashboard/follow-ups',
+    path: '/dashboard/plans',
     icon: getIcon(clipboardOutline)
   },
   {

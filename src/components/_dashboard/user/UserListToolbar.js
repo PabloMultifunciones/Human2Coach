@@ -39,7 +39,7 @@ export default function UserListToolbar({
   numSelected,
   filterName,
   onFilterName,
-  title = 'Search...'
+  title = 'Buscar...'
 }) {
   return (
     <RootStyle

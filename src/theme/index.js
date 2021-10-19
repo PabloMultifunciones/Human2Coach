@@ -26,7 +26,7 @@ const ConfLang = () => {
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    i18n.changeLanguage('en');
+    i18n.changeLanguage('es');
     // eslint-disable-next-line
   }, []);
   return '';

@@ -7,7 +7,6 @@ import {
   Card,
   Table,
   Stack,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -20,7 +19,7 @@ import {
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_dashboard/user';
+import { UserListHead, UserListToolbar } from '../../components/_dashboard/user';
 //
 const ALERTLIST = [
   {
@@ -136,24 +135,6 @@ export default function Alerts() {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -202,44 +183,16 @@ export default function Alerts() {
                 />
 
                 <TableBody>
-                  {filteredUsers.map((row) => {
-                    const isItemSelected = selected.indexOf(row.numberDays) !== -1;
+                  {filteredUsers.map((row) => (
+                    <TableRow hover key={row.id} tabIndex={-1}>
+                      <TableCell align="left">{row.numberDays}</TableCell>
+                      <TableCell align="left">{row.alertOne}</TableCell>
+                      <TableCell align="left">{row.alertTwo}</TableCell>
 
-                    return (
-                      <TableRow
-                        hover
-                        key={row.id}
-                        tabIndex={-1}
-                        role="checkbox"
-                        selected={isItemSelected}
-                        aria-checked={isItemSelected}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={isItemSelected}
-                            onChange={(event) => handleClick(event, row.numberDays)}
-                          />
-                        </TableCell>
-
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            <Typography variant="subtitle2" noWrap>
-                              {row.numberDays}
-                            </Typography>
-                          </Stack>
-                        </TableCell>
-                        <TableCell align="left">{row.alertOne}</TableCell>
-                        <TableCell align="left">{row.alertTwo}</TableCell>
-
-                        <TableCell align="left">{row.alertThree}</TableCell>
-                        <TableCell align="left">{row.alertFour}</TableCell>
-
-                        <TableCell align="right">
-                          <UserMoreMenu />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                      <TableCell align="left">{row.alertThree}</TableCell>
+                      <TableCell align="left">{row.alertFour}</TableCell>
+                    </TableRow>
+                  ))}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
                       <TableCell colSpan={6} />

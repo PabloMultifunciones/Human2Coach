@@ -1,34 +1,138 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
-
+import Autocomplete from '@material-ui/core/Autocomplete';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormLabel from '@material-ui/core/FormLabel';
+import { format } from 'date-fns';
+import FeedbackDialog from './Dialogs/FeedbackDialog';
+
+// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
+const top100Films = [
+  { title: 'The Shawshank Redemption', year: 1994 },
+  { title: 'The Godfather', year: 1972 },
+  { title: 'The Godfather: Part II', year: 1974 },
+  { title: 'The Dark Knight', year: 2008 },
+  { title: '12 Angry Men', year: 1957 },
+  { title: "Schindler's List", year: 1993 },
+  { title: 'Pulp Fiction', year: 1994 },
+  { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
+  { title: 'The Good, the Bad and the Ugly', year: 1966 },
+  { title: 'Fight Club', year: 1999 },
+  { title: 'The Lord of the Rings: The Fellowship of the Ring', year: 2001 },
+  { title: 'Star Wars: Episode V - The Empire Strikes Back', year: 1980 },
+  { title: 'Forrest Gump', year: 1994 },
+  { title: 'Inception', year: 2010 },
+  { title: 'The Lord of the Rings: The Two Towers', year: 2002 },
+  { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
+  { title: 'Goodfellas', year: 1990 },
+  { title: 'The Matrix', year: 1999 },
+  { title: 'Seven Samurai', year: 1954 },
+  { title: 'Star Wars: Episode IV - A New Hope', year: 1977 },
+  { title: 'City of God', year: 2002 },
+  { title: 'Se7en', year: 1995 },
+  { title: 'The Silence of the Lambs', year: 1991 },
+  { title: "It's a Wonderful Life", year: 1946 },
+  { title: 'Life Is Beautiful', year: 1997 },
+  { title: 'The Usual Suspects', year: 1995 },
+  { title: 'Léon: The Professional', year: 1994 },
+  { title: 'Spirited Away', year: 2001 },
+  { title: 'Saving Private Ryan', year: 1998 },
+  { title: 'Once Upon a Time in the West', year: 1968 },
+  { title: 'American History X', year: 1998 },
+  { title: 'Interstellar', year: 2014 },
+  { title: 'Casablanca', year: 1942 },
+  { title: 'City Lights', year: 1931 },
+  { title: 'Psycho', year: 1960 },
+  { title: 'The Green Mile', year: 1999 },
+  { title: 'The Intouchables', year: 2011 },
+  { title: 'Modern Times', year: 1936 },
+  { title: 'Raiders of the Lost Ark', year: 1981 },
+  { title: 'Rear Window', year: 1954 },
+  { title: 'The Pianist', year: 2002 },
+  { title: 'The Departed', year: 2006 },
+  { title: 'Terminator 2: Judgment Day', year: 1991 },
+  { title: 'Back to the Future', year: 1985 },
+  { title: 'Whiplash', year: 2014 },
+  { title: 'Gladiator', year: 2000 },
+  { title: 'Memento', year: 2000 },
+  { title: 'The Prestige', year: 2006 },
+  { title: 'The Lion King', year: 1994 },
+  { title: 'Apocalypse Now', year: 1979 },
+  { title: 'Alien', year: 1979 },
+  { title: 'Sunset Boulevard', year: 1950 },
+  { title: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb', year: 1964 },
+  { title: 'The Great Dictator', year: 1940 },
+  { title: 'Cinema Paradiso', year: 1988 },
+  { title: 'The Lives of Others', year: 2006 },
+  { title: 'Grave of the Fireflies', year: 1988 },
+  { title: 'Paths of Glory', year: 1957 },
+  { title: 'Django Unchained', year: 2012 },
+  { title: 'The Shining', year: 1980 },
+  { title: 'WALL·E', year: 2008 },
+  { title: 'American Beauty', year: 1999 },
+  { title: 'The Dark Knight Rises', year: 2012 },
+  { title: 'Princess Mononoke', year: 1997 },
+  { title: 'Aliens', year: 1986 },
+  { title: 'Oldboy', year: 2003 },
+  { title: 'Once Upon a Time in America', year: 1984 },
+  { title: 'Witness for the Prosecution', year: 1957 },
+  { title: 'Das Boot', year: 1981 },
+  { title: 'Citizen Kane', year: 1941 },
+  { title: 'North by Northwest', year: 1959 },
+  { title: 'Vertigo', year: 1958 },
+  { title: 'Star Wars: Episode VI - Return of the Jedi', year: 1983 },
+  { title: 'Reservoir Dogs', year: 1992 },
+  { title: 'Braveheart', year: 1995 },
+  { title: 'M', year: 1931 },
+  { title: 'Requiem for a Dream', year: 2000 },
+  { title: 'Amélie', year: 2001 },
+  { title: 'A Clockwork Orange', year: 1971 },
+  { title: 'Like Stars on Earth', year: 2007 },
+  { title: 'Taxi Driver', year: 1976 },
+  { title: 'Lawrence of Arabia', year: 1962 },
+  { title: 'Double Indemnity', year: 1944 },
+  { title: 'Eternal Sunshine of the Spotless Mind', year: 2004 },
+  { title: 'Amadeus', year: 1984 },
+  { title: 'To Kill a Mockingbird', year: 1962 },
+  { title: 'Toy Story 3', year: 2010 },
+  { title: 'Logan', year: 2017 },
+  { title: 'Full Metal Jacket', year: 1987 },
+  { title: 'Dangal', year: 2016 },
+  { title: 'The Sting', year: 1973 },
+  { title: '2001: A Space Odyssey', year: 1968 },
+  { title: "Singin' in the Rain", year: 1952 },
+  { title: 'Toy Story', year: 1995 },
+  { title: 'Bicycle Thieves', year: 1948 },
+  { title: 'The Kid', year: 1921 },
+  { title: 'Inglourious Basterds', year: 2009 },
+  { title: 'Snatch', year: 2000 },
+  { title: '3 Idiots', year: 2009 },
+  { title: 'Monty Python and the Holy Grail', year: 1975 }
+];
 
 export default function EntryFollowForm() {
-  const [age, setAge] = React.useState('');
-  const [state, setState] = React.useState({
-    gilad: true,
-    jason: false,
-    antoine: false,
-    confidence: false
-  });
+  const [{ collaborator, feedback, comments, date, dateCommitment, addReminder }, setState] =
+    useState({
+      confidence: false,
+      collaborator: '',
+      feedback: '',
+      comments: '',
+      date: format(new Date(), 'yyyy-MM-dd'),
+      dateCommitment: format(new Date(), 'yyyy-MM-dd'),
+      addReminder: format(new Date(), 'yyyy-MM-dd')
+    });
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const handleChange = (event, value) => {
+    setState((prevState) => ({
+      ...prevState,
+      [event.target.name]: value
+    }));
   };
-
-  const handleChangeCheckBox = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
-
-  const { gilad, jason, antoine, confidence } = state;
 
   return (
     <>
@@ -36,105 +140,122 @@ export default function EntryFollowForm() {
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <FormControl className="w-100 mb-2">
-                <InputLabel id="demo-simple-select-label">Perfomance Metric</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Perfomance Metric"
-                  value={age}
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}>CSAT</MenuItem>
-                  <MenuItem value={20}>AHT</MenuItem>
-                  <MenuItem value={30}>DSL</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <TextField
-                className="w-100"
-                id="outlined-search-two"
-                label="Target performance"
-                type="text"
-                variant="outlined"
+              <Autocomplete
+                id="combo-box-demo"
+                options={top100Films}
+                getOptionLabel={(option) => option.title}
+                onChange={(event, value) =>
+                  handleChange({ target: { name: 'collaborator' } }, value)
+                }
+                renderInput={(params) => (
+                  <TextField {...params} fullWidth label="Colaborador" variant="outlined" />
+                )}
               />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={6} lg={6}>
-              <TextField
-                className="w-100"
-                id="outlined-search"
-                label="Actual performance"
-                type="text"
-                variant="outlined"
-              />
-            </Grid>
+            {collaborator && collaborator !== '' && (
+              <Grid item xs={12} sm={12} md={12} lg={12}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Tipo de feedback</FormLabel>
+                  <RadioGroup
+                    aria-label="feedback"
+                    name="feedback"
+                    value={feedback}
+                    onChange={(event, value) => {
+                      handleChange(event, value);
+                    }}
+                  >
+                    <FormControlLabel value="objective" control={<Radio />} label="Objetivo" />
+                    <FormControlLabel
+                      value="general"
+                      control={<Radio />}
+                      label="Feedback General"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+            )}
+            {feedback && feedback !== '' && (
+              <>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TextField
+                    className="w-100"
+                    id="outlined-multiline-static"
+                    label="Comments"
+                    multiline
+                    rows={8}
+                    variant="outlined"
+                    value={comments}
+                    name="comments"
+                    onChange={(event) => {
+                      handleChange(event, event.target.value);
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={4} lg={4}>
+                  <TextField
+                    className="w-100"
+                    id="outlined-date"
+                    label="Envíado"
+                    type="date"
+                    value={dateCommitment}
+                    name="dateCommitment"
+                    variant="outlined"
+                    onChange={(event) => {
+                      handleChange(event, event.target.value);
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={4} lg={4}>
+                  <TextField
+                    className="w-100"
+                    id="outlined-date"
+                    label="Compromiso"
+                    type="date"
+                    value={addReminder}
+                    name="addReminder"
+                    variant="outlined"
+                    onChange={(event) => {
+                      handleChange(event, event.target.value);
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={4} lg={4}>
+                  <TextField
+                    className="w-100"
+                    id="outlined-date"
+                    label="Recordatorio"
+                    type="date"
+                    value={date}
+                    variant="outlined"
+                    name="date"
+                    onChange={(event) => {
+                      handleChange(event, event.target.value);
+                    }}
+                  />
+                </Grid>
+              </>
+            )}
 
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <TextField
-                className="w-100"
-                id="outlined-multiline-static"
-                label="What is the key behavior, and what information is this based on?"
-                multiline
-                rows={4}
-                variant="outlined"
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <h5>What is the key behavior, and what information is this based on?</h5>
-              <FormControl component="fieldset">
-                <FormGroup>
-                  <FormControlLabel
-                    control={
-                      <Checkbox checked={gilad} onChange={handleChangeCheckBox} name="gilad" />
-                    }
-                    label="Knowledge"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox checked={jason} onChange={handleChangeCheckBox} name="jason" />
-                    }
-                    label="Proficiency"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox checked={antoine} onChange={handleChangeCheckBox} name="antoine" />
-                    }
-                    label="Motivation"
-                  />
-
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={confidence}
-                        onChange={handleChangeCheckBox}
-                        name="confidence"
-                      />
-                    }
-                    label="Confidence"
-                  />
-                </FormGroup>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <TextField
-                className="w-100"
-                id="outlined-multiline-static"
-                label="What is the root cause, and how does it lead to the development need?"
-                multiline
-                rows={4}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Button variant="contained">Save details</Button>
+              <Button className="bg-danger" color="inherit" variant="contained">
+                Cancelar{' '}
+              </Button>
+              <Button color="secondary" variant="contained" className="ml-1">
+                Guardar
+              </Button>
+              <Button color="primary" variant="contained" className="ml-1">
+                Enviar
+              </Button>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+
+      {feedback && feedback === 'objective' && <FeedbackDialog />}
     </>
   );
 }

@@ -55,7 +55,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function TableFeedback({ title, tableHead, metrics }) {
+export default function TableFeedback({ title, tableHead, metrics, disabled }) {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -122,7 +122,12 @@ export default function TableFeedback({ title, tableHead, metrics }) {
 
                     <TableCell align="left">
                       {' '}
-                      <Checkbox inputProps={{ 'aria-label': 'uncontrolled-checkbox' }} checked />
+                      <Checkbox
+                        defaultChecked
+                        color="primary"
+                        inputProps={{ 'aria-label': 'secondary checkbox' }}
+                        disabled={disabled}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

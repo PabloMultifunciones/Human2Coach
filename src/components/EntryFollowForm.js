@@ -181,7 +181,7 @@ export default function EntryFollowForm() {
                   <TextField
                     className="w-100"
                     id="outlined-multiline-static"
-                    label="Comments"
+                    label="Comentarios"
                     multiline
                     rows={8}
                     variant="outlined"

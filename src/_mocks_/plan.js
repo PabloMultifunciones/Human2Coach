@@ -6,16 +6,9 @@ import faker from 'faker';
 const plans = [
   {
     id: faker.datatype.uuid(),
-    collaborator: 'DAHIANA BERRIEL',
-    created: '23/12/2021',
-    objective: 'X',
-    feedback: 'X',
-    state: 'Guardado'
-  },
-  {
-    id: faker.datatype.uuid(),
     collaborator: 'DAHIANA ORTEGA',
-    created: '25/12/2021',
+    sent: '25/12/2021',
+    commitment: '25/12/2021',
     objective: 'X',
     feedback: 'X',
     state: 'Envíado'
@@ -23,10 +16,20 @@ const plans = [
   {
     id: faker.datatype.uuid(),
     collaborator: 'DAHIANA ORTEGA',
-    created: '25/12/2021',
+    sent: '25/12/2021',
+    commitment: '25/12/2021',
     objective: 'X',
     feedback: 'X',
-    state: 'Firmado'
+    state: 'Recibido'
+  },
+  {
+    id: faker.datatype.uuid(),
+    collaborator: 'DAHIANA BERRIEL',
+    sent: '23/12/2021',
+    commitment: '25/12/2021',
+    objective: 'X',
+    feedback: 'X',
+    state: 'Guardado'
   }
 ];
 

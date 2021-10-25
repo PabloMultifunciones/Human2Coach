@@ -23,6 +23,7 @@ import Metric from './pages/Metric';
 import Knowledge from './pages/Knowledge';
 import ProcessDetail from './pages/ProcessDetail';
 import SubProcessDetail from './pages/SubProcessDetail';
+import EntryFollowFormWorker from './components/EntryFollowFormWorker';
 
 import ChatBoss from './pages/ChatBoss';
 
@@ -39,6 +40,8 @@ export default function Router() {
         { path: 'chat', element: <ChatBoss /> }, // Maybe this routes will be deleted
         { path: 'plans', element: <IndividualFollow /> },
         { path: 'pending', element: <Pending /> },
+        { path: 'plan', element: <EntryFollowFormWorker id={1} /> },
+
         { path: 'alerts', element: <Alerts /> },
         { path: 'new-plan', element: <EntryFollow /> },
         { path: 'coaching-sesion', element: <CoachingSesion /> }, // Maybe this routes will be deleted

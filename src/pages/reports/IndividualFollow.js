@@ -14,6 +14,8 @@ import {
   TablePagination
 } from '@material-ui/core';
 // components
+import { Link } from 'react-router-dom';
+
 import Page from '../../components/Page';
 import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
@@ -29,7 +31,8 @@ import PLANLIST from '../../_mocks_/plan';
 
 const TABLE_HEAD = [
   { id: 'collaborator', label: 'Colaborador', alignRight: false },
-  { id: 'created', label: 'Creado', alignRight: false },
+  { id: 'sent', label: 'Enviado', alignRight: false },
+  { id: 'commitment', label: 'Compromiso', alignRight: false },
   { id: 'objective', label: 'Objetivo', alignRight: false },
   { id: 'feedback', label: 'Feedback', alignRight: false },
   { id: 'state', label: 'Estado', alignRight: false },
@@ -129,29 +132,35 @@ export default function IndividualFollow() {
                 />
                 <TableBody>
                   {filteredUsers.map((row) => {
-                    const { id, collaborator, created, objective, feedback, state } = row;
+                    const { id, collaborator, sent, commitment, objective, feedback, state } = row;
 
                     return (
                       <TableRow hover key={id} tabIndex={-1}>
-                        <TableCell align="left">{collaborator}</TableCell>
-                        <TableCell align="left">{created}</TableCell>
+                        <TableCell align="left">
+                          <Link to="/dashboard/plan" rel="noopener noreferrer">
+                            {collaborator}
+                          </Link>
+                        </TableCell>
+                        <TableCell align="left">{sent}</TableCell>
+                        <TableCell align="left">{commitment}</TableCell>
+
                         <TableCell align="left">{objective}</TableCell>
                         <TableCell align="left">{feedback}</TableCell>
 
                         <TableCell align="left">
                           {state === 'Guardado' && (
-                            <Label variant="ghost" color="success">
+                            <Label variant="ghost" color="warning">
                               Guardado
                             </Label>
                           )}
                           {state === 'Envíado' && (
-                            <Label variant="ghost" color="error">
+                            <Label variant="ghost" color="info">
                               Envíado
                             </Label>
                           )}{' '}
-                          {state === 'Firmado' && (
-                            <Label variant="ghost" color="error">
-                              Firmado
+                          {state === 'Recibido' && (
+                            <Label variant="ghost" color="success">
+                              Recibido
                             </Label>
                           )}
                         </TableCell>

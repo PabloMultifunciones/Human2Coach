@@ -10,6 +10,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import { format } from 'date-fns';
 import faker from 'faker';
 import Checkbox from '@material-ui/core/Checkbox';
+import { Link } from 'react-router-dom';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import { TableFeedback } from './_dashboard/app';
 
@@ -39,7 +41,7 @@ const metrics = [
   }
 ];
 
-export default function EntryFollowFormWorker() {
+export default function EntryFollowFormWorker(props) {
   const [{ feedback, comments, date, dateCommitment, addReminder, ownComments }, setState] =
     useState({
       confidence: false,
@@ -73,6 +75,17 @@ export default function EntryFollowFormWorker() {
       <Grid container spacing={3} justifyContent="center">
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Grid container spacing={3}>
+            {props.id && (
+              <Grid item xs={12} sm={12} md={12} lg={12}>
+                <Link to="/dashboard/plans" rel="noopener noreferrer">
+                  <Button variant="contained">
+                    <ArrowBackIosIcon />
+                    Atrás
+                  </Button>
+                </Link>
+              </Grid>
+            )}
+
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <FormControl component="fieldset" disabled>
                 <FormLabel component="legend">Tipo de feedback</FormLabel>

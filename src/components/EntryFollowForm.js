@@ -9,7 +9,9 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { format } from 'date-fns';
+import toastr from 'toastr';
 import FeedbackDialog from './Dialogs/FeedbackDialog';
+import 'toastr/build/toastr.min.css';
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
@@ -134,6 +136,12 @@ export default function EntryFollowForm() {
     }));
   };
 
+  const handleClose = () => {
+    if (!addReminder || addReminder === '') {
+      toastr.error('La fecha de envío es requerida');
+    }
+  };
+
   return (
     <>
       <Grid container spacing={3} justifyContent="center">
@@ -199,6 +207,7 @@ export default function EntryFollowForm() {
                     id="outlined-date"
                     label="Envíado"
                     type="date"
+                    disabled
                     value={dateCommitment}
                     name="dateCommitment"
                     variant="outlined"
@@ -247,7 +256,7 @@ export default function EntryFollowForm() {
               <Button color="secondary" variant="contained" className="ml-1">
                 Guardar
               </Button>
-              <Button color="primary" variant="contained" className="ml-1">
+              <Button color="primary" variant="contained" className="ml-1" onClick={handleClose}>
                 Enviar
               </Button>
             </Grid>

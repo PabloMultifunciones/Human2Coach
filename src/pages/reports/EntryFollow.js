@@ -42,8 +42,8 @@ export default function EntryFollow() {
             onChange={handleChange}
             aria-label="disabled tabs example"
           >
-            <Tab label="Jefe" />
-            <Tab label="Empleado" />
+            <Tab label="Lider" />
+            <Tab label="Colaborador" />
           </Tabs>
 
           <TabPanel value={value} index={0}>

@@ -9,6 +9,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { format } from 'date-fns';
 import faker from 'faker';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import { TableFeedback } from './_dashboard/app';
 
@@ -154,20 +155,30 @@ export default function EntryFollowFormWorker() {
               />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Button className="bg-danger" color="inherit" variant="contained">
-                Cancelar{' '}
-              </Button>
+            <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex-between">
+              <div>
+                <Button className="bg-danger" color="inherit" variant="contained">
+                  Cancelar{' '}
+                </Button>
+                <Button color="secondary" variant="contained" className="ml-1">
+                  Guardar
+                </Button>
+                <Button color="primary" variant="contained" className="ml-1">
+                  Enviar
+                </Button>
+              </div>
 
-              <Button color="primary" variant="contained" className="ml-1">
-                Recibido
-              </Button>
-              <Button color="secondary" variant="contained" className="ml-1">
-                Guardar
-              </Button>
-              <Button color="primary" variant="contained" className="ml-1">
-                Enviar
-              </Button>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    defaultChecked
+                    label="Recibido"
+                    color="primary"
+                    inputProps={{ 'aria-label': 'secondary checkbox' }}
+                  />
+                }
+                label="Recibido"
+              />
             </Grid>
           </Grid>
         </Grid>

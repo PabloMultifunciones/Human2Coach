@@ -23,19 +23,20 @@ import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
+import { UserListHead, UserListToolbar } from '../components/_dashboard/user';
+import UserDialog from '../components/Dialogs/UserDialog';
+
 //
 import USERLIST from '../_mocks_/userList';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' }
+  { id: 'name', label: 'Nombre', alignRight: false },
+  { id: 'company', label: 'Equipo', alignRight: false },
+  { id: 'status', label: 'Estado', alignRight: false },
+  { id: 'role', label: 'Rol', alignRight: false },
+  { id: 'actions', label: 'Acciones', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
@@ -129,7 +130,7 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, role, status, company, isVerified } = row;
+                      const { id, name, role, status, company } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
 
                       return (
@@ -143,19 +144,18 @@ export default function User() {
                         >
                           <TableCell align="left">{name}</TableCell>
                           <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
                           <TableCell align="left">
                             <Label
                               variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
+                              color={(status === 'Inactivo' && 'error') || 'success'}
                             >
                               {sentenceCase(status)}
                             </Label>
                           </TableCell>
+                          <TableCell align="left">{role}</TableCell>
 
-                          <TableCell align="right">
-                            <UserMoreMenu />
+                          <TableCell align="left">
+                            <UserDialog />
                           </TableCell>
                         </TableRow>
                       );

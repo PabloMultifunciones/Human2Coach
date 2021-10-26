@@ -259,9 +259,9 @@ export default function Metric() {
 
                           <TableCell align="right">
                             <ShowDetailsDialog {...row} />
+                            <MetricDialog {...row} typeModal="modalEdit" />
 
                             <DeleteDialog delete={() => deleteField(row.id)} />
-                            <MetricDialog {...row} typeModal="modalEdit" />
                           </TableCell>
                         </TableRow>
                       );

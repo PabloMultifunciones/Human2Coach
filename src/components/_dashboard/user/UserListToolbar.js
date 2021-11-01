@@ -146,6 +146,7 @@ export default function UserListToolbar({
   numSelected,
   filterName,
   onFilterName,
+  showTeam,
   title = 'Buscar...'
 }) {
   const [{ team }, setState] = useState({
@@ -183,16 +184,18 @@ export default function UserListToolbar({
               </InputAdornment>
             }
           />
-          <Autocomplete
-            id="combo-box-demo"
-            className="autocomplete-custom"
-            options={top100Films}
-            getOptionLabel={(option) => option.title}
-            onChange={(event, value) => handleChange({ target: { name: 'team' } }, value)}
-            renderInput={(params) => (
-              <TextField {...params} label="Equipo" variant="outlined" value={team} />
-            )}
-          />
+          {showTeam && (
+            <Autocomplete
+              id="combo-box-demo"
+              className="autocomplete-custom"
+              options={top100Films}
+              getOptionLabel={(option) => option.title}
+              onChange={(event, value) => handleChange({ target: { name: 'team' } }, value)}
+              renderInput={(params) => (
+                <TextField {...params} label="Equipo" variant="outlined" value={team} />
+              )}
+            />
+          )}
         </>
       )}
     </RootStyle>

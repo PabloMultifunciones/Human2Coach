@@ -107,6 +107,7 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={(e) => handleFilterByName(e)}
+          showTeam
         />
 
         <Scrollbar>

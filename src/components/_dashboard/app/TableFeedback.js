@@ -9,8 +9,7 @@ import {
   TableBody,
   TableCell,
   Typography,
-  TableContainer,
-  TablePagination
+  TableContainer
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 
@@ -55,13 +54,11 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function TableFeedback({ title, tableHead, metrics, disabled }) {
-  const [page, setPage] = useState(0);
+export default function TableFeedback({ title, tableHead, metrics, disabled, newPlan }) {
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -78,27 +75,19 @@ export default function TableFeedback({ title, tableHead, metrics, disabled }) {
     setSelected([]);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - metrics.length) : 0;
   const filteredUsers = applySortFilter(metrics, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
     <>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4" gutterBottom>
-          {title}
-        </Typography>
-      </Stack>
+      {!newPlan && (
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4" gutterBottom>
+            {title}
+          </Typography>
+        </Stack>
+      )}
 
       <Card>
         <Scrollbar>
@@ -131,11 +120,6 @@ export default function TableFeedback({ title, tableHead, metrics, disabled }) {
                     </TableCell>
                   </TableRow>
                 ))}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: 53 * emptyRows }}>
-                    <TableCell colSpan={3} />
-                  </TableRow>
-                )}
               </TableBody>
               {isUserNotFound && (
                 <TableBody>
@@ -149,17 +133,6 @@ export default function TableFeedback({ title, tableHead, metrics, disabled }) {
             </Table>
           </TableContainer>
         </Scrollbar>
-
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          labelRowsPerPage="Columnas por página"
-          count={metrics.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
       </Card>
     </>
   );

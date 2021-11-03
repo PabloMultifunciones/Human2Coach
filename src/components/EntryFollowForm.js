@@ -8,10 +8,42 @@ import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
-import { format } from 'date-fns';
+import { add, format } from 'date-fns';
 import toastr from 'toastr';
+import faker from 'faker';
+
 import FeedbackDialog from './Dialogs/FeedbackDialog';
+import TimeEntryFollowDialog from './Dialogs/TimeEntryFollowDialog';
+
 import 'toastr/build/toastr.min.css';
+
+import { TableFeedback } from './_dashboard/app';
+
+const metrics = [
+  {
+    id: faker.datatype.uuid(),
+    metric: 'CSAT Casos',
+    objective: 89
+  },
+
+  {
+    id: faker.datatype.uuid(),
+    metric: 'CSAT Chat',
+    objective: 63
+  },
+
+  {
+    id: faker.datatype.uuid(),
+    metric: 'CSAT Chat',
+    objective: 78
+  },
+
+  {
+    id: faker.datatype.uuid(),
+    metric: 'CSAT Casos',
+    objective: 54
+  }
+];
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
@@ -118,16 +150,41 @@ const top100Films = [
 ];
 
 export default function EntryFollowForm() {
-  const [{ collaborator, feedback, comments, date, dateCommitment, addReminder }, setState] =
-    useState({
-      confidence: false,
-      collaborator: '',
-      feedback: '',
-      comments: '',
-      date: format(new Date(), 'yyyy-MM-dd'),
-      dateCommitment: format(new Date(), 'yyyy-MM-dd'),
-      addReminder: format(new Date(), 'yyyy-MM-dd')
-    });
+  const [
+    {
+      collaborator,
+      feedback,
+      comments,
+      notes,
+      sick,
+      holidays,
+      disciplinaryProcess,
+      date,
+      dateCommitment,
+      addReminder
+    },
+    setState
+  ] = useState({
+    confidence: false,
+    collaborator: '',
+    feedback: '',
+    comments: '',
+    notes: '',
+    sick: false,
+    holidays: false,
+    disciplinaryProcess: false,
+    date: format(new Date(), 'yyyy-MM-dd'),
+    dateCommitment: format(new Date(), 'yyyy-MM-dd'),
+    addReminder: format(new Date(), 'yyyy-MM-dd')
+  });
+
+  function getTablehead() {
+    return [
+      { id: 'metric', label: 'Métrica', alignRight: false },
+      { id: 'objective', label: 'Objetivo', alignRight: false },
+      { id: 'check', label: 'Check', alignRight: false }
+    ];
+  }
 
   const handleChange = (event, value) => {
     setState((prevState) => ({
@@ -140,6 +197,13 @@ export default function EntryFollowForm() {
     if (!addReminder || addReminder === '') {
       toastr.error('La fecha de envío es requerida');
     }
+  };
+
+  const setExtraTime = (name, value) => {
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   return (
@@ -183,8 +247,29 @@ export default function EntryFollowForm() {
                 </FormControl>
               </Grid>
             )}
+            {feedback === 'objective' && (
+              <Grid item xs={12} sm={12} md={12} lg={12}>
+                <TableFeedback title="" tableHead={getTablehead()} metrics={metrics} newPlan />
+              </Grid>
+            )}
             {feedback && feedback !== '' && (
               <>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TextField
+                    className="w-100"
+                    id="outlined-multiline-static"
+                    label="Notas"
+                    multiline
+                    rows={8}
+                    variant="outlined"
+                    value={notes}
+                    name="notes"
+                    onChange={(event) => {
+                      handleChange(event, event.target.value);
+                    }}
+                  />
+                </Grid>
+
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <TextField
                     className="w-100"
@@ -201,7 +286,7 @@ export default function EntryFollowForm() {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={4} lg={4}>
+                <Grid item xs={12} sm={12} md={3} lg={3}>
                   <TextField
                     className="w-100"
                     id="outlined-date"
@@ -217,22 +302,33 @@ export default function EntryFollowForm() {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={4} lg={4}>
+                <Grid item xs={12} sm={12} md={6} lg={6} className="d-flex-between">
                   <TextField
                     className="w-100"
                     id="outlined-date"
                     label="Compromiso"
                     type="date"
                     value={addReminder}
+                    inputProps={
+                      sick || holidays || disciplinaryProcess
+                        ? {}
+                        : { max: format(add(new Date(), { days: 10 }), 'yyyy-MM-dd') }
+                    }
                     name="addReminder"
                     variant="outlined"
                     onChange={(event) => {
                       handleChange(event, event.target.value);
                     }}
                   />
+                  <TimeEntryFollowDialog
+                    sick={sick}
+                    holidays={holidays}
+                    disciplinaryProcess={disciplinaryProcess}
+                    setExtraTime={(name, value) => setExtraTime(name, value)}
+                  />
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={4} lg={4}>
+                <Grid item xs={12} sm={12} md={3} lg={3}>
                   <TextField
                     className="w-100"
                     id="outlined-date"

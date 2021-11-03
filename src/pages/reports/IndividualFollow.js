@@ -23,7 +23,6 @@ import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../../components/_dashboard/user';
 import DeleteDialog from '../../components/Dialogs/DeleteDialog';
 import PlanDialog from '../../components/Dialogs/PlanDialog';
-
 //
 import PLANLIST from '../../_mocks_/plan';
 
@@ -35,6 +34,7 @@ const TABLE_HEAD = [
   { id: 'commitment', label: 'Compromiso', alignRight: false },
   { id: 'objective', label: 'Objetivo', alignRight: false },
   { id: 'feedback', label: 'Feedback', alignRight: false },
+  { id: 'mode', label: 'Modo', alignRight: false },
   { id: 'state', label: 'Estado', alignRight: false },
   { id: 'actions', label: 'Acciones', alignRight: false }
 ];
@@ -132,7 +132,8 @@ export default function IndividualFollow() {
                 />
                 <TableBody>
                   {filteredUsers.map((row) => {
-                    const { id, collaborator, sent, commitment, objective, feedback, state } = row;
+                    const { id, collaborator, sent, commitment, objective, mode, feedback, state } =
+                      row;
 
                     return (
                       <TableRow hover key={id} tabIndex={-1}>
@@ -146,6 +147,23 @@ export default function IndividualFollow() {
 
                         <TableCell align="left">{objective}</TableCell>
                         <TableCell align="left">{feedback}</TableCell>
+                        <TableCell align="left">
+                          {mode === 'PDS' && (
+                            <Label variant="ghost" color="warning">
+                              {mode}
+                            </Label>
+                          )}
+                          {mode === 'PIP' && (
+                            <Label variant="ghost" color="error">
+                              {mode}
+                            </Label>
+                          )}{' '}
+                          {mode === 'One on One' && (
+                            <Label variant="ghost" color="success">
+                              {mode}
+                            </Label>
+                          )}
+                        </TableCell>
 
                         <TableCell align="left">
                           {state === 'Guardado' && (

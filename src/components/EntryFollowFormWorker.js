@@ -5,15 +5,16 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
+import faker from 'faker';
+
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { format } from 'date-fns';
-import faker from 'faker';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-import { TableFeedback } from './_dashboard/app';
+import { TableFeedback, AppPlanMetrics } from './_dashboard/app';
 
 const metrics = [
   {
@@ -96,7 +97,11 @@ export default function EntryFollowFormWorker(props) {
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <TableFeedback title="" tableHead={getTablehead()} metrics={metrics} disabled />
+              {props.id ? (
+                <AppPlanMetrics />
+              ) : (
+                <TableFeedback title="" tableHead={getTablehead()} metrics={metrics} disabled />
+              )}
             </Grid>
 
             <Grid item xs={12} sm={12} md={12} lg={12}>

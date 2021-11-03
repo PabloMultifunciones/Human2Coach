@@ -11,6 +11,7 @@ const plans = [
     commitment: '25/12/2021',
     objective: 'X',
     feedback: 'X',
+    mode: 'One on One',
     state: 'Envíado'
   },
   {
@@ -20,6 +21,7 @@ const plans = [
     commitment: '25/12/2021',
     objective: 'X',
     feedback: 'X',
+    mode: 'PDS',
     state: 'Recibido'
   },
   {
@@ -29,6 +31,7 @@ const plans = [
     commitment: '25/12/2021',
     objective: 'X',
     feedback: 'X',
+    mode: 'PIP',
     state: 'Guardado'
   }
 ];

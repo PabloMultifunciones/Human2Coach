@@ -8,7 +8,7 @@ import 'react-chat-elements/dist/main.css';
 
 export default function ChatBoss() {
   return (
-    <Page title="Chat | Minimal-UI">
+    <Page title="Chat | Human2Coach">
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={3} lg={3}>

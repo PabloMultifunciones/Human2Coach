@@ -38,7 +38,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function RecoverPassword() {
   return (
-    <RootStyle title="Recover password | Minimal-UI">
+    <RootStyle title="Recover password | Human2Coach">
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>

@@ -33,7 +33,7 @@ export default function CoachingSesion() {
 
   return (
     <>
-      <Page title="Entry follow | Minimal-UI">
+      <Page title="Entry follow | Human2Coach">
         <Container maxWidth="xl">
           <Tabs
             value={value}

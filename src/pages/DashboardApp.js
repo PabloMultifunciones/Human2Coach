@@ -98,7 +98,7 @@ export default function DashboardApp() {
   }
 
   return (
-    <Page title="Dashboard | Minimal-UI">
+    <Page title="Dashboard | Human2Coach">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
           <Typography variant="h4">Hola, Rodrigo Borgia</Typography>

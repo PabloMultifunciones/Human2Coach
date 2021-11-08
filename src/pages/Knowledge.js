@@ -7,7 +7,7 @@ import Page from '../components/Page';
 export default function Knowledge() {
   return (
     <>
-      <Page title="KnowLedge | Minimal-UI">
+      <Page title="KnowLedge | Human2Coach">
         <Container maxWidth="xl" className="container-knowledge">
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={6} lg={6}>

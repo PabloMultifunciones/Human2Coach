@@ -1,15 +1,12 @@
-name: DigitalOcean App Platform deployment
-
-on:
-  push:
-    branches: [ develop ]
-  pull_request:
-    branches: [ develop ]
-
-jobs: 
-  DigitalOcean_App_Platform_deployment:
-  steps:
-    uses: digitalocean/app_action@main
-      with:
-    app_name: Human2Coach
-    token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+name: learn-github-actions
+on: [push]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v

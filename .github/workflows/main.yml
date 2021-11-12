@@ -14,14 +14,6 @@ jobs:
           key: ${{secrets.af41118d96f8849e1e1ed579a0dad5ecfd0c6cbad7fc8c24297f2feb6fa17cc3}} # Private or public key of the server
           username: ${{ secrets.root }} # User of the server you want to ssh into
      
-          script: |
-            mkdir test 
-            cd test 
-            git clone git@github.com:Mulubwa17/ci-cd-to-digitalocean-with-github-actions.git 
-            echo 'Deployment successful to digital ocean' 
-            
-          - name: Install doctl
-          uses: digitalocean/action-doctl@v2
-          with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
+          script: | 
+            git clone https://github.com/Human2Coach/human2coach.git 
+            echo 'Deployment successful to digital ocean'

@@ -31,7 +31,7 @@ export const loginRequest = (payload) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ERROR,
-      payload: error.response.data
+      payload: error.response ? error.response.data : error
     });
   }
 };

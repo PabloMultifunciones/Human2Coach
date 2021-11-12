@@ -33,7 +33,7 @@ export default function Router() {
   return useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: localStorage.getItem('sesion') ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
@@ -55,7 +55,11 @@ export default function Router() {
     },
     {
       path: '/',
-      element: <LogoOnlyLayout />,
+      element: !localStorage.getItem('sesion') ? (
+        <LogoOnlyLayout />
+      ) : (
+        <Navigate to="/dashboard/app" />
+      ),
       children: [
         { path: 'login', element: <Login /> },
         { path: 'recover-password', element: <RecoverPassword /> },

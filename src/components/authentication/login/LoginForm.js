@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-
+import Alert from '@material-ui/core/Alert';
 import { useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Icon } from '@iconify/react';
@@ -54,6 +54,8 @@ function LoginForm(props) {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3} sx={{ my: 2 }}>
+          {props.error && <Alert severity="error">{props.error.message}</Alert>}
+
           <TextField
             fullWidth
             autoComplete="company"

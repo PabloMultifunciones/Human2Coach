@@ -36,6 +36,32 @@ export const loginRequest = (payload) => async (dispatch) => {
   }
 };
 
+export const loginTalkDeskRequest = (payload) => async (dispatch) => {
+  dispatch({
+    type: CHARGING
+  });
+
+  try {
+    const responseLogin = await axios.get(
+      `${environment.motivarnosBackend}/v1/integration/authurl/${payload.type}?companyName=${payload.company}`
+    );
+
+    if (responseLogin.data.redirecturl == null || !responseLogin.data.redirecturl) {
+      dispatch({
+        type: ERROR,
+        payload: 'No se puede loguear por TALKDESK'
+      });
+    } else {
+      window.location.href = responseLogin.data.redirecturl;
+    }
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
 export const logoutRequest = (payload) => (dispatch) => {
   localStorage.clear();
   dispatch({

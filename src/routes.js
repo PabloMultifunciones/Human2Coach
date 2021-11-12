@@ -24,6 +24,7 @@ import Knowledge from './pages/Knowledge';
 import ProcessDetail from './pages/ProcessDetail';
 import SubProcessDetail from './pages/SubProcessDetail';
 import EntryFollowFormWorker from './components/EntryFollowFormWorker';
+import AuthComponent from './components/AuthComponent';
 
 import ChatBoss from './pages/ChatBoss';
 
@@ -70,6 +71,7 @@ export default function Router() {
       ]
     },
 
-    { path: '*', element: <Navigate to="/404" replace /> }
+    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: '/signin', element: <AuthComponent /> }
   ]);
 }

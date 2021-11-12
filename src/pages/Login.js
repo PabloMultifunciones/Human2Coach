@@ -65,7 +65,6 @@ export default function Login() {
               Sign in to Human2Coach
             </Typography>
           </Stack>
-          {/** <AuthSocial /> */}
 
           <LoginForm />
 

@@ -1,14 +1,18 @@
 import * as Yup from 'yup';
+import { Icon } from '@iconify/react';
+// material
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import Alert from '@material-ui/core/Alert';
 import { useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 // material
 import {
+  Button,
+  Divider,
+  Typography,
   // Link,
   Stack,
   // Checkbox,
@@ -18,7 +22,7 @@ import {
   // FormControlLabel
 } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
-import { loginRequest } from '../../../actions/loginActions';
+import { loginRequest, loginTalkDeskRequest } from '../../../actions/loginActions';
 
 // ----------------------------------------------------------------------
 function LoginForm(props) {
@@ -47,12 +51,34 @@ function LoginForm(props) {
     setShowPassword((show) => !show);
   };
 
+  const talkDeskLogin = () => {
+    props.loginTalkDeskRequest({ ...formik.values, type: 'talkdesk' });
+  };
+
   if (props.user_logged) {
     return <Navigate to="/dashboard" />;
   }
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <Stack direction="row" spacing={2}>
+          <Button
+            fullWidth
+            size="large"
+            color="primary"
+            variant="contained"
+            onClick={() => talkDeskLogin()}
+            disabled={formik.values.company === ''}
+          >
+            TALDESK LOGIN
+          </Button>
+        </Stack>
+
+        <Divider sx={{ my: 3 }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            OR
+          </Typography>
+        </Divider>
         <Stack spacing={3} sx={{ my: 2 }}>
           {props.error && <Alert severity="error">{props.error.message}</Alert>}
 
@@ -124,7 +150,8 @@ function LoginForm(props) {
 const mapStateToProps = ({ loginReducer }) => loginReducer;
 
 const mapDispatchToProps = {
-  loginRequest
+  loginRequest,
+  loginTalkDeskRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

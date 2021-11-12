@@ -17,9 +17,3 @@ jobs:
           script: | 
             git clone https://github.com/Human2Coach/human2coach.git 
             echo 'Deployment successful to digital ocean'
-
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-          with:
-        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-

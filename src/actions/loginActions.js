@@ -62,6 +62,36 @@ export const loginTalkDeskRequest = (payload) => async (dispatch) => {
   }
 };
 
+export const registerRequest = (payload) => async (dispatch) => {
+  dispatch({
+    type: CHARGING
+  });
+
+  try {
+    const responseLogin = await axios.post(`${environment.motivarnosBackend}/company/signup`, {
+      ...payload
+    });
+
+    localStorage.setItem(
+      'sesion',
+      JSON.stringify({
+        ...responseLogin.data,
+        expiresAt: new Date().getTime() + TOKEN_LIFE
+      })
+    );
+
+    dispatch({
+      type: LOGIN,
+      payload: responseLogin.data
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
 export const logoutRequest = (payload) => (dispatch) => {
   localStorage.clear();
   dispatch({

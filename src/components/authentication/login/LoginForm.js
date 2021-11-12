@@ -65,7 +65,7 @@ function LoginForm(props) {
           <Button
             fullWidth
             size="large"
-            color="primary"
+            color="secondary"
             variant="contained"
             onClick={() => talkDeskLogin()}
             disabled={formik.values.company === ''}

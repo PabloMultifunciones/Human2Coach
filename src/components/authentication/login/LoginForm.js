@@ -1,63 +1,77 @@
 import * as Yup from 'yup';
+import { connect } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+
 import { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 // material
 import {
-  Link,
+  // Link,
   Stack,
-  Checkbox,
+  // Checkbox,
   TextField,
   IconButton,
-  InputAdornment,
-  FormControlLabel
+  InputAdornment
+  // FormControlLabel
 } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
+import { loginRequest } from '../../../actions/loginActions';
 
 // ----------------------------------------------------------------------
-
-export default function LoginForm() {
-  const navigate = useNavigate();
+function LoginForm(props) {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    company: Yup.string().required('The company is required'),
+    username: Yup.string().required('The username is required'),
     password: Yup.string().required('Password is required')
   });
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      company: '',
+      username: '',
       password: '',
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
-    }
+    onSubmit: (values) => props.loginRequest(values)
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik; // values
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
   };
 
+  if (props.user_logged) {
+    return <Navigate to="/dashboard" />;
+  }
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Stack spacing={3}>
+        <Stack spacing={3} sx={{ my: 2 }}>
+          <TextField
+            fullWidth
+            autoComplete="company"
+            type="text"
+            label="Company"
+            {...getFieldProps('company')}
+            error={Boolean(touched.company && errors.company)}
+            helperText={touched.company && errors.company}
+          />
+
           <TextField
             fullWidth
             autoComplete="username"
-            type="email"
-            label="Email address"
-            {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            type="text"
+            label="Username"
+            {...getFieldProps('username')}
+            error={Boolean(touched.username && errors.username)}
+            helperText={touched.username && errors.username}
           />
 
           <TextField
@@ -80,16 +94,16 @@ export default function LoginForm() {
           />
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
-            label="Remember me"
-          />
-
-          <Link component={RouterLink} variant="subtitle2" to="/recover-password">
-            Forgot password?
-          </Link>
-        </Stack>
+        {/**  <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+            <FormControlLabel
+              control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
+              label="Remember me"
+            />
+  
+            <Link component={RouterLink} variant="subtitle2" to="/recover-password">
+              Forgot password?
+            </Link>
+          </Stack> */}
 
         <LoadingButton
           fullWidth
@@ -104,3 +118,11 @@ export default function LoginForm() {
     </FormikProvider>
   );
 }
+
+const mapStateToProps = ({ loginReducer }) => loginReducer;
+
+const mapDispatchToProps = {
+  loginRequest
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

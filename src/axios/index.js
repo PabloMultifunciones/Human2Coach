@@ -9,7 +9,7 @@ function AxiosConf() {
       // Edit request config
       config.headers.get['Content-Type'] = 'application/json';
       if (sesion && sesion !== null && sesion !== 'undefined') {
-        config.headers.authorization = sesion.token ? `Bearer ${sesion.token}` : '';
+        config.headers.token = sesion.token ? ` ${sesion.token}` : '';
       }
       return config;
     },

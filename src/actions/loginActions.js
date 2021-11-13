@@ -1,7 +1,7 @@
 import * as loginTypes from '../types/loginTypes';
 import LoginService from '../Services/LoginService';
 
-const { LOGIN_CHARGING, ERROR, LOGIN, LOGOUT } = loginTypes;
+const { LOGIN_CHARGING, LOGIN_ERROR, LOGIN_REQUEST, LOGOUT_REQUEST } = loginTypes;
 const TOKEN_LIFE = 2 * 60 * 60 * 1000; // Two hours
 
 export const loginRequest = (payload) => async (dispatch) => {
@@ -21,12 +21,12 @@ export const loginRequest = (payload) => async (dispatch) => {
     );
 
     dispatch({
-      type: LOGIN,
+      type: LOGIN_REQUEST,
       payload: responseLogin.data
     });
   } catch (error) {
     dispatch({
-      type: ERROR,
+      type: LOGIN_ERROR,
       payload: error.response ? error.response.data : error
     });
   }
@@ -42,7 +42,7 @@ export const loginTalkDeskRequest = (payload) => async (dispatch) => {
 
     if (responseLogin.data.redirecturl == null || !responseLogin.data.redirecturl) {
       dispatch({
-        type: ERROR,
+        type: LOGIN_ERROR,
         payload: 'No se puede loguear por TALKDESK'
       });
     } else {
@@ -50,7 +50,7 @@ export const loginTalkDeskRequest = (payload) => async (dispatch) => {
     }
   } catch (error) {
     dispatch({
-      type: ERROR,
+      type: LOGIN_ERROR,
       payload: error.response ? error.response.data : error
     });
   }
@@ -73,12 +73,12 @@ export const registerRequest = (payload) => async (dispatch) => {
     );
 
     dispatch({
-      type: LOGIN,
+      type: LOGIN_REQUEST,
       payload: responseLogin.data
     });
   } catch (error) {
     dispatch({
-      type: ERROR,
+      type: LOGIN_ERROR,
       payload: error.response ? error.response.data : error
     });
   }
@@ -87,7 +87,7 @@ export const registerRequest = (payload) => async (dispatch) => {
 export const logoutRequest = (payload) => (dispatch) => {
   localStorage.clear();
   dispatch({
-    type: LOGOUT,
+    type: LOGOUT_REQUEST,
     payload
   });
 };

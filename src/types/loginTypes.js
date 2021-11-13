@@ -1,4 +1,4 @@
 export const LOGIN_CHARGING = 'LOGIN_CHARGING';
-export const ERROR = 'LOGIN_ERROR';
-export const LOGIN = 'LOGIN_REQUEST';
-export const LOGOUT = 'LOGOUT_REQUEST';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';

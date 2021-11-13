@@ -1,6 +1,8 @@
-import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import Alert from '@material-ui/core/Alert';
+
 // material
 import {
   Card,
@@ -21,60 +23,41 @@ import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../components/_dashboard/user';
 import UserDialog from '../components/Dialogs/UserDialog';
+import { getUsersRequest, getUsersFilterRequest } from '../actions/usersActions';
+
+import Spinner from '../components/Spinner';
 
 //
-import USERLIST from '../_mocks_/userList';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Nombre', alignRight: false },
-  { id: 'company', label: 'Equipo', alignRight: false },
-  { id: 'status', label: 'Estado', alignRight: false },
-  { id: 'role', label: 'Rol', alignRight: false },
-  { id: 'actions', label: 'Acciones', alignRight: false }
+  { id: 'company', label: 'Company', alignRight: false },
+  { id: 'status', label: 'Estate', alignRight: false },
+  { id: 'role', label: 'Role', alignRight: false },
+  { id: 'actions', label: 'Actions', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
-
-export default function User() {
+function User(props) {
   const [page, setPage] = useState(0);
-  const [order] = useState('asc');
   const [selected] = useState([]);
-  const [orderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(7);
+
+  useEffect(() => {
+    props.getUsersRequest({ number: 0, filterName });
+    // eslint-disable-next-line
+  }, []);
 
   const handleChangePage = (event, newPage) => {
+    if (filterName === '') {
+      props.getUsersRequest({ number: newPage, filterName });
+    } else {
+      props.getUsersFilterRequest({ number: newPage, filterName });
+    }
     setPage(newPage);
   };
 
@@ -84,14 +67,28 @@ export default function User() {
   };
 
   const handleFilterByName = (event) => {
+    if (event.target.value.length > 2) {
+      props.getUsersFilterRequest({ number: 0, filterName: event.target.value });
+      setPage(0);
+    }
+    if (event.target.value === '') {
+      props.getUsersRequest({ number: 0, filterName: event.target.value });
+      setPage(0);
+    }
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows =
+    page > 0
+      ? Math.max(
+          0,
+          (1 + page) * rowsPerPage -
+            (filterName === '' ? props.users.length : props.users_filtered.length)
+        )
+      : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
-
-  const isUserNotFound = filteredUsers.length === 0;
+  const isUserNotFound =
+    (filterName === '' ? props.users.length : props.users_filtered.length) === 0;
 
   return (
     <Page title="User | Human2Coach">
@@ -104,81 +101,87 @@ export default function User() {
         </Stack>
 
         <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-            title="Buscar..."
-          />
+          {props.users_charging ? (
+            <Spinner />
+          ) : (
+            <>
+              {props.error_users && <Alert severity="error">{props.error_users.message}</Alert>}
 
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead headLabel={TABLE_HEAD} />
-                <TableBody>
-                  {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      const { id, name, role, status, company } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
+              <UserListToolbar
+                numSelected={selected.length}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+                title="Buscar..."
+              />
 
-                      return (
-                        <TableRow
-                          hover
-                          key={id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell align="left">{name}</TableCell>
-                          <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">
-                            <Label
-                              variant="ghost"
-                              color={(status === 'Inactivo' && 'error') || 'success'}
-                            >
-                              {sentenceCase(status)}
-                            </Label>
-                          </TableCell>
-                          <TableCell align="left">{role}</TableCell>
+              <Scrollbar>
+                <TableContainer sx={{ minWidth: 800 }}>
+                  <Table>
+                    <UserListHead headLabel={TABLE_HEAD} />
+                    <TableBody>
+                      {(filterName === '' ? props.users : props.users_filtered)
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((row, index) => {
+                          const { name, role, isActive, team } = row;
 
-                          <TableCell align="left">
-                            <UserDialog type="EDIT" />
+                          return (
+                            <TableRow hover key={index} tabIndex={-1} role="checkbox">
+                              <TableCell align="left">{name}</TableCell>
+                              <TableCell align="left">{team.name}</TableCell>
+                              <TableCell align="left">
+                                <Label variant="ghost" color={(isActive && 'success') || 'error'}>
+                                  {sentenceCase(isActive ? 'Active' : 'Disabled')}
+                                </Label>
+                              </TableCell>
+                              <TableCell align="left">{role}</TableCell>
+
+                              <TableCell align="left">
+                                <UserDialog type="EDIT" />
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      {emptyRows > 0 && (
+                        <TableRow style={{ height: 53 * emptyRows }}>
+                          <TableCell colSpan={6} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+                    {isUserNotFound && (
+                      <TableBody>
+                        <TableRow>
+                          <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                            <SearchNotFound searchQuery={filterName} />
                           </TableCell>
                         </TableRow>
-                      );
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                {isUserNotFound && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
+                      </TableBody>
+                    )}
+                  </Table>
+                </TableContainer>
+              </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={USERLIST.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+              <TablePagination
+                rowsPerPageOptions={[7]}
+                component="div"
+                count={filterName === '' ? props.totalElements : props.totalElements_filtered}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </>
+          )}
         </Card>
       </Container>
     </Page>
   );
 }
+
+const mapStateToProps = ({ usersReducer }) => usersReducer;
+
+const mapDispatchToProps = {
+  getUsersRequest,
+  getUsersFilterRequest
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);

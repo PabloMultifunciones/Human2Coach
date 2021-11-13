@@ -2,6 +2,15 @@
   display: none !important;
 }
 
+.div-spinner-modal {
+  .MuiGrid-container {
+    display: flex;
+    height: 55vh;
+    align-content: center;
+    justify-content: center;
+  }
+}
+
 .autocomplete-custom {
   min-width: 250px;
 }

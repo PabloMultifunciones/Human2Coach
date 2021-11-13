@@ -79,7 +79,7 @@
     "sass": "^1.32.0",
     "simplebar": "^5.3.4",
     "simplebar-react": "^2.3.4",
-    "spinners-react": "^1.0.4",
+    "spinners-react": "^1.0.6",
     "toastr": "^2.1.4",
     "web-vitals": "^2.0.1",
     "yup": "^0.32.9"

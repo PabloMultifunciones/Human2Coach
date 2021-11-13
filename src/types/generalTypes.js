@@ -1,0 +1,6 @@
+export const TEAMS_REQUEST = 'TEAMS_REQUEST';
+export const TEAMS_CHARGING = 'TEAMS_CHARGING';
+export const TEAMS_ERROR = 'TEAMS_ERROR';
+export const USERS_CHARGING = 'USERS_CHARGING';
+export const USERS_ERROR = 'USERS_ERROR';
+export const USERS_REQUEST = 'USERS_REQUEST';

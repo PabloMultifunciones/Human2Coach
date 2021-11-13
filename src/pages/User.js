@@ -23,7 +23,9 @@ import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../components/_dashboard/user';
 import UserDialog from '../components/Dialogs/UserDialog';
-import { getUsersRequest, getUsersFilterRequest } from '../actions/usersActions';
+import DeleteDialog from '../components/Dialogs/DeleteDialog';
+
+import { getUsersRequest, getUsersFilterRequest, deleteUserRequest } from '../actions/usersActions';
 
 import Spinner from '../components/Spinner';
 
@@ -80,6 +82,10 @@ function User(props) {
     setFilterName(event.target.value);
   };
 
+  const deleteUser = (id) => {
+    props.deleteUserRequest({ id, filterName });
+  };
+
   const emptyRows =
     page > 0
       ? Math.max(
@@ -97,7 +103,7 @@ function User(props) {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Usuarios
+            Users
           </Typography>
           <UserDialog />
         </Stack>
@@ -124,7 +130,7 @@ function User(props) {
                       {(filterName === '' ? props.users : props.users_filtered)
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row, index) => {
-                          const { name, role, isActive, team } = row;
+                          const { id, name, role, isActive, team } = row;
 
                           return (
                             <TableRow hover key={index} tabIndex={-1} role="checkbox">
@@ -139,6 +145,7 @@ function User(props) {
 
                               <TableCell align="left">
                                 <UserDialog type="EDIT" />
+                                <DeleteDialog delete={() => deleteUser(id)} />
                               </TableCell>
                             </TableRow>
                           );
@@ -183,7 +190,8 @@ const mapStateToProps = ({ usersReducer }) => usersReducer;
 
 const mapDispatchToProps = {
   getUsersRequest,
-  getUsersFilterRequest
+  getUsersFilterRequest,
+  deleteUserRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);

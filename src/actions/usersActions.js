@@ -1,5 +1,8 @@
+import toastr from 'toastr';
 import * as usersTypes from '../types/usersTypes';
 import UserService from '../Services/UserService';
+
+import 'toastr/build/toastr.min.css';
 
 const {
   USERS_LIST_CHARGING,
@@ -9,6 +12,7 @@ const {
   USERS_LIST_SAVE,
   USERS_LIST_UPDATE,
   USERS_LIST_DELETE,
+  USERS_LIST_DELETE_FILTERED,
   USERS_LIST_ERROR,
   USERS_LIST_SAVED
 } = usersTypes;
@@ -105,18 +109,20 @@ export const updateUserRequest = () => async (dispatch) => {
   }
 };
 
-export const deleteUserRequest = () => async (dispatch) => {
+export const deleteUserRequest = (payload) => async (dispatch) => {
   dispatch({
     type: USERS_LIST_CHARGING
   });
 
   try {
-    const responseLogin = await UserService.deleteUser();
+    await UserService.deleteUser(payload.id);
 
     dispatch({
-      type: USERS_LIST_DELETE,
-      payload: responseLogin.data
+      type: payload.filterName === '' ? USERS_LIST_DELETE : USERS_LIST_DELETE_FILTERED,
+      payload: payload.id
     });
+
+    toastr.error('The user is deleted');
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,

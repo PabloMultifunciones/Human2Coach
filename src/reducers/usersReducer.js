@@ -6,6 +6,7 @@ const {
   USERS_LIST_SAVE,
   USERS_LIST_UPDATE,
   USERS_LIST_DELETE,
+  USERS_LIST_DELETE_FILTERED,
   USERS_LIST_CHARGING,
   USERS_LIST_FILTERED_CHARGING,
   USERS_LIST_ERROR,
@@ -75,10 +76,18 @@ export default (state = INITIAL_STATE, action) => {
     case USERS_LIST_DELETE:
       return {
         ...state,
+        users: [...state.users].filter((user) => user.id !== action.payload),
         users_charging: false,
-        users: action.payload,
         error_users: false
       };
+    case USERS_LIST_DELETE_FILTERED:
+      return {
+        ...state,
+        users: [...state.users_filtered].filter((user) => user.id !== action.payload),
+        users_charging: false,
+        error_users: false
+      };
+
     case USERS_LIST_CHARGING:
       return { ...state, users_charging: true, error_users: false };
 

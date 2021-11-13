@@ -38,7 +38,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@master
         with:
           local: build
-          remote: /human2coach
+          remote: scp/human2coach
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USERNAME}}
           privateKey: ${{secrets.SSH_KEY}}

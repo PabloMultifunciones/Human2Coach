@@ -65,5 +65,16 @@ export default {
     }
 
     return true;
+  },
+
+  getRole(role) {
+    if (role === 2) {
+      return 'Supervisor';
+    }
+
+    if (role === 3) {
+      return 'Player';
+    }
+    return 'N/A';
   }
 };

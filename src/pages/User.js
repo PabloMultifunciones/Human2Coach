@@ -27,6 +27,8 @@ import { getUsersRequest, getUsersFilterRequest } from '../actions/usersActions'
 
 import Spinner from '../components/Spinner';
 
+import GeneralFunctions from '../libs/GeneralFunctions';
+
 //
 
 // ----------------------------------------------------------------------
@@ -133,7 +135,7 @@ function User(props) {
                                   {sentenceCase(isActive ? 'Active' : 'Disabled')}
                                 </Label>
                               </TableCell>
-                              <TableCell align="left">{role}</TableCell>
+                              <TableCell align="left">{GeneralFunctions.getRole(role)}</TableCell>
 
                               <TableCell align="left">
                                 <UserDialog type="EDIT" />

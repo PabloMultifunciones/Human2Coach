@@ -80,7 +80,7 @@ function UserDialog(props) {
   const [open, setOpen] = React.useState(false);
   const { t } = useTranslation();
 
-  const LoginSchema = Yup.object().shape({
+  const UserSchema = Yup.object().shape({
     name: Yup.string().required('The name is required'),
     team: Yup.string().required('The team is required'),
     role: Yup.string().required('The role is required'),
@@ -95,7 +95,7 @@ function UserDialog(props) {
       role: props.role ? props.role : '1',
       isActive: props.isActive ? 'true' : 'false'
     },
-    validationSchema: LoginSchema,
+    validationSchema: UserSchema,
     onSubmit: (values, { resetForm }) => {
       if (values.id) {
         props.updateUserRequest({

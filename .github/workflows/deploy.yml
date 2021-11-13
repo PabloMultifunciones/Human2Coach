@@ -38,7 +38,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@master
         with:
           local: build
-          remote: scp/var/www/html
+          remote: /var/www/html
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USERNAME}}
           privateKey: ${{secrets.SSH_KEY}}

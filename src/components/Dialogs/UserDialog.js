@@ -16,6 +16,9 @@ import { useTranslation } from 'react-i18next';
 import Autocomplete from '@material-ui/core/Autocomplete';
 import FormControl from '@material-ui/core/FormControl';
 import toastr from 'toastr';
+import { Icon } from '@iconify/react';
+
+import plusFill from '@iconify/icons-eva/plus-fill';
 
 import Select from '@material-ui/core/Select';
 
@@ -209,9 +212,15 @@ export default function UserDialog(props) {
 
   return (
     <>
-      <Tooltip title="Editar fecha de compromiso">
-        <EditIcon fontSize="small" className="cursor-pointer" onClick={handleClickOpen} />
-      </Tooltip>
+      {props.type === 'EDIT' ? (
+        <Tooltip title="Editar fecha de compromiso">
+          <EditIcon fontSize="small" className="cursor-pointer" onClick={handleClickOpen} />
+        </Tooltip>
+      ) : (
+        <Button variant="contained" onClick={handleClickOpen} startIcon={<Icon icon={plusFill} />}>
+          Nuevo usuario
+        </Button>
+      )}
 
       <Dialog
         maxWidth="sm"

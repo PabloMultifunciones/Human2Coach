@@ -3,12 +3,12 @@ import axios from 'axios';
 import * as loginTypes from '../types/loginTypes';
 import environment from '../libs/environment';
 
-const { CHARGING, ERROR, LOGIN, LOGOUT } = loginTypes;
+const { LOGIN_CHARGING, ERROR, LOGIN, LOGOUT } = loginTypes;
 const TOKEN_LIFE = 2 * 60 * 60 * 1000; // Two hours
 
 export const loginRequest = (payload) => async (dispatch) => {
   dispatch({
-    type: CHARGING
+    type: LOGIN_CHARGING
   });
 
   try {
@@ -38,7 +38,7 @@ export const loginRequest = (payload) => async (dispatch) => {
 
 export const loginTalkDeskRequest = (payload) => async (dispatch) => {
   dispatch({
-    type: CHARGING
+    type: LOGIN_CHARGING
   });
 
   try {
@@ -64,7 +64,7 @@ export const loginTalkDeskRequest = (payload) => async (dispatch) => {
 
 export const registerRequest = (payload) => async (dispatch) => {
   dispatch({
-    type: CHARGING
+    type: LOGIN_CHARGING
   });
 
   try {

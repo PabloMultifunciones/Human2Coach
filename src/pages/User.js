@@ -1,15 +1,11 @@
 import { filter } from 'lodash';
-import { Icon } from '@iconify/react';
 import { sentenceCase } from 'change-case';
 import { useState } from 'react';
-import plusFill from '@iconify/icons-eva/plus-fill';
-import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
   Card,
   Table,
   Stack,
-  Button,
   TableRow,
   TableBody,
   TableCell,
@@ -104,14 +100,7 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             Usuarios
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            Nuevo usuario
-          </Button>
+          <UserDialog />
         </Stack>
 
         <Card>
@@ -155,7 +144,7 @@ export default function User() {
                           <TableCell align="left">{role}</TableCell>
 
                           <TableCell align="left">
-                            <UserDialog />
+                            <UserDialog type="EDIT" />
                           </TableCell>
                         </TableRow>
                       );

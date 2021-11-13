@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Yup from 'yup';
+import Alert from '@material-ui/core/Alert';
 
 import { connect } from 'react-redux';
 import { useFormik, Form, FormikProvider, ErrorMessage } from 'formik';
@@ -25,7 +26,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { teamsRequest } from '../../actions/generalActions';
-import { updateUserRequest } from '../../actions/usersActions';
+import { updateUserRequest, saveUserRequest, resetState } from '../../actions/usersActions';
 
 import Spinner from '../Spinner';
 
@@ -83,7 +84,7 @@ function UserDialog(props) {
     name: Yup.string().required('The name is required'),
     team: Yup.string().required('The team is required'),
     role: Yup.string().required('The role is required'),
-    isActive: Yup.boolean().required('The state is required')
+    isActive: Yup.string().required('The state is required')
   });
 
   const formik = useFormik({
@@ -92,10 +93,10 @@ function UserDialog(props) {
       name: props.name ? props.name : '',
       team: props.team ? props.team.id : '',
       role: props.role ? props.role : '1',
-      isActive: props.isActive
+      isActive: props.isActive ? 'true' : 'false'
     },
     validationSchema: LoginSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       if (values.id) {
         props.updateUserRequest({
           id: values.id,
@@ -104,22 +105,30 @@ function UserDialog(props) {
           role: values.role,
           isActive: values.isActive
         });
+      } else {
+        props.saveUserRequest({
+          name: values.name,
+          team: { id: values.team },
+          role: values.role,
+          isActive: values.isActive
+        });
       }
+      resetForm();
     }
   });
 
   const handleClickOpen = () => {
     setOpen(true);
-    if (!props.teams) {
+    if (!props.generalReducer.teams) {
       props.teamsRequest();
     }
   };
   const handleClose = () => {
+    props.resetState();
     setOpen(false);
   };
 
   const { errors, touched, handleSubmit, getFieldProps } = formik; // values
-
   /** *********Data Binding Form******* */
 
   return (
@@ -145,10 +154,16 @@ function UserDialog(props) {
           Usuario
         </DialogTitle>
         <>
+          {props.usersReducer.error_users && (
+            <Alert severity="error">{props.usersReducer.error_users.message}</Alert>
+          )}
+
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
               <DialogContent dividers>
-                {props.teams_charging || props.users_charging ? (
+                {props.generalReducer.teams_charging ||
+                props.generalReducer.users_charging ||
+                props.usersReducer.users_save_charging ? (
                   <Spinner />
                 ) : (
                   props.type !== 'BOOLEAN' && (
@@ -167,7 +182,7 @@ function UserDialog(props) {
                             />
                           </Grid>
 
-                          {props.teams && (
+                          {props.generalReducer.teams && (
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                               <FormControl variant="outlined" className="w-100">
                                 <InputLabel id="frequency-select-outlined-label">Team</InputLabel>
@@ -183,7 +198,7 @@ function UserDialog(props) {
                                 >
                                   <MenuItem value="">Choose a team</MenuItem>
 
-                                  {props.teams.content.map((team) => (
+                                  {props.generalReducer.teams.content.map((team) => (
                                     <MenuItem key={team.id} value={team.id}>
                                       {team.name
                                         ? team.name
@@ -243,8 +258,8 @@ function UserDialog(props) {
                                 error={Boolean(touched.isActive && errors.isActive)}
                                 helpertext={touched.isActive && errors.isActive}
                               >
-                                <MenuItem value>Activo</MenuItem>
-                                <MenuItem value={false}>Inactivo </MenuItem>
+                                <MenuItem value="true">Activo</MenuItem>
+                                <MenuItem value="false">Inactivo </MenuItem>
                               </Select>
                             </FormControl>
                           </Grid>
@@ -271,11 +286,12 @@ function UserDialog(props) {
   );
 }
 
-const mapStateToProps = ({ generalReducer }) => generalReducer;
-
+const mapStateToProps = ({ generalReducer, usersReducer }) => ({ generalReducer, usersReducer });
 const mapDispatchToProps = {
   teamsRequest,
-  updateUserRequest
+  updateUserRequest,
+  saveUserRequest,
+  resetState
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDialog);

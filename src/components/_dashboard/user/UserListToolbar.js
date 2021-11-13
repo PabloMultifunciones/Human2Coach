@@ -144,18 +144,34 @@ UserListToolbar.propTypes = {
 
 export default function UserListToolbar({
   numSelected,
-  filterName,
   onFilterName,
   showTeam,
   title = 'Buscar...'
 }) {
-  const [{ team }, setState] = useState({
+  const [{ search, team }, setState] = useState({
+    search: '',
     team: ''
   });
   const handleChange = (event, value) => {
     setState((prevState) => ({
       ...prevState,
       [event.target.name]: value
+    }));
+  };
+
+  const handleSearch = (e) => {
+    if (e.target.value.length > 2) {
+      onFilterName(e);
+    }
+
+    if (e.target.value === '') {
+      console.log(e.target.value);
+      onFilterName(e);
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      search: e.target.value
     }));
   };
 
@@ -175,8 +191,8 @@ export default function UserListToolbar({
       ) : (
         <>
           <SearchStyle
-            value={filterName}
-            onChange={onFilterName}
+            value={search}
+            onChange={(e) => handleSearch(e)}
             placeholder={title}
             startAdornment={
               <InputAdornment position="start">

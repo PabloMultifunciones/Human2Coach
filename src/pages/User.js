@@ -1,7 +1,6 @@
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import Alert from '@material-ui/core/Alert';
 
 // material
 import {
@@ -24,9 +23,7 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../components/_dashboard/user';
 import UserDialog from '../components/Dialogs/UserDialog';
 import DeleteDialog from '../components/Dialogs/DeleteDialog';
-
 import { getUsersRequest, getUsersFilterRequest, deleteUserRequest } from '../actions/usersActions';
-
 import Spinner from '../components/Spinner';
 
 import GeneralFunctions from '../libs/GeneralFunctions';
@@ -71,15 +68,17 @@ function User(props) {
   };
 
   const handleFilterByName = (event) => {
-    if (event.target.value.length > 2) {
+    if (event.target.value.length > 0) {
       props.getUsersFilterRequest({ number: 0, filterName: event.target.value });
+      setFilterName(event.target.value);
       setPage(0);
     }
+
     if (event.target.value === '') {
       props.getUsersRequest({ number: 0, filterName: event.target.value });
+      setFilterName('');
       setPage(0);
     }
-    setFilterName(event.target.value);
   };
 
   const deleteUser = (id) => {
@@ -109,19 +108,15 @@ function User(props) {
         </Stack>
 
         <Card>
+          <UserListToolbar
+            numSelected={selected.length}
+            onFilterName={handleFilterByName}
+            title="Buscar..."
+          />
           {props.users_charging ? (
             <Spinner />
           ) : (
             <>
-              {props.error_users && <Alert severity="error">{props.error_users.message}</Alert>}
-
-              <UserListToolbar
-                numSelected={selected.length}
-                filterName={filterName}
-                onFilterName={handleFilterByName}
-                title="Buscar..."
-              />
-
               <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }}>
                   <Table>

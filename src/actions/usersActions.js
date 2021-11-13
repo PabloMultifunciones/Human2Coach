@@ -5,7 +5,9 @@ import UserService from '../Services/UserService';
 import 'toastr/build/toastr.min.css';
 
 const {
+  RESET_STATE,
   USERS_LIST_CHARGING,
+  USERS_SAVE_CHARGING,
   USERS_LIST_REQUEST,
   USERS_LIST_FILTER_REQUEST,
   USERS_LIST_FILTERED_CHARGING,
@@ -20,7 +22,6 @@ const {
 export const getUsersRequest = (payload) => async (dispatch, getState) => {
   try {
     const { pages } = getState().usersReducer;
-
     if (!pages.includes(payload.number)) {
       dispatch({
         type: USERS_LIST_CHARGING
@@ -69,18 +70,22 @@ export const getUsersFilterRequest = (payload) => async (dispatch, getState) => 
   }
 };
 
-export const saveUserRequest = (payload) => async (dispatch) => {
+export const saveUserRequest = (payload) => async (dispatch, getState) => {
   dispatch({
-    type: USERS_LIST_CHARGING
+    type: USERS_SAVE_CHARGING
   });
 
   try {
     const responseLogin = await UserService.saveUser(payload);
 
+    const { users } = getState().usersReducer;
+    const usersUpdated = [responseLogin.data, ...users];
     dispatch({
       type: USERS_LIST_SAVE,
-      payload: responseLogin.data
+      payload: usersUpdated
     });
+
+    toastr.success('The user was saved');
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,
@@ -91,7 +96,7 @@ export const saveUserRequest = (payload) => async (dispatch) => {
 
 export const updateUserRequest = (payload) => async (dispatch, getState) => {
   dispatch({
-    type: USERS_LIST_CHARGING
+    type: USERS_SAVE_CHARGING
   });
 
   try {
@@ -112,6 +117,8 @@ export const updateUserRequest = (payload) => async (dispatch, getState) => {
       type: USERS_LIST_UPDATE,
       payload: usersUpdated
     });
+
+    toastr.success('The user was updated');
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,
@@ -133,11 +140,17 @@ export const deleteUserRequest = (payload) => async (dispatch) => {
       payload: payload.id
     });
 
-    toastr.error('The user is deleted');
+    toastr.success('The user is deleted');
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,
       payload: error.response ? error.response.data : error
     });
   }
+};
+
+export const resetState = () => async (dispatch) => {
+  dispatch({
+    type: RESET_STATE
+  });
 };

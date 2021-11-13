@@ -15,4 +15,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }} # User of the server you want to ssh into
      
           script: |
-            git git@github.com:Human2Coach/human2coach.git
+            git clone git@github.com:Human2Coach/human2coach.git

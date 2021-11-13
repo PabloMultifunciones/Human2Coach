@@ -1,7 +1,5 @@
-import axios from 'axios';
-
 import * as loginTypes from '../types/loginTypes';
-import environment from '../libs/environment';
+import LoginService from '../Services/LoginService';
 
 const { LOGIN_CHARGING, ERROR, LOGIN, LOGOUT } = loginTypes;
 const TOKEN_LIFE = 2 * 60 * 60 * 1000; // Two hours
@@ -12,9 +10,7 @@ export const loginRequest = (payload) => async (dispatch) => {
   });
 
   try {
-    const responseLogin = await axios.post(`${environment.motivarnosBackend}/login`, {
-      ...payload
-    });
+    const responseLogin = await LoginService.login(payload);
 
     localStorage.setItem(
       'sesion',
@@ -42,9 +38,7 @@ export const loginTalkDeskRequest = (payload) => async (dispatch) => {
   });
 
   try {
-    const responseLogin = await axios.get(
-      `${environment.motivarnosBackend}/v1/integration/authurl/${payload.type}?companyName=${payload.company}`
-    );
+    const responseLogin = await LoginService.loginTalkDesk(payload);
 
     if (responseLogin.data.redirecturl == null || !responseLogin.data.redirecturl) {
       dispatch({
@@ -68,9 +62,7 @@ export const registerRequest = (payload) => async (dispatch) => {
   });
 
   try {
-    const responseLogin = await axios.post(`${environment.motivarnosBackend}/company/signup`, {
-      ...payload
-    });
+    const responseLogin = await LoginService.register(payload);
 
     localStorage.setItem(
       'sesion',

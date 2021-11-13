@@ -41,4 +41,4 @@ jobs:
           remote: /human2coach
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USERNAME}}
-          password: ${{secrets.SSH_KEY}}
+          privateKey: ${{secrets.SSH_KEY}}

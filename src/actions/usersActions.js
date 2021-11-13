@@ -69,13 +69,13 @@ export const getUsersFilterRequest = (payload) => async (dispatch, getState) => 
   }
 };
 
-export const saveUserRequest = () => async (dispatch) => {
+export const saveUserRequest = (payload) => async (dispatch) => {
   dispatch({
     type: USERS_LIST_CHARGING
   });
 
   try {
-    const responseLogin = await UserService.saveUser();
+    const responseLogin = await UserService.saveUser(payload);
 
     dispatch({
       type: USERS_LIST_SAVE,
@@ -89,17 +89,28 @@ export const saveUserRequest = () => async (dispatch) => {
   }
 };
 
-export const updateUserRequest = () => async (dispatch) => {
+export const updateUserRequest = (payload) => async (dispatch, getState) => {
   dispatch({
     type: USERS_LIST_CHARGING
   });
 
   try {
-    const responseLogin = await UserService.updateUser();
+    const responseLogin = await UserService.updateUser(payload);
+
+    const { users } = getState().usersReducer;
+    const { teams } = getState().generalReducer;
+
+    const teamsFiltered = [...teams.content].filter(
+      (team) => team.id === responseLogin.data.team.id
+    );
+    const usersUpdated = [...users];
+    const findById = (user) => user.id === payload.id;
+    const index = usersUpdated.findIndex(findById);
+    usersUpdated[index] = { ...payload, team: teamsFiltered.length > 0 ? teamsFiltered[0] : '' };
 
     dispatch({
       type: USERS_LIST_UPDATE,
-      payload: responseLogin.data
+      payload: usersUpdated
     });
   } catch (error) {
     dispatch({

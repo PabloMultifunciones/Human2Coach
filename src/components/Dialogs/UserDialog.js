@@ -25,6 +25,8 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { teamsRequest } from '../../actions/generalActions';
+import { updateUserRequest } from '../../actions/usersActions';
+
 import Spinner from '../Spinner';
 
 /** *****Services******* */
@@ -79,27 +81,35 @@ function UserDialog(props) {
 
   const LoginSchema = Yup.object().shape({
     name: Yup.string().required('The name is required'),
-    team: Yup.object().required('The team is required'),
+    team: Yup.string().required('The team is required'),
     role: Yup.string().required('The role is required'),
     isActive: Yup.boolean().required('The state is required')
   });
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      team: '',
-      role: '1',
-      isActive: true
+      id: props.id ? props.id : null,
+      name: props.name ? props.name : '',
+      team: props.team ? props.team.id : '',
+      role: props.role ? props.role : '1',
+      isActive: props.isActive
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
-      console.log(values);
+      if (values.id) {
+        props.updateUserRequest({
+          id: values.id,
+          name: values.name,
+          team: { id: values.team },
+          role: values.role,
+          isActive: values.isActive
+        });
+      }
     }
   });
 
   const handleClickOpen = () => {
     setOpen(true);
-
     if (!props.teams) {
       props.teamsRequest();
     }
@@ -115,7 +125,7 @@ function UserDialog(props) {
   return (
     <>
       {props.type === 'EDIT' ? (
-        <Tooltip title="Editar fecha de compromiso">
+        <Tooltip title="Edit user">
           <EditIcon fontSize="small" className="cursor-pointer" onClick={handleClickOpen} />
         </Tooltip>
       ) : (
@@ -174,7 +184,7 @@ function UserDialog(props) {
                                   <MenuItem value="">Choose a team</MenuItem>
 
                                   {props.teams.content.map((team) => (
-                                    <MenuItem key={team.id} value={team}>
+                                    <MenuItem key={team.id} value={team.id}>
                                       {team.name
                                         ? team.name
                                         : t(
@@ -227,6 +237,7 @@ function UserDialog(props) {
                                 id="state"
                                 name="state"
                                 label="Estado"
+                                defaultValue
                                 fullWidth
                                 {...getFieldProps('isActive')}
                                 error={Boolean(touched.isActive && errors.isActive)}
@@ -263,7 +274,8 @@ function UserDialog(props) {
 const mapStateToProps = ({ generalReducer }) => generalReducer;
 
 const mapDispatchToProps = {
-  teamsRequest
+  teamsRequest,
+  updateUserRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDialog);

@@ -38,7 +38,7 @@ import GeneralFunctions from '../libs/GeneralFunctions';
 const TABLE_HEAD = [
   { id: 'name', label: 'Nombre', alignRight: false },
   { id: 'company', label: 'Company', alignRight: false },
-  { id: 'status', label: 'Estate', alignRight: false },
+  { id: 'status', label: 'State', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
   { id: 'actions', label: 'Actions', alignRight: false }
 ];
@@ -144,7 +144,7 @@ function User(props) {
                               <TableCell align="left">{GeneralFunctions.getRole(role)}</TableCell>
 
                               <TableCell align="left">
-                                <UserDialog type="EDIT" />
+                                <UserDialog type="EDIT" {...row} />
                                 <DeleteDialog delete={() => deleteUser(id)} />
                               </TableCell>
                             </TableRow>

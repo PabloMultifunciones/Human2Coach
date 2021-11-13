@@ -34,7 +34,8 @@ export default (state = INITIAL_STATE, action) => {
         users: [...state.pages].includes(action.payload.number)
           ? [...state.users]
           : [...state.users, ...action.payload.content],
-        totalElements: action.payload.totalElements,
+        totalElements:
+          state.totalElements === 0 ? action.payload.totalElements : state.totalElements,
         pages: [...state.pages].includes(action.payload.number)
           ? [...state.pages]
           : [...state.pages, action.payload.number],
@@ -49,7 +50,10 @@ export default (state = INITIAL_STATE, action) => {
           state.filter === action.payload.filterName
             ? [...state.users_filtered]
             : [...state.users_filtered, ...action.payload.content],
-        totalElements_filtered: action.payload.totalElements,
+        totalElements_filtered:
+          state.totalElements_filtered === 0
+            ? action.payload.totalElements
+            : state.totalElements_filtered,
         pagesFiltered:
           [...state.pagesFiltered].includes(action.payload.number) &&
           state.filter === action.payload.filterName
@@ -63,7 +67,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         users_charging: false,
-        users: action.payload,
+        // users: action.payload,
         error_users: false
       };
     case USERS_LIST_UPDATE:
@@ -78,12 +82,14 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         users: [...state.users].filter((user) => user.id !== action.payload),
         users_charging: false,
+        totalElements: state.totalElements - 1,
         error_users: false
       };
     case USERS_LIST_DELETE_FILTERED:
       return {
         ...state,
         users: [...state.users_filtered].filter((user) => user.id !== action.payload),
+        totalElements_filtered: state.totalElements_filtered - 1,
         users_charging: false,
         error_users: false
       };

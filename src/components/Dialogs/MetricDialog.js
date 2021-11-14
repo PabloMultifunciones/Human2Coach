@@ -13,10 +13,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import { SpinnerCircular } from 'spinners-react';
 import toastr from 'toastr';
 import Tooltip from '@material-ui/core/Tooltip';
 import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
@@ -26,6 +26,8 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
+import { teamsRequest, usersRequest } from '../../actions/generalActions';
+import { updateMetricRequest, saveMetricRequest, resetState } from '../../actions/metricsActions';
 
 import FindRegistersDialog from './FindRegistersDialog';
 import YesNoOption from '../Metrics/YesNoOption';
@@ -33,6 +35,8 @@ import NumberOption from '../Metrics/NumberOption';
 import TimeOption from '../Metrics/TimeOption';
 import Percentage from '../Metrics/Percentage';
 import Multiplier from '../Metrics/Multiplier';
+import Spinner from '../Spinner';
+import GeneralFunctions from '../../libs/GeneralFunctions';
 
 import 'toastr/build/toastr.min.css';
 
@@ -56,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-export default function MetricDialog(props) {
+function MetricDialog(props) {
   const classes = useStyles();
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -71,7 +75,6 @@ export default function MetricDialog(props) {
   };
 
   const [open, setOpen] = React.useState(false);
-  const [loading] = useState(false);
   const { t } = useTranslation();
   const [nameError, setNameError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
@@ -86,6 +89,7 @@ export default function MetricDialog(props) {
 
   const [
     {
+      id,
       name,
       description,
       frequency,
@@ -96,8 +100,6 @@ export default function MetricDialog(props) {
       supervisorCalculationType,
       targetValue,
       isActive,
-      teamsProps,
-      rowsUsers,
       color1,
       color2,
       color3,
@@ -113,6 +115,7 @@ export default function MetricDialog(props) {
     },
     setState
   ] = useState({
+    id: props.id ? props.id : null,
     color1: props.color1 ? props.color1 : '#FF0000',
     color2: props.color2 ? props.color2 : '#FFFF00',
     color3: props.color3 ? props.color3 : '#00D800',
@@ -143,15 +146,20 @@ export default function MetricDialog(props) {
         : new Date(`0000-01-01T${props.targetValue ? props.targetValue : '00:00:00'}`)
       : '',
 
-    teams: props.teams ? props.teams : [],
-    users: props.users ? props.users : [],
-
-    teamsProps: props.teams && props.teams.length > 0 ? props.teams : [],
-    rowsUsers: props.users && props.users.length > 0 ? props.users : []
+    teams: GeneralFunctions.formatPropsEdit(props.teams ? props.teams : []),
+    users: GeneralFunctions.formatPropsEdit(props.users ? props.users : [])
   });
 
-  const handleClickOpen = () => {
+  const handleClickOpen = async () => {
     setOpen(true);
+    if (!props.generalReducer.teams) {
+      await props.teamsRequest();
+    }
+
+    if (!props.generalReducer.users) {
+      await props.usersRequest();
+    }
+    setOriginalState();
   };
 
   function handleChange({ target: { name, value } }) {
@@ -230,7 +238,7 @@ export default function MetricDialog(props) {
   }
 
   const handleClose = () => {
-    setOriginalState();
+    props.resetState();
     setOpen(false);
   };
 
@@ -241,6 +249,7 @@ export default function MetricDialog(props) {
   function setOriginalState() {
     setState((prevState) => ({
       ...prevState,
+      id: props.id ? props.id : null,
       color1: props.color1 ? props.color1 : '#fff',
       color2: props.color1 ? props.color1 : 'yellow',
       color3: props.color1 ? props.color1 : 'green',
@@ -253,8 +262,8 @@ export default function MetricDialog(props) {
       rangeto1: props.rangeTo1 ? parseFloat(props.rangeTo1) : 0,
       rangeto2: props.rangeTo2 ? parseFloat(props.rangeTo2) : 0,
       rangeto3: props.rangeTo3 ? parseFloat(props.rangeTo3) : 0,
-      teams: props.teams ? props.teams : [],
-      users: props.users ? props.teams : [],
+      teams: GeneralFunctions.formatPropsEdit(props.teams ? props.teams : []),
+      users: GeneralFunctions.formatPropsEdit(props.users ? props.teams : []),
       type: props.type ? props.type : '',
       isActive: props.isActive ? props.isActive : true,
       description: props.description ? props.description : '',
@@ -273,7 +282,7 @@ export default function MetricDialog(props) {
     }));
   }
 
-  function onFormSubmit() {
+  async function onFormSubmit() {
     setNameError(false);
     setDescriptionError(false);
     setFrequencyErrorError(false);
@@ -421,10 +430,79 @@ export default function MetricDialog(props) {
         );
       }
     }
+
+    const teamsFormatted = [];
+    teams.forEach((element) => {
+      teamsFormatted.push({
+        id: element
+      });
+    });
+
+    const usersFormatted = [];
+    users.forEach((element) => {
+      usersFormatted.push({
+        id: element
+      });
+    });
+
+    const json = {
+      color1: color1 || 'red',
+      color2: color2 || 'yellow',
+      color3: color3 || 'green',
+      points1: points1 && points1 !== '' ? parseFloat(points1) : '',
+      points2: points2 && points2 !== '' ? parseFloat(points2) : '',
+      points3: points3 && points3 !== '' ? parseFloat(points3) : '',
+      rangeFrom1: type === 'TIME' ? (rangeFrom1 === '' ? '00:00:00' : rangeFrom1) : rangeFrom1,
+      rangeFrom2:
+        type === 'TIME' ? (rangeFrom2 === '' ? '00:00:00' : rangeFrom2) : parseFloat(rangeFrom2),
+      rangeFrom3:
+        type === 'TIME' ? (rangeFrom3 === '' ? '00:00:00' : rangeFrom3) : parseFloat(rangeFrom3),
+      rangeTo1: type === 'TIME' ? (rangeto1 === '' ? '00:00:00' : rangeto1) : parseFloat(rangeto1),
+
+      rangeTo2: type === 'TIME' ? (rangeto2 === '' ? '00:00:00' : rangeto2) : parseFloat(rangeto2),
+      rangeTo3: type === 'TIME' ? (rangeto3 === '' ? '00:00:00' : rangeto3) : parseFloat(rangeto3),
+      name,
+      teams: teamsFormatted,
+      users: usersFormatted,
+      type,
+      isActive,
+      description,
+      frequency,
+      isApplyToSupervisor,
+      supervisorCalculationType,
+      targetValue:
+        type !== 'TIME'
+          ? type === 'BOOLEAN'
+            ? targetValue
+            : parseFloat(targetValue)
+          : GeneralFunctions.formatDate(targetValue)
+    };
+
+    let status;
+
+    if (id) {
+      await props.updateMetricRequest(json).then((r) => (status = r));
+    } else {
+      await props.saveMetricRequest(json).then((r) => (status = r));
+    }
+
+    if (status === 'ERROR') {
+      toastr.error(
+        t(
+          'menu.metric-panel-dialog-message-error-save-metric-two',
+          'An error occurred while trying to save the metric'
+        )
+      );
+    } else {
+      toastr.success(
+        t('menu.metric-panel-dialog-message-success-save-metric', 'Metric saved successfully')
+      );
+      handleClose();
+    }
   }
   return (
     <>
-      {props.typeModal === 'modalEdit' ? (
+      {props.typeModal === 'EDIT' ? (
         <Tooltip title={t('admin.actions-edit', 'Edit')}>
           <EditIcon className="cursor-pointer" fontSize="small" onClick={handleClickOpen} />
         </Tooltip>
@@ -451,19 +529,11 @@ export default function MetricDialog(props) {
             </Typography>
           </Toolbar>
         </AppBar>
-
-        {loading && (
-          <div className="div-spinner-modal">
-            <Container maxWidth="lg" className={classes.container}>
-              {' '}
-              <Grid container spacing={1}>
-                <SpinnerCircular size={90} />
-              </Grid>
-            </Container>
-          </div>
-        )}
-
-        {!loading && (
+        {props.generalReducer.teams_charging ||
+        props.generalReducer.users_charging ||
+        props.metricsReducer.metrics_save_charging ? (
+          <Spinner />
+        ) : (
           <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={1}>
               <Grid item xs={12} md={6} lg={6}>
@@ -556,107 +626,103 @@ export default function MetricDialog(props) {
             </Grid>
 
             <Grid container spacing={1}>
-              <Grid item xs={12} md={6} lg={6} className="d-flex">
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="teams-select-outlined-label">
-                    {t('admin.user-panel-user-dialog-input-groups', 'Groups')}
-                  </InputLabel>
-                  <Select
-                    labelId="group-mutiple-name-label"
-                    id="teams"
-                    name="teams"
-                    label={t('admin.user-panel-user-dialog-input-groups', 'Groups')}
-                    multiple
-                    value={teams}
-                    error={teamsError}
-                    onChange={handleChange}
-                    MenuProps={MenuProps}
-                  >
-                    {teamsProps.map((team) => (
-                      <MenuItem key={team.id} value={team.id}>
-                        {team.name
-                          ? team.name
-                          : t(
-                              'admin.user-panel-user-dialog-input-select-without-name',
-                              'Without name'
-                            )}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+              {props.generalReducer.teams && (
+                <Grid item xs={12} md={6} lg={6} className="d-flex">
+                  <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel id="teams-select-outlined-label">
+                      {t('admin.user-panel-user-dialog-input-groups', 'Groups')}
+                    </InputLabel>
+                    <Select
+                      labelId="group-mutiple-name-label"
+                      id="teams"
+                      name="teams"
+                      label={t('admin.user-panel-user-dialog-input-groups', 'Groups')}
+                      multiple
+                      value={teams}
+                      error={teamsError}
+                      onChange={handleChange}
+                      MenuProps={MenuProps}
+                    >
+                      {props.generalReducer.teams.content.map((team) => (
+                        <MenuItem key={team.id} value={team.id}>
+                          {team.name
+                            ? team.name
+                            : t(
+                                'admin.user-panel-user-dialog-input-select-without-name',
+                                'Without name'
+                              )}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                {/** {teamsProps && teamsProps.length > 0 && (
-                 
-                )} */}
+                  <FindRegistersDialog
+                    setValue={(t, v) => setValue(t, v)}
+                    type="teams"
+                    rows={props.generalReducer.teams.content}
+                  />
 
-                <FindRegistersDialog
-                  setValue={(t, v) => setValue(t, v)}
-                  type="teams"
-                  rows={teamsProps}
-                />
+                  <Tooltip title={t('add-all.label', 'Add all')}>
+                    <Button
+                      className="button-table ml-1 mt-1"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleClickSelectAll('teams')}
+                    >
+                      <AddIcon />
+                    </Button>
+                  </Tooltip>
+                </Grid>
+              )}
 
-                <Tooltip title={t('add-all.label', 'Add all')}>
-                  <Button
-                    className="button-table ml-1 mt-1"
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleClickSelectAll('teams')}
-                  >
-                    <AddIcon />
-                  </Button>
-                </Tooltip>
-              </Grid>
+              {props.generalReducer.users && (
+                <Grid item xs={12} md={6} lg={6} className="d-flex">
+                  <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel id="users-select-outlined-label">
+                      {t('menu.trivia-panel-dialog-add-test-select-players', 'Players')}
+                    </InputLabel>
+                    <Select
+                      labelId="users-mutiple-name-label"
+                      id="users"
+                      name="users"
+                      multiple
+                      label={t('menu.trivia-panel-dialog-add-test-select-players', 'Players')}
+                      value={users}
+                      error={usersError}
+                      onChange={handleChange}
+                      MenuProps={MenuProps}
+                    >
+                      {props.generalReducer.users.content.map((rowUser) => (
+                        <MenuItem key={rowUser.id} value={rowUser.id}>
+                          {rowUser.name
+                            ? `${rowUser.name} ${rowUser.lastName}`
+                            : t(
+                                'admin.user-panel-user-dialog-input-select-without-name',
+                                'Without name'
+                              )}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-              <Grid item xs={12} md={6} lg={6} className="d-flex">
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="users-select-outlined-label">
-                    {t('menu.trivia-panel-dialog-add-test-select-players', 'Players')}
-                  </InputLabel>
-                  <Select
-                    labelId="users-mutiple-name-label"
-                    id="users"
-                    name="users"
-                    multiple
-                    label={t('menu.trivia-panel-dialog-add-test-select-players', 'Players')}
-                    value={users}
-                    error={usersError}
-                    onChange={handleChange}
-                    MenuProps={MenuProps}
-                  >
-                    {rowsUsers.map((rowUser) => (
-                      <MenuItem key={rowUser.id} value={rowUser.id}>
-                        {rowUser.name
-                          ? `${rowUser.name} ${rowUser.lastName}`
-                          : t(
-                              'admin.user-panel-user-dialog-input-select-without-name',
-                              'Without name'
-                            )}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                  <FindRegistersDialog
+                    setValue={(t, v) => setValue(t, v)}
+                    type="users"
+                    rows={props.generalReducer.teams.content}
+                  />
 
-                {/** {rowsUsers && rowsUsers.length > 0 && (
-                 
-                 )} */}
-
-                <FindRegistersDialog
-                  setValue={(t, v) => setValue(t, v)}
-                  type="users"
-                  rows={rowsUsers}
-                />
-
-                <Tooltip title={t('add-all.label', 'Add all')}>
-                  <Button
-                    className="button-table ml-1 mt-1"
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleClickSelectAll('users')}
-                  >
-                    <AddIcon />
-                  </Button>
-                </Tooltip>
-              </Grid>
+                  <Tooltip title={t('add-all.label', 'Add all')}>
+                    <Button
+                      className="button-table ml-1 mt-1"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleClickSelectAll('users')}
+                    >
+                      <AddIcon />
+                    </Button>
+                  </Tooltip>
+                </Grid>
+              )}
             </Grid>
 
             <Grid container spacing={1}>
@@ -926,3 +992,17 @@ export default function MetricDialog(props) {
     </>
   );
 }
+
+const mapStateToProps = ({ generalReducer, metricsReducer }) => ({
+  generalReducer,
+  metricsReducer
+});
+const mapDispatchToProps = {
+  teamsRequest,
+  usersRequest,
+  updateMetricRequest,
+  saveMetricRequest,
+  resetState
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MetricDialog);

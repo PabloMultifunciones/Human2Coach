@@ -76,5 +76,13 @@ export default {
       return 'Player';
     }
     return 'N/A';
+  },
+
+  formatPropsEdit(array) {
+    const arrayFormatted = [];
+    array.forEach((element) => {
+      arrayFormatted.push(element.id);
+    });
+    return arrayFormatted;
   }
 };

@@ -1,6 +1,8 @@
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import toastr from 'toastr';
+import { useTranslation } from 'react-i18next';
 
 // material
 import {
@@ -27,6 +29,7 @@ import { getUsersRequest, getUsersFilterRequest, deleteUserRequest } from '../ac
 import Spinner from '../components/Spinner';
 
 import GeneralFunctions from '../libs/GeneralFunctions';
+import 'toastr/build/toastr.min.css';
 
 //
 
@@ -48,6 +51,7 @@ function User(props) {
   const [selected] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(7);
+  const { t } = useTranslation();
 
   useEffect(() => {
     props.getUsersRequest({ number: 0, filterName });
@@ -83,7 +87,21 @@ function User(props) {
   };
 
   const deleteUser = (id) => {
-    props.deleteUserRequest({ id, filterName });
+    let status;
+    props.deleteUserRequest({ id, filterName }).then((r) => (status = r));
+
+    if (status === 'SUCCESS') {
+      toastr.success(
+        t('admin.user-panel-message-success-delete-users', 'User deleted successfully')
+      );
+    } else {
+      toastr.error(
+        t(
+          'admin.user-panel-message-error-delete-users',
+          'An error occurred while deleting the user'
+        )
+      );
+    }
   };
 
   const emptyRows =
@@ -112,7 +130,7 @@ function User(props) {
           <UserListToolbar
             numSelected={selected.length}
             onFilterName={handleFilterByName}
-            title="Buscar..."
+            title="Search..."
           />
           {props.users_charging ? (
             <Spinner />

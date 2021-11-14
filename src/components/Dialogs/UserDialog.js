@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Alert from '@material-ui/core/Alert';
 import toastr from 'toastr';
 
 import { connect } from 'react-redux';
@@ -145,26 +144,32 @@ function UserDialog(props) {
       return;
     }
 
+    let status;
+
     if (id) {
-      await props.updateUserRequest({
-        id,
-        name,
-        username,
-        team: { id: team },
-        role,
-        isActive
-      });
+      await props
+        .updateUserRequest({
+          id,
+          name,
+          username,
+          team: { id: team },
+          role,
+          isActive
+        })
+        .then((r) => (status = r));
     } else {
-      await props.saveUserRequest({
-        name,
-        username,
-        team: { id: team },
-        role,
-        isActive
-      });
+      await props
+        .saveUserRequest({
+          name,
+          username,
+          team: { id: team },
+          role,
+          isActive
+        })
+        .then((r) => (status = r));
     }
 
-    if (props.usersReducer.error_users) {
+    if (status === 'ERROR') {
       toastr.error(
         t(
           'admin.user-panel-user-dialog-message-error-user-save',
@@ -175,8 +180,8 @@ function UserDialog(props) {
       toastr.success(
         t('admin.user-panel-user-dialog-message-success-user-save', 'User saved successfully')
       );
+      handleClose();
     }
-    handleClose();
   }
 
   function setOriginalState() {
@@ -216,10 +221,6 @@ function UserDialog(props) {
           Usuario
         </DialogTitle>
         <>
-          {props.usersReducer.error_users && (
-            <Alert severity="error">{props.usersReducer.error_users.message}</Alert>
-          )}
-
           <form>
             <DialogContent dividers>
               {props.generalReducer.teams_charging ||

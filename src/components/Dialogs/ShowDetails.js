@@ -33,8 +33,8 @@ const styles = (theme) => ({
   }
 });
 
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
+const DialogTitle = withStyles(styles)((information) => {
+  const { children, classes, onClose, ...other } = information;
   return (
     <MuiDialogTitle className={classes.root} {...other}>
       {children}{' '}
@@ -62,9 +62,11 @@ const DialogActions = withStyles((theme) => ({
 
 export default function ShowDetailsDialog(props) {
   const [open, setOpen] = React.useState(false);
+  const [information, setInformation] = React.useState(props);
   const { t } = useTranslation();
 
   const handleClickOpen = () => {
+    setInformation(props);
     setOpen(true);
   };
   const handleClose = () => {
@@ -88,24 +90,26 @@ export default function ShowDetailsDialog(props) {
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           {t('menu.metric-panel-dialog-detail', 'Metric details')}
-          {props.type === 'BOOLEAN' && +' ' + t('menu.metric-panel-table-boolean', 'Boolean')}
+          {information.type === 'BOOLEAN' && ` ${t('menu.metric-panel-table-boolean', 'Boolean')}`}
 
-          {props.type === 'NUMBER' &&
-            t('menu.trivia-panel-dialog-add-test-select-questions-number', 'Number')}
+          {information.type === 'NUMBER' &&
+            ` ${t('menu.trivia-panel-dialog-add-test-select-questions-number', 'Number')}`}
 
-          {props.type === 'TIME' && t('menu.trivia-panel-dialog-test-analytic-time', 'Time')}
+          {information.type === 'TIME' &&
+            ` ${t('menu.trivia-panel-dialog-test-analytic-time', 'Time')}`}
 
-          {props.type === 'PERCENT' && t('menu.metric-panel-table-percentage', 'Percentage')}
+          {information.type === 'PERCENT' &&
+            ` ${t('menu.metric-panel-table-percentage', 'Percentage')}`}
         </DialogTitle>
 
         <>
           <DialogContent dividers>
-            {props.type === 'BOOLEAN' && (
+            {information.type === 'BOOLEAN' && (
               <>
                 <TextField
                   value={
-                    String(props.points1)
-                      ? props.points1
+                    String(information.points1)
+                      ? information.points1
                       : t('menu.metric-panel-dialog-show-detail-without-points', 'Without points')
                   }
                   disabled
@@ -117,7 +121,7 @@ export default function ShowDetailsDialog(props) {
 
                 <TextField
                   value={
-                    String(props.rangeFrom1)
+                    String(information.rangeFrom1)
                       ? t('admin.header-dropdown-dialog-notifications-input-item-yes', 'Yes')
                       : t('admin.header-dropdown-dialog-notifications-input-item-no', 'No')
                   }
@@ -130,7 +134,7 @@ export default function ShowDetailsDialog(props) {
               </>
             )}
 
-            {props.type !== 'BOOLEAN' && (
+            {information.type !== 'BOOLEAN' && (
               <>
                 <Container maxWidth="lg">
                   <h4>{t('menu.metric-panel-dialog-number-option-rank', 'Rank')} 1</h4>
@@ -138,8 +142,8 @@ export default function ShowDetailsDialog(props) {
                     <Grid item xs={12} md={6} lg={6}>
                       <TextField
                         value={
-                          String(props.points1)
-                            ? props.points1
+                          String(information.points1)
+                            ? information.points1
                             : t(
                                 'menu.metric-panel-dialog-show-detail-without-points',
                                 'Without points'
@@ -156,8 +160,8 @@ export default function ShowDetailsDialog(props) {
                     <Grid item xs={12} md={6} lg={6}>
                       <TextField
                         value={
-                          String(props.rangeFrom1)
-                            ? props.rangeFrom1
+                          String(information.rangeFrom1)
+                            ? information.rangeFrom1
                             : t('menu.metric-panel-dialog-show-detail-without-rank', 'Without rank')
                         }
                         disabled
@@ -170,8 +174,8 @@ export default function ShowDetailsDialog(props) {
                     <Grid item xs={12} md={12} lg={12}>
                       <TextField
                         value={
-                          String(props.rangeTo1)
-                            ? props.rangeTo1
+                          String(information.rangeTo1)
+                            ? information.rangeTo1
                             : t('menu.metric-panel-dialog-show-detail-without-rank', 'Without rank')
                         }
                         disabled
@@ -184,7 +188,7 @@ export default function ShowDetailsDialog(props) {
 
                     <Grid item xs={12} md={12} lg={12}>
                       <TextField
-                        value={props.color1 ? props.color1 : '#FF0000'}
+                        value={information.color1 ? information.color1 : '#FF0000'}
                         disabled
                         label={t('menu.metric-panel-dialog-number-color', 'Color')}
                         type="color"
@@ -200,8 +204,8 @@ export default function ShowDetailsDialog(props) {
                     <Grid item xs={12} md={6} lg={6}>
                       <TextField
                         value={
-                          String(props.points2)
-                            ? props.points2
+                          String(information.points2)
+                            ? information.points2
                             : t(
                                 'menu.metric-panel-dialog-show-detail-without-points',
                                 'Without points'
@@ -218,8 +222,8 @@ export default function ShowDetailsDialog(props) {
                     <Grid item xs={12} md={6} lg={6}>
                       <TextField
                         value={
-                          String(props.rangeFrom2)
-                            ? props.rangeFrom2
+                          String(information.rangeFrom2)
+                            ? information.rangeFrom2
                             : t('menu.metric-panel-dialog-show-detail-without-rank', 'Without rank')
                         }
                         disabled
@@ -232,8 +236,8 @@ export default function ShowDetailsDialog(props) {
                     <Grid item xs={12} md={12} lg={12}>
                       <TextField
                         value={
-                          String(props.rangeTo2)
-                            ? props.rangeTo2
+                          String(information.rangeTo2)
+                            ? information.rangeTo2
                             : t('menu.metric-panel-dialog-show-detail-without-rank', 'Without rank')
                         }
                         disabled
@@ -246,7 +250,7 @@ export default function ShowDetailsDialog(props) {
 
                     <Grid item xs={12} md={12} lg={12}>
                       <TextField
-                        value={props.color2 ? props.color2 : '#FFFF00'}
+                        value={information.color2 ? information.color2 : '#FFFF00'}
                         disabled
                         label={t('menu.metric-panel-dialog-number-color', 'Color')}
                         type="color"
@@ -262,8 +266,8 @@ export default function ShowDetailsDialog(props) {
                     <Grid item xs={12} md={6} lg={6}>
                       <TextField
                         value={
-                          String(props.points3)
-                            ? props.points3
+                          String(information.points3)
+                            ? information.points3
                             : t(
                                 'menu.metric-panel-dialog-show-detail-without-points',
                                 'Without points'
@@ -280,8 +284,8 @@ export default function ShowDetailsDialog(props) {
                     <Grid item xs={12} md={6} lg={6}>
                       <TextField
                         value={
-                          String(props.rangeFrom3)
-                            ? props.rangeFrom3
+                          String(information.rangeFrom3)
+                            ? information.rangeFrom3
                             : t('menu.metric-panel-dialog-show-detail-without-rank', 'Without rank')
                         }
                         disabled
@@ -294,8 +298,8 @@ export default function ShowDetailsDialog(props) {
                     <Grid item xs={12} md={12} lg={12}>
                       <TextField
                         value={
-                          String(props.rangeTo3)
-                            ? props.rangeTo3
+                          String(information.rangeTo3)
+                            ? information.rangeTo3
                             : t('menu.metric-panel-dialog-show-detail-without-rank', 'Without rank')
                         }
                         disabled
@@ -308,7 +312,7 @@ export default function ShowDetailsDialog(props) {
 
                     <Grid item xs={12} md={12} lg={12}>
                       <TextField
-                        value={props.color3 ? props.color3 : '#00D800'}
+                        value={information.color3 ? information.color3 : '#00D800'}
                         disabled
                         label={t('menu.metric-panel-dialog-number-color', 'Color')}
                         type="color"

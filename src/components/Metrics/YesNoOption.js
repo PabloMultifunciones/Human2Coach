@@ -40,7 +40,7 @@ export default function YesNoOption(props) {
           id="points1"
           label={t('points.label', 'Points')}
           variant="outlined"
-          className="mt-2"
+          className="mt-1"
           fullWidth
         />
       </Grid>

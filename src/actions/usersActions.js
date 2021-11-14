@@ -90,11 +90,13 @@ export const saveUserRequest = (payload) => async (dispatch, getState) => {
       type: USERS_LIST_SAVE,
       payload: usersUpdated
     });
+    return 'SUCCESS';
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,
       payload: error.response ? error.response.data : error
     });
+    return 'ERROR';
   }
 };
 
@@ -125,11 +127,13 @@ export const updateUserRequest = (payload) => async (dispatch, getState) => {
       type: USERS_LIST_UPDATE,
       payload: usersUpdated
     });
+    return 'SUCCESS';
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,
       payload: error.response ? error.response.data : error
     });
+    return 'ERROR';
   }
 };
 
@@ -145,11 +149,13 @@ export const deleteUserRequest = (payload) => async (dispatch) => {
       type: payload.filterName === '' ? USERS_LIST_DELETE : USERS_LIST_DELETE_FILTERED,
       payload: payload.id
     });
+    return 'SUCCESS';
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,
       payload: error.response ? error.response.data : error
     });
+    return { error: error.response };
   }
 };
 

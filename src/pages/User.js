@@ -33,7 +33,8 @@ import GeneralFunctions from '../libs/GeneralFunctions';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Nombre', alignRight: false },
+  { id: 'name', label: 'Name', alignRight: false },
+  { id: 'username', label: 'Username', alignRight: false },
   { id: 'company', label: 'Company', alignRight: false },
   { id: 'status', label: 'State', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
@@ -125,11 +126,12 @@ function User(props) {
                       {(filterName === '' ? props.users : props.users_filtered)
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row, index) => {
-                          const { id, name, role, isActive, team } = row;
+                          const { id, username, name, role, isActive, team } = row;
 
                           return (
                             <TableRow hover key={index} tabIndex={-1} role="checkbox">
                               <TableCell align="left">{name}</TableCell>
+                              <TableCell align="left">{username}</TableCell>
                               <TableCell align="left">{team.name}</TableCell>
                               <TableCell align="left">
                                 <Label variant="ghost" color={(isActive && 'success') || 'error'}>
@@ -137,7 +139,6 @@ function User(props) {
                                 </Label>
                               </TableCell>
                               <TableCell align="left">{GeneralFunctions.getRole(role)}</TableCell>
-
                               <TableCell align="left">
                                 <UserDialog type="EDIT" {...row} />
                                 <DeleteDialog delete={() => deleteUser(id)} />

@@ -1,8 +1,5 @@
-import toastr from 'toastr';
 import * as usersTypes from '../types/usersTypes';
 import UserService from '../Services/UserService';
-
-import 'toastr/build/toastr.min.css';
 
 const {
   RESET_STATE,
@@ -79,13 +76,20 @@ export const saveUserRequest = (payload) => async (dispatch, getState) => {
     const responseLogin = await UserService.saveUser(payload);
 
     const { users } = getState().usersReducer;
-    const usersUpdated = [responseLogin.data, ...users];
+    const { teams } = getState().generalReducer;
+
+    const teamsFiltered = [...teams.content].filter(
+      (team) => team.id === responseLogin.data.team.id
+    );
+
+    const usersUpdated = [
+      { ...responseLogin.data, team: teamsFiltered.length > 0 ? teamsFiltered[0] : '' },
+      ...users
+    ];
     dispatch({
       type: USERS_LIST_SAVE,
       payload: usersUpdated
     });
-
-    toastr.success('The user was saved');
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,
@@ -111,14 +115,16 @@ export const updateUserRequest = (payload) => async (dispatch, getState) => {
     const usersUpdated = [...users];
     const findById = (user) => user.id === payload.id;
     const index = usersUpdated.findIndex(findById);
-    usersUpdated[index] = { ...payload, team: teamsFiltered.length > 0 ? teamsFiltered[0] : '' };
+    usersUpdated[index] = {
+      ...usersUpdated[index],
+      ...payload,
+      team: teamsFiltered.length > 0 ? teamsFiltered[0] : ''
+    };
 
     dispatch({
       type: USERS_LIST_UPDATE,
       payload: usersUpdated
     });
-
-    toastr.success('The user was updated');
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,
@@ -139,8 +145,6 @@ export const deleteUserRequest = (payload) => async (dispatch) => {
       type: payload.filterName === '' ? USERS_LIST_DELETE : USERS_LIST_DELETE_FILTERED,
       payload: payload.id
     });
-
-    toastr.success('The user is deleted');
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,

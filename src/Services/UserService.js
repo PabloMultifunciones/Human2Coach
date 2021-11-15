@@ -5,13 +5,13 @@ export default {
   getUsers: (number = 0, size = 7, order = 'desc') =>
     axios({
       method: 'GET',
-      url: `${environment.motivarnosBackend}/user?_number=${number}&_size=${size}&_sort=name_${order}`
+      url: `${environment.motivarnosBackend}/user?_number=${number}&_size=${size}&_sort=created_${order}`
     }),
 
   filterUsers: (number = 1, filter = '', size = 7, order = 'desc') =>
     axios({
       method: 'GET',
-      url: `${environment.motivarnosBackend}/user?_number=${number}&_size=${size}&username_like=%25${filter}%25&_sort=name_${order}`
+      url: `${environment.motivarnosBackend}/user?_number=${number}&_size=${size}&username_like=%25${filter}%25&_sort=created_${order}`
     }),
 
   saveUser: (data) =>

@@ -86,9 +86,9 @@ function User(props) {
     }
   };
 
-  const deleteUser = (id) => {
+  const deleteUser = async (id) => {
     let status;
-    props.deleteUserRequest({ id, filterName }).then((r) => (status = r));
+    await props.deleteUserRequest({ id, filterName }).then((r) => (status = r));
 
     if (status === 'SUCCESS') {
       toastr.success(

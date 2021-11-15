@@ -97,9 +97,9 @@ function Metric(props) {
     }
   };
 
-  const deleteMetric = (id) => {
+  const deleteMetric = async (id) => {
     let status;
-    props.deleteMetricRequest({ id, filterName }).then((r) => (status = r));
+    await props.deleteMetricRequest({ id, filterName }).then((r) => (status = r));
 
     if (status === 'SUCCESS') {
       toastr.success(t('menu.metric-panel-message-success-delete', 'Metric removed successfully'));

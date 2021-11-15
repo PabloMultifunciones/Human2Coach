@@ -12,13 +12,17 @@ const {
   METRICS_SAVE_CHARGING,
   METRICS_LIST_FILTERED_CHARGING,
   METRICS_LIST_ERROR,
-  METRICS_LIST_SAVED
+  METRICS_LIST_SAVED,
+  METRICS_IMPORT_CHARGING,
+  METRICS_IMPORT_ERROR
 } = metricsTypes;
 
 const INITIAL_STATE = {
   metrics: [],
   metrics_filtered: [],
   error_metrics: false,
+  error_import_metrics: false,
+  metrics_import_charging: false,
   metrics_charging: false,
   metrics_save_charging: false,
   totalElements: 0,
@@ -96,6 +100,9 @@ export default (state = INITIAL_STATE, action) => {
     case METRICS_LIST_CHARGING:
       return { ...state, metrics_charging: true, error_metrics: false };
 
+    case METRICS_IMPORT_CHARGING:
+      return { ...state, metrics_import_charging: true, error_import_metrics: false };
+
     case METRICS_SAVE_CHARGING:
       return { ...state, metrics_save_charging: true, error_metrics: false };
 
@@ -113,6 +120,16 @@ export default (state = INITIAL_STATE, action) => {
         error_metrics: action.payload,
         metrics_charging: false,
         metrics_save_charging: false
+      };
+
+    case METRICS_IMPORT_ERROR:
+      return {
+        ...state,
+        error_import_metrics: action.payload,
+        error_metrics: false,
+        metrics_charging: false,
+        metrics_save_charging: false,
+        metrics_import_charging: false
       };
 
     case METRICS_LIST_SAVED:

@@ -40,5 +40,41 @@ export default {
     axios({
       method: 'DELETE',
       url: `${environment.motivarnosBackend}/metricconf/${id}`
+    }),
+
+  setImportMetric: (data) =>
+    axios({
+      method: 'POST',
+      url: `${environment.motivarnosBackend}/importmetricdata/loadfile`,
+      data,
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }),
+
+  getImportMetrics: (number = 1, size = 5) =>
+    axios({
+      method: 'GET',
+      url: `${environment.motivarnosBackend}/importmetricdata?_number=${number - 1}&_size=${size}`
+    }),
+
+  savePreImportMetric: (data) =>
+    axios({
+      method: 'POST',
+      url: `${environment.motivarnosBackend}/importmetricdata/importfile`,
+      data
+    }),
+
+  saveImportMetric: (data) =>
+    axios({
+      method: 'POST',
+      url: `${environment.motivarnosBackend}/importmetricdata/importdata`,
+      data
+    }),
+
+  deleteImportMetric: (id) =>
+    axios({
+      method: 'DELETE',
+      url: `${environment.motivarnosBackend}/importmetricdata/${id}`
     })
 };

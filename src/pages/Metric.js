@@ -29,17 +29,18 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../components/_dashboard/user';
 //
 
+import ShowDetailsDialog from '../components/Dialogs/ShowDetailsDialog';
 import MetricDialog from '../components/Dialogs/MetricDialog';
 import DeleteDialog from '../components/Dialogs/DeleteDialog';
-import ShowDetailsDialog from '../components/Dialogs/ShowDetails';
+import MetricImportDialog from '../components/Dialogs/MetricImportDialog';
 
 import {
   getMetricsRequest,
   getMetricsFilterRequest,
-  deleteMetricRequest
+  deleteMetricRequest,
+  setImportMetricRequest
 } from '../actions/metricsActions';
 import Spinner from '../components/Spinner';
-
 import 'toastr/build/toastr.min.css';
 
 // ----------------------------------------------------------------------
@@ -59,6 +60,9 @@ const TABLE_HEAD = [
 
 function Metric(props) {
   const [page, setPage] = useState(0);
+  const [metricImports, setMetricImports] = useState(null);
+  const [viewImportMetrics, setViewImportMetrics] = useState(false);
+
   const [selected] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(7);
@@ -122,6 +126,25 @@ function Metric(props) {
     }
   };
 
+  const handleImport = async (e) => {
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    let status;
+    await props.setImportMetricRequest(formData).then((r) => (status = r));
+
+    if (status.status && status.status === 'SUCCESS') {
+      setMetricImports(status.responseLogin);
+      setViewImportMetrics(true);
+    } else {
+      toastr.error(
+        t(
+          'menu.metric-panel-message-error-import',
+          'An error occurred while trying to pre-import the CSV'
+        )
+      );
+    }
+  };
+
   const emptyRows =
     page > 0
       ? Math.max(
@@ -143,33 +166,34 @@ function Metric(props) {
 
           <div>
             <MetricDialog />
-            <Button className="button-table mr-1" variant="contained" color="primary">
-              <label htmlFor="avatar" className="d-flex">
-                <BackupIcon className="mr-1" />
-                Import
-                <input
-                  type="file"
-                  className="d-none"
-                  id="avatar"
-                  name="avatar"
-                  // onChange={(e) => this.handleImport(e)}
-                />
-              </label>
-            </Button>
+            {!props.metrics_charging && (
+              <Button className="button-table mr-1" variant="contained" color="primary">
+                <label htmlFor="avatar" className="d-flex">
+                  <BackupIcon className="mr-1" />
+                  Import
+                  <input
+                    type="file"
+                    className="d-none"
+                    id="avatar"
+                    name="avatar"
+                    onChange={(e) => handleImport(e)}
+                  />
+                </label>
+              </Button>
+            )}
           </div>
         </Stack>
 
         <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            onFilterName={handleFilterByName}
-            title="Search..."
-          />
-
           {props.metrics_charging ? (
             <Spinner />
           ) : (
             <>
+              <UserListToolbar
+                numSelected={selected.length}
+                onFilterName={handleFilterByName}
+                title="Search..."
+              />
               <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }}>
                   <Table>
@@ -303,6 +327,13 @@ function Metric(props) {
           )}
         </Card>
       </Container>
+
+      {viewImportMetrics && (
+        <MetricImportDialog
+          metricImports={metricImports}
+          backViewAndReload={() => setViewImportMetrics(false)}
+        />
+      )}
     </Page>
   );
 }
@@ -312,7 +343,8 @@ const mapStateToProps = ({ metricsReducer }) => metricsReducer;
 const mapDispatchToProps = {
   getMetricsRequest,
   getMetricsFilterRequest,
-  deleteMetricRequest
+  deleteMetricRequest,
+  setImportMetricRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Metric);

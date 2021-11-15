@@ -13,7 +13,9 @@ const {
   METRICS_LIST_DELETE,
   METRICS_LIST_DELETE_FILTERED,
   METRICS_LIST_ERROR,
-  METRICS_LIST_SAVED
+  METRICS_LIST_SAVED,
+  METRICS_IMPORT_CHARGING,
+  METRICS_IMPORT_ERROR
 } = metricsTypes;
 
 export const getMetricsRequest = (payload) => async (dispatch, getState) => {
@@ -148,4 +150,40 @@ export const resetState = () => async (dispatch) => {
   dispatch({
     type: RESET_STATE
   });
+};
+
+export const setImportMetricRequest = (payload) => async (dispatch) => {
+  try {
+    dispatch({
+      type: METRICS_LIST_CHARGING
+    });
+    const responseLogin = await MetricService.setImportMetric(payload);
+
+    dispatch({
+      type: RESET_STATE
+    });
+    return { status: 'SUCCESS', responseLogin };
+  } catch (error) {
+    dispatch({
+      type: METRICS_LIST_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+    return { error: error.response };
+  }
+};
+
+export const savePreImportMetricRequest = (payload) => async (dispatch) => {
+  try {
+    dispatch({
+      type: METRICS_IMPORT_CHARGING
+    });
+    await MetricService.savePreImportMetric(payload);
+    return 'SUCCESS';
+  } catch (error) {
+    dispatch({
+      type: METRICS_IMPORT_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+    return { error: error.response };
+  }
 };

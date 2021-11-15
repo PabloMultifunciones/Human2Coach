@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 import { useTranslation } from 'react-i18next';
+import Button from '@material-ui/core/Button';
+import BackupIcon from '@material-ui/icons/Backup';
 
 // material
 import {
@@ -25,7 +27,12 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../components/_dashboard/user';
 import UserDialog from '../components/Dialogs/UserDialog';
 import DeleteDialog from '../components/Dialogs/DeleteDialog';
-import { getUsersRequest, getUsersFilterRequest, deleteUserRequest } from '../actions/usersActions';
+import {
+  getUsersRequest,
+  getUsersFilterRequest,
+  deleteUserRequest,
+  setImportUserRequest
+} from '../actions/usersActions';
 import Spinner from '../components/Spinner';
 
 import GeneralFunctions from '../libs/GeneralFunctions';
@@ -104,6 +111,34 @@ function User(props) {
     }
   };
 
+  const handleImport = async (e) => {
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    let status;
+    await props.setImportUserRequest(formData).then((r) => (status = r));
+
+    if (status.status && status.status === 'SUCCESS') {
+      toastr.success(
+        t(
+          'admin.user-panel-message-success-save-import',
+          'Users are being imported, when it is ready we will notify you. Thanks'
+        )
+      );
+      return;
+    }
+
+    if (status.error && status.error.status === 422) {
+      toastr.error(status.data.message);
+    } else {
+      toastr.error(
+        t(
+          'admin.user-panel-message-error-save-import',
+          'It has happened when integrating the information'
+        )
+      );
+    }
+  };
+
   const emptyRows =
     page > 0
       ? Math.max(
@@ -123,7 +158,24 @@ function User(props) {
           <Typography variant="h4" gutterBottom>
             Users
           </Typography>
-          <UserDialog />
+          <div>
+            <UserDialog />
+            {!props.users_charging && (
+              <Button className="button-table ml-1" variant="contained" color="primary">
+                <label htmlFor="avatar" className="d-flex">
+                  <BackupIcon className="mr-1" />
+                  Import
+                  <input
+                    type="file"
+                    className="d-none"
+                    id="avatar"
+                    name="avatar"
+                    onChange={(e) => handleImport(e)}
+                  />
+                </label>
+              </Button>
+            )}
+          </div>
         </Stack>
 
         <Card>
@@ -205,7 +257,8 @@ const mapStateToProps = ({ usersReducer }) => usersReducer;
 const mapDispatchToProps = {
   getUsersRequest,
   getUsersFilterRequest,
-  deleteUserRequest
+  deleteUserRequest,
+  setImportUserRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);

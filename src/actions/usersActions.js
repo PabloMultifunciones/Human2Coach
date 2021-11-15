@@ -159,6 +159,27 @@ export const deleteUserRequest = (payload) => async (dispatch) => {
   }
 };
 
+export const setImportUserRequest = (payload) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USERS_LIST_CHARGING
+    });
+    await UserService.setImportUser(payload);
+    await UserService.saveImportUser();
+
+    dispatch({
+      type: RESET_STATE
+    });
+    return { status: 'SUCCESS' };
+  } catch (error) {
+    dispatch({
+      type: USERS_LIST_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+    return { error: error.response };
+  }
+};
+
 export const resetState = () => async (dispatch) => {
   dispatch({
     type: RESET_STATE

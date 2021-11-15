@@ -32,5 +32,40 @@ export default {
     axios({
       method: 'DELETE',
       url: `${environment.motivarnosBackend}/user/${id}`
+    }),
+  setImportUser: (data) =>
+    axios({
+      method: 'POST',
+      url: `${environment.motivarnosBackend}/importuser/loadfile`,
+      data,
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }),
+
+  getImportUsers: (number = 1, size = 5) =>
+    axios({
+      method: 'GET',
+      url: `${environment.motivarnosBackend}/importuser?_number=${number - 1}&_size=${size}`
+    }),
+
+  saveImportUser: (data) =>
+    axios({
+      method: 'POST',
+      url: `${environment.motivarnosBackend}/importuser/importdata`,
+      data
+    }),
+
+  updateImportUser: (data) =>
+    axios({
+      method: 'PUT',
+      url: `${environment.motivarnosBackend}/importuser`,
+      data
+    }),
+
+  deleteImportUser: (id) =>
+    axios({
+      method: 'DELETE',
+      url: `${environment.motivarnosBackend}/importuser/${id}`
     })
 };

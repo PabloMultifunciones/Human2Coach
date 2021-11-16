@@ -19,7 +19,14 @@ function AxiosConf() {
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+      const sesion = JSON.parse(localStorage.getItem('sesion'));
+
+      const conditional =
+        sesion && sesion !== null && sesion !== 'undefined'
+          ? error.response.status === 401 || error.response.status === 403
+          : error.response.status === 403;
+
+      if (error.response && conditional) {
         localStorage.clear();
         window.location = '/';
       } else {

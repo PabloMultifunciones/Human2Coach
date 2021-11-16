@@ -1,6 +1,7 @@
 // material
 import { Box, Grid, Container, Typography } from '@material-ui/core';
 import faker from 'faker';
+import GeneralFunctions from '../libs/GeneralFunctions';
 
 // components
 import Page from '../components/Page';
@@ -101,7 +102,7 @@ export default function DashboardApp() {
     <Page title="Dashboard | Human2Coach">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Hola, Rodrigo Borgia</Typography>
+          <Typography variant="h4">Hola, {GeneralFunctions.getNameSession()}</Typography>
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={12}>

@@ -1,7 +1,8 @@
 // ----------------------------------------------------------------------
+import GeneralFunctions from '../libs/GeneralFunctions';
 
 const account = {
-  displayName: 'Rodrigo Borgia',
+  displayName: GeneralFunctions.getNameSession(),
   email: 'demo@minimals.cc',
   photoURL: '/static/mock-images/avatars/avatar_default.jpg'
 };

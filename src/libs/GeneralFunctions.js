@@ -84,5 +84,13 @@ export default {
       arrayFormatted.push(element.id);
     });
     return arrayFormatted;
+  },
+
+  getNameSession() {
+    if (localStorage.getItem('sesion')) {
+      const sesion = JSON.parse(localStorage.getItem('sesion'));
+      return `${sesion.user.name} ${sesion.user.lastName}`;
+    }
+    return '';
   }
 };

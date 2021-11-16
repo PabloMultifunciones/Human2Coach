@@ -66,6 +66,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         users: action.payload,
+        users_charging: false,
         error_users: false,
         users_save_charging: false
       };
@@ -73,6 +74,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         users: action.payload,
+        users_charging: false,
         error_users: false,
         users_save_charging: false
       };

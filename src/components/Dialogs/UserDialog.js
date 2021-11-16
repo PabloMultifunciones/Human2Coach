@@ -206,7 +206,7 @@ function UserDialog(props) {
         </Tooltip>
       ) : (
         <Button variant="contained" onClick={handleClickOpen} startIcon={<Icon icon={plusFill} />}>
-          Nuevo usuario
+          New user
         </Button>
       )}
 

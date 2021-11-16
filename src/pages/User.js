@@ -5,6 +5,7 @@ import toastr from 'toastr';
 import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import BackupIcon from '@material-ui/icons/Backup';
+import Tooltip from '@material-ui/core/Tooltip';
 
 // material
 import {
@@ -20,17 +21,19 @@ import {
   TablePagination
 } from '@material-ui/core';
 // components
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../components/_dashboard/user';
 import UserDialog from '../components/Dialogs/UserDialog';
-import DeleteDialog from '../components/Dialogs/DeleteDialog';
 import {
   getUsersRequest,
   getUsersFilterRequest,
   deleteUserRequest,
+  disableUserRequest,
   setImportUserRequest
 } from '../actions/usersActions';
 import Spinner from '../components/Spinner';
@@ -93,9 +96,9 @@ function User(props) {
     }
   };
 
-  const deleteUser = async (id) => {
+  const disableUser = async (id) => {
     let status;
-    await props.deleteUserRequest({ id, filterName }).then((r) => (status = r));
+    await props.disableUserRequest({ id }).then((r) => (status = r));
 
     if (status === 'SUCCESS') {
       toastr.success(
@@ -211,7 +214,12 @@ function User(props) {
                               <TableCell align="left">{GeneralFunctions.getRole(role)}</TableCell>
                               <TableCell align="left">
                                 <UserDialog type="EDIT" {...row} />
-                                <DeleteDialog delete={() => deleteUser(id)} />
+
+                                {row.isActive && (
+                                  <Tooltip title="Disable">
+                                    <RemoveCircleIcon onClick={() => disableUser(id)} />
+                                  </Tooltip>
+                                )}
                               </TableCell>
                             </TableRow>
                           );
@@ -258,6 +266,7 @@ const mapDispatchToProps = {
   getUsersRequest,
   getUsersFilterRequest,
   deleteUserRequest,
+  disableUserRequest,
   setImportUserRequest
 };
 

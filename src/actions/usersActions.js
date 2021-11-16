@@ -159,6 +159,37 @@ export const deleteUserRequest = (payload) => async (dispatch) => {
   }
 };
 
+export const disableUserRequest = (payload) => async (dispatch, getState) => {
+  dispatch({
+    type: USERS_LIST_CHARGING
+  });
+
+  try {
+    await UserService.deleteUser(payload.id);
+    const { users } = getState().usersReducer;
+    const usersUpdated = [...users];
+    const findById = (user) => user.id === payload.id;
+    const index = usersUpdated.findIndex(findById);
+    usersUpdated[index] = {
+      ...usersUpdated[index],
+      isActive: false
+    };
+
+    dispatch({
+      type: USERS_LIST_UPDATE,
+      payload: usersUpdated
+    });
+
+    return 'SUCCESS';
+  } catch (error) {
+    dispatch({
+      type: USERS_LIST_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+    return { error: error.response };
+  }
+};
+
 export const setImportUserRequest = (payload) => async (dispatch) => {
   try {
     dispatch({

@@ -216,11 +216,11 @@ function Metric(props) {
                           return (
                             <TableRow hover key={id} tabIndex={-1}>
                               <TableCell align="left">
-                                {name.length > 30 ? `${name.substring(0, 30)} ...` : name}
+                                {name.length > 20 ? `${name.substring(0, 20)} ...` : name}
                               </TableCell>
                               <TableCell align="left">
-                                {description.length > 30
-                                  ? `${description.substring(0, 30)} ...`
+                                {description.length > 20
+                                  ? `${description.substring(0, 20)} ...`
                                   : description}
                               </TableCell>
                               <TableCell align="left">

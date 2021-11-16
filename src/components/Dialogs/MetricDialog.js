@@ -65,7 +65,6 @@ function MetricDialog(props) {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
-    getContentAnchorEl: () => null,
     PaperProps: {
       style: {
         maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
@@ -446,6 +445,7 @@ function MetricDialog(props) {
     });
 
     const json = {
+      id: props.id ? props.id : null,
       color1: color1 || 'red',
       color2: color2 || 'yellow',
       color3: color3 || 'green',

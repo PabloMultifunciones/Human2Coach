@@ -107,6 +107,7 @@ function Metric(props) {
 
     if (status === 'SUCCESS') {
       toastr.success(t('menu.metric-panel-message-success-delete', 'Metric removed successfully'));
+      return;
     }
 
     if (status.error && status.error.status === 400) {

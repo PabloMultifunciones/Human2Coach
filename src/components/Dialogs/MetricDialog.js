@@ -31,10 +31,7 @@ import { updateMetricRequest, saveMetricRequest, resetState } from '../../action
 
 import FindRegistersDialog from './FindRegistersDialog';
 import YesNoOption from '../Metrics/YesNoOption';
-import NumberOption from '../Metrics/NumberOption';
-import TimeOption from '../Metrics/TimeOption';
-import Percentage from '../Metrics/Percentage';
-import Multiplier from '../Metrics/Multiplier';
+
 import Spinner from '../Spinner';
 import GeneralFunctions from '../../libs/GeneralFunctions';
 
@@ -878,90 +875,6 @@ function MetricDialog(props) {
                     points1={points1}
                     rangeFrom1={rangeFrom1}
                     setData={(data) => handleData(data)}
-                  />
-                </>
-              )}
-
-              {type === 'NUMBER' && (
-                <>
-                  <hr className="w-100 mt-2" />{' '}
-                  <NumberOption
-                    setData={(data) => handleData(data)}
-                    color1={color1}
-                    color2={color2}
-                    color3={color3}
-                    points1={points1}
-                    points2={points2}
-                    points3={points3}
-                    rangeFrom1={rangeFrom1}
-                    rangeFrom2={rangeFrom2}
-                    rangeFrom3={rangeFrom3}
-                    rangeto1={rangeto1}
-                    rangeto2={rangeto2}
-                    rangeto3={rangeto3}
-                  />
-                </>
-              )}
-
-              {type === 'TIME' && (
-                <>
-                  <hr className="w-100 mt-2" />{' '}
-                  <TimeOption
-                    setData={(data) => handleData(data)}
-                    color1={color1}
-                    color2={color2}
-                    color3={color3}
-                    points1={points1}
-                    points2={points2}
-                    points3={points3}
-                    rangeFrom1={rangeFrom1}
-                    rangeFrom2={rangeFrom2}
-                    rangeFrom3={rangeFrom3}
-                    rangeto1={rangeto1}
-                    rangeto2={rangeto2}
-                    rangeto3={rangeto3}
-                  />
-                </>
-              )}
-
-              {type === 'PERCENT' && (
-                <>
-                  <hr className="w-100 mt-2" />{' '}
-                  <Percentage
-                    setData={(data) => handleData(data)}
-                    color1={color1}
-                    color2={color2}
-                    color3={color3}
-                    points1={points1}
-                    points2={points2}
-                    points3={points3}
-                    rangeFrom1={rangeFrom1}
-                    rangeFrom2={rangeFrom2}
-                    rangeFrom3={rangeFrom3}
-                    rangeto1={rangeto1}
-                    rangeto2={rangeto2}
-                    rangeto3={rangeto3}
-                  />
-                </>
-              )}
-
-              {type === 'MULTIPLIER' && (
-                <>
-                  <hr className="w-100 mt-2" />{' '}
-                  <Multiplier
-                    setData={(data) => handleData(data)}
-                    color1={color1}
-                    color2={color2}
-                    color3={color3}
-                    points1={points1}
-                    points2={points2}
-                    points3={points3}
-                    rangeFrom1={rangeFrom1}
-                    rangeFrom2={rangeFrom2}
-                    rangeFrom3={rangeFrom3}
-                    rangeto1={rangeto1}
-                    rangeto2={rangeto2}
-                    rangeto3={rangeto3}
                   />
                 </>
               )}

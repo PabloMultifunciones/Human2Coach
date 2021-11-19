@@ -17,25 +17,25 @@ import { TableFeedback } from '../_dashboard/app';
 const metrics = [
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Casos',
+    metric: 'CSAT cases',
     objective: 89
   },
 
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Chat',
+    metric: 'CSAT chat',
     objective: 63
   },
 
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Chat',
+    metric: 'CSAT chat',
     objective: 78
   },
 
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Casos',
+    metric: 'CSAT cases',
     objective: 54
   }
 ];

@@ -17,31 +17,39 @@ import TimeEntryFollowDialog from './Dialogs/TimeEntryFollowDialog';
 
 import 'toastr/build/toastr.min.css';
 
-import { TableFeedback } from './_dashboard/app';
+import { TableFeedbackDone } from './_dashboard/app';
 
 const metrics = [
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Casos',
-    objective: 89
+    metric: 'CSAT cases',
+    objective: 89,
+    wbefore: 89,
+    wafter: 89
   },
 
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Chat',
-    objective: 63
+    metric: 'CSAT chat',
+    objective: 63,
+    wbefore: 89,
+    wafter: 89
   },
 
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Chat',
-    objective: 78
+    metric: 'CSAT chat',
+    objective: 78,
+    wbefore: 89,
+    wafter: 89
   },
 
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Casos',
-    objective: 54
+    metric: 'CSAT cases',
+    objective: 54,
+    wbefore: 89,
+    wafter: 89
   }
 ];
 
@@ -154,6 +162,7 @@ export default function EntryFollowForm() {
     {
       collaborator,
       feedback,
+      dashboard,
       comments,
       notes,
       sick,
@@ -168,6 +177,7 @@ export default function EntryFollowForm() {
     confidence: false,
     collaborator: '',
     feedback: '',
+    dashboard: '',
     comments: '',
     notes: '',
     sick: false,
@@ -182,6 +192,8 @@ export default function EntryFollowForm() {
     return [
       { id: 'metric', label: 'Métrica', alignRight: false },
       { id: 'objective', label: 'Objetivo', alignRight: false },
+      { id: 'wbefore', label: 'W44 (25/10/2021)', alignRight: false },
+      { id: 'wafter', label: 'W44 (01/11/2021)', alignRight: false },
       { id: 'check', label: 'Check', alignRight: false }
     ];
   }
@@ -226,7 +238,7 @@ export default function EntryFollowForm() {
             </Grid>
 
             {collaborator && collaborator !== '' && (
-              <Grid item xs={12} sm={12} md={12} lg={12}>
+              <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex">
                 <FormControl component="fieldset">
                   <FormLabel component="legend">Tipo de feedback</FormLabel>
                   <RadioGroup
@@ -245,11 +257,26 @@ export default function EntryFollowForm() {
                     />
                   </RadioGroup>
                 </FormControl>
+
+                <FormControl component="fieldset" className="ml-30-percent">
+                  <RadioGroup
+                    aria-label="dashboard"
+                    name="dashboard"
+                    value={dashboard}
+                    onChange={(event, value) => {
+                      handleChange(event, value);
+                    }}
+                  >
+                    <FormControlLabel value="oneon" control={<Radio />} label="One on" />
+                    <FormControlLabel value="pds" control={<Radio />} label="PDS" />
+                    <FormControlLabel value="pi" control={<Radio />} label="PI" />
+                  </RadioGroup>
+                </FormControl>
               </Grid>
             )}
             {feedback === 'objective' && (
               <Grid item xs={12} sm={12} md={12} lg={12}>
-                <TableFeedback title="" tableHead={getTablehead()} metrics={metrics} newPlan />
+                <TableFeedbackDone title="" tableHead={getTablehead()} metrics={metrics} newPlan />
               </Grid>
             )}
             {feedback && feedback !== '' && (

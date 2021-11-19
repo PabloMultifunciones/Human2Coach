@@ -15,6 +15,10 @@
   min-width: 250px;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .d-none {
   display: none;
 }
@@ -38,6 +42,10 @@
   margin-top: 2rem !important;
 }
 
+.p-1 {
+  padding: 1rem !important;
+}
+
 .w-100 {
   width: 100% !important;
 }
@@ -55,6 +63,10 @@
   display: flex !important;
   align-content: center !important;
   justify-content: space-between;
+}
+
+.space-around {
+  justify-content: space-around;
 }
 
 .cursor-pointer {
@@ -179,6 +191,10 @@
   .MuiListItem-root {
     padding-left: 0px !important;
   }
+}
+
+.ml-30-percent {
+  margin-left: 30%;
 }
 
 @media (max-width: 600px) {

@@ -18,25 +18,33 @@ const metrics = [
   {
     id: faker.datatype.uuid(),
     metric: 'CSAT cases',
-    objective: 89
+    objective: 89,
+    wbefore: 89,
+    wafter: 89
   },
 
   {
     id: faker.datatype.uuid(),
     metric: 'CSAT chat',
-    objective: 63
+    objective: 63,
+    wbefore: 89,
+    wafter: 89
   },
 
   {
     id: faker.datatype.uuid(),
     metric: 'CSAT chat',
-    objective: 78
+    objective: 78,
+    wbefore: 89,
+    wafter: 89
   },
 
   {
     id: faker.datatype.uuid(),
     metric: 'CSAT cases',
-    objective: 54
+    objective: 54,
+    wbefore: 89,
+    wafter: 89
   }
 ];
 
@@ -63,7 +71,8 @@ const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle className={classes.root} {...other}>
-      {children}{' '}
+      {children}
+
       {onClose ? (
         <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
           <CloseIcon />
@@ -94,6 +103,8 @@ export default function FeedbackDialog() {
     return [
       { id: 'metric', label: 'Métrica', alignRight: false },
       { id: 'objective', label: 'Objetivo', alignRight: false },
+      { id: 'wbefore', label: 'W44 (25/10/2021)', alignRight: false },
+      { id: 'wafter', label: 'W44 (01/11/2021)', alignRight: false },
       { id: 'check', label: 'Check', alignRight: false }
     ];
   }
@@ -114,7 +125,7 @@ export default function FeedbackDialog() {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Feedback por objetivo
+          Feedback por objetivo (W45: 08/11/2021)
         </DialogTitle>
 
         <>

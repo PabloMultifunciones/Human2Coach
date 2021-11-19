@@ -19,7 +19,7 @@ import { UserListHead } from '../user';
 
 // ----------------------------------------------------------------------
 
-export default function TableFeedback({ title, tableHead, metrics, disabled, newPlan }) {
+export default function TableFeedbackDone({ title, tableHead, metrics, disabled, newPlan }) {
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
@@ -50,6 +50,7 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
       )}
 
       <Card>
+        <h4 className="p-1">Feedback por objetivo (W45: 08/11/2021)</h4>
         <Scrollbar>
           <TableContainer>
             <Table>
@@ -61,7 +62,6 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
                 numSelected={selected.length}
                 onRequestSort={handleRequestSort}
                 onSelectAllClick={handleSelectAllClick}
-                textCenter
               />
               <TableBody>
                 {metrics.map((row) => (
@@ -71,7 +71,6 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
                     <TableCell align="left">{row.objective}</TableCell>
                     <TableCell align="left">{row.wbefore}</TableCell>
                     <TableCell align="left">{row.wafter}</TableCell>
-
                     <TableCell align="left">
                       <Checkbox
                         color="primary"

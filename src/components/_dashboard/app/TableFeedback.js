@@ -49,9 +49,12 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
     console.log(ref);
 
     if (ref && ref.classList.contains('selected-cell')) {
+      ref.classList.add('not-selected-cell');
+
       ref.classList.remove('selected-cell');
     } else {
       ref.classList.add('selected-cell');
+      ref.classList.remove('not-selected-cell');
     }
   };
 
@@ -81,7 +84,13 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
               />
               <TableBody>
                 {metrics.map((row, i) => (
-                  <TableRow hover key={row.id} tabIndex={-1} ref={(el) => (myRefs.current[i] = el)}>
+                  <TableRow
+                    hover
+                    key={row.id}
+                    tabIndex={-1}
+                    ref={(el) => (myRefs.current[i] = el)}
+                    className="not-selected-cell"
+                  >
                     <TableCell align="left">{row.metric}</TableCell>
 
                     <TableCell align="left">{row.objective}</TableCell>

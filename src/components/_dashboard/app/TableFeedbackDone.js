@@ -19,7 +19,7 @@ import { UserListHead } from '../user';
 
 // ----------------------------------------------------------------------
 
-export default function TableFeedbackDone({ title, tableHead, metrics, disabled, newPlan }) {
+export default function TableFeedbackDone({ title, tableHead, metrics, newPlan }) {
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
@@ -65,9 +65,8 @@ export default function TableFeedbackDone({ title, tableHead, metrics, disabled,
               />
               <TableBody>
                 {metrics.map((row) => (
-                  <TableRow hover key={row.id} tabIndex={-1}>
+                  <TableRow hover key={row.id} tabIndex={-1} className="selected-cell">
                     <TableCell align="left">{row.metric}</TableCell>
-
                     <TableCell align="left">{row.objective}</TableCell>
                     <TableCell align="left">{row.wbefore}</TableCell>
                     <TableCell align="left">{row.wafter}</TableCell>
@@ -75,7 +74,7 @@ export default function TableFeedbackDone({ title, tableHead, metrics, disabled,
                       <Checkbox
                         color="primary"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
-                        disabled={disabled}
+                        checked
                       />
                     </TableCell>
                   </TableRow>

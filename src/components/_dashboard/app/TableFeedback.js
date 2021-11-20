@@ -11,6 +11,9 @@ import {
   TableContainer
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
+import { connect } from 'react-redux';
+
+import { setMetricsSelected, deleteMetricsSelected } from '../../../actions/plansActions';
 
 // components
 import Scrollbar from '../../Scrollbar';
@@ -19,7 +22,15 @@ import { UserListHead } from '../user';
 
 // ----------------------------------------------------------------------
 
-export default function TableFeedback({ title, tableHead, metrics, disabled, newPlan }) {
+function TableFeedback({
+  title,
+  tableHead,
+  metrics,
+  disabled,
+  newPlan,
+  setMetricsSelected,
+  deleteMetricsSelected
+}) {
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
@@ -45,16 +56,15 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
     setSelected([]);
   };
 
-  const setClassToCell = (ref) => {
-    console.log(ref);
-
+  const setClassToCell = (ref, row) => {
     if (ref && ref.classList.contains('selected-cell')) {
       ref.classList.add('not-selected-cell');
-
       ref.classList.remove('selected-cell');
+      deleteMetricsSelected(row);
     } else {
       ref.classList.add('selected-cell');
       ref.classList.remove('not-selected-cell');
+      setMetricsSelected(row);
     }
   };
 
@@ -92,14 +102,13 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
                     className="not-selected-cell"
                   >
                     <TableCell align="left">{row.metric}</TableCell>
-
                     <TableCell align="left">{row.objective}</TableCell>
                     <TableCell align="left">{row.wbefore}</TableCell>
                     <TableCell align="left">{row.wafter}</TableCell>
 
                     <TableCell align="left">
                       <Checkbox
-                        onClick={() => setClassToCell(myRefs.current[i])}
+                        onClick={() => setClassToCell(myRefs.current[i], row)}
                         color="primary"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                         disabled={disabled}
@@ -115,3 +124,10 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
     </>
   );
 }
+
+const mapDispatchToProps = {
+  setMetricsSelected,
+  deleteMetricsSelected
+};
+
+export default connect(null, mapDispatchToProps)(TableFeedback);

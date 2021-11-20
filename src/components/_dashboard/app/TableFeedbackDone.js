@@ -11,6 +11,7 @@ import {
   TableContainer
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
+import { connect } from 'react-redux';
 
 // components
 import Scrollbar from '../../Scrollbar';
@@ -19,7 +20,7 @@ import { UserListHead } from '../user';
 
 // ----------------------------------------------------------------------
 
-export default function TableFeedbackDone({ title, tableHead, metrics, newPlan }) {
+function TableFeedbackDone({ title, tableHead, metrics, newPlan, metricsSelected }) {
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
@@ -49,41 +50,47 @@ export default function TableFeedbackDone({ title, tableHead, metrics, newPlan }
         </Stack>
       )}
 
-      <Card>
-        <h4 className="p-1">Feedback por objetivo (W45: 08/11/2021)</h4>
-        <Scrollbar>
-          <TableContainer>
-            <Table>
-              <UserListHead
-                order={order}
-                orderBy={orderBy}
-                headLabel={tableHead}
-                rowCount={metrics.length}
-                numSelected={selected.length}
-                onRequestSort={handleRequestSort}
-                onSelectAllClick={handleSelectAllClick}
-              />
-              <TableBody>
-                {metrics.map((row) => (
-                  <TableRow hover key={row.id} tabIndex={-1} className="selected-cell">
-                    <TableCell align="left">{row.metric}</TableCell>
-                    <TableCell align="left">{row.objective}</TableCell>
-                    <TableCell align="left">{row.wbefore}</TableCell>
-                    <TableCell align="left">{row.wafter}</TableCell>
-                    <TableCell align="left">
-                      <Checkbox
-                        color="primary"
-                        inputProps={{ 'aria-label': 'secondary checkbox' }}
-                        checked
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Scrollbar>
-      </Card>
+      {metricsSelected.length > 0 && (
+        <Card>
+          <h4 className="p-1">Feedback por objetivo (W45: 08/11/2021)</h4>
+          <Scrollbar>
+            <TableContainer>
+              <Table>
+                <UserListHead
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={tableHead}
+                  rowCount={metricsSelected.length}
+                  numSelected={selected.length}
+                  onRequestSort={handleRequestSort}
+                  onSelectAllClick={handleSelectAllClick}
+                />
+                <TableBody>
+                  {metricsSelected.map((row) => (
+                    <TableRow hover key={row.id} tabIndex={-1} className="selected-cell">
+                      <TableCell align="left">{row.metric}</TableCell>
+                      <TableCell align="left">{row.objective}</TableCell>
+                      <TableCell align="left">{row.wbefore}</TableCell>
+                      <TableCell align="left">{row.wafter}</TableCell>
+                      <TableCell align="left">
+                        <Checkbox
+                          color="primary"
+                          inputProps={{ 'aria-label': 'secondary checkbox' }}
+                          checked
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+        </Card>
+      )}
     </>
   );
 }
+
+const mapStateToProps = ({ plansReducer }) => plansReducer;
+
+export default connect(mapStateToProps, null)(TableFeedbackDone);

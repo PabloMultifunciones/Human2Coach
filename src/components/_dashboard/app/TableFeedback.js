@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 // material
 import {
   Card,
@@ -24,6 +24,12 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
 
+  const myRefs = useRef([]);
+
+  useEffect(() => {
+    myRefs.current = myRefs.current.slice(0, metrics.length);
+  }, [metrics]);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -37,6 +43,16 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
       return;
     }
     setSelected([]);
+  };
+
+  const setClassToCell = (ref) => {
+    console.log(ref);
+
+    if (ref && ref.classList.contains('selected-cell')) {
+      ref.classList.remove('selected-cell');
+    } else {
+      ref.classList.add('selected-cell');
+    }
   };
 
   return (
@@ -64,8 +80,8 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
                 textCenter
               />
               <TableBody>
-                {metrics.map((row) => (
-                  <TableRow hover key={row.id} tabIndex={-1}>
+                {metrics.map((row, i) => (
+                  <TableRow hover key={row.id} tabIndex={-1} ref={(el) => (myRefs.current[i] = el)}>
                     <TableCell align="left">{row.metric}</TableCell>
 
                     <TableCell align="left">{row.objective}</TableCell>
@@ -74,6 +90,7 @@ export default function TableFeedback({ title, tableHead, metrics, disabled, new
 
                     <TableCell align="left">
                       <Checkbox
+                        onClick={() => setClassToCell(myRefs.current[i])}
                         color="primary"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                         disabled={disabled}

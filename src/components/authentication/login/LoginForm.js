@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
 import { Icon } from '@iconify/react';
+import toastr from 'toastr';
+
 // material
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router-dom';
@@ -22,6 +24,10 @@ import {
   // FormControlLabel
 } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
+import GoogleLogin from 'react-google-login';
+import environment from '../../../libs/environment';
+import 'toastr/build/toastr.min.css';
+
 import { loginRequest, loginTalkDeskRequest } from '../../../actions/loginActions';
 
 // ----------------------------------------------------------------------
@@ -55,15 +61,22 @@ function LoginForm(props) {
     props.loginTalkDeskRequest({ ...formik.values, type: 'talkdesk' });
   };
 
+  const loginGmailHandler = (data) => {
+    props.loginRequest(data);
+  };
+
+  const loginGmailHandlerError = () => {
+    toastr.error('An error has occurred while trying to login');
+  };
+
   if (props.user_logged) {
     return <Navigate to="/dashboard" />;
   }
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={2} className="d-flex-between">
           <Button
-            fullWidth
             size="large"
             color="secondary"
             variant="contained"
@@ -72,6 +85,15 @@ function LoginForm(props) {
           >
             TALDESK LOGIN
           </Button>
+
+          <GoogleLogin
+            clientId={`${environment.googleClientID}`}
+            buttonText="Log in with Google"
+            onSuccess={loginGmailHandler}
+            onFailure={loginGmailHandlerError}
+            cookiePolicy="single_host_origin"
+            className="mb-1"
+          />
         </Stack>
 
         <Divider sx={{ my: 3 }}>

@@ -8,6 +8,22 @@
   }
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.d-flex {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.d-flex-between {
+  display: flex !important;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .not-selected-cell {
   opacity: 0.7;
 }

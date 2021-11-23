@@ -267,9 +267,9 @@ export default function EntryFollowForm() {
                       handleChange(event, value);
                     }}
                   >
-                    <FormControlLabel value="oneon" control={<Radio />} label="One on" />
+                    <FormControlLabel value="oneon" control={<Radio />} label="One on one" />
                     <FormControlLabel value="pds" control={<Radio />} label="PDS" />
-                    <FormControlLabel value="pi" control={<Radio />} label="PI" />
+                    <FormControlLabel value="pi" control={<Radio />} label="PIP" />
                   </RadioGroup>
                 </FormControl>
               </Grid>

@@ -2,9 +2,9 @@ import { Icon } from '@iconify/react';
 import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
 import peopleFill from '@iconify/icons-eva/people-fill';
 import pieChartFill from '@iconify/icons-eva/pie-chart-fill';
-import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+// import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
-import alertCircleFill from '@iconify/icons-eva/alert-circle-fill';
+// import alertCircleFill from '@iconify/icons-eva/alert-circle-fill';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +26,8 @@ const sidebarConfig = [
     path: '/dashboard/plans',
     icon: getIcon(clipboardOutline)
   },
+  /* 
+  
   {
     title: 'Pendientes',
     path: '/dashboard/pending',
@@ -35,7 +37,7 @@ const sidebarConfig = [
     title: 'Alertas',
     path: '/dashboard/alerts',
     icon: getIcon(alertCircleFill)
-  },
+  }, */
 
   {
     title: 'Métricas',
@@ -47,13 +49,13 @@ const sidebarConfig = [
     title: 'Usuarios',
     path: '/dashboard/users',
     icon: getIcon(peopleFill)
-  },
+  }
 
-  {
+  /* {
     title: 'Conocimiento',
     path: '/dashboard/knowledge',
     icon: <LiveHelpIcon />
-  }
+  } */
 ];
 
 export default sidebarConfig;

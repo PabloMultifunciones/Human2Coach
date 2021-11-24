@@ -62,7 +62,12 @@ function LoginForm(props) {
   };
 
   const loginGmailHandler = (data) => {
-    props.loginRequest(data);
+    props.loginRequest({
+      company: formik.values.company,
+      tokenId: data.tokenId,
+      useremail: '',
+      type: 'gmail'
+    });
   };
 
   const loginGmailHandlerError = () => {
@@ -87,6 +92,7 @@ function LoginForm(props) {
           </Button>
 
           <GoogleLogin
+            disabled={formik.values.company === ''}
             clientId={`${environment.googleClientID}`}
             buttonText="Log in with Google"
             onSuccess={loginGmailHandler}

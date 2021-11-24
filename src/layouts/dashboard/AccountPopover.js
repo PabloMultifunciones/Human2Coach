@@ -24,9 +24,9 @@ const MENU_OPTIONS = [
     linkTo: '/'
   },
   {
-    label: 'Profile',
+    label: 'Avatar',
     icon: personFill,
-    linkTo: '#'
+    linkTo: '/dashboard//avatar'
   },
   {
     label: 'Settings',
@@ -48,7 +48,7 @@ function AccountPopover(props) {
     setOpen(false);
   };
 
-  if (!props.user_logged) {
+  if (!props.userLogged) {
     return <Navigate to="/" />;
   }
 

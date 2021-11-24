@@ -3,7 +3,7 @@ import * as loginTypes from '../types/loginTypes';
 const { LOGIN_CHARGING, LOGIN_ERROR, LOGIN_REQUEST, LOGOUT_REQUEST } = loginTypes;
 
 const INITIAL_STATE = {
-  user_logged: localStorage.getItem('sesion') ? JSON.parse(localStorage.getItem('sesion')) : null,
+  userLogged: localStorage.getItem('sesion') ? JSON.parse(localStorage.getItem('sesion')) : null,
   login_charging: false,
   error: false
 };
@@ -14,12 +14,12 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         login_charging: false,
-        user_logged: action.payload,
+        userLogged: action.payload,
         error: false
       };
 
     case LOGOUT_REQUEST:
-      return { ...INITIAL_STATE, user_logged: null };
+      return { ...INITIAL_STATE, userLogged: null };
 
     case LOGIN_CHARGING:
       return { ...state, login_charging: true, error: false };

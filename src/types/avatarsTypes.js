@@ -1,0 +1,7 @@
+export const RESET_STATE = 'RESET_STATE';
+
+export const SET_AVATAR_REQUEST = 'SET_AVATAR_REQUEST';
+
+export const AVATAR_CHARGING = 'AVATAR_CHARGING';
+
+export const AVATAR_ERROR = 'AVATAR_CHARGING';

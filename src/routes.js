@@ -6,6 +6,8 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import Login from './pages/Login';
 import RecoverPassword from './pages/RecoverPassword';
 import Blog from './pages/Blog';
+import Avatar from './pages/Avatar';
+
 import NotFound from './pages/Page404';
 
 // ----------------------------------------------------------------------CUSTOM PAGES
@@ -51,7 +53,8 @@ export default function Router() {
         { path: 'knowledge', element: <Knowledge /> },
         { path: 'process/detail', element: <ProcessDetail /> },
         { path: 'sub-process/detail', element: <SubProcessDetail /> },
-        { path: 'blog', element: <Blog /> }
+        { path: 'blog', element: <Blog /> },
+        { path: 'avatar', element: <Avatar /> }
       ]
     },
     {

@@ -62,7 +62,7 @@ function RegisterForm(props) {
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
-  if (props.user_logged) {
+  if (props.userLogged) {
     return <Navigate to="/dashboard" />;
   }
 

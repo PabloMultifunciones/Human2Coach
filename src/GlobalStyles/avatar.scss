@@ -1,0 +1,226 @@
+.avatar-page-wrapper{
+    position: relative;
+    z-index: 1;
+    color: var(--warm-purple);
+    display: flex;
+    .sum-points{
+       position: absolute;
+       display: flex;
+       align-items: center;
+       background-color: #fff;
+       border: 2px solid var(--warm-purple);
+       border-radius: 2em;
+       right: 0;
+       top: 0;
+       padding: .25em 1em;
+       img{
+         width: 2em;
+         margin-right: .5em;
+       }
+    }
+    .avatar-custom-control{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50%;
+        .avatar-items-control{
+            border-radius: .5em;
+            overflow: hidden;
+            //border: 2px solid var(--warm-purple);
+            //background-color: #fff;
+            margin-top: 1em;
+            width: 70%;
+            ul{
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-wrap: wrap;
+                position: relative;
+                width: 100%;
+                justify-content: center;
+                li{
+                    border: 2px solid var(--warm-purple);
+                    list-style: none;
+                    width: 25%;
+                    background-color: #fff;
+                    padding: .5em;
+                    box-sizing: border-box;
+                    position: relative;
+                    transition: all .5s;
+                    width: 3.5em;
+                    height: 3.5em;
+                    border-radius: 50%;
+                    margin: .25em;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    img{
+                        position: relative;
+                        width: 100%;
+                    }
+                }
+                .part-active, li:hover{
+                    background-color:#f94a02;
+                    img{
+                        filter: brightness(100);
+                    }
+                }
+            }
+        }
+    }
+    .parts-items-container{
+        width: 50%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .avatar-parts-container{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+            li{
+                list-style: none;
+                position: relative;
+                display: flex;
+                justify-content: center;
+            }
+            .avatar-part{
+                width: 5em;
+                height: 5em;
+                border-radius: 50%;
+                border: 2px solid var(--warm-purple);
+                background: linear-gradient(180deg, #317fa7 0%, white 170%);
+                overflow: hidden;
+                list-style: none;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: .5em;
+                position: relative;
+                img{
+                    position: relative;
+                    top: -.5em;
+                    width: 100%;
+                }
+            }
+                .price{
+                    position: absolute;
+                    display: flex;
+                    background-color: #fff;
+                    border: 1px solid var(--warm-purple);
+                    border-radius: 1em;
+                    padding: 0 .5em;
+                    bottom: -.5em;
+                    font-size: .75em;
+                    .money{
+                        width: 1em;
+                        margin-right: .5em;
+                        display: flex;
+                        img{
+                            position: relative;
+                            top: 0;
+                            width: 100%;
+                        }
+                    }
+                }
+        }
+    }
+}
+.custom-avatar-wrapper{
+    width: 20em;
+    max-width: 20em;
+    height: 20em;
+    position: relative;
+    background: linear-gradient(180deg, #317fa7 0%, white 170%);
+    border-radius: 50%;
+    border: solid .5em #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    overflow: hidden;
+    .avatar-custom{
+        width: 100%;
+        position: relative;
+        top: -1.5em;
+        img{
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .skin{
+            position: relative;
+        }
+    }
+}
+
+/*min-width: 480px: Will target mobile devices in landscape mode and up
+
+min-width: 600px: Targets tablets in portrait mode and up
+
+min-width: 768px: Targets tablets in landscape mode and up
+
+min-width: 1024px: Targets the desktop view*/
+
+@media only screen and (min-width : 1224px) {
+    .avatar-page-wrapper{
+
+    }
+    .custom-avatar-wrapper{
+
+    }
+}
+
+@media only screen and (min-width: 1024px) and (max-width : 1223px) {
+    .avatar-page-wrapper{
+
+    }
+    .custom-avatar-wrapper{
+        
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .avatar-page-wrapper{
+    }
+    .custom-avatar-wrapper{
+        
+    }
+}
+@media only screen and (max-width: 767px) {
+    .avatar-page-wrapper{
+        flex-direction: column;
+        .avatar-custom-control{
+            width: 100%;
+            .avatar-items-control{
+                width: 100%;
+                ul{
+                    li{
+                        width: 3em;
+                        height: 3em;
+                    }
+                }
+            }
+        }
+        .parts-items-container{
+            width: 100%;
+            .avatar-parts-container{
+                .avatar-part{
+                    width: 4em;
+                    height: 4em;
+                }
+            }
+        }
+    }
+    .custom-avatar-wrapper{
+        max-width: 12.5em;
+        height: 12.5em;
+        .avatar-custom{
+            top: -.5em;
+        }
+    }
+}

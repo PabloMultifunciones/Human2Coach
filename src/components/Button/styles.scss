@@ -1,0 +1,28 @@
+.btn-wrapper {
+  cursor: pointer;
+  background: rgb(35, 157, 63);
+  //background: var(--primary-btn-bg);
+  padding: 0.5em 1.5em;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  height: max-content;
+  box-sizing: border-box;
+  transition: all 0.5s;
+}
+.secondary {
+  background: var(--secondary-btn-bg);
+}
+
+.disabled {
+  filter: saturate(0);
+  cursor: auto;
+}
+
+@media only screen and (max-width: 480px) {
+  .btn-wrapper {
+    padding: 0.5em 0.5em;
+  }
+}

@@ -74,7 +74,7 @@ function LoginForm(props) {
     toastr.error('An error has occurred while trying to login');
   };
 
-  if (props.user_logged) {
+  if (props.userLogged) {
     return <Navigate to="/dashboard" />;
   }
   return (

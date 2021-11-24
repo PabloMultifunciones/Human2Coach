@@ -4,11 +4,13 @@ import generalReducer from './generalReducer';
 import usersReducer from './usersReducer';
 import metricsReducer from './metricsReducer';
 import plansReducer from './plansReducer';
+import avatarsReducer from './avatarsReducer';
 
 export default combineReducers({
   loginReducer,
   generalReducer,
   usersReducer,
   metricsReducer,
-  plansReducer
+  plansReducer,
+  avatarsReducer
 });

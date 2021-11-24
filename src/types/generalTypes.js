@@ -1,3 +1,5 @@
+export const RESET_STATE = 'RESET_STATE';
+export const RESET_STORE = 'RESET_STORE';
 export const TEAMS_REQUEST = 'TEAMS_REQUEST';
 export const TEAMS_CHARGING = 'TEAMS_CHARGING';
 export const TEAMS_ERROR = 'TEAMS_ERROR';

@@ -1,6 +1,24 @@
+import { combineReducers } from 'redux';
+
+import avatarsReducer from './avatarsReducer';
+import generalReducer from './generalReducer';
+import metricsReducer from './metricsReducer';
+import plansReducer from './plansReducer';
+import usersReducer from './usersReducer';
+
 import * as loginTypes from '../types/loginTypes';
 
-const { LOGIN_CHARGING, LOGIN_ERROR, LOGIN_REQUEST, LOGOUT_REQUEST } = loginTypes;
+// to combine all reducers together
+const appReducer = combineReducers({
+  avatarsReducer,
+  generalReducer,
+  metricsReducer,
+  plansReducer,
+  usersReducer
+});
+
+const { LOGIN_CHARGING, LOGIN_ERROR, LOGIN_REQUEST, LOGOUT_REQUEST, RESET_STATE, RESET_STORE } =
+  loginTypes;
 
 const INITIAL_STATE = {
   userLogged: localStorage.getItem('sesion') ? JSON.parse(localStorage.getItem('sesion')) : null,
@@ -26,6 +44,21 @@ export default (state = INITIAL_STATE, action) => {
 
     case LOGIN_ERROR:
       return { ...state, error: action.payload, login_charging: false };
+
+    case RESET_STATE:
+      return {
+        ...state,
+        userLogged: localStorage.getItem('sesion')
+          ? JSON.parse(localStorage.getItem('sesion'))
+          : null,
+        login_charging: false,
+        error: false
+      };
+
+    case RESET_STORE:
+      console.log('reset');
+      state = undefined;
+      return appReducer(state, action);
 
     default:
       return state;

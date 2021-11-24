@@ -1,4 +1,5 @@
 export const RESET_STATE = 'RESET_STATE';
+export const RESET_STORE = 'RESET_STORE';
 
 export const SET_AVATAR_REQUEST = 'SET_AVATAR_REQUEST';
 

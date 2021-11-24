@@ -14,7 +14,8 @@ const {
   METRICS_LIST_ERROR,
   METRICS_LIST_SAVED,
   METRICS_IMPORT_CHARGING,
-  METRICS_IMPORT_ERROR
+  METRICS_IMPORT_ERROR,
+  RESET_STORE
 } = metricsTypes;
 
 const INITIAL_STATE = {
@@ -141,6 +142,23 @@ export default (state = INITIAL_STATE, action) => {
         error_metrics: false,
         metrics_charging: false,
         metrics_save_charging: false
+      };
+
+    case RESET_STORE:
+      return {
+        ...state,
+        metrics: [],
+        metrics_filtered: [],
+        error_metrics: false,
+        error_import_metrics: false,
+        metrics_import_charging: false,
+        metrics_charging: false,
+        metrics_save_charging: false,
+        totalElements: 0,
+        totalElements_filtered: 0,
+        filter: '',
+        pages: [],
+        pagesFiltered: []
       };
 
     default:

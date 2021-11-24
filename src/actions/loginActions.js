@@ -1,7 +1,7 @@
 import * as loginTypes from '../types/loginTypes';
 import LoginService from '../Services/LoginService';
 
-const { LOGIN_CHARGING, LOGIN_ERROR, LOGIN_REQUEST, LOGOUT_REQUEST } = loginTypes;
+const { LOGIN_CHARGING, LOGIN_ERROR, LOGIN_REQUEST, LOGOUT_REQUEST, RESET_STORE } = loginTypes;
 const TOKEN_LIFE = 2 * 60 * 60 * 1000; // Two hours
 
 export const loginRequest = (payload) => async (dispatch) => {
@@ -86,6 +86,9 @@ export const registerRequest = (payload) => async (dispatch) => {
 
 export const logoutRequest = (payload) => (dispatch) => {
   localStorage.clear();
+  dispatch({
+    type: RESET_STORE
+  });
   dispatch({
     type: LOGOUT_REQUEST,
     payload

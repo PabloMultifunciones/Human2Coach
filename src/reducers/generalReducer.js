@@ -1,7 +1,15 @@
 import * as generalTypes from '../types/generalTypes';
 
-const { TEAMS_REQUEST, TEAMS_CHARGING, TEAMS_ERROR, USERS_REQUEST, USERS_CHARGING, USERS_ERROR } =
-  generalTypes;
+const {
+  TEAMS_REQUEST,
+  TEAMS_CHARGING,
+  TEAMS_ERROR,
+  USERS_REQUEST,
+  USERS_CHARGING,
+  USERS_ERROR,
+  RESET_STATE,
+  RESET_STORE
+} = generalTypes;
 
 const INITIAL_STATE = {
   teams: false,
@@ -41,6 +49,28 @@ export default (state = INITIAL_STATE, action) => {
 
     case USERS_ERROR:
       return { ...state, error: action.payload, users_charging: false };
+
+    case RESET_STATE:
+      return {
+        ...state,
+        teams: false,
+        error_teams: false,
+        teams_charging: false,
+        users: false,
+        error_users: false,
+        users_charging: false
+      };
+
+    case RESET_STORE:
+      return {
+        ...state,
+        teams: false,
+        error_teams: false,
+        teams_charging: false,
+        users: false,
+        error_users: false,
+        users_charging: false
+      };
 
     default:
       return state;

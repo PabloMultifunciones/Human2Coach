@@ -1,6 +1,6 @@
 import * as plansTypes from '../types/plansTypes';
 
-const { RESET_STATE_PLANS, SET_PLANS_METRICS_TABLE } = plansTypes;
+const { RESET_STATE, SET_PLANS_METRICS_TABLE, RESET_STORE } = plansTypes;
 
 const INITIAL_STATE = {
   metricsSelected: []
@@ -14,8 +14,14 @@ export default (state = INITIAL_STATE, action) => {
         metricsSelected: action.payload
       };
 
-    case RESET_STATE_PLANS:
+    case RESET_STATE:
       return { ...state };
+
+    case RESET_STORE:
+      return {
+        ...state,
+        metricsSelected: []
+      };
 
     default:
       return state;

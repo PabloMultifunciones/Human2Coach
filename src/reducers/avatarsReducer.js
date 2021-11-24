@@ -1,6 +1,7 @@
 import * as avatarsTypes from '../types/avatarsTypes';
 
-const { SET_AVATAR_REQUEST, RESET_STATE, AVATAR_CHARGING, AVATAR_ERROR } = avatarsTypes;
+const { SET_AVATAR_REQUEST, RESET_STATE, AVATAR_CHARGING, AVATAR_ERROR, RESET_STORE } =
+  avatarsTypes;
 
 const INITIAL_STATE = {
   avatar: null,
@@ -29,6 +30,14 @@ export default (state = INITIAL_STATE, action) => {
 
     case RESET_STATE:
       return { ...state, avatar: [], avatar_charging: false, avatar_error: false };
+
+    case RESET_STORE:
+      return {
+        ...state,
+        avatar: null,
+        avatar_charging: false,
+        avatar_error: false
+      };
 
     default:
       return state;

@@ -1,3 +1,5 @@
+export const RESET_STATE = 'RESET_STATE';
+export const RESET_STORE = 'RESET_STORE';
 export const LOGIN_CHARGING = 'LOGIN_CHARGING';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';

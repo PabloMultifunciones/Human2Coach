@@ -1,6 +1,6 @@
 import * as plansTypes from '../types/plansTypes';
 
-const { RESET_STATE_PLANS, SET_PLANS_METRICS_TABLE } = plansTypes;
+const { RESET_STATE, SET_PLANS_METRICS_TABLE } = plansTypes;
 
 export const setMetricsSelected = (payload) => async (dispatch, getState) => {
   const { metricsSelected } = getState().plansReducer;
@@ -24,6 +24,6 @@ export const deleteMetricsSelected = (payload) => async (dispatch, getState) => 
 
 export const resetState = () => async (dispatch) => {
   dispatch({
-    type: RESET_STATE_PLANS
+    type: RESET_STATE
   });
 };

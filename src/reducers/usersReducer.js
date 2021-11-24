@@ -12,7 +12,8 @@ const {
   USERS_SAVE_CHARGING,
   USERS_LIST_FILTERED_CHARGING,
   USERS_LIST_ERROR,
-  USERS_LIST_SAVED
+  USERS_LIST_SAVED,
+  RESET_STORE
 } = usersTypes;
 
 const INITIAL_STATE = {
@@ -126,6 +127,21 @@ export default (state = INITIAL_STATE, action) => {
         error_users: false,
         users_charging: false,
         users_save_charging: false
+      };
+
+    case RESET_STORE:
+      return {
+        ...state,
+        users: [],
+        users_filtered: [],
+        error_users: false,
+        users_charging: false,
+        users_save_charging: false,
+        totalElements: 0,
+        totalElements_filtered: 0,
+        filter: '',
+        pages: [],
+        pagesFiltered: []
       };
 
     default:

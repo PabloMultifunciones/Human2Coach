@@ -205,7 +205,12 @@ function UserDialog(props) {
           <EditIcon fontSize="small" className="cursor-pointer" onClick={handleClickOpen} />
         </Tooltip>
       ) : (
-        <Button variant="contained" onClick={handleClickOpen} startIcon={<Icon icon={plusFill} />}>
+        <Button
+          color="secondary"
+          variant="contained"
+          onClick={handleClickOpen}
+          startIcon={<Icon icon={plusFill} />}
+        >
           New user
         </Button>
       )}

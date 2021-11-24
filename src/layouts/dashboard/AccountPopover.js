@@ -12,6 +12,9 @@ import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '
 // components
 import MenuPopover from '../../components/MenuPopover';
 //
+
+import MetricPreference from '../../components/Dialogs/MetricPreference';
+
 import account from '../../_mocks_/account';
 import { logoutRequest } from '../../actions/loginActions';
 
@@ -27,11 +30,6 @@ const MENU_OPTIONS = [
     label: 'Avatar',
     icon: personFill,
     linkTo: '/dashboard//avatar'
-  },
-  {
-    label: 'Settings',
-    icon: settings2Fill,
-    linkTo: '#'
   }
 ];
 
@@ -40,6 +38,14 @@ const MENU_OPTIONS = [
 function AccountPopover(props) {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+
+  const handleCloseDialog = (event) => {
+    if (event && anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    handleClose();
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -119,6 +125,19 @@ function AccountPopover(props) {
             {option.label}
           </MenuItem>
         ))}
+
+        <MenuItem>
+          <Box
+            component={Icon}
+            icon={settings2Fill}
+            sx={{
+              mr: 2,
+              width: 24,
+              height: 24
+            }}
+          />{' '}
+          <MetricPreference handleCloseDialog={() => handleCloseDialog()} />
+        </MenuItem>
 
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined" onClick={() => handleLogout()}>

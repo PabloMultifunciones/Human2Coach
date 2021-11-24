@@ -5,6 +5,7 @@ import usersReducer from './usersReducer';
 import metricsReducer from './metricsReducer';
 import plansReducer from './plansReducer';
 import avatarsReducer from './avatarsReducer';
+import preferencesReducer from './preferencesReducer';
 
 export default combineReducers({
   loginReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   usersReducer,
   metricsReducer,
   plansReducer,
-  avatarsReducer
+  avatarsReducer,
+  preferencesReducer
 });

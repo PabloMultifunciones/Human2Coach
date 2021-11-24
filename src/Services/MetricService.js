@@ -19,7 +19,7 @@ export default {
   filterMetrics: (number = 1, filter = '', size = 7) =>
     axios({
       method: 'GET',
-      url: `${environment.motivarnosBackend}/metricconf?_number=${number}&_size=${size}&name_like=${filter}`
+      url: `${environment.motivarnosBackend}/metricconf?_number=${number}&_size=${size}&name_like=%25${filter}%25`
     }),
 
   saveMetric: (data) =>

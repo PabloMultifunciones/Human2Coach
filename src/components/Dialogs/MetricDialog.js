@@ -540,7 +540,7 @@ function MetricDialog(props) {
                   value={name}
                   name="name"
                   id="name"
-                  label="Nombre de la métrica"
+                  label={t('menu.metric-panel-dialog-metric-name', 'Metric name')}
                   variant="outlined"
                   className="mt-2"
                   fullWidth

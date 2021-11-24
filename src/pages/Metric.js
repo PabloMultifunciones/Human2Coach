@@ -186,15 +186,15 @@ function Metric(props) {
         </Stack>
 
         <Card>
+          <UserListToolbar
+            numSelected={selected.length}
+            onFilterName={handleFilterByName}
+            title="Search..."
+          />
           {props.metrics_charging ? (
             <Spinner />
           ) : (
             <>
-              <UserListToolbar
-                numSelected={selected.length}
-                onFilterName={handleFilterByName}
-                title="Search..."
-              />
               <Scrollbar>
                 <TableContainer sx={{ minWidth: 800 }}>
                   <Table>

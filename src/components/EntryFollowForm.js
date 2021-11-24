@@ -225,7 +225,7 @@ export default function EntryFollowForm() {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <Autocomplete
-                id="combo-box-demo"
+                id="combo-box-demo-login"
                 options={top100Films}
                 getOptionLabel={(option) => option.title}
                 onChange={(event, value) =>

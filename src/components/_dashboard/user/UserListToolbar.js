@@ -202,7 +202,7 @@ export default function UserListToolbar({
           />
           {showTeam && (
             <Autocomplete
-              id="combo-box-demo"
+              id="combo-box-demo-user-list"
               className="autocomplete-custom"
               options={top100Films}
               getOptionLabel={(option) => option.title}

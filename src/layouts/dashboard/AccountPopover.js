@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { useRef, useState } from 'react';
 import homeFill from '@iconify/icons-eva/home-fill';
 import personFill from '@iconify/icons-eva/person-fill';
-import settings2Fill from '@iconify/icons-eva/settings-2-fill';
+
 import { Link as RouterLink, Navigate } from 'react-router-dom';
 // material
 import { alpha } from '@material-ui/core/styles';
@@ -14,6 +14,7 @@ import MenuPopover from '../../components/MenuPopover';
 //
 
 import MetricPreference from '../../components/Dialogs/MetricPreference';
+import MetricPassword from '../../components/Dialogs/MetricPassword';
 
 import account from '../../_mocks_/account';
 import { logoutRequest } from '../../actions/loginActions';
@@ -127,16 +128,11 @@ function AccountPopover(props) {
         ))}
 
         <MenuItem>
-          <Box
-            component={Icon}
-            icon={settings2Fill}
-            sx={{
-              mr: 2,
-              width: 24,
-              height: 24
-            }}
-          />{' '}
           <MetricPreference handleCloseDialog={() => handleCloseDialog()} />
+        </MenuItem>
+
+        <MenuItem>
+          <MetricPassword handleCloseDialog={() => handleCloseDialog()} />
         </MenuItem>
 
         <Box sx={{ p: 2, pt: 1.5 }}>

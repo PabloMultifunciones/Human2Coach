@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import settings2Fill from '@iconify/icons-eva/settings-2-fill';
+import { Box } from '@material-ui/core';
+import { Icon } from '@iconify/react';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -196,8 +199,17 @@ function MetricPreference(props) {
         onClick={handleClickOpen}
         onKeyDown={() => {}}
         role="presentation"
-        className="margin-custom-popover"
+        className="margin-custom-popover d-flex"
       >
+        <Box
+          component={Icon}
+          icon={settings2Fill}
+          sx={{
+            mr: 2,
+            width: 24,
+            height: 24
+          }}
+        />{' '}
         {t('admin.header-dropdown-dialog-preference-title', 'Preferences')}
       </div>
 

@@ -18,6 +18,7 @@ import MetricPassword from '../../components/Dialogs/MetricPassword';
 
 import account from '../../_mocks_/account';
 import { logoutRequest } from '../../actions/loginActions';
+import environment from '../../libs/environment';
 
 // ----------------------------------------------------------------------
 
@@ -85,7 +86,7 @@ function AccountPopover(props) {
           })
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={environment.motivarnosBackend + props.userLogged.user.image} alt="photoURL" />
       </IconButton>
 
       <MenuPopover

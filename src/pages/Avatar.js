@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
 
 import '../GlobalStyles/styles.scss';
 import '../GlobalStyles/avatar.scss';
@@ -9,8 +10,6 @@ import '../GlobalStyles/avatar.scss';
 import toastr from 'toastr';
 import mergeImages from 'merge-images';
 import Spinner from '../components/Spinner';
-
-import Button from '../components/Button';
 
 import menuBody from '../assets/images/user_avatar.svg';
 import menuHat from '../assets/images/hat.svg';
@@ -408,6 +407,8 @@ const Avatar = (props) => {
                 </div>
                 <div>
                   <Button
+                    variant="contained"
+                    color="primary"
                     onClick={() => {
                       mergeAvatar(
                         [

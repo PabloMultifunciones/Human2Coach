@@ -35,8 +35,6 @@ export const savePreferencesRequest = (payload) => async (dispatch) => {
   try {
     const responseLogin = await GeneralService.savePreferences(payload);
 
-    console.log(responseLogin.data);
-
     dispatch({
       type: SET_PREFERENCE_REQUEST,
       payload

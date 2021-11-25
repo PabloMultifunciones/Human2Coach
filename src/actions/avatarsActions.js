@@ -39,7 +39,7 @@ export const saveAvatarRequest = (payload) => async (dispatch, getState) => {
     const { userLogged } = getState().loginReducer;
     const { avatar } = getState().avatarsReducer;
 
-    const userLoggedUpdated = { ...userLogged, ...responseLogin.data };
+    const userLoggedUpdated = { ...userLogged, user: responseLogin.data };
 
     localStorage.setItem(
       'sesion',

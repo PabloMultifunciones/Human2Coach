@@ -16,7 +16,6 @@ import MenuPopover from '../../components/MenuPopover';
 import MetricPreference from '../../components/Dialogs/MetricPreference';
 import MetricPassword from '../../components/Dialogs/MetricPassword';
 
-import account from '../../_mocks_/account';
 import { logoutRequest } from '../../actions/loginActions';
 import environment from '../../libs/environment';
 
@@ -96,11 +95,8 @@ function AccountPopover(props) {
         sx={{ width: 220 }}
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant="subtitle1" noWrap>
-            {account.displayName}
-          </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {props.userLogged.user.username}
           </Typography>
         </Box>
 

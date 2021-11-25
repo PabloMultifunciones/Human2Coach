@@ -29,7 +29,7 @@ const ListItemStyle = styled((props) => <ListItem button disableGutters {...prop
       position: 'absolute',
       borderTopLeftRadius: 4,
       borderBottomLeftRadius: 4,
-      backgroundColor: theme.palette.primary.main
+      backgroundColor: '#F93154'
     }
   })
 );
@@ -60,9 +60,9 @@ function NavItem({ item, active }) {
   };
 
   const activeRootStyle = {
-    color: 'primary.main',
+    color: '#F93154',
     fontWeight: 'fontWeightMedium',
-    bgcolor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+    bgcolor: alpha('#F93154', theme.palette.action.selectedOpacity),
     '&:before': { display: 'block' }
   };
 

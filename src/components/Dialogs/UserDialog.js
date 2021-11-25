@@ -206,7 +206,7 @@ function UserDialog(props) {
         </Tooltip>
       ) : (
         <Button
-          color="secondary"
+          color="error"
           variant="contained"
           onClick={handleClickOpen}
           startIcon={<Icon icon={plusFill} />}

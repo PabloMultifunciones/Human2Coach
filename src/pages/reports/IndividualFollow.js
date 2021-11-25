@@ -166,18 +166,14 @@ export default function IndividualFollow() {
                         </TableCell>
 
                         <TableCell align="left">
-                          {state === 'Guardado' && (
-                            <Label variant="ghost" color="warning">
-                              Guardado
-                            </Label>
-                          )}
+                          {state === 'Guardado' && <Label variant="ghost">Guardado</Label>}
                           {state === 'Envíado' && (
-                            <Label variant="ghost" color="info">
+                            <Label variant="ghost" color="warning">
                               Envíado
                             </Label>
                           )}{' '}
                           {state === 'Recibido' && (
-                            <Label variant="ghost" color="success">
+                            <Label variant="ghost" color="info">
                               Recibido
                             </Label>
                           )}

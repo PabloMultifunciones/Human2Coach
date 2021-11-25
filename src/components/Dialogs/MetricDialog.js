@@ -234,7 +234,6 @@ function MetricDialog(props) {
   }
 
   const handleClose = () => {
-    props.resetState();
     setOpen(false);
   };
 
@@ -507,7 +506,7 @@ function MetricDialog(props) {
         <Button
           className="button-table mr-1"
           variant="contained"
-          color="secondary"
+          color="error"
           onClick={handleClickOpen}
         >
           <AddIcon />

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap');
+
 ::-webkit-scrollbar {
   display: none !important;
 }
@@ -262,5 +264,12 @@
     width: 100%;
   }
 }
-
 /**********************KNOWLEDGE**********************/
+
+/************************FONTS***********************/
+
+* {
+  font-family: 'Lato', sans-serif !important;
+}
+
+/*********************Red Styles*********************/

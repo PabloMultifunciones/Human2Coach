@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import { connect } from 'react-redux';
 
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Box, Link, Drawer, Typography, Avatar } from '@material-ui/core';
+import { Box, Drawer } from '@material-ui/core';
 // components
 import Logo from '../../components/Logo';
 import Scrollbar from '../../components/Scrollbar';
@@ -13,8 +12,6 @@ import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
-import account from '../../_mocks_/account';
-import environment from '../../libs/environment';
 
 // ----------------------------------------------------------------------
 
@@ -27,14 +24,6 @@ const RootStyle = styled('div')(({ theme }) => ({
   }
 }));
 
-const AccountStyle = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(2, 2.5),
-  borderRadius: theme.shape.borderRadiusSm,
-  backgroundColor: theme.palette.grey[200]
-}));
-
 // ----------------------------------------------------------------------
 
 DashboardSidebar.propTypes = {
@@ -42,7 +31,7 @@ DashboardSidebar.propTypes = {
   onCloseSidebar: PropTypes.func
 };
 
-function DashboardSidebar({ isOpenSidebar, onCloseSidebar, userLogged }) {
+export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -63,22 +52,6 @@ function DashboardSidebar({ isOpenSidebar, onCloseSidebar, userLogged }) {
         <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
           <Logo />
         </Box>
-      </Box>
-
-      <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none" component={RouterLink} to="#">
-          <AccountStyle>
-            <Avatar src={environment.motivarnosBackend + userLogged.user.image} alt="photoURL" />
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
-              </Typography>
-            </Box>
-          </AccountStyle>
-        </Link>
       </Box>
 
       <NavSection navConfig={sidebarConfig} />
@@ -116,7 +89,3 @@ function DashboardSidebar({ isOpenSidebar, onCloseSidebar, userLogged }) {
     </RootStyle>
   );
 }
-
-const mapStateToProps = ({ loginReducer }) => loginReducer;
-
-export default connect(mapStateToProps, null)(DashboardSidebar);

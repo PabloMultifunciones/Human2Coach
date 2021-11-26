@@ -56,7 +56,6 @@ export default (state = INITIAL_STATE, action) => {
       };
 
     case RESET_STORE:
-      console.log('reset');
       state = undefined;
       return appReducer(state, action);
 

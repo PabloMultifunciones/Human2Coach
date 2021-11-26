@@ -260,13 +260,13 @@ function MetricPreference(props) {
                     {t('admin.header-dropdown-dialog-lang-input-item-portuguese', 'Portuguese')}
                   </MenuItem>
 
-                  <MenuItem value="fr">
+                  {/*  <MenuItem value="fr">
                     {t('admin.header-dropdown-dialog-lang-input-item-french', 'French')}
                   </MenuItem>
 
                   <MenuItem value="it">
                     {t('admin.header-dropdown-dialog-lang-input-item-italian', 'Italian')}
-                  </MenuItem>
+          </MenuItem> */}
                 </Select>
               </FormControl>
 

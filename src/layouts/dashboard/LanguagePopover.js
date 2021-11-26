@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react';
+import { connect } from 'react-redux';
+
 // material
 import { alpha } from '@material-ui/core/styles';
-import { Box, MenuItem, ListItemIcon, ListItemText, IconButton } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 // components
-import MenuPopover from '../../components/MenuPopover';
 
 // ----------------------------------------------------------------------
 
@@ -27,23 +28,14 @@ const LANGS = [
 
 // ----------------------------------------------------------------------
 
-export default function LanguagePopover() {
+function LanguagePopover(props) {
   const anchorRef = useRef(null);
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [open] = useState(false);
 
   return (
     <>
       <IconButton
         ref={anchorRef}
-        onClick={handleOpen}
         sx={{
           padding: 0,
           width: 44,
@@ -53,28 +45,22 @@ export default function LanguagePopover() {
           })
         }}
       >
-        <img src={LANGS[1].icon} alt={LANGS[1].label} width="30" height="30" />
-      </IconButton>
+        {props.userLogged.user.lang === 'en' && (
+          <img src={LANGS[0].icon} alt={LANGS[0].label} width="35" height="30" />
+        )}
 
-      <MenuPopover open={open} onClose={handleClose} anchorEl={anchorRef.current}>
-        <Box sx={{ py: 1 }} className="box-message-language">
-          {LANGS.map((option) => (
-            <MenuItem
-              key={option.value}
-              selected={option.value === LANGS[0].value}
-              onClick={handleClose}
-              sx={{ py: 1, px: 2.5 }}
-            >
-              <ListItemIcon>
-                <Box component="img" alt={option.label} src={option.icon} />
-              </ListItemIcon>
-              <ListItemText primaryTypographyProps={{ variant: 'body2' }}>
-                {option.label}
-              </ListItemText>
-            </MenuItem>
-          ))}
-        </Box>
-      </MenuPopover>
+        {props.userLogged.user.lang === 'es' && (
+          <img src={LANGS[1].icon} alt={LANGS[1].label} width="35" height="30" />
+        )}
+
+        {props.userLogged.user.lang === 'po' && (
+          <img src={LANGS[2].icon} alt={LANGS[2].label} width="35" height="30" />
+        )}
+      </IconButton>
     </>
   );
 }
+
+const mapStateToProps = ({ loginReducer }) => loginReducer;
+
+export default connect(mapStateToProps, null)(LanguagePopover);

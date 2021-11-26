@@ -127,7 +127,13 @@ export default function EntryFollowFormWorker(props) {
               {props.id ? (
                 <>
                   <section className="mb-2">
-                    <TableFeedback title="" tableHead={getTablehead()} metrics={metrics} disabled />
+                    <TableFeedback
+                      title=""
+                      tableHead={getTablehead()}
+                      metrics={metrics}
+                      disabled
+                      checked
+                    />
                   </section>
 
                   <AppPlanMetrics />

@@ -79,6 +79,8 @@ function TableFeedback({
       )}
 
       <Card>
+        <h4 className="p-1">Feedback por objetivo (W45: 08/11/2021)</h4>
+
         <Scrollbar>
           <TableContainer>
             <Table>
@@ -90,7 +92,6 @@ function TableFeedback({
                 numSelected={selected.length}
                 onRequestSort={handleRequestSort}
                 onSelectAllClick={handleSelectAllClick}
-                textCenter
               />
               <TableBody>
                 {metrics.map((row, i) => (
@@ -110,6 +111,7 @@ function TableFeedback({
                       <Checkbox
                         onClick={() => setClassToCell(myRefs.current[i], row)}
                         color="primary"
+                        checked
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                         disabled={disabled}
                       />

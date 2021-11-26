@@ -19,47 +19,60 @@ import { TableFeedback, AppPlanMetrics } from './_dashboard/app';
 const metrics = [
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Casos',
-    objective: 89
+    metric: 'CSAT cases',
+    objective: 89,
+    wbefore: 89,
+    wafter: 89
   },
 
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Chat',
-    objective: 63
+    metric: 'CSAT chat',
+    objective: 63,
+    wbefore: 89,
+    wafter: 89
   },
 
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Chat',
-    objective: 78
+    metric: 'CSAT chat',
+    objective: 78,
+    wbefore: 89,
+    wafter: 89
   },
 
   {
     id: faker.datatype.uuid(),
-    metric: 'CSAT Casos',
-    objective: 54
+    metric: 'CSAT cases',
+    objective: 54,
+    wbefore: 89,
+    wafter: 89
   }
 ];
 
 export default function EntryFollowFormWorker(props) {
-  const [{ feedback, comments, date, dateCommitment, addReminder, ownComments }, setState] =
-    useState({
-      confidence: false,
-      collaborator: { title: '3 Idiots', year: 2009 },
-      feedback: 'objective',
-      comments:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste voluptas explicabo commodi deleniti pariatur dolore sapiente obcaecati alias eaque quam ducimus, officiis saepe fugiat suscipit culpa. Voluptates tenetur omnis esse.',
-      date: format(new Date(), 'yyyy-MM-dd'),
-      dateCommitment: format(new Date(), 'yyyy-MM-dd'),
-      addReminder: format(new Date(), 'yyyy-MM-dd'),
-      ownComments: ''
-    });
+  const [
+    { feedback, dashboard, comments, date, dateCommitment, addReminder, ownComments },
+    setState
+  ] = useState({
+    confidence: false,
+    collaborator: { title: '3 Idiots', year: 2009 },
+    feedback: 'objective',
+    dashboard: 'oneon',
+    comments:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste voluptas explicabo commodi deleniti pariatur dolore sapiente obcaecati alias eaque quam ducimus, officiis saepe fugiat suscipit culpa. Voluptates tenetur omnis esse.',
+    date: format(new Date(), 'yyyy-MM-dd'),
+    dateCommitment: format(new Date(), 'yyyy-MM-dd'),
+    addReminder: format(new Date(), 'yyyy-MM-dd'),
+    ownComments: ''
+  });
 
   function getTablehead() {
     return [
       { id: 'metric', label: 'Métrica', alignRight: false },
       { id: 'objective', label: 'Objetivo', alignRight: false },
+      { id: 'wbefore', label: 'W44 (25/10/2021)', alignRight: false },
+      { id: 'wafter', label: 'W44 (01/11/2021)', alignRight: false },
       { id: 'check', label: 'Check', alignRight: false }
     ];
   }
@@ -87,7 +100,7 @@ export default function EntryFollowFormWorker(props) {
               </Grid>
             )}
 
-            <Grid item xs={12} sm={12} md={12} lg={12}>
+            <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex">
               <FormControl component="fieldset" disabled>
                 <FormLabel component="legend">Tipo de feedback</FormLabel>
                 <RadioGroup aria-label="feedback" name="feedback" value={feedback}>
@@ -95,10 +108,30 @@ export default function EntryFollowFormWorker(props) {
                   <FormControlLabel value="general" control={<Radio />} label="Feedback General" />
                 </RadioGroup>
               </FormControl>
+              <FormControl component="fieldset" className="ml-30-percent" disabled>
+                <RadioGroup
+                  aria-label="dashboard"
+                  name="dashboard"
+                  value={dashboard}
+                  onChange={(event, value) => {
+                    handleChange(event, value);
+                  }}
+                >
+                  <FormControlLabel value="oneon" control={<Radio />} label="One on one" />
+                  <FormControlLabel value="pds" control={<Radio />} label="PDS" />
+                  <FormControlLabel value="pi" control={<Radio />} label="PIP" />
+                </RadioGroup>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
               {props.id ? (
-                <AppPlanMetrics />
+                <>
+                  <section className="mb-2">
+                    <TableFeedback title="" tableHead={getTablehead()} metrics={metrics} disabled />
+                  </section>
+
+                  <AppPlanMetrics />
+                </>
               ) : (
                 <TableFeedback title="" tableHead={getTablehead()} metrics={metrics} disabled />
               )}

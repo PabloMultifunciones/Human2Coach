@@ -45,15 +45,15 @@ function LanguagePopover(props) {
           })
         }}
       >
-        {props.userLogged.user.lang === 'en' && (
+        {props.userLogged && props.userLogged.user.lang === 'en' && (
           <img src={LANGS[0].icon} alt={LANGS[0].label} width="35" height="30" />
         )}
 
-        {props.userLogged.user.lang === 'es' && (
+        {props.userLogged && props.userLogged.user.lang === 'es' && (
           <img src={LANGS[1].icon} alt={LANGS[1].label} width="35" height="30" />
         )}
 
-        {props.userLogged.user.lang === 'po' && (
+        {props.userLogged && props.userLogged.user.lang === 'po' && (
           <img src={LANGS[2].icon} alt={LANGS[2].label} width="35" height="30" />
         )}
       </IconButton>

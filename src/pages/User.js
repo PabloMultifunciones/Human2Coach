@@ -199,7 +199,7 @@ function User(props) {
                       {(filterName === '' ? props.users : props.users_filtered)
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row, index) => {
-                          const { id, username, name, role, isActive, team } = row;
+                          const { id, username, name, position, isActive, team } = row;
 
                           return (
                             <TableRow hover key={index} tabIndex={-1} role="checkbox">
@@ -211,7 +211,9 @@ function User(props) {
                                   {sentenceCase(isActive ? 'Active' : 'Disabled')}
                                 </Label>
                               </TableCell>
-                              <TableCell align="left">{GeneralFunctions.getRole(role)}</TableCell>
+                              <TableCell align="left">
+                                {GeneralFunctions.getRole(position)}
+                              </TableCell>
                               <TableCell align="left">
                                 <UserDialog type="EDIT" {...row} />
 

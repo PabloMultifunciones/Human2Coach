@@ -154,6 +154,7 @@ function UserDialog(props) {
           username,
           team: { id: team },
           role,
+          position: role,
           isActive
         })
         .then((r) => (status = r));
@@ -164,6 +165,8 @@ function UserDialog(props) {
           username,
           team: { id: team },
           role,
+          position: role,
+
           isActive
         })
         .then((r) => (status = r));
@@ -306,9 +309,9 @@ function UserDialog(props) {
                               fullWidth
                               onChange={handleChange}
                             >
-                              <MenuItem value="1">Colaborador</MenuItem>
+                              <MenuItem value="3">Colaborador</MenuItem>
                               <MenuItem value="2">Team Leader </MenuItem>
-                              <MenuItem value="3">Team Manager </MenuItem>
+                              <MenuItem value="1">Team Manager </MenuItem>
                             </Select>
                           </FormControl>
                         </Grid>

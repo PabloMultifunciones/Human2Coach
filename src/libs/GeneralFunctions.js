@@ -67,13 +67,17 @@ export default {
     return true;
   },
 
-  getRole(role) {
-    if (role === 2) {
-      return 'Supervisor';
+  getRole(position) {
+    if (position === 1) {
+      return 'Team Manager';
     }
 
-    if (role === 3) {
-      return 'Player';
+    if (position === 2) {
+      return 'Team Leader';
+    }
+
+    if (position === 3) {
+      return 'Collaborator';
     }
     return 'N/A';
   },

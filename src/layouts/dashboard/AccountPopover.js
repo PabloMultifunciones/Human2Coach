@@ -128,9 +128,11 @@ function AccountPopover(props) {
           <MetricPreference handleCloseDialog={() => handleCloseDialog()} />
         </MenuItem>
 
-        <MenuItem>
-          <MetricPassword handleCloseDialog={() => handleCloseDialog()} />
-        </MenuItem>
+        {props.userLogged && props.userLogged.souceType === 'WEB' && (
+          <MenuItem>
+            <MetricPassword handleCloseDialog={() => handleCloseDialog()} />
+          </MenuItem>
+        )}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined" onClick={() => handleLogout()}>

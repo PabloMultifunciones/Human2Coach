@@ -22,7 +22,7 @@ import plusFill from '@iconify/icons-eva/plus-fill';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import { teamsRequest } from '../../actions/generalActions';
+import { teamsRequest, usersRequest } from '../../actions/generalActions';
 import { updateUserRequest, saveUserRequest, resetState } from '../../actions/usersActions';
 
 import Spinner from '../Spinner';
@@ -81,16 +81,26 @@ function UserDialog(props) {
   const [usernameError, setUsernameError] = useState(false);
   const [nameError, setNameError] = useState(false);
   const [teamError, setTeamError] = useState(false);
+  const [userError, setUserError] = useState(false);
+
   const [roleError, setRoleError] = useState(false);
   const [isActiveError, setIsActiveError] = useState(false);
 
-  const [{ id, username, name, team, role, isActive }, setState] = useState({
+  const [{ id, username, name, team, user, role, isActive }, setState] = useState({
     id: props.id ? props.id : null,
     username: props.username ? props.username : '',
     name: props.name ? props.name : '',
     team: props.team ? props.team.id : '',
-    role: props.role ? props.role : '',
-    isActive: props.isActive ? 'true' : 'false'
+    user:
+      props.role === 3
+        ? props.teamLeader
+          ? props.teamLeader.id
+          : ''
+        : props.teamManager
+        ? props.teamManager.id
+        : '',
+    role: props.role ? props.role : '1',
+    isActive: props.isActive || false
   });
 
   function handleChange({ target: { name, value } }) {
@@ -102,10 +112,13 @@ function UserDialog(props) {
     if (!props.generalReducer.teams) {
       await props.teamsRequest();
     }
+
+    if (!props.generalReducer.users) {
+      await props.usersRequest();
+    }
     setOriginalState();
   };
   const handleClose = () => {
-    props.resetState();
     setOpen(false);
   };
 
@@ -113,6 +126,8 @@ function UserDialog(props) {
     setUsernameError(false);
     setNameError(false);
     setTeamError(false);
+    setUserError(false);
+
     setRoleError(false);
     setIsActiveError(false);
 
@@ -138,6 +153,14 @@ function UserDialog(props) {
       return;
     }
 
+    if (user === '') {
+      setUserError(true);
+      toastr.error(
+        t('menu.badge-panel-dialog-delivery-message-error-user', 'You must select a user')
+      );
+      return;
+    }
+
     if (role === '' || role.length === 0) {
       setRoleError(true);
       toastr.error(t('admin.user-panel-user-dialog-role-input-error', 'The role is required'));
@@ -155,6 +178,8 @@ function UserDialog(props) {
           team: { id: team },
           role,
           position: role,
+          teamManager: role === 2 ? { id: user } : null,
+          teamLeader: role === 3 ? { id: user } : null,
           isActive
         })
         .then((r) => (status = r));
@@ -166,7 +191,8 @@ function UserDialog(props) {
           team: { id: team },
           role,
           position: role,
-
+          teamManager: role === 2 ? { id: user } : null,
+          teamLeader: role === 3 ? { id: user } : null,
           isActive
         })
         .then((r) => (status = r));
@@ -195,7 +221,7 @@ function UserDialog(props) {
       name: props.name ? props.name : '',
       team: props.team ? props.team.id : '',
       role: props.role ? props.role : '',
-      isActive: props.isActive ? 'true' : 'false'
+      isActive: props.isActive || false
     }));
   }
 
@@ -309,12 +335,47 @@ function UserDialog(props) {
                               fullWidth
                               onChange={handleChange}
                             >
-                              <MenuItem value="3">Colaborador</MenuItem>
-                              <MenuItem value="2">Team Leader </MenuItem>
-                              <MenuItem value="1">Team Manager </MenuItem>
+                              <MenuItem value={3}>Colaborador</MenuItem>
+                              <MenuItem value={2}>Team Leader </MenuItem>
+                              <MenuItem value={1}>Team Manager </MenuItem>
                             </Select>
                           </FormControl>
                         </Grid>
+
+                        {props.generalReducer.users && role && role !== 1 && (
+                          <Grid item xs={12} sm={12} md={12} lg={12}>
+                            <FormControl variant="outlined" className="w-100">
+                              <InputLabel id="frequency-select-outlined-label">
+                                {role === 2 ? 'Team Manager' : 'Team Leader'}
+                              </InputLabel>
+                              <Select
+                                labelId="user"
+                                id="user"
+                                name="user"
+                                value={user}
+                                error={userError}
+                                label={role === 2 ? 'Team Manager' : 'Team Leader'}
+                                fullWidth
+                                onChange={handleChange}
+                              >
+                                <MenuItem value="">
+                                  Choose a {role === 2 ? 'Team Manager' : 'Team Leader'}
+                                </MenuItem>
+
+                                {props.generalReducer.users.content.map((user) => (
+                                  <MenuItem key={user.id} value={parseInt(user.id, 10)}>
+                                    {user.name
+                                      ? `${user.name} ${user.lastName}`
+                                      : t(
+                                          'admin.user-panel-user-dialog-input-select-without-name',
+                                          'Without name'
+                                        )}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                        )}
 
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                           <FormControl variant="outlined" className="w-100">
@@ -330,8 +391,8 @@ function UserDialog(props) {
                               fullWidth
                               onChange={handleChange}
                             >
-                              <MenuItem value="true">Activo</MenuItem>
-                              <MenuItem value="false">Inactivo </MenuItem>
+                              <MenuItem value>Activo</MenuItem>
+                              <MenuItem value={false}>Inactivo </MenuItem>
                             </Select>
                           </FormControl>
                         </Grid>
@@ -360,6 +421,7 @@ function UserDialog(props) {
 const mapStateToProps = ({ generalReducer, usersReducer }) => ({ generalReducer, usersReducer });
 const mapDispatchToProps = {
   teamsRequest,
+  usersRequest,
   updateUserRequest,
   saveUserRequest,
   resetState

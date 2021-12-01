@@ -23,7 +23,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { teamsRequest, usersRequest } from '../../actions/generalActions';
-import { updateUserRequest, saveUserRequest, resetState } from '../../actions/usersActions';
+import { updateUserRequest, saveUserRequest } from '../../actions/usersActions';
 
 import Spinner from '../Spinner';
 import 'toastr/build/toastr.min.css';
@@ -423,8 +423,7 @@ const mapDispatchToProps = {
   teamsRequest,
   usersRequest,
   updateUserRequest,
-  saveUserRequest,
-  resetState
+  saveUserRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDialog);

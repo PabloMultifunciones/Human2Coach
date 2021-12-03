@@ -10,7 +10,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { add, format } from 'date-fns';
 import toastr from 'toastr';
-import faker from 'faker';
 import { connect } from 'react-redux';
 import Spinner from './Spinner';
 
@@ -21,40 +20,7 @@ import 'toastr/build/toastr.min.css';
 
 import { TableFeedbackDone } from './_dashboard/app';
 import { usersRequest } from '../actions/generalActions';
-
-const metrics = [
-  {
-    id: faker.datatype.uuid(),
-    metric: 'CSAT cases',
-    objective: 89,
-    wbefore: 89,
-    wafter: 89
-  },
-
-  {
-    id: faker.datatype.uuid(),
-    metric: 'CSAT chat',
-    objective: 63,
-    wbefore: 89,
-    wafter: 89
-  },
-
-  {
-    id: faker.datatype.uuid(),
-    metric: 'CSAT chat',
-    objective: 78,
-    wbefore: 89,
-    wafter: 89
-  },
-
-  {
-    id: faker.datatype.uuid(),
-    metric: 'CSAT cases',
-    objective: 54,
-    wbefore: 89,
-    wafter: 89
-  }
-];
+import { resetState } from '../actions/plansActions';
 
 function EntryFollowForm(props) {
   const [
@@ -105,6 +71,9 @@ function EntryFollowForm(props) {
   }
 
   const handleChange = (event, value) => {
+    if (value === 'objective') {
+      props.resetState();
+    }
     setState((prevState) => ({
       ...prevState,
       [event.target.name]: value
@@ -192,12 +161,7 @@ function EntryFollowForm(props) {
                 )}
                 {feedback === 'objective' && (
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <TableFeedbackDone
-                      title=""
-                      tableHead={getTablehead()}
-                      metrics={metrics}
-                      newPlan
-                    />
+                    <TableFeedbackDone title="" tableHead={getTablehead()} newPlan />
                   </Grid>
                 )}
                 {feedback && feedback !== '' && (
@@ -322,7 +286,8 @@ function EntryFollowForm(props) {
 
 const mapStateToProps = (usersReducer) => usersReducer;
 const mapDispatchToProps = {
-  usersRequest
+  usersRequest,
+  resetState
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntryFollowForm);

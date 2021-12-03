@@ -15,12 +15,11 @@ export default (state = INITIAL_STATE, action) => {
       };
 
     case RESET_STATE:
-      return { ...state };
+      return { ...state, metricsSelected: [] };
 
     case RESET_STORE:
       return {
-        ...state,
-        metricsSelected: []
+        ...state
       };
 
     default:

@@ -20,24 +20,14 @@ import { UserListHead } from '../user';
 
 // ----------------------------------------------------------------------
 
-function TableFeedbackDone({ title, tableHead, metrics, newPlan, metricsSelected }) {
+function TableFeedbackDone({ title, tableHead, newPlan, metricsSelected }) {
   const [order, setOrder] = useState('asc');
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = metrics.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
   };
 
   return (
@@ -61,17 +51,15 @@ function TableFeedbackDone({ title, tableHead, metrics, newPlan, metricsSelected
                   orderBy={orderBy}
                   headLabel={tableHead}
                   rowCount={metricsSelected.length}
-                  numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {metricsSelected.map((row) => (
                     <TableRow hover key={row.id} tabIndex={-1} className="selected-cell">
-                      <TableCell align="left">{row.metric}</TableCell>
-                      <TableCell align="left">{row.objective}</TableCell>
-                      <TableCell align="left">{row.wbefore}</TableCell>
-                      <TableCell align="left">{row.wafter}</TableCell>
+                      <TableCell align="left">{row.name}</TableCell>
+                      <TableCell align="left">{row.targetValue}</TableCell>
+                      <TableCell align="left">{89}</TableCell>
+                      <TableCell align="left">{89}</TableCell>
                       <TableCell align="left">
                         <Checkbox
                           color="primary"

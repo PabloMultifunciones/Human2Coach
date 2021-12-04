@@ -84,7 +84,7 @@ export default (state = INITIAL_STATE, action) => {
     case METRICS_LIST_DELETE:
       return {
         ...state,
-        metrics: [...state.metrics].filter((user) => user.id !== action.payload),
+        metrics: [...state.metrics].filter((metric) => metric.id !== action.payload),
         metrics_charging: false,
         totalElements: state.totalElements - 1,
         error_metrics: false
@@ -92,7 +92,7 @@ export default (state = INITIAL_STATE, action) => {
     case METRICS_LIST_DELETE_FILTERED:
       return {
         ...state,
-        metrics: [...state.metrics_filtered].filter((user) => user.id !== action.payload),
+        metrics: [...state.metrics_filtered].filter((metric) => metric.id !== action.payload),
         totalElements_filtered: state.totalElements_filtered - 1,
         metrics_charging: false,
         error_metrics: false

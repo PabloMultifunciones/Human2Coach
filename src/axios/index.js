@@ -2,6 +2,7 @@ import axios from 'axios';
 
 function AxiosConf() {
   axios.defaults.headers['Content-Type'] = 'application/json';
+  axios.defaults.headers['x-gamifica-app-id'] = 'human2coach-app';
 
   axios.interceptors.request.use(
     (config) => {

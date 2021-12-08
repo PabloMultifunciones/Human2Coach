@@ -19,7 +19,8 @@ import TimeEntryFollowDialog from './Dialogs/TimeEntryFollowDialog';
 import 'toastr/build/toastr.min.css';
 
 import { TableFeedbackDone } from './_dashboard/app';
-import { usersRequest } from '../actions/generalActions';
+import { usersRequest, getCollaboratorsRequest } from '../actions/generalActions';
+
 import { resetState } from '../actions/plansActions';
 
 function EntryFollowForm(props) {
@@ -60,6 +61,13 @@ function EntryFollowForm(props) {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    setState((prevState) => ({
+      ...prevState,
+      collaborator: props.generalReducer.users ? props.generalReducer.users.content[0] : ''
+    }));
+  }, [props.generalReducer.users]);
+
   function getTablehead() {
     return [
       { id: 'metric', label: 'Métrica', alignRight: false },
@@ -71,9 +79,6 @@ function EntryFollowForm(props) {
   }
 
   const handleChange = (event, value) => {
-    if (value === 'objective') {
-      props.resetState();
-    }
     setState((prevState) => ({
       ...prevState,
       [event.target.name]: value
@@ -108,6 +113,7 @@ function EntryFollowForm(props) {
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Autocomplete
                       id="combo-box-demo-login"
+                      value={collaborator || props.generalReducer.users.content[0]}
                       options={props.generalReducer.users.content}
                       getOptionLabel={(option) =>
                         `${option.name} ${option.lastName} (${option.username})`
@@ -121,6 +127,8 @@ function EntryFollowForm(props) {
                     />
                   </Grid>
                 )}
+
+                {/* changes users to collaborators */}
 
                 {collaborator && collaborator !== '' && (
                   <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex">
@@ -279,13 +287,14 @@ function EntryFollowForm(props) {
         </Grid>
       </Grid>
 
-      {feedback && feedback === 'objective' && <FeedbackDialog />}
+      {feedback && feedback === 'objective' && <FeedbackDialog collaborator={collaborator} />}
     </>
   );
 }
 
-const mapStateToProps = (usersReducer) => usersReducer;
+const mapStateToProps = (generalReducer) => generalReducer;
 const mapDispatchToProps = {
+  getCollaboratorsRequest,
   usersRequest,
   resetState
 };

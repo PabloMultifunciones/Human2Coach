@@ -22,13 +22,13 @@ import {
   TableContainer,
   TablePagination
 } from '@material-ui/core';
-import { UserListHead, UserListToolbar } from '../_dashboard/user';
+import { UserListHead } from '../_dashboard/user';
 import SearchNotFound from '../SearchNotFound';
 
 // import { TableFeedback } from '../_dashboard/app';
 import { setMetricsSelected, deleteMetricsSelected } from '../../actions/plansActions';
 
-import { getMetricsRequest, getMetricsFilterRequest } from '../../actions/metricsActions';
+import { getMetricsCollaboratorRequest, resetState } from '../../actions/metricsActions';
 import Spinner from '../Spinner';
 
 import 'toastr/build/toastr.min.css';
@@ -94,18 +94,17 @@ function FeedbackDialog(props) {
 
   const [page, setPage] = useState(0);
 
-  const [selected] = useState([]);
-  const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(7);
 
   const myRefs = useRef([]);
 
   useEffect(() => {
-    myRefs.current = myRefs.current.slice(0, props.metricsReducer.metrics.length);
-  }, [props.metricsReducer.metrics]);
+    myRefs.current = myRefs.current.slice(0, props.metricsReducer.metrics_collaborators.length);
+  }, [props.metricsReducer.metrics_collaborators]);
 
   useEffect(() => {
-    props.getMetricsRequest({ number: 0, filterName });
+    props.resetState();
+    props.getMetricsCollaboratorRequest({ number: 0, id: props.collaborator.id });
     // eslint-disable-next-line
   }, []);
 
@@ -122,11 +121,8 @@ function FeedbackDialog(props) {
   };
 
   const handleChangePage = (event, newPage) => {
-    if (filterName === '') {
-      props.getMetricsRequest({ number: newPage, filterName });
-    } else {
-      props.getMetricsFilterRequest({ number: newPage, filterName });
-    }
+    props.getMetricsCollaboratorRequest({ number: newPage });
+
     setPage(newPage);
   };
 
@@ -135,34 +131,11 @@ function FeedbackDialog(props) {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    if (event.target.value.length > 0) {
-      props.getMetricsFilterRequest({ number: 0, filterName: event.target.value });
-      setFilterName(event.target.value);
-      setPage(0);
-    }
-
-    if (event.target.value === '') {
-      props.getMetricsRequest({ number: 0, filterName: event.target.value });
-      setFilterName('');
-      setPage(0);
-    }
-  };
-
   const emptyRows =
     page > 0
-      ? Math.max(
-          0,
-          (1 + page) * rowsPerPage -
-            (filterName === ''
-              ? props.metricsReducer.metrics.length
-              : props.metricsReducer.metrics_filtered.length)
-        )
+      ? Math.max(0, (1 + page) * rowsPerPage - props.metricsReducer.metrics_collaborators.length)
       : 0;
-  const isMetricNotFound =
-    (filterName === ''
-      ? props.metricsReducer.metrics.length
-      : props.metricsReducer.metrics_filtered.length) === 0;
+  const isMetricNotFound = props.metricsReducer.metrics_collaborators.length === 0;
 
   const handleClose = () => {
     setOpen(false);
@@ -188,11 +161,6 @@ function FeedbackDialog(props) {
             <Container maxWidth="lg">
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <UserListToolbar
-                    numSelected={selected.length}
-                    onFilterName={handleFilterByName}
-                    title="Search..."
-                  />
                   {props.metricsReducer.metrics_charging ? (
                     <Spinner />
                   ) : (
@@ -201,13 +169,10 @@ function FeedbackDialog(props) {
                         <Table>
                           <UserListHead headLabel={TABLE_HEAD} />
                           <TableBody>
-                            {(filterName === ''
-                              ? props.metricsReducer.metrics
-                              : props.metricsReducer.metrics_filtered
-                            )
+                            {props.metricsReducer.metrics_collaborators
                               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                               .map((row, i) => {
-                                const { id, name, targetValue } = row;
+                                const { id, metricConfName, targetValue } = row;
 
                                 return (
                                   <TableRow
@@ -220,7 +185,9 @@ function FeedbackDialog(props) {
                                     <TableCell align="left">
                                       <div>
                                         {' '}
-                                        {name.length > 20 ? `${name.substring(0, 20)} ...` : name}
+                                        {metricConfName.length > 20
+                                          ? `${metricConfName.substring(0, 20)} ...`
+                                          : metricConfName}
                                       </div>
                                     </TableCell>
                                     <TableCell align="left">
@@ -251,7 +218,7 @@ function FeedbackDialog(props) {
                             <TableBody>
                               <TableRow>
                                 <TableCell align="center" colSpan={8} sx={{ py: 3 }}>
-                                  <SearchNotFound searchQuery={filterName} />
+                                  <SearchNotFound searchQuery="" />
                                 </TableCell>
                               </TableRow>
                             </TableBody>
@@ -262,11 +229,7 @@ function FeedbackDialog(props) {
                       <TablePagination
                         rowsPerPageOptions={[7]}
                         component="div"
-                        count={
-                          filterName === ''
-                            ? props.metricsReducer.totalElements
-                            : props.metricsReducer.totalElements_filtered
-                        }
+                        count={props.metricsReducer.totalElements_collaborators}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -292,8 +255,8 @@ function FeedbackDialog(props) {
 const mapStateToProps = ({ plansReducer, metricsReducer }) => ({ plansReducer, metricsReducer });
 
 const mapDispatchToProps = {
-  getMetricsRequest,
-  getMetricsFilterRequest,
+  resetState,
+  getMetricsCollaboratorRequest,
   setMetricsSelected,
   deleteMetricsSelected
 };

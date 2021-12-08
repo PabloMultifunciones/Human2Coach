@@ -31,5 +31,11 @@ export default {
       method: 'POST',
       url: `${environment.motivarnosBackend}/user/changepassword`,
       data
+    }),
+
+  getCollaborators: (number = 0, size = 7, order = 'desc') =>
+    axios({
+      method: 'GET',
+      url: `${environment.motivarnosBackend}/user?position=3&_number=${number}&_size=${size}&_sort=created_${order}`
     })
 };

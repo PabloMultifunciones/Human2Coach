@@ -8,6 +8,12 @@ export default {
       url: `${environment.motivarnosBackend}/metricconf?_number=${number}&_size=${size}`
     }),
 
+  getMetricsCollaborator: (number = 1, size = 7, id) =>
+    axios({
+      method: 'GET',
+      url: `${environment.motivarnosBackend}/metricconf/userreport?user.id=${id}&_number=${number}&_size=${size}`
+    }),
+
   getMetricsNotFilter: (number = 1, size = 7) =>
     axios({
       method: 'GET',

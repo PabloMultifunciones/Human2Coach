@@ -2,6 +2,7 @@ import * as metricsTypes from '../types/metricsTypes';
 
 const {
   RESET_STATE,
+  METRICS_COLLABORATOR_LIST_REQUEST,
   METRICS_LIST_REQUEST,
   METRICS_LIST_FILTER_REQUEST,
   METRICS_LIST_SAVE,
@@ -20,6 +21,8 @@ const {
 
 const INITIAL_STATE = {
   metrics: [],
+  metrics_collaborators: [],
+
   metrics_filtered: [],
   error_metrics: false,
   error_import_metrics: false,
@@ -27,9 +30,11 @@ const INITIAL_STATE = {
   metrics_charging: false,
   metrics_save_charging: false,
   totalElements: 0,
+  totalElements_collaborators: 0,
   totalElements_filtered: 0,
   filter: '',
   pages: [],
+  pagesCollaborators: [],
   pagesFiltered: []
 };
 
@@ -48,6 +53,7 @@ export default (state = INITIAL_STATE, action) => {
           : [...state.pages, action.payload.number],
         error_metrics: false
       };
+
     case METRICS_LIST_FILTER_REQUEST:
       return {
         ...state,
@@ -64,6 +70,20 @@ export default (state = INITIAL_STATE, action) => {
             ? [...state.pagesFiltered]
             : [...state.pagesFiltered, action.payload.number],
         filter: action.payload.filterName,
+        error_metrics: false
+      };
+
+    case METRICS_COLLABORATOR_LIST_REQUEST:
+      return {
+        ...state,
+        metrics_charging: false,
+        metrics_collaborators: [...state.pages].includes(action.payload.number)
+          ? [...state.metrics]
+          : [...state.metrics, ...action.payload.content],
+        totalElements_collaborators: action.payload.totalElements,
+        pagesCollaborators: [...state.pages].includes(action.payload.number)
+          ? [...state.pages]
+          : [...state.pages, action.payload.number],
         error_metrics: false
       };
 
@@ -141,7 +161,10 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         error_metrics: false,
         metrics_charging: false,
-        metrics_save_charging: false
+        metrics_save_charging: false,
+        metrics_collaborators: [],
+        totalElements_collaborators: 0,
+        pagesCollaborators: []
       };
 
     case RESET_STORE:
@@ -149,15 +172,18 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         metrics: [],
         metrics_filtered: [],
+        metrics_collaborators: [],
         error_metrics: false,
         error_import_metrics: false,
         metrics_import_charging: false,
         metrics_charging: false,
         metrics_save_charging: false,
         totalElements: 0,
+        totalElements_collaborators: 0,
         totalElements_filtered: 0,
         filter: '',
         pages: [],
+        pagesCollaborators: [],
         pagesFiltered: []
       };
 

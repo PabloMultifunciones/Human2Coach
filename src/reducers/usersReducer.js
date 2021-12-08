@@ -44,6 +44,7 @@ export default (state = INITIAL_STATE, action) => {
           : [...state.pages, action.payload.number],
         error_users: false
       };
+
     case USERS_LIST_FILTER_REQUEST:
       return {
         ...state,

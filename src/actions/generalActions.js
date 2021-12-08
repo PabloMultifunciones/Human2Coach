@@ -1,8 +1,15 @@
 import * as generalTypes from '../types/generalTypes';
 import GeneralService from '../Services/GeneralService';
 
-const { TEAMS_REQUEST, TEAMS_CHARGING, TEAMS_ERROR, USERS_REQUEST, USERS_CHARGING, USERS_ERROR } =
-  generalTypes;
+const {
+  COLLABORATOR_LIST_REQUEST,
+  TEAMS_REQUEST,
+  TEAMS_CHARGING,
+  TEAMS_ERROR,
+  USERS_REQUEST,
+  USERS_CHARGING,
+  USERS_ERROR
+} = generalTypes;
 
 export const teamsRequest = () => async (dispatch) => {
   dispatch({
@@ -35,6 +42,24 @@ export const usersRequest = () => async (dispatch) => {
     dispatch({
       type: USERS_REQUEST,
       payload: responseLogin.data
+    });
+  } catch (error) {
+    dispatch({
+      type: USERS_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
+export const getCollaboratorsRequest = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: USERS_CHARGING
+    });
+    const responseLogin = await GeneralService.getCollaborators();
+    dispatch({
+      type: COLLABORATOR_LIST_REQUEST,
+      payload: { ...responseLogin.data }
     });
   } catch (error) {
     dispatch({

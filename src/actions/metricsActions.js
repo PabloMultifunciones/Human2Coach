@@ -1,8 +1,11 @@
 import * as metricsTypes from '../types/metricsTypes';
+import * as generalTypes from '../types/generalTypes';
+
 import MetricService from '../Services/MetricService';
 
 const {
   RESET_STATE,
+  METRICS_COLLABORATOR_LIST_REQUEST,
   METRICS_LIST_CHARGING,
   METRICS_SAVE_CHARGING,
   METRICS_LIST_REQUEST,
@@ -17,6 +20,37 @@ const {
   METRICS_IMPORT_CHARGING,
   METRICS_IMPORT_ERROR
 } = metricsTypes;
+
+const { USERS_REQUEST } = generalTypes;
+
+export const getMetricsCollaboratorRequest = (payload) => async (dispatch, getState) => {
+  try {
+    const { pagesCollaborators } = getState().metricsReducer;
+    if (!pagesCollaborators.includes(payload.number)) {
+      dispatch({
+        type: METRICS_LIST_CHARGING
+      });
+      const responseLogin = await MetricService.getMetricsCollaborator(
+        payload.number,
+        7,
+        payload.id
+      );
+      dispatch({
+        type: METRICS_COLLABORATOR_LIST_REQUEST,
+        payload: { ...responseLogin.data }
+      });
+    } else {
+      dispatch({
+        type: METRICS_LIST_SAVED
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: METRICS_LIST_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
 
 export const getMetricsRequest = (payload) => async (dispatch, getState) => {
   try {
@@ -145,13 +179,6 @@ export const deleteMetricRequest = (payload) => async (dispatch) => {
     return { error: error.response };
   }
 };
-
-export const resetState = () => async (dispatch) => {
-  dispatch({
-    type: RESET_STATE
-  });
-};
-
 export const setImportMetricRequest = (payload) => async (dispatch) => {
   try {
     dispatch({
@@ -186,4 +213,18 @@ export const savePreImportMetricRequest = (payload) => async (dispatch) => {
     });
     return { error: error.response };
   }
+};
+
+export const resetState = () => async (dispatch, getState) => {
+  // const stateMetrics = getState().metricsReducer;
+  const { users } = getState().generalReducer;
+
+  await dispatch({
+    type: RESET_STATE
+  });
+
+  await dispatch({
+    type: USERS_REQUEST,
+    payload: users
+  });
 };

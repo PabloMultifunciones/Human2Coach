@@ -1,5 +1,9 @@
-import { filter } from 'lodash';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import toastr from 'toastr';
+import { format } from 'date-fns';
+
+// import toastr from 'toastr';
+
 // material
 import {
   Card,
@@ -15,6 +19,7 @@ import {
 } from '@material-ui/core';
 // components
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Page from '../../components/Page';
 import Label from '../../components/Label';
@@ -23,70 +28,49 @@ import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../../components/_dashboard/user';
 import DeleteDialog from '../../components/Dialogs/DeleteDialog';
 import PlanDialog from '../../components/Dialogs/PlanDialog';
+import Spinner from '../../components/Spinner';
+
+import {
+  getPlansRequest,
+  getPlansFilterRequest,
+  deletePlanRequest
+} from '../../actions/plansActions';
 //
-import PLANLIST from '../../_mocks_/plan';
+import 'toastr/build/toastr.min.css';
+
+// import 'toastr/build/toastr.min.css';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'collaborator', label: 'Colaborador', alignRight: false },
-  { id: 'sent', label: 'Enviado', alignRight: false },
-  { id: 'commitment', label: 'Compromiso', alignRight: false },
-  { id: 'objective', label: 'Objetivo', alignRight: false },
+  { id: 'sent', label: 'Sent', alignRight: false },
+  { id: 'commitment', label: 'Commitment', alignRight: false },
+  { id: 'objective', label: 'Objective', alignRight: false },
   { id: 'feedback', label: 'Feedback', alignRight: false },
-  { id: 'mode', label: 'Modo', alignRight: false },
-  { id: 'state', label: 'Estado', alignRight: false },
-  { id: 'actions', label: 'Acciones', alignRight: false }
+  { id: 'mode', label: 'Mode', alignRight: false },
+  { id: 'state', label: 'State', alignRight: false },
+  { id: 'actions', label: 'Actions', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(
-      array,
-      (_plan) => _plan.collaborator.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
-
-export default function IndividualFollow() {
+function IndividualFollow(props) {
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
+  useEffect(() => {
+    props.getPlansRequest({ number: 0, filterName });
+    // eslint-disable-next-line
+  }, []);
 
   const handleChangePage = (event, newPage) => {
+    if (filterName === '') {
+      props.getPlansRequest({ number: newPage, filterName });
+    } else {
+      props.getPlansFilterRequest({ number: newPage, filterName });
+    }
     setPage(newPage);
   };
 
@@ -96,17 +80,45 @@ export default function IndividualFollow() {
   };
 
   const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
+    if (event.target.value.length > 0) {
+      props.getPlansFilterRequest({ number: 0, filterName: event.target.value });
+      setFilterName(event.target.value);
+      setPage(0);
+    }
+
+    if (event.target.value === '') {
+      props.getPlansRequest({ number: 0, filterName: event.target.value });
+      setFilterName('');
+      setPage(0);
+    }
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - PLANLIST.length) : 0;
-  const filteredUsers = applySortFilter(PLANLIST, getComparator(order, orderBy), filterName);
+  const deletePlan = async (id) => {
+    let status;
+    await props.deletePlanRequest({ id, filterName }).then((r) => (status = r));
 
-  const isUserNotFound = filteredUsers.length === 0;
+    if (status === 'SUCCESS') {
+      toastr.success('menu.metric-panel-message-success-delete', 'Metric removed successfully');
+      return;
+    }
 
-  const deleteField = () => {
-    console.log('DELETE');
+    if (status.error && status.error.status === 400) {
+      toastr.error('This plan is being used and cannot be removed');
+    } else {
+      toastr.error('An error occurred while removing the plan');
+    }
   };
+
+  const emptyRows =
+    page > 0
+      ? Math.max(
+          0,
+          (1 + page) * rowsPerPage -
+            (filterName === '' ? props.plans.length : props.plans_filtered.length)
+        )
+      : 0;
+  const isPlanNotFound =
+    (filterName === '' ? props.plans.length : props.plans_filtered.length) === 0;
 
   return (
     <Page title="Planes | Human2Coach">
@@ -118,107 +130,121 @@ export default function IndividualFollow() {
         </Stack>
 
         <Card>
-          <UserListToolbar filterName={filterName} onFilterName={(e) => handleFilterByName(e)} />
+          <UserListToolbar onFilterName={handleFilterByName} title="Search..." />
 
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={PLANLIST.length}
-                  onRequestSort={handleRequestSort}
-                />
-                <TableBody>
-                  {filteredUsers.map((row) => {
-                    const { id, collaborator, sent, commitment, objective, mode, feedback, state } =
-                      row;
+          {props.metrics_charging ? (
+            <Spinner />
+          ) : (
+            <>
+              {' '}
+              <Scrollbar>
+                <TableContainer sx={{ minWidth: 800 }}>
+                  <Table>
+                    <UserListHead headLabel={TABLE_HEAD} />
+                    <TableBody>
+                      {(filterName === '' ? props.plans : props.plans_filtered)
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((row) => (
+                          <TableRow hover key={row.id} tabIndex={-1}>
+                            <TableCell align="left">
+                              <Link to="/dashboard/plan/1" rel="noopener noreferrer">
+                                {row.user ? `${row.user.name} ${row.user.lastName}` : 'N/A'}
+                              </Link>
+                            </TableCell>
 
-                    return (
-                      <TableRow hover key={id} tabIndex={-1}>
-                        <TableCell align="left">
-                          <Link to="/dashboard/plan/1" rel="noopener noreferrer">
-                            {collaborator}
-                          </Link>
-                        </TableCell>
-                        <TableCell align="left">{sent}</TableCell>
-                        <TableCell align="left">{commitment}</TableCell>
+                            <TableCell align="left">{` ${format(
+                              new Date(row.sendedDate),
+                              'dd/MM/yyyy'
+                            )}`}</TableCell>
+                            <TableCell align="left">{` ${format(
+                              new Date(row.reminderDate),
+                              'dd/MM/yyyy'
+                            )}`}</TableCell>
 
-                        <TableCell align="left">{objective}</TableCell>
-                        <TableCell align="left">{feedback}</TableCell>
-                        <TableCell align="left">
-                          {mode === 'PDS' && (
-                            <Label variant="ghost" color="warning">
-                              {mode}
-                            </Label>
-                          )}
-                          {mode === 'PIP' && (
-                            <Label variant="ghost" color="error">
-                              {mode}
-                            </Label>
-                          )}{' '}
-                          {mode === 'One on One' && (
-                            <Label variant="ghost" color="success">
-                              {mode}
-                            </Label>
-                          )}
-                        </TableCell>
+                            <TableCell align="left">{row.isObjetive ? 'X' : 'N/A'}</TableCell>
+                            <TableCell align="left">{row.isFeedback ? 'X' : 'N/A'}</TableCell>
+                            <TableCell align="left">
+                              {row.isPDS && (
+                                <Label variant="ghost" color="warning">
+                                  PDS
+                                </Label>
+                              )}
+                              {row.isPIP && (
+                                <Label variant="ghost" color="warning">
+                                  PIP
+                                </Label>
+                              )}
+                              {row.isOneOnOne && (
+                                <Label variant="ghost" color="warning">
+                                  One on one
+                                </Label>
+                              )}
+                            </TableCell>
 
-                        <TableCell align="left">
-                          {state === 'Guardado' && <Label variant="ghost">Guardado</Label>}
-                          {state === 'Envíado' && (
-                            <Label variant="ghost" color="warning">
-                              Envíado
-                            </Label>
-                          )}{' '}
-                          {state === 'Recibido' && (
-                            <Label variant="ghost" color="info">
-                              Recibido
-                            </Label>
-                          )}
-                        </TableCell>
-                        <TableCell align="left">
-                          {state === 'Guardado' && (
-                            <>
-                              <PlanDialog />
-                              <DeleteDialog delete={() => deleteField(row.id)} />
-                            </>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                {isUserNotFound && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={PLANLIST.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+                            <TableCell align="left">
+                              {row.status === 'DRAFT' && <Label variant="ghost">DRAFT</Label>}
+                              {row.status === 'SENDED' && (
+                                <Label variant="ghost" color="warning">
+                                  SENDED
+                                </Label>
+                              )}{' '}
+                              {row.status === 'ACKNOWLEGED' && (
+                                <Label variant="ghost" color="info">
+                                  ACKNOWLEGED
+                                </Label>
+                              )}
+                            </TableCell>
+                            <TableCell align="left">
+                              {row.status === 'DRAFT' && (
+                                <>
+                                  <PlanDialog />
+                                  <DeleteDialog delete={() => deletePlan(row.id)} />
+                                </>
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      {emptyRows > 0 && (
+                        <TableRow style={{ height: 53 * emptyRows }}>
+                          <TableCell colSpan={6} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+                    {isPlanNotFound && (
+                      <TableBody>
+                        <TableRow>
+                          <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                            <SearchNotFound searchQuery={filterName} />
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    )}
+                  </Table>
+                </TableContainer>
+              </Scrollbar>
+              <TablePagination
+                rowsPerPageOptions={[7]}
+                component="div"
+                count={filterName === '' ? props.totalElements : props.totalElements_filtered}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </>
+          )}
         </Card>
       </Container>
     </Page>
   );
 }
+
+const mapStateToProps = ({ plansReducer }) => plansReducer;
+
+const mapDispatchToProps = {
+  getPlansRequest,
+  getPlansFilterRequest,
+  deletePlanRequest
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(IndividualFollow);

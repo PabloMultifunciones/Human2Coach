@@ -11,6 +11,18 @@ import Grid from '@material-ui/core/Grid';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import Checkbox from '@material-ui/core/Checkbox';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import TimePicker from '@material-ui/lab/TimePicker';
+import TextField from '@material-ui/core/TextField';
+import toastr from 'toastr';
+import { getWeek, format, subDays, startOfWeek } from 'date-fns';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
+import MenuItem from '@material-ui/core/MenuItem';
+
+import InputLabel from '@material-ui/core/InputLabel';
 
 // material
 import {
@@ -28,16 +40,36 @@ import SearchNotFound from '../SearchNotFound';
 // import { TableFeedback } from '../_dashboard/app';
 import { setMetricsSelected, deleteMetricsSelected } from '../../actions/plansActions';
 
-import { getMetricsCollaboratorRequest, resetState } from '../../actions/metricsActions';
+import {
+  getMetricsCollaboratorRequest,
+  updateMetricData,
+  resetState
+} from '../../actions/metricsActions';
 import Spinner from '../Spinner';
 
 import 'toastr/build/toastr.min.css';
 
+// {getWeek(new Date())}: ${format(new Date(), 'dd/MM/yyyy')}
+
 const TABLE_HEAD = [
   { id: 'metric', label: 'Métrica', alignRight: false },
   { id: 'objective', label: 'Objetivo', alignRight: false },
-  { id: 'wbefore', label: 'W44 (25/10/2021)', alignRight: false },
-  { id: 'wafter', label: 'W44 (01/11/2021)', alignRight: false },
+  {
+    id: 'wbefore',
+    label: `W${getWeek(subDays(startOfWeek(new Date()), 7))}  ${format(
+      subDays(startOfWeek(new Date()), 7),
+      'dd/MM/yyyy'
+    )}`,
+    alignRight: false
+  },
+  {
+    id: 'wafter',
+    label: `W${getWeek(subDays(startOfWeek(new Date()), 7))}  ${format(
+      subDays(startOfWeek(new Date()), 1),
+      'dd/MM/yyyy'
+    )}`,
+    alignRight: false
+  },
   { id: 'actions', label: 'Actions', alignRight: false }
 ];
 
@@ -98,6 +130,14 @@ function FeedbackDialog(props) {
 
   const myRefs = useRef([]);
 
+  const handleChange = (e, i) => {
+    props.updateMetricData({ data: e.target.value, index: i });
+  };
+
+  const handleChangeTime = (e, i) => {
+    props.updateMetricData({ data: e, index: i });
+  };
+
   useEffect(() => {
     myRefs.current = myRefs.current.slice(0, props.metricsReducer.metrics_collaborators.length);
   }, [props.metricsReducer.metrics_collaborators]);
@@ -114,6 +154,10 @@ function FeedbackDialog(props) {
       ref.classList.remove('selected-cell');
       props.deleteMetricsSelected(row);
     } else {
+      if (!row.dataTwo || row.dataTwo === 'undefined' || row.dataTwo === '') {
+        toastr.error('You must enter a valid data');
+        return;
+      }
       ref.classList.add('selected-cell');
       ref.classList.remove('not-selected-cell');
       props.setMetricsSelected(row);
@@ -153,7 +197,7 @@ function FeedbackDialog(props) {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Feedback por objetivo (W45: 08/11/2021)
+          Feedback por objetivo {`(W${getWeek(new Date())}: ${format(new Date(), 'dd/MM/yyyy')})`}
         </DialogTitle>
 
         <>
@@ -172,7 +216,8 @@ function FeedbackDialog(props) {
                             {props.metricsReducer.metrics_collaborators
                               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                               .map((row, i) => {
-                                const { id, metricConfName, targetValue } = row;
+                                const { id, metricConfName, targetValue, dataTwo, metricConf } =
+                                  row;
 
                                 return (
                                   <TableRow
@@ -191,15 +236,105 @@ function FeedbackDialog(props) {
                                       </div>
                                     </TableCell>
                                     <TableCell align="left">
-                                      {' '}
                                       <div>{targetValue}</div>
                                     </TableCell>
                                     <TableCell align="left">89</TableCell>
 
-                                    <TableCell align="left">89</TableCell>
+                                    <TableCell align="left">
+                                      {(metricConf.type === 'NUMBER' ||
+                                        metricConf.type === 'MULTIPLIER') && (
+                                        <Grid item xs={12} md={12} lg={12}>
+                                          <TextField
+                                            onChange={(e) => handleChange(e, i)}
+                                            value={dataTwo || ''}
+                                            name="targetValue"
+                                            id="targetValue"
+                                            type="number"
+                                            label={t(
+                                              'menu.metric-panel-dialog-objective',
+                                              'Objective'
+                                            )}
+                                            variant="outlined"
+                                            className="mt-1"
+                                            fullWidth
+                                          />
+                                        </Grid>
+                                      )}
+
+                                      {metricConf.type === 'TIME' && (
+                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                          <Grid item xs={12} md={12} lg={12}>
+                                            <TimePicker
+                                              ampm={false}
+                                              okLabel={t('accept.label', 'Accept')}
+                                              cancelLabel={t(
+                                                'admin.header-dropdown-dialog-actions-cancel',
+                                                'Cancel'
+                                              )}
+                                              clearLabel={t(
+                                                'menu.badge-panel-dialog-minimum-points-clean-up',
+                                                'Clean up'
+                                              )}
+                                              openTo="hours"
+                                              inputVariant="outlined"
+                                              views={['hours', 'minutes', 'seconds']}
+                                              inputFormat="HH:mm:ss"
+                                              mask="__:__:__"
+                                              label={t(
+                                                'menu.metric-panel-dialog-objective',
+                                                'Objective'
+                                              )}
+                                              value={
+                                                dataTwo || new Date(new Date().setHours(0, 0, 0, 0))
+                                              }
+                                              fullWidth
+                                              onChange={(e) => handleChangeTime(e, i)}
+                                              name="targetValue"
+                                              id="targetValue"
+                                              renderInput={(params) => (
+                                                <TextField className="mt-1" fullWidth {...params} />
+                                              )}
+                                            />
+                                          </Grid>
+                                        </LocalizationProvider>
+                                      )}
+
+                                      {metricConf.type === 'BOOLEAN' && (
+                                        <Grid item xs={12} md={12} lg={12}>
+                                          <FormControl variant="outlined" className="w-100">
+                                            <InputLabel id="targetValue-select-outlined-label">
+                                              {t('menu.metric-panel-dialog-objective', 'Objective')}
+                                            </InputLabel>
+                                            <Select
+                                              onChange={(e) => handleChange(e, i)}
+                                              value={dataTwo || ''}
+                                              labelId="targetValue"
+                                              id="targetValue"
+                                              name="targetValue"
+                                              label="targetValue"
+                                            >
+                                              <MenuItem value="">Select one</MenuItem>
+                                              <MenuItem value="YES">
+                                                {t(
+                                                  'admin.header-dropdown-dialog-notifications-input-item-yes',
+                                                  'Yes'
+                                                )}{' '}
+                                              </MenuItem>
+                                              <MenuItem value="NO">
+                                                {t(
+                                                  'admin.header-dropdown-dialog-notifications-input-item-no',
+                                                  'No'
+                                                )}
+                                              </MenuItem>
+                                            </Select>
+                                          </FormControl>
+                                        </Grid>
+                                      )}
+                                    </TableCell>
 
                                     <TableCell align="left">
                                       <Checkbox
+                                        disabled={dataTwo === 'undefined' || !dataTwo}
                                         onClick={() => setClassToCell(myRefs.current[i], row)}
                                         color="primary"
                                         inputProps={{ 'aria-label': 'secondary checkbox' }}
@@ -256,6 +391,7 @@ const mapStateToProps = ({ plansReducer, metricsReducer }) => ({ plansReducer, m
 
 const mapDispatchToProps = {
   resetState,
+  updateMetricData,
   getMetricsCollaboratorRequest,
   setMetricsSelected,
   deleteMetricsSelected

@@ -6,6 +6,7 @@ import MetricService from '../Services/MetricService';
 const {
   RESET_STATE,
   METRICS_COLLABORATOR_LIST_REQUEST,
+  METRICS_COLLABORATORS_LIST_UPDATE,
   METRICS_LIST_CHARGING,
   METRICS_SAVE_CHARGING,
   METRICS_LIST_REQUEST,
@@ -137,7 +138,7 @@ export const updateMetricRequest = (payload) => async (dispatch, getState) => {
     const { metrics } = getState().metricsReducer;
 
     const metricsUpdated = [...metrics];
-    const findById = (user) => user.id === payload.id;
+    const findById = (metric) => metric.id === payload.id;
     const index = metricsUpdated.findIndex(findById);
     metricsUpdated[index] = {
       ...metricsUpdated[index],
@@ -146,6 +147,35 @@ export const updateMetricRequest = (payload) => async (dispatch, getState) => {
 
     dispatch({
       type: METRICS_LIST_UPDATE,
+      payload: metricsUpdated
+    });
+    return 'SUCCESS';
+  } catch (error) {
+    dispatch({
+      type: METRICS_LIST_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+    return 'ERROR';
+  }
+};
+
+export const updateMetricData = (payload) => async (dispatch, getState) => {
+  dispatch({
+    type: METRICS_SAVE_CHARGING
+  });
+
+  try {
+    const metricsData = getState().metricsReducer;
+
+    const metricsUpdated = [...metricsData.metrics_collaborators];
+
+    metricsUpdated[payload.index] = {
+      ...metricsUpdated[payload.index],
+      dataTwo: payload.data
+    };
+
+    dispatch({
+      type: METRICS_COLLABORATORS_LIST_UPDATE,
       payload: metricsUpdated
     });
     return 'SUCCESS';

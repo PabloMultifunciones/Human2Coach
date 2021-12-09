@@ -3,6 +3,7 @@ import * as metricsTypes from '../types/metricsTypes';
 const {
   RESET_STATE,
   METRICS_COLLABORATOR_LIST_REQUEST,
+  METRICS_COLLABORATORS_LIST_UPDATE,
   METRICS_LIST_REQUEST,
   METRICS_LIST_FILTER_REQUEST,
   METRICS_LIST_SAVE,
@@ -85,6 +86,14 @@ export default (state = INITIAL_STATE, action) => {
           ? [...state.pages]
           : [...state.pages, action.payload.number],
         error_metrics: false
+      };
+
+    case METRICS_COLLABORATORS_LIST_UPDATE:
+      return {
+        ...state,
+        metrics_collaborators: action.payload,
+        error_metrics: false,
+        metrics_save_charging: false
       };
 
     case METRICS_LIST_SAVE:

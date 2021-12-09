@@ -137,6 +137,10 @@ function EntryFollowForm(props) {
       reminderDate: `${addReminder}T00:00:00`,
       isException: sick === true || holidays === true || disciplinaryProcess === true,
       metricConfs: metricArray,
+
+      isOneOnOne: dashboard === 'oneonone',
+      isPDS: dashboard === 'pds',
+      isPIP: dashboard === 'pip',
       exceptions: [
         {
           name: 'Sick leave',
@@ -246,9 +250,9 @@ function EntryFollowForm(props) {
                           handleChange(event, value);
                         }}
                       >
-                        <FormControlLabel value="oneon" control={<Radio />} label="One on one" />
+                        <FormControlLabel value="oneonone" control={<Radio />} label="One on one" />
                         <FormControlLabel value="pds" control={<Radio />} label="PDS" />
-                        <FormControlLabel value="pi" control={<Radio />} label="PIP" />
+                        <FormControlLabel value="pip" control={<Radio />} label="PIP" />
                       </RadioGroup>
                     </FormControl>
                   </Grid>

@@ -5,13 +5,14 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
+
 import faker from 'faker';
 
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { format } from 'date-fns';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import { TableFeedback, AppPlanMetrics } from './_dashboard/app';
@@ -67,6 +68,8 @@ export default function EntryFollowFormWorker(props) {
     ownComments: ''
   });
 
+  const params = useParams();
+
   function getTablehead() {
     return [
       { id: 'metric', label: 'Métrica', alignRight: false },
@@ -89,7 +92,7 @@ export default function EntryFollowFormWorker(props) {
       <Grid container spacing={3} justifyContent="center">
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Grid container spacing={3}>
-            {props.id && (
+            {params.id && (
               <Grid item xs={12} sm={12} md={12} lg={12}>
                 <Link to="/dashboard/plans" rel="noopener noreferrer">
                   <Button variant="contained">

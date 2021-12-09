@@ -138,7 +138,7 @@ export default function IndividualFollow() {
                     return (
                       <TableRow hover key={id} tabIndex={-1}>
                         <TableCell align="left">
-                          <Link to="/dashboard/plan" rel="noopener noreferrer">
+                          <Link to="/dashboard/plan/1" rel="noopener noreferrer">
                             {collaborator}
                           </Link>
                         </TableCell>

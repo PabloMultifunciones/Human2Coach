@@ -214,14 +214,14 @@ export default function EntryFollowFormWorker(props) {
 
             <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex-between">
               <div>
-                <Button className="bg-danger" color="inherit" variant="contained">
-                  Cancelar{' '}
-                </Button>
+                <Link to="/dashboard/plans" rel="noopener noreferrer">
+                  <Button className="bg-danger" color="inherit" variant="contained">
+                    Cancelar{' '}
+                  </Button>
+                </Link>
+
                 <Button color="secondary" variant="contained" className="ml-1">
                   Guardar
-                </Button>
-                <Button color="primary" variant="contained" className="ml-1">
-                  Enviar
                 </Button>
               </div>
 

@@ -67,7 +67,7 @@ export default function TableExtraTime({
               />
               <TableBody>
                 <TableRow hover tabIndex={-1}>
-                  <TableCell align="left">Licencia por enfermedad</TableCell>
+                  <TableCell align="left">Sick leave</TableCell>
 
                   <TableCell align="left">
                     <Checkbox
@@ -82,7 +82,7 @@ export default function TableExtraTime({
                 </TableRow>
 
                 <TableRow hover tabIndex={-1}>
-                  <TableCell align="left">Vacaciones</TableCell>
+                  <TableCell align="left">Vacations</TableCell>
 
                   <TableCell align="left">
                     <Checkbox
@@ -97,7 +97,7 @@ export default function TableExtraTime({
                 </TableRow>
 
                 <TableRow hover tabIndex={-1}>
-                  <TableCell align="left">Proceso disciplinario</TableCell>
+                  <TableCell align="left">Disciplinary process</TableCell>
 
                   <TableCell align="left">
                     <Checkbox

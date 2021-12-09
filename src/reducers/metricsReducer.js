@@ -23,7 +23,6 @@ const {
 const INITIAL_STATE = {
   metrics: [],
   metrics_collaborators: [],
-
   metrics_filtered: [],
   error_metrics: false,
   error_import_metrics: false,

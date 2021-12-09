@@ -63,8 +63,8 @@ function TableFeedbackDone({ title, tableHead, newPlan, metricsSelected }) {
                     <TableRow hover key={row.id} tabIndex={-1} className="selected-cell">
                       <TableCell align="left">{row.metricConf.name}</TableCell>
                       <TableCell align="left">{row.targetValue}</TableCell>
-                      <TableCell align="left">{89}</TableCell>
-                      <TableCell align="left">{row.dataTwo}</TableCell>
+                      <TableCell align="left">{row.value1}</TableCell>
+                      <TableCell align="left">{row.value2}</TableCell>
                       <TableCell align="left">
                         <Checkbox
                           color="primary"

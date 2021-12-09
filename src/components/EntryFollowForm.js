@@ -21,7 +21,7 @@ import 'toastr/build/toastr.min.css';
 import { TableFeedbackDone } from './_dashboard/app';
 import { usersRequest, getCollaboratorsRequest } from '../actions/generalActions';
 
-import { resetState } from '../actions/plansActions';
+import { savePlanRequest, resetState } from '../actions/plansActions';
 
 function EntryFollowForm(props) {
   const [
@@ -40,7 +40,6 @@ function EntryFollowForm(props) {
     },
     setState
   ] = useState({
-    confidence: false,
     collaborator: '',
     feedback: '',
     dashboard: '',
@@ -99,12 +98,6 @@ function EntryFollowForm(props) {
     }));
   };
 
-  const handleClose = () => {
-    if (!addReminder || addReminder === '') {
-      toastr.error('La fecha de envío es requerida');
-    }
-  };
-
   const setExtraTime = (name, value) => {
     setState((prevState) => ({
       ...prevState,
@@ -112,12 +105,91 @@ function EntryFollowForm(props) {
     }));
   };
 
+  const submitFunction = async (type) => {
+    const metricArray = [];
+
+    props.plansReducer.metricsSelected.forEach((element) => {
+      metricArray.push({
+        metricConf: {
+          id: element.metricConf.id
+        },
+        isChecked: true,
+        targetValue: element.targetValue,
+        date1: element.date1,
+        date2: element.date2,
+        value1: element.value1,
+        value2: element.value2,
+        isActive: true
+      });
+    });
+
+    const json = {
+      isObjetive: feedback === 'objective',
+      isFeedback: feedback === 'general',
+      user: collaborator,
+      supervisorNote: notes,
+      supervisorComment: comments,
+      userComment: null,
+      sendedDate: `${dateCommitment}T00:00:00`,
+      status: type,
+      isSended: false,
+      commitmentDate: `${date}T00:00:00`,
+      reminderDate: `${addReminder}T00:00:00`,
+      isException: sick === true || holidays === true || disciplinaryProcess === true,
+      metricConfs: metricArray,
+      exceptions: [
+        {
+          name: 'Sick leave',
+          isChecked: sick
+        },
+        {
+          name: 'Vacations',
+          isChecked: holidays
+        },
+        {
+          name: 'Disciplinary process',
+          isChecked: disciplinaryProcess
+        }
+      ],
+      isActive: true
+    };
+
+    if (!addReminder || addReminder === '') {
+      toastr.error('La fecha de envío es requerida');
+    }
+
+    let status;
+
+    await props.savePlanRequest(json).then((r) => (status = r));
+
+    if (status === 'ERROR') {
+      toastr.error('An error occurred while trying to save the metric');
+    } else {
+      toastr.success('Plan saved successfully');
+
+      setState((prevState) => ({
+        ...prevState,
+        collaborator: props.generalReducer.users.content[0],
+        feedback: '',
+        dashboard: '',
+        comments: '',
+        notes: '',
+        sick: false,
+        holidays: false,
+        disciplinaryProcess: false,
+        date: format(new Date(), 'yyyy-MM-dd'),
+        dateCommitment: format(new Date(), 'yyyy-MM-dd'),
+        addReminder: format(new Date(), 'yyyy-MM-dd')
+      }));
+    }
+  };
+
   return (
     <>
       <Grid container spacing={3} justifyContent="center">
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Grid container spacing={3}>
-            {props.generalReducer.users_charging ? (
+            {props.generalReducer.users_charging || props.plansReducer.plans_save_charging ? (
               <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex justify-center">
                 <Spinner />
               </Grid>
@@ -280,17 +352,19 @@ function EntryFollowForm(props) {
                 )}
 
                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <Button className="bg-danger" color="inherit" variant="contained">
-                    Cancelar{' '}
-                  </Button>
-                  <Button color="secondary" variant="contained" className="ml-1">
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    className="ml-1"
+                    onClick={() => submitFunction('DRAFT')}
+                  >
                     Guardar
                   </Button>
                   <Button
+                    onClick={() => submitFunction('SENDED')}
                     color="primary"
                     variant="contained"
                     className="ml-1"
-                    onClick={handleClose}
                   >
                     Enviar
                   </Button>
@@ -306,9 +380,11 @@ function EntryFollowForm(props) {
   );
 }
 
-const mapStateToProps = (generalReducer) => generalReducer;
+const mapStateToProps = ({ plansReducer, generalReducer }) => ({ plansReducer, generalReducer });
+
 const mapDispatchToProps = {
   getCollaboratorsRequest,
+  savePlanRequest,
   usersRequest,
   resetState
 };

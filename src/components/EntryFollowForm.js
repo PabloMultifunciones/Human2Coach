@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
-import { add, format } from 'date-fns';
+import { add, getWeek, format, subDays, startOfWeek } from 'date-fns';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
 import Spinner from './Spinner';
@@ -72,8 +72,22 @@ function EntryFollowForm(props) {
     return [
       { id: 'metric', label: 'Métrica', alignRight: false },
       { id: 'objective', label: 'Objetivo', alignRight: false },
-      { id: 'wbefore', label: 'W44 (25/10/2021)', alignRight: false },
-      { id: 'wafter', label: 'W44 (01/11/2021)', alignRight: false },
+      {
+        id: 'wbefore',
+        label: `W${getWeek(subDays(startOfWeek(new Date()), 7))}  ${format(
+          subDays(startOfWeek(new Date()), 7),
+          'dd/MM/yyyy'
+        )}`,
+        alignRight: false
+      },
+      {
+        id: 'wafter',
+        label: `W${getWeek(subDays(startOfWeek(new Date()), 7))}  ${format(
+          subDays(startOfWeek(new Date()), 1),
+          'dd/MM/yyyy'
+        )}`,
+        alignRight: false
+      },
       { id: 'check', label: 'Check', alignRight: false }
     ];
   }

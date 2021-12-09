@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from 'react-redux';
+import { getWeek, format } from 'date-fns';
 
 // components
 import Scrollbar from '../../Scrollbar';
@@ -42,7 +43,10 @@ function TableFeedbackDone({ title, tableHead, newPlan, metricsSelected }) {
 
       {metricsSelected.length > 0 && (
         <Card>
-          <h4 className="p-1">Feedback por objetivo (W45: 08/11/2021)</h4>
+          <h4 className="p-1">
+            {' '}
+            Feedback por objetivo {`(W${getWeek(new Date())}: ${format(new Date(), 'dd/MM/yyyy')})`}
+          </h4>
           <Scrollbar>
             <TableContainer>
               <Table>
@@ -53,13 +57,14 @@ function TableFeedbackDone({ title, tableHead, newPlan, metricsSelected }) {
                   rowCount={metricsSelected.length}
                   onRequestSort={handleRequestSort}
                 />
+
                 <TableBody>
                   {metricsSelected.map((row) => (
                     <TableRow hover key={row.id} tabIndex={-1} className="selected-cell">
-                      <TableCell align="left">{row.name}</TableCell>
+                      <TableCell align="left">{row.metricConf.name}</TableCell>
                       <TableCell align="left">{row.targetValue}</TableCell>
                       <TableCell align="left">{89}</TableCell>
-                      <TableCell align="left">{89}</TableCell>
+                      <TableCell align="left">{row.dataTwo}</TableCell>
                       <TableCell align="left">
                         <Checkbox
                           color="primary"

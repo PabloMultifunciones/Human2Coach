@@ -11,20 +11,24 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { format } from 'date-fns';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import toastr from 'toastr';
+
 import Spinner from './Spinner';
 
 import { TableFeedback, AppPlanMetrics } from './_dashboard/app';
 
-import { getPlanRequest } from '../actions/plansActions';
+import { getPlanRequest, updateStatePlanRequest } from '../actions/plansActions';
+
+import 'toastr/build/toastr.min.css';
 
 function EntryFollowFormWorker(props) {
   const [
     { collaborator, feedback, dashboard, comments, date, dateCommitment, addReminder, ownComments },
     setState
   ] = useState({
-    collaborator: { title: '3 Idiots', year: 2009 },
+    collaborator: { name: '', lastName: '' },
     feedback: 'objective',
     dashboard: 'oneon',
     comments:
@@ -36,6 +40,7 @@ function EntryFollowFormWorker(props) {
   });
 
   const params = useParams();
+  const navigate = useNavigate();
 
   function getTablehead() {
     return [
@@ -80,6 +85,40 @@ function EntryFollowFormWorker(props) {
       ...prevState,
       [event.target.name]: value
     }));
+  };
+
+  const submitSend = async (plan) => {
+    let status;
+
+    await props
+      .updateStatePlanRequest({
+        id: plan.id,
+        status: 'SENDED'
+      })
+      .then((r) => (status = r));
+    if (status === 'ERROR') {
+      toastr.error('An error occurred while trying to save the plan');
+    } else {
+      toastr.success('Plan saved successfully');
+      navigate('/dashboard/plans');
+    }
+  };
+
+  const submitReceived = async (plan) => {
+    let status;
+
+    await props
+      .updateStatePlanRequest({
+        id: plan.id,
+        status: 'ACKNOWLEGED'
+      })
+      .then((r) => (status = r));
+    if (status === 'ERROR') {
+      toastr.error('An error occurred while trying to save the plan');
+    } else {
+      toastr.success('Plan saved successfully');
+      navigate('/dashboard/plans');
+    }
   };
 
   return (
@@ -229,26 +268,45 @@ function EntryFollowFormWorker(props) {
                   <div>
                     <Link to="/dashboard/plans" rel="noopener noreferrer">
                       <Button className="bg-danger" color="inherit" variant="contained">
-                        Cancelar{' '}
+                        Cancel
                       </Button>
                     </Link>
 
-                    <Button color="secondary" variant="contained" className="ml-1">
-                      Guardar
-                    </Button>
-                  </div>
+                    {props.plansSelected && props.plansSelected.status === 'DRAFT' && (
+                      <Button
+                        onClick={() => submitSend(props.plansSelected)}
+                        color="secondary"
+                        variant="contained"
+                        className="ml-1"
+                      >
+                        Send
+                      </Button>
+                    )}
 
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        defaultChecked
-                        label="Recibido"
-                        color="primary"
-                        inputProps={{ 'aria-label': 'secondary checkbox' }}
-                      />
-                    }
-                    label="Recibido"
-                  />
+                    {props.plansSelected && props.plansSelected.status === 'SENDED' && (
+                      <Button
+                        onClick={() => submitReceived(props.plansSelected)}
+                        color="secondary"
+                        variant="contained"
+                        className="ml-1"
+                      >
+                        Received
+                      </Button>
+                    )}
+                  </div>
+                  {props.plansSelected && props.plansSelected.status === 'SENDED' && (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked
+                          label="Recibido"
+                          color="primary"
+                          inputProps={{ 'aria-label': 'secondary checkbox' }}
+                        />
+                      }
+                      label="Recibido"
+                    />
+                  )}
                 </Grid>
               </>
             )}
@@ -261,7 +319,8 @@ function EntryFollowFormWorker(props) {
 const mapStateToProps = ({ plansReducer }) => plansReducer;
 
 const mapDispatchToProps = {
-  getPlanRequest
+  getPlanRequest,
+  updateStatePlanRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntryFollowFormWorker);

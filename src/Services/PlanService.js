@@ -34,6 +34,20 @@ export default {
       data
     }),
 
+  updateSendedPlan: (data) =>
+    axios({
+      method: 'POST',
+      url: `${environment.motivarnosBackend}/plan/send`,
+      data
+    }),
+
+  updateAckowlegePlan: (data) =>
+    axios({
+      method: 'POST',
+      url: `${environment.motivarnosBackend}/plan/ackowlege`,
+      data
+    }),
+
   deletePlan: (id) =>
     axios({
       method: 'DELETE',

@@ -14,6 +14,12 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
+import toastr from 'toastr';
+import { connect } from 'react-redux';
+import Spinner from '../Spinner';
+
+import { updatePlanRequest } from '../../actions/plansActions';
+import 'toastr/build/toastr.min.css';
 
 /** *****Services******* */
 
@@ -61,12 +67,12 @@ const DialogActions = withStyles((theme) => ({
   }
 }))(MuiDialogActions);
 
-export default function PlanDialog(props) {
+function PlanDialog(props) {
   const [open, setOpen] = React.useState(false);
   const { t } = useTranslation();
 
   const [{ date }, setState] = useState({
-    date: format(new Date(), 'yyyy-MM-dd')
+    date: format(new Date(props.plan.reminderDate), 'yyyy-MM-dd')
   });
 
   const handleChange = (event) => {
@@ -78,6 +84,28 @@ export default function PlanDialog(props) {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSave = async () => {
+    if (date === '' || !date) {
+      toastr.error('The date is required');
+      return;
+    }
+
+    let status;
+
+    await props
+      .updatePlanRequest({
+        id: props.plan.id,
+        reminderDate: `${date}T00:00:00`
+      })
+      .then((r) => (status = r));
+    if (status === 'ERROR') {
+      toastr.error('An error occurred while trying to save the plan');
+    } else {
+      toastr.success('Plan saved successfully');
+      handleClose();
+    }
   };
 
   /** *********Data Binding Form******* */
@@ -99,41 +127,49 @@ export default function PlanDialog(props) {
           Plan
         </DialogTitle>
 
-        <>
-          <DialogContent dividers>
-            {props.type !== 'BOOLEAN' && (
-              <>
-                <Container maxWidth="lg">
-                  <Grid container spacing={1}>
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
-                      <TextField
-                        className="w-100"
-                        fullWidth
-                        id="outlined-date"
-                        label="Fecha de compromiso"
-                        type="date"
-                        value={date}
-                        variant="outlined"
-                        name="date"
-                        onChange={handleChange}
-                      />
-                    </Grid>
+        {props.plans_save_charging ? (
+          <Spinner />
+        ) : (
+          <>
+            <DialogContent dividers>
+              <Container maxWidth="lg">
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <TextField
+                      className="w-100"
+                      fullWidth
+                      id="outlined-date"
+                      label="Fecha de compromiso"
+                      type="date"
+                      value={date}
+                      variant="outlined"
+                      name="date"
+                      onChange={handleChange}
+                    />
                   </Grid>
-                </Container>
-              </>
-            )}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="secondary">
-              {t('menu.trivia-panel-dialog-add-test-button-close', 'Close')}
-            </Button>
+                </Grid>
+              </Container>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="secondary">
+                {t('menu.trivia-panel-dialog-add-test-button-close', 'Close')}
+              </Button>
 
-            <Button onClick={handleClose} color="primary">
-              {t('admin.header-dropdown-dialog-actions-save', 'Save')}
-            </Button>
-          </DialogActions>
-        </>
+              <Button onClick={handleSave} color="primary">
+                {t('admin.header-dropdown-dialog-actions-save', 'Save')}
+              </Button>
+            </DialogActions>
+          </>
+        )}
       </Dialog>
     </>
   );
 }
+
+const mapStateToProps = ({ plansReducer }) => plansReducer;
+
+const mapDispatchToProps = {
+  updatePlanRequest
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlanDialog);

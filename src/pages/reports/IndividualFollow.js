@@ -132,7 +132,7 @@ function IndividualFollow(props) {
         <Card>
           <UserListToolbar onFilterName={handleFilterByName} title="Search..." />
 
-          {props.metrics_charging ? (
+          {props.plans_charging ? (
             <Spinner />
           ) : (
             <>
@@ -147,7 +147,7 @@ function IndividualFollow(props) {
                         .map((row) => (
                           <TableRow hover key={row.id} tabIndex={-1}>
                             <TableCell align="left">
-                              <Link to="/dashboard/plan/1" rel="noopener noreferrer">
+                              <Link to={`/dashboard/plan/${row.id}`} rel="noopener noreferrer">
                                 {row.user ? `${row.user.name} ${row.user.lastName}` : 'N/A'}
                               </Link>
                             </TableCell>
@@ -197,7 +197,7 @@ function IndividualFollow(props) {
                             <TableCell align="left">
                               {row.status === 'DRAFT' && (
                                 <>
-                                  <PlanDialog />
+                                  <PlanDialog plan={row} />
                                   <DeleteDialog delete={() => deletePlan(row.id)} />
                                 </>
                               )}

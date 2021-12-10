@@ -134,7 +134,7 @@ export const updatePlanRequest = (payload) => async (dispatch, getState) => {
     const { plans } = getState().plansReducer;
 
     const plansUpdated = [...plans];
-    const findById = (metric) => metric.id === payload.id;
+    const findById = (plan) => plan.id === payload.id;
     const index = plansUpdated.findIndex(findById);
     plansUpdated[index] = {
       ...plansUpdated[index],

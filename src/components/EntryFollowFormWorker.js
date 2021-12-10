@@ -51,7 +51,7 @@ const metrics = [
   }
 ];
 
-export default function EntryFollowFormWorker(props) {
+export default function EntryFollowFormWorker() {
   const [
     { feedback, dashboard, comments, date, dateCommitment, addReminder, ownComments },
     setState
@@ -127,7 +127,7 @@ export default function EntryFollowFormWorker(props) {
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              {props.id ? (
+              {params.id ? (
                 <>
                   <section className="mb-2">
                     <TableFeedback

@@ -26,7 +26,7 @@ export default function AppPlanMetrics(props) {
         y: {
           formatter: (seriesName) => fNumber(seriesName),
           title: {
-            formatter: () => ''
+            formatter: (seriesName) => `${seriesName}: `
           }
         }
       },
@@ -46,13 +46,31 @@ export default function AppPlanMetrics(props) {
       const dateOne = [];
 
       props.planSelected.metricConfs.forEach((element) => {
-        dateOne.push(element.value1);
+        if (element.metricConf.type === 'TIME') {
+          const value = element.value1.split(':');
+
+          const secondsValue =
+            parseInt(value[0], 10) * 3600 + parseInt(value[1], 10) * 60 + parseInt(value[2], 10);
+
+          dateOne.push(secondsValue);
+        } else {
+          dateOne.push(element.value1);
+        }
       });
 
       const dateTwo = [];
 
       props.planSelected.metricConfs.forEach((element) => {
-        dateTwo.push(element.value2);
+        if (element.metricConf.type === 'TIME') {
+          const value = element.value2.split(':');
+
+          const secondsValue =
+            parseInt(value[0], 10) * 3600 + parseInt(value[1], 10) * 60 + parseInt(value[2], 10);
+
+          dateOne.push(secondsValue);
+        } else {
+          dateTwo.push(element.value2);
+        }
       });
 
       const categoriesName = [];

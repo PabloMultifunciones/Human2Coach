@@ -164,7 +164,7 @@ function FeedbackDialog(props) {
         ...row,
         date1: `${format(subDays(startOfWeek(new Date()), 7), 'yyyy-MM-dd')}T00:00:00`,
         date2: `${format(subDays(startOfWeek(new Date()), 1), 'yyyy-MM-dd')}T00:00:00`,
-        value1: 89,
+        value1: row.value,
         value2: row.dataTwo
       });
     }
@@ -244,7 +244,7 @@ function FeedbackDialog(props) {
                                     <TableCell align="left">
                                       <div>{targetValue}</div>
                                     </TableCell>
-                                    <TableCell align="left">89</TableCell>
+                                    <TableCell align="left">{row.value}</TableCell>
 
                                     <TableCell align="left">
                                       {(metricConf.type === 'NUMBER' ||

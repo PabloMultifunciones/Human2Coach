@@ -2,6 +2,7 @@ import * as plansTypes from '../types/plansTypes';
 
 const {
   RESET_STATE,
+  PLAN_SELECTED,
   SET_PLANS_METRICS_TABLE,
   PLANS_LIST_REQUEST,
   PLANS_LIST_FILTER_REQUEST,
@@ -19,6 +20,7 @@ const {
 
 const INITIAL_STATE = {
   metricsSelected: [],
+  plansSelected: false,
   plans: [],
   plans_filtered: [],
   error_plans: false,
@@ -41,6 +43,13 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         metricsSelected: action.payload
+      };
+
+    case PLAN_SELECTED:
+      return {
+        ...state,
+        plansSelected: action.payload,
+        plans_charging: false
       };
 
     case PLANS_LIST_REQUEST:

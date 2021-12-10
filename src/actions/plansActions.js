@@ -5,6 +5,7 @@ import PlanService from '../Services/PlanService';
 
 const {
   RESET_STATE,
+  PLAN_SELECTED,
   SET_PLANS_METRICS_TABLE,
   PLANS_LIST_REQUEST,
   PLANS_LIST_FILTER_REQUEST,
@@ -63,6 +64,38 @@ export const getPlansRequest = (payload) => async (dispatch, getState) => {
   }
 };
 
+export const getPlanRequest = (payload) => async (dispatch, getState) => {
+  try {
+    const { plans } = getState().plansReducer;
+
+    const plansUpdated = [...plans];
+    const findById = (plan) => plan.id === parseInt(payload, 10);
+    const index = plansUpdated.findIndex(findById);
+
+    if (index === -1) {
+      dispatch({
+        type: PLANS_LIST_CHARGING
+      });
+      const responsePlan = await PlanService.getPlan(payload);
+
+      dispatch({
+        type: PLAN_SELECTED,
+        payload: { ...responsePlan.data }
+      });
+    } else {
+      dispatch({
+        type: PLAN_SELECTED,
+        payload: plansUpdated[index]
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: PLANS_LIST_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
 export const getPlansFilterRequest = (payload) => async (dispatch, getState) => {
   try {
     const { pagesFiltered, filter } = getState().plansReducer;
@@ -95,11 +128,11 @@ export const savePlanRequest = (payload) => async (dispatch, getState) => {
   });
 
   try {
-    const responseLogin = await PlanService.savePlan(payload);
+    const responsePlan = await PlanService.savePlan(payload);
     const { plans } = getState().plansReducer;
     const { users } = getState().generalReducer;
 
-    const plansUpdated = [responseLogin.data, ...plans];
+    const plansUpdated = [responsePlan.data, ...plans];
 
     await dispatch({
       type: RESET_STATE

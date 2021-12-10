@@ -8,6 +8,12 @@ export default {
       url: `${environment.motivarnosBackend}/plan?_number=${number}&_size=${size}`
     }),
 
+  getPlan: (id) =>
+    axios({
+      method: 'GET',
+      url: `${environment.motivarnosBackend}/plan/${id}`
+    }),
+
   filterPlans: (number = 1, filter = '', size = 7) =>
     axios({
       method: 'GET',

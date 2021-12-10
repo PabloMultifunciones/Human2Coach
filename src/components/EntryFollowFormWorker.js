@@ -149,7 +149,7 @@ function EntryFollowFormWorker(props) {
                             />
                           </section>
 
-                          <AppPlanMetrics />
+                          <AppPlanMetrics planSelected={props.plansSelected} />
                         </>
                       ) : (
                         <TableFeedback

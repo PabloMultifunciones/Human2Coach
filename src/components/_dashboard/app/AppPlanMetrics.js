@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from 'react';
+import { getWeek } from 'date-fns';
+
 import { merge } from 'lodash';
 import ReactApexChart from 'react-apexcharts';
 // material
@@ -5,41 +8,89 @@ import { Box, Card, CardHeader } from '@material-ui/core';
 // utils
 import { fNumber } from '../../../utils/formatNumber';
 //
+import Spinner from '../../Spinner';
+
 import { BaseOptionChart } from '../../charts';
 
 // ----------------------------------------------------------------------
 
-const CHART_DATA = [
-  { name: 'W3', data: [400, 430, 448, 470, 300] },
-  { name: 'W4', data: [400, 430, 448, 470, 300] }
-];
+export default function AppPlanMetrics(props) {
+  const [chartData, setChartData] = useState(null);
+  const [name, setName] = useState(null);
 
-export default function AppPlanMetrics() {
-  const chartOptions = merge(BaseOptionChart(), {
-    colors: ['#1266F1', '#F93154'],
-    tooltip: {
-      marker: { show: false },
-      y: {
-        formatter: (seriesName) => fNumber(seriesName),
-        title: {
-          formatter: () => ''
+  const [chartOptions, setChartOptions] = useState(
+    merge(BaseOptionChart(), {
+      colors: ['#1266F1', '#F93154'],
+      tooltip: {
+        marker: { show: false },
+        y: {
+          formatter: (seriesName) => fNumber(seriesName),
+          title: {
+            formatter: () => ''
+          }
         }
+      },
+      plotOptions: {
+        bar: { horizontal: false, barHeight: '28%', borderRadius: 2 }
+      },
+      xaxis: {
+        categories: []
       }
-    },
-    plotOptions: {
-      bar: { horizontal: false, barHeight: '28%', borderRadius: 2 }
-    },
-    xaxis: {
-      categories: ['CSAT casos', 'Prod. casos', 'CSAT Chat', 'AHT', 'ACW']
+    })
+  );
+
+  useEffect(() => {
+    if (props.planSelected && props.planSelected !== 'undefined') {
+      const name = getWeek(new Date(props.planSelected.metricConfs[0].date1));
+
+      const dateOne = [];
+
+      props.planSelected.metricConfs.forEach((element) => {
+        dateOne.push(element.value1);
+      });
+
+      const dateTwo = [];
+
+      props.planSelected.metricConfs.forEach((element) => {
+        dateTwo.push(element.value2);
+      });
+
+      const categoriesName = [];
+
+      props.planSelected.metricConfs.forEach((element) => {
+        categoriesName.push(element.metricConf.name);
+      });
+
+      setData(name, dateOne, dateTwo, categoriesName);
     }
-  });
+
+    // eslint-disable-next-line
+  }, [props.planSelected]);
+
+  const setData = (name, dateOne, dateTwo, categoriesName) => {
+    const chartOptionsOriginal = { ...chartOptions };
+    chartOptionsOriginal.xaxis = { categories: categoriesName };
+
+    setChartOptions(chartOptionsOriginal);
+    setName(name);
+    setChartData([
+      { name: `W${name}`, data: dateOne },
+      { name: `W${name + 1}`, data: dateTwo }
+    ]);
+  };
 
   return (
     <Card>
-      <CardHeader title="W3 y W4" />
-      <Box sx={{ mx: 3 }} dir="ltr">
-        <ReactApexChart type="bar" series={CHART_DATA} options={chartOptions} height={364} />
-      </Box>
+      {(!chartData || !chartOptions || !name) && <Spinner />}
+
+      {chartData && chartOptions && name && (
+        <>
+          <CardHeader title={`W${name} y W${name + 1}`} />
+          <Box sx={{ mx: 3 }} dir="ltr">
+            <ReactApexChart type="bar" series={chartData} options={chartOptions} height={364} />
+          </Box>
+        </>
+      )}
     </Card>
   );
 }

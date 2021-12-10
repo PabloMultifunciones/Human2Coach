@@ -24,7 +24,6 @@ import { UserListHead } from '../user';
 
 function TableFeedback({
   title,
-  tableHead,
   metrics,
   disabled,
   checked,
@@ -35,6 +34,14 @@ function TableFeedback({
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
+
+  const [tableHead] = useState([
+    { id: 'metric', label: 'Métrica', alignRight: false },
+    { id: 'objective', label: 'Objetivo', alignRight: false },
+    { id: 'wbefore', label: 'W44 (25/10/2021)', alignRight: false },
+    { id: 'wafter', label: 'W44 (01/11/2021)', alignRight: false },
+    { id: 'check', label: 'Check', alignRight: false }
+  ]);
 
   const myRefs = useRef([]);
 
@@ -101,10 +108,12 @@ function TableFeedback({
                     ref={(el) => (myRefs.current[i] = el)}
                     className="not-selected-cell"
                   >
-                    <TableCell align="left">{row.metric}</TableCell>
-                    <TableCell align="left">{row.objective}</TableCell>
-                    <TableCell align="left">{row.wbefore}</TableCell>
-                    <TableCell align="left">{row.wafter}</TableCell>
+                    <TableCell align="left">
+                      {row.metricConf ? row.metricConf.name : 'N/A'}
+                    </TableCell>
+                    <TableCell align="left">{row.targetValue}</TableCell>
+                    <TableCell align="left">{row.value1}</TableCell>
+                    <TableCell align="left">{row.value2}</TableCell>
 
                     <TableCell align="left">
                       <Checkbox

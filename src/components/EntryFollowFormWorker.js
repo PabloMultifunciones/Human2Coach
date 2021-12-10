@@ -7,8 +7,6 @@ import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import { connect } from 'react-redux';
 
-import faker from 'faker';
-
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { format } from 'date-fns';
@@ -20,40 +18,6 @@ import Spinner from './Spinner';
 import { TableFeedback, AppPlanMetrics } from './_dashboard/app';
 
 import { getPlanRequest } from '../actions/plansActions';
-
-const metrics = [
-  {
-    id: faker.datatype.uuid(),
-    metric: 'CSAT cases',
-    objective: 89,
-    wbefore: 89,
-    wafter: 89
-  },
-
-  {
-    id: faker.datatype.uuid(),
-    metric: 'CSAT chat',
-    objective: 63,
-    wbefore: 89,
-    wafter: 89
-  },
-
-  {
-    id: faker.datatype.uuid(),
-    metric: 'CSAT chat',
-    objective: 78,
-    wbefore: 89,
-    wafter: 89
-  },
-
-  {
-    id: faker.datatype.uuid(),
-    metric: 'CSAT cases',
-    objective: 54,
-    wbefore: 89,
-    wafter: 89
-  }
-];
 
 function EntryFollowFormWorker(props) {
   const [
@@ -170,25 +134,33 @@ function EntryFollowFormWorker(props) {
                     </RadioGroup>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={12}>
-                  {params.id ? (
-                    <>
-                      <section className="mb-2">
+                {params.id &&
+                  props.plansSelected.metricConfs &&
+                  props.plansSelected.metricConfs.length > 0 && (
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      {params.id ? (
+                        <>
+                          <section className="mb-2">
+                            <TableFeedback
+                              title=""
+                              metrics={props.plansSelected.metricConfs}
+                              disabled
+                              checked
+                            />
+                          </section>
+
+                          <AppPlanMetrics />
+                        </>
+                      ) : (
                         <TableFeedback
                           title=""
                           tableHead={getTablehead()}
-                          metrics={metrics}
+                          metrics={props.plansSelected.metricConfs}
                           disabled
-                          checked
                         />
-                      </section>
-
-                      <AppPlanMetrics />
-                    </>
-                  ) : (
-                    <TableFeedback title="" tableHead={getTablehead()} metrics={metrics} disabled />
+                      )}
+                    </Grid>
                   )}
-                </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <TextField
                     className="w-100"

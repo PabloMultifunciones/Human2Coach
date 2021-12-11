@@ -26,7 +26,7 @@ import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
-import { teamsRequest, usersRequest } from '../../actions/generalActions';
+import { teamsRequest, usersRequest, secondaryTeamsRequest } from '../../actions/generalActions';
 import { updateMetricRequest, saveMetricRequest, resetState } from '../../actions/metricsActions';
 
 import FindRegistersDialog from './FindRegistersDialog';
@@ -77,8 +77,8 @@ function MetricDialog(props) {
   const [frequencyError, setFrequencyErrorError] = useState(false);
   const [typeError, setTypeError] = useState(false);
   const [teamsError, setTeamsError] = useState(false);
+
   const [usersError, setUsersError] = useState(false);
-  const [isApplyToSupervisorError, setIsApplyToSupervisorError] = useState(false);
   const [supervisorCalculationTypeError, setSupervisorCalculationTypeError] = useState(false);
   const [isActiveError, setIsActiveError] = useState(false);
   const [targetValueError, setTargetValueError] = useState(false);
@@ -91,6 +91,7 @@ function MetricDialog(props) {
       frequency,
       type,
       teams,
+      secondaryTeams,
       users,
       isApplyToSupervisor,
       supervisorCalculationType,
@@ -129,7 +130,7 @@ function MetricDialog(props) {
     description: props.description ? props.description : '',
     frequency: props.frequency ? props.frequency : '',
     isActive: props.isActive ? props.isActive : true,
-    isApplyToSupervisor: props.isApplyToSupervisor ? String(props.isApplyToSupervisor) : 'false',
+    isApplyToSupervisor: false,
     supervisorCalculationType: props.supervisorCalculationType
       ? props.supervisorCalculationType
       : 'ADITION',
@@ -141,20 +142,27 @@ function MetricDialog(props) {
           : parseFloat(props.targetValue)
         : new Date(`0000-01-01T${props.targetValue ? props.targetValue : '00:00:00'}`)
       : '',
-
+    secondaryTeams: GeneralFunctions.formatPropsEdit(
+      props.secondaryTeams ? props.secondaryTeams : []
+    ),
     teams: GeneralFunctions.formatPropsEdit(props.teams ? props.teams : []),
     users: GeneralFunctions.formatPropsEdit(props.users ? props.users : [])
   });
 
-  const handleClickOpen = async () => {
+  const handleClickOpen = () => {
     setOpen(true);
     if (!props.generalReducer.teams) {
-      await props.teamsRequest();
+      props.teamsRequest();
+    }
+
+    if (!props.generalReducer.secondaryTeams) {
+      props.secondaryTeamsRequest();
     }
 
     if (!props.generalReducer.users) {
-      await props.usersRequest();
+      props.usersRequest();
     }
+
     setOriginalState();
   };
 
@@ -199,11 +207,16 @@ function MetricDialog(props) {
   function setValue(name, value) {
     let valueArray;
     const n = valueArray.includes(value);
-
     if (name === 'teams') {
       valueArray = [...teams];
-    } else {
+    }
+
+    if (name === 'users') {
       valueArray = [...users];
+    }
+
+    if (name === 'secondaryTeams') {
+      valueArray = [...secondaryTeams];
     }
 
     if (!n) {
@@ -218,10 +231,19 @@ function MetricDialog(props) {
         ...prevState,
         teams: props.rowTeams
       }));
-    } else {
+    }
+
+    if (type === 'users') {
       setState((prevState) => ({
         ...prevState,
         users: props.rowsUsers
+      }));
+    }
+
+    if (type === 'secondaryTeams') {
+      setState((prevState) => ({
+        ...prevState,
+        secondaryTeams: props.rowSecondaryTeams
       }));
     }
   }
@@ -258,7 +280,11 @@ function MetricDialog(props) {
       rangeto2: props.rangeTo2 ? parseFloat(props.rangeTo2) : 0,
       rangeto3: props.rangeTo3 ? parseFloat(props.rangeTo3) : 0,
       teams: GeneralFunctions.formatPropsEdit(props.teams ? props.teams : []),
-      users: GeneralFunctions.formatPropsEdit(props.users ? props.teams : []),
+      secondaryTeams: GeneralFunctions.formatPropsEdit(
+        props.secondaryTeams ? props.secondaryTeams : []
+      ),
+      users: GeneralFunctions.formatPropsEdit(props.users ? props.users : []),
+
       type: props.type ? props.type : '',
       isActive: props.isActive ? props.isActive : true,
       description: props.description ? props.description : '',
@@ -284,7 +310,6 @@ function MetricDialog(props) {
     setTypeError(false);
     setTeamsError(false);
     setUsersError(false);
-    setIsApplyToSupervisorError(false);
     setSupervisorCalculationTypeError(false);
     setIsActiveError(false);
 
@@ -327,17 +352,6 @@ function MetricDialog(props) {
         t(
           'menu.trivia-panel-dialog-add-test-message-error-add-group',
           'You must add groups or players'
-        )
-      );
-      return;
-    }
-
-    if (isApplyToSupervisor === '') {
-      setIsApplyToSupervisorError(true);
-      toastr.error(
-        t(
-          'menu.metric-panel-dialog-message-error-supervisor',
-          'You must choose whether or not to impact the supervisor'
         )
       );
       return;
@@ -440,6 +454,13 @@ function MetricDialog(props) {
       });
     });
 
+    const secondaryTeamsFormatted = [];
+    secondaryTeams.forEach((element) => {
+      secondaryTeamsFormatted.push({
+        id: element
+      });
+    });
+
     const json = {
       id: props.id ? props.id : null,
       color1: color1 || 'red',
@@ -460,6 +481,8 @@ function MetricDialog(props) {
       name,
       teams: teamsFormatted,
       users: usersFormatted,
+      secondaryTeams: secondaryTeamsFormatted,
+
       type,
       isActive,
       description,
@@ -671,6 +694,57 @@ function MetricDialog(props) {
                 </Grid>
               )}
 
+              {props.generalReducer.secondaryTeams && (
+                <Grid item xs={12} md={6} lg={6} className="d-flex">
+                  <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel id="teams-select-outlined-label">
+                      {t('admin.header-dropdown-dialog-secondary-teams-input', 'Secondary Teams')}
+                    </InputLabel>
+                    <Select
+                      labelId="group-mutiple-name-label"
+                      id="secondaryTeams"
+                      name="secondaryTeams"
+                      label={t(
+                        'admin.header-dropdown-dialog-secondary-teams-input',
+                        'Secondary Teams'
+                      )}
+                      multiple
+                      value={secondaryTeams}
+                      onChange={handleChange}
+                      MenuProps={MenuProps}
+                    >
+                      {props.generalReducer.secondaryTeams.content.map((team) => (
+                        <MenuItem key={team.id} value={team.id}>
+                          {team.name
+                            ? team.name
+                            : t(
+                                'admin.user-panel-user-dialog-input-select-without-name',
+                                'Without name'
+                              )}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+                  <FindRegistersDialog
+                    setValue={(t, v) => setValue(t, v)}
+                    type="secondaryTeams"
+                    rows={props.generalReducer.secondaryTeams.content}
+                  />
+
+                  <Tooltip title={t('add-all.label', 'Add all')}>
+                    <Button
+                      className="button-table ml-1 mt-1"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleClickSelectAll('secondaryTeams')}
+                    >
+                      <AddIcon />
+                    </Button>
+                  </Tooltip>
+                </Grid>
+              )}
+
               {props.generalReducer.users && (
                 <Grid item xs={12} md={6} lg={6} className="d-flex">
                   <FormControl variant="outlined" className={classes.formControl}>
@@ -719,33 +793,33 @@ function MetricDialog(props) {
                   </Tooltip>
                 </Grid>
               )}
-            </Grid>
 
-            <Grid container spacing={1}>
               <Grid item xs={12} md={6} lg={6}>
                 <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="isApplyToSupervisor-select-outlined-label">
-                    {t('menu.metric-panel-table-impact-supervisor', 'Impacta/Supervisor')}
+                  <InputLabel id="isActive-select-outlined-label">
+                    {t('admin.header-dropdown-view-conditions-table-state', 'State')}
                   </InputLabel>
                   <Select
                     onChange={handleChange}
-                    error={isApplyToSupervisorError}
-                    value={isApplyToSupervisor}
-                    labelId="isApplyToSupervisor"
-                    id="isApplyToSupervisor"
-                    name="isApplyToSupervisor"
-                    label={t('menu.metric-panel-table-impact-supervisor', 'Impacta/Supervisor')}
+                    error={isActiveError}
+                    value={isActive}
+                    labelId="isActive"
+                    id="isActive"
+                    name="isActive"
+                    label={t('admin.header-dropdown-view-conditions-table-state', 'State')}
                   >
                     <MenuItem value>
-                      {t('admin.header-dropdown-dialog-notifications-input-item-yes', 'Yes')}{' '}
+                      {t('admin.header-dropdown-view-conditions-table-active-state', 'Active')}{' '}
                     </MenuItem>
                     <MenuItem value={false}>
-                      {t('admin.header-dropdown-dialog-notifications-input-item-no', 'No')}
+                      {t('admin.header-dropdown-view-conditions-table-blocked-state', 'Blocked')}
                     </MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
+            </Grid>
 
+            <Grid container spacing={1}>
               {type === 'BOOLEAN' && (
                 <Grid item xs={12} md={6} lg={6}>
                   <FormControl variant="outlined" className={classes.formControl}>
@@ -840,30 +914,6 @@ function MetricDialog(props) {
                   </FormControl>
                 </Grid>
               )}
-
-              <Grid item xs={12} md={6} lg={6}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="isActive-select-outlined-label">
-                    {t('admin.header-dropdown-view-conditions-table-state', 'State')}
-                  </InputLabel>
-                  <Select
-                    onChange={handleChange}
-                    error={isActiveError}
-                    value={isActive}
-                    labelId="isActive"
-                    id="isActive"
-                    name="isActive"
-                    label={t('admin.header-dropdown-view-conditions-table-state', 'State')}
-                  >
-                    <MenuItem value>
-                      {t('admin.header-dropdown-view-conditions-table-active-state', 'Active')}{' '}
-                    </MenuItem>
-                    <MenuItem value={false}>
-                      {t('admin.header-dropdown-view-conditions-table-blocked-state', 'Blocked')}
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
             </Grid>
 
             <Grid container spacing={1}>
@@ -911,6 +961,7 @@ const mapStateToProps = ({ generalReducer, metricsReducer }) => ({
 });
 const mapDispatchToProps = {
   teamsRequest,
+  secondaryTeamsRequest,
   usersRequest,
   updateMetricRequest,
   saveMetricRequest,

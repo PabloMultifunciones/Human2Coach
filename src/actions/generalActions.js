@@ -6,6 +6,9 @@ const {
   TEAMS_REQUEST,
   TEAMS_CHARGING,
   TEAMS_ERROR,
+  TEAMS_SECONDARY_CHARGING,
+  TEAMS_SECONDARY_ERROR,
+  TEAMS_SECONDARY_REQUEST,
   USERS_REQUEST,
   USERS_CHARGING,
   USERS_ERROR
@@ -26,6 +29,26 @@ export const teamsRequest = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: TEAMS_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
+export const secondaryTeamsRequest = () => async (dispatch) => {
+  dispatch({
+    type: TEAMS_SECONDARY_CHARGING
+  });
+
+  try {
+    const responseLogin = await GeneralService.getSecondaryTeams();
+
+    dispatch({
+      type: TEAMS_SECONDARY_REQUEST,
+      payload: responseLogin.data
+    });
+  } catch (error) {
+    dispatch({
+      type: TEAMS_SECONDARY_ERROR,
       payload: error.response ? error.response.data : error
     });
   }

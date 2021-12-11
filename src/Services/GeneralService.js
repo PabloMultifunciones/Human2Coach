@@ -8,6 +8,12 @@ export default {
       url: `${environment.motivarnosBackend}/team?_size=${999}`
     }),
 
+  getSecondaryTeams: () =>
+    axios({
+      method: 'GET',
+      url: `${environment.motivarnosBackend}/secondaryteam?_size=${999}`
+    }),
+
   getUsers: () =>
     axios({
       method: 'GET',

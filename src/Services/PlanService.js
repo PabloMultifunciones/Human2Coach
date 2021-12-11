@@ -17,7 +17,7 @@ export default {
   filterPlans: (number = 1, filter = '', size = 7) =>
     axios({
       method: 'GET',
-      url: `${environment.motivarnosBackend}/plan?_number=${number}&_size=${size}&user.textSearch=%25${filter}%25`
+      url: `${environment.motivarnosBackend}/plan?_number=${number}&_size=${size}&user.textSearch_like=%25${filter}%25`
     }),
 
   savePlan: (data) =>

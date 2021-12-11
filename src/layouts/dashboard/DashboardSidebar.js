@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
+import { connect } from 'react-redux';
 
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useLocation, Navigate } from 'react-router-dom';
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 import { Box, Drawer } from '@material-ui/core';
@@ -12,6 +13,7 @@ import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
+import sidebarConfigCollaborator from './SidebarConfigCollaborator';
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +33,7 @@ DashboardSidebar.propTypes = {
   onCloseSidebar: PropTypes.func
 };
 
-export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
+function DashboardSidebar({ isOpenSidebar, onCloseSidebar, userLogged }) {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -40,6 +42,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  if (!userLogged) {
+    return <Navigate to="/" />;
+  }
 
   const renderContent = (
     <Scrollbar
@@ -54,7 +60,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Box>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
+      {userLogged.user.position === 3 ? (
+        <NavSection navConfig={sidebarConfigCollaborator} />
+      ) : (
+        <NavSection navConfig={sidebarConfig} />
+      )}
     </Scrollbar>
   );
 
@@ -89,3 +99,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     </RootStyle>
   );
 }
+
+const mapStateToProps = ({ loginReducer }) => loginReducer;
+
+export default connect(mapStateToProps, null)(DashboardSidebar);

@@ -10,22 +10,18 @@ import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
 
 const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 
-const sidebarConfig = [
+const SidebarConfigCollaborator = [
   {
     title: 'dashboard',
     path: '/dashboard/app',
     icon: getIcon(pieChart2Fill)
   },
-  {
-    title: 'New plan',
-    path: '/dashboard/new-plan',
-    icon: getIcon(clipboardOutline)
-  },
+
   {
     title: 'Records',
     path: '/dashboard/plans',
     icon: getIcon(clipboardOutline)
-  },
+  }
   /* 
   
   {
@@ -39,18 +35,6 @@ const sidebarConfig = [
     icon: getIcon(alertCircleFill)
   }, */
 
-  {
-    title: 'Metrics',
-    path: '/dashboard/metrics',
-    icon: getIcon(pieChartFill)
-  },
-
-  {
-    title: 'Users',
-    path: '/dashboard/users',
-    icon: getIcon(peopleFill)
-  }
-
   /* {
     title: 'Conocimiento',
     path: '/dashboard/knowledge',
@@ -58,4 +42,4 @@ const sidebarConfig = [
   } */
 ];
 
-export default sidebarConfig;
+export default SidebarConfigCollaborator;

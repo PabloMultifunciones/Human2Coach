@@ -129,6 +129,7 @@ export const updateUserRequest = (payload) => async (dispatch, getState) => {
     });
     return 'SUCCESS';
   } catch (error) {
+    console.log(error);
     dispatch({
       type: USERS_LIST_ERROR,
       payload: error.response ? error.response.data : error

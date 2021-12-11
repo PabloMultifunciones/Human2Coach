@@ -5,7 +5,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Login from './pages/Login';
 import RecoverPassword from './pages/RecoverPassword';
-import Blog from './pages/Blog';
+// import Blog from './pages/Blog';
 import Avatar from './pages/Avatar';
 
 import NotFound from './pages/Page404';
@@ -14,21 +14,21 @@ import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import IndividualFollow from './pages/reports/IndividualFollow';
-import Alerts from './pages/reports/Alerts';
+// import Alerts from './pages/reports/Alerts';
 import EntryFollow from './pages/reports/EntryFollow';
-import CoachingSesion from './pages/reports/CoachingSesion';
-import Pending from './pages/reports/Pending';
+// import CoachingSesion from './pages/reports/CoachingSesion';
+// import Pending from './pages/reports/Pending';
 
 import User from './pages/User';
 import Metric from './pages/Metric';
 
-import Knowledge from './pages/Knowledge';
-import ProcessDetail from './pages/ProcessDetail';
-import SubProcessDetail from './pages/SubProcessDetail';
+// import Knowledge from './pages/Knowledge';
+// import ProcessDetail from './pages/ProcessDetail';
+// import SubProcessDetail from './pages/SubProcessDetail';
 import EntryFollowFormWorker from './components/EntryFollowFormWorker';
 import AuthComponent from './components/AuthComponent';
 
-import ChatBoss from './pages/ChatBoss';
+// import ChatBoss from './pages/ChatBoss';
 
 // ----------------------------------------------------------------------
 
@@ -40,23 +40,51 @@ export default function Router() {
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" replace /> },
         { path: 'app', element: <DashboardApp /> },
-        { path: 'chat', element: <ChatBoss /> }, // Maybe this routes will be deleted
+        // { path: 'chat', element: <ChatBoss /> }, // Maybe this routes will be deleted
         { path: 'plans', element: <IndividualFollow /> },
-        { path: 'pending', element: <Pending /> },
+        // { path: 'pending', element: <Pending /> },
         { path: 'plan/:id', element: <EntryFollowFormWorker /> },
 
-        { path: 'alerts', element: <Alerts /> },
-        { path: 'new-plan', element: <EntryFollow /> },
-        { path: 'coaching-sesion', element: <CoachingSesion /> }, // Maybe this routes will be deleted
-        { path: 'metrics', element: <Metric /> },
-        { path: 'users', element: <User /> },
-        { path: 'knowledge', element: <Knowledge /> },
-        { path: 'process/detail', element: <ProcessDetail /> },
-        { path: 'sub-process/detail', element: <SubProcessDetail /> },
-        { path: 'blog', element: <Blog /> },
+        // { path: 'alerts', element: <Alerts /> },
+        {
+          path: 'new-plan',
+          element:
+            localStorage.getItem('sesion') &&
+            JSON.parse(localStorage.getItem('sesion')).user.postion === 3 ? (
+              <Navigate to="/dashboard/app" replace />
+            ) : (
+              <EntryFollow />
+            )
+        },
+        // { path: 'coaching-sesion', element: <CoachingSesion /> }, // Maybe this routes will be deleted
+        {
+          path: 'metrics',
+          element:
+            localStorage.getItem('sesion') &&
+            JSON.parse(localStorage.getItem('sesion')).user.postion === 3 ? (
+              <Navigate to="/dashboard/app" replace />
+            ) : (
+              <Metric />
+            )
+        },
+        {
+          path: 'users',
+          element:
+            localStorage.getItem('sesion') &&
+            JSON.parse(localStorage.getItem('sesion')).user.postion === 3 ? (
+              <Navigate to="/dashboard/app" replace />
+            ) : (
+              <User />
+            )
+        },
+        // { path: 'knowledge', element: <Knowledge /> },
+        // { path: 'process/detail', element: <ProcessDetail /> },
+        // { path: 'sub-process/detail', element: <SubProcessDetail /> },
+        // { path: 'blog', element: <Blog /> },
         { path: 'avatar', element: <Avatar /> }
       ]
     },
+
     {
       path: '/',
       element: !localStorage.getItem('sesion') ? (

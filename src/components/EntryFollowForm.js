@@ -42,7 +42,7 @@ function EntryFollowForm(props) {
   ] = useState({
     collaborator: '',
     feedback: '',
-    dashboard: '',
+    dashboard: 'oneonone',
     comments: '',
     notes: '',
     sick: false,
@@ -175,7 +175,7 @@ function EntryFollowForm(props) {
         ...prevState,
         collaborator: props.generalReducer.users.content[0],
         feedback: '',
-        dashboard: '',
+        dashboard: 'oneonone',
         comments: '',
         notes: '',
         sick: false,

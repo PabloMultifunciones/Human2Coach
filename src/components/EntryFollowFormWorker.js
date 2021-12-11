@@ -69,7 +69,7 @@ function EntryFollowFormWorker(props) {
           ? 'pip'
           : props.plansSelected.isOneOnOne
           ? 'oneonone'
-          : 'pds',
+          : '',
         comments: props.plansSelected.supervisorComment,
         date: format(new Date(props.plansSelected.commitmentDate), 'yyyy-MM-dd'),
         dateCommitment: format(new Date(props.plansSelected.sendedDate), 'yyyy-MM-dd'),
@@ -169,7 +169,7 @@ function EntryFollowFormWorker(props) {
                     >
                       <FormControlLabel value="oneonone" control={<Radio />} label="One on one" />
                       <FormControlLabel value="pds" control={<Radio />} label="PDS" />
-                      <FormControlLabel value="pi" control={<Radio />} label="PIP" />
+                      <FormControlLabel value="pip" control={<Radio />} label="PIP" />
                     </RadioGroup>
                   </FormControl>
                 </Grid>

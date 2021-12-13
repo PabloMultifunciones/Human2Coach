@@ -19,6 +19,10 @@ const ListItemStyle = styled((props) => <ListItem button disableGutters {...prop
     paddingLeft: theme.spacing(5),
     paddingRight: theme.spacing(2.5),
     color: 'white',
+    '&:hover': {
+      color: 'red',
+      backgroundColor: 'white'
+    },
     '&:before': {
       top: 0,
       right: 0,

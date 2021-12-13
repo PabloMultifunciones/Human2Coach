@@ -110,13 +110,14 @@ export default function DashboardApp() {
               title="One on One"
               tableHead={getTablehead('Uno a uno')}
               metrics={metrics}
+              id="oneonone"
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid item xs={12} sm={12} md={12} id="metric">
             <AppTableMetric title="PDS" tableHead={getTablehead('PDS')} metrics={metrics} />
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid item xs={12} sm={12} md={12} id="pip">
             <AppTableMetric title="PIP" tableHead={getTablehead('PIP')} metrics={metrics} />
           </Grid>
         </Grid>

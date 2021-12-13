@@ -58,7 +58,7 @@ const TABLE_HEAD = [
 function IndividualFollow(props) {
   const [page, setPage] = useState(0);
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(7);
 
   useEffect(() => {
     props.getPlansRequest({ number: 0, filterName });

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link as RouterLink, useLocation, Navigate } from 'react-router-dom';
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Box, Drawer } from '@material-ui/core';
+import { Box, Drawer, Avatar, Typography } from '@material-ui/core';
 // components
 import Logo from '../../components/Logo';
 import Scrollbar from '../../components/Scrollbar';
@@ -24,6 +24,13 @@ const RootStyle = styled('div')(({ theme }) => ({
     flexShrink: 0,
     width: DRAWER_WIDTH
   }
+}));
+
+const AccountStyle = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(2, 2.5),
+  borderRadius: theme.shape.borderRadiusSm
 }));
 
 // ----------------------------------------------------------------------
@@ -53,11 +60,23 @@ function DashboardSidebar({ isOpenSidebar, onCloseSidebar, userLogged }) {
         height: '100%',
         '& .simplebar-content': { height: '100%', display: 'flex', flexDirection: 'column' }
       }}
+      className="custom-bg-FA0050"
     >
-      <Box sx={{ px: 2.5, py: 3 }}>
+      <Box sx={{ px: 2.5, py: 2.25 }}>
         <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
           <Logo />
         </Box>
+      </Box>
+
+      <Box sx={{ mb: 1 }} className="custom-bg-white">
+        <AccountStyle>
+          <Avatar src="/static/icons/icon-message.png" alt="photoURL" />
+          <Box sx={{ ml: 2 }}>
+            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              ModoFeedback
+            </Typography>
+          </Box>
+        </AccountStyle>
       </Box>
 
       {userLogged.user.position === 3 ? (

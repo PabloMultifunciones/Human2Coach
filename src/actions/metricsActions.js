@@ -22,7 +22,7 @@ const {
   METRICS_IMPORT_ERROR
 } = metricsTypes;
 
-const { USERS_REQUEST } = generalTypes;
+const { COLLABORATOR_LIST_REQUEST } = generalTypes;
 
 export const getMetricsCollaboratorRequest = (payload) => async (dispatch, getState) => {
   try {
@@ -247,14 +247,14 @@ export const savePreImportMetricRequest = (payload) => async (dispatch) => {
 
 export const resetState = () => async (dispatch, getState) => {
   // const stateMetrics = getState().metricsReducer;
-  const { users } = getState().generalReducer;
+  const { collaborators } = getState().generalReducer;
 
   await dispatch({
     type: RESET_STATE
   });
 
   await dispatch({
-    type: USERS_REQUEST,
-    payload: users
+    type: COLLABORATOR_LIST_REQUEST,
+    payload: collaborators
   });
 };

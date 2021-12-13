@@ -39,7 +39,8 @@ import 'toastr/build/toastr.min.css';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    position: 'relative'
+    position: 'relative',
+    backgroundColor: '#FA0050'
   },
   formControl: {
     width: '100%',
@@ -542,7 +543,7 @@ function MetricDialog(props) {
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
               <IconButton edge="start" onClick={handleClose} aria-label="close">
-                <CloseIcon />
+                <CloseIcon className="color-white" />
               </IconButton>
               Métrica
             </Typography>

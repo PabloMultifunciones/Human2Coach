@@ -29,7 +29,7 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar } from '../components/_dashboard/user';
 //
 
-import ShowDetailsDialog from '../components/Dialogs/ShowDetailsDialog';
+// import ShowDetailsDialog from '../components/Dialogs/ShowDetailsDialog';
 import MetricDialog from '../components/Dialogs/MetricDialog';
 import DeleteDialog from '../components/Dialogs/DeleteDialog';
 import MetricImportDialog from '../components/Dialogs/MetricImportDialog';
@@ -289,7 +289,8 @@ function Metric(props) {
                               </TableCell>
 
                               <TableCell align="right">
-                                <ShowDetailsDialog {...row} />
+                                {/*                                <ShowDetailsDialog {...row} />
+                                 */}
                                 <MetricDialog {...row} typeModal="EDIT" />
                                 <DeleteDialog delete={() => deleteMetric(id)} />
                               </TableCell>

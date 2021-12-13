@@ -84,7 +84,7 @@ export default function FindRegistersDialog(props) {
         <Button
           className="button-table ml-1 mt-1"
           variant="contained"
-          color={props.button ? 'default' : 'primary'}
+          color="error"
           onClick={handleClickOpen}
         >
           <SearchIcon />

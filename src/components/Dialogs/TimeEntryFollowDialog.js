@@ -83,7 +83,7 @@ export default function TimeEntryFollowDialog(props) {
   return (
     <>
       <Button color="secondary" variant="contained" className="ml-1" onClick={handleClickOpen}>
-        Excepción
+        Exception
       </Button>
       <Dialog
         maxWidth="sm"
@@ -93,7 +93,7 @@ export default function TimeEntryFollowDialog(props) {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Tiempo extra
+          Extra time{' '}
         </DialogTitle>
 
         <>

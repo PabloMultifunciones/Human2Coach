@@ -32,13 +32,13 @@ export default function KnowledgeDialog(props) {
         aria-describedby="alert-dialog-description"
         className="knowledge-dialog"
       >
-        <DialogTitle id="alert-dialog-title">Comentario</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Comment</DialogTitle>
         <DialogContent>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={12} lg={12} className="mt-1">
               <TextField
                 id="outlined-multiline-static"
-                label="Comentario"
+                label="Comment"
                 multiline
                 rows={6}
                 defaultValue=""
@@ -49,10 +49,10 @@ export default function KnowledgeDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} className="button-danger">
-            Cerrar
+            Close
           </Button>
           <Button onClick={handleClose} color="primary">
-            Enviar
+            Send
           </Button>
         </DialogActions>
       </Dialog>

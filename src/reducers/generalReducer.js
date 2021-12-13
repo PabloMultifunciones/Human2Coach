@@ -76,7 +76,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         users_charging: false,
-        collaborators: [...action.payload.content],
+        collaborators: action.payload,
         error_users: false
       };
 

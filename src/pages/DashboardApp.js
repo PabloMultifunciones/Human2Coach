@@ -115,6 +115,8 @@ export default function DashboardApp() {
           <Grid item xs={12} sm={12} md={12}>
             <AppTableMetric title="PDS" tableHead={getTablehead('PDS')} metrics={metrics} />
           </Grid>
+          <a href="#OneonOne">Jump to the part of the page with the “anchor-name” id </a>
+
           <Grid item xs={12} sm={12} md={12}>
             <AppTableMetric title="PIP" tableHead={getTablehead('PIP')} metrics={metrics} />
           </Grid>

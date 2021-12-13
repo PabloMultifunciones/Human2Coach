@@ -270,10 +270,20 @@
 }
 /**********************KNOWLEDGE**********************/
 
-/************************FONTS***********************/
+/***************Custom colors**********************/
 
-* {
-  font-family: 'Lato', sans-serif !important;
+.color-white {
+  color: white !important;
 }
 
-/*********************Red Styles*********************/
+.color-FA0050 {
+  color: #fa0050 !important;
+}
+
+.custom-bg-FA0050 {
+  background-color: #fa0050;
+}
+
+.custom-bg-white {
+  background-color: white !important;
+}

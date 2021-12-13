@@ -148,7 +148,9 @@ function IndividualFollow(props) {
                           <TableRow hover key={row.id} tabIndex={-1}>
                             <TableCell align="left">
                               <Link to={`/dashboard/plan/${row.id}`} rel="noopener noreferrer">
-                                {row.user ? `${row.user.name} ${row.user.lastName}` : 'N/A'}
+                                {row.user && row.user.name
+                                  ? `${row.user.name} ${row.user.lastName}`
+                                  : 'N/A'}
                               </Link>
                             </TableCell>
 

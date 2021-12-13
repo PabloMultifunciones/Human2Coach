@@ -5,7 +5,7 @@ import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom'
 import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
 import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
 // material
-import { alpha, useTheme, experimentalStyled as styled } from '@material-ui/core/styles';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 import { Box, List, ListItem, Collapse, ListItemText, ListItemIcon } from '@material-ui/core';
 
 // ----------------------------------------------------------------------
@@ -18,7 +18,7 @@ const ListItemStyle = styled((props) => <ListItem button disableGutters {...prop
     textTransform: 'capitalize',
     paddingLeft: theme.spacing(5),
     paddingRight: theme.spacing(2.5),
-    color: theme.palette.text.secondary,
+    color: 'white',
     '&:before': {
       top: 0,
       right: 0,
@@ -50,7 +50,6 @@ NavItem.propTypes = {
 };
 
 function NavItem({ item, active }) {
-  const theme = useTheme();
   const isActiveRoot = active(item.path);
   const { title, path, icon, info, children } = item;
   const [open, setOpen] = useState(isActiveRoot);
@@ -62,7 +61,7 @@ function NavItem({ item, active }) {
   const activeRootStyle = {
     color: '#F93154',
     fontWeight: 'fontWeightMedium',
-    bgcolor: alpha('#F93154', theme.palette.action.selectedOpacity),
+    bgcolor: 'white',
     '&:before': { display: 'block' }
   };
 

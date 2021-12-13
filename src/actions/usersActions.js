@@ -90,13 +90,13 @@ export const saveUserRequest = (payload) => async (dispatch, getState) => {
       type: USERS_LIST_SAVE,
       payload: usersUpdated
     });
-    return 'SUCCESS';
+    return { status: 'SUCCESS', responseLogin };
   } catch (error) {
     dispatch({
       type: USERS_LIST_ERROR,
       payload: error.response ? error.response.data : error
     });
-    return 'ERROR';
+    return { error: error.response };
   }
 };
 
@@ -127,14 +127,14 @@ export const updateUserRequest = (payload) => async (dispatch, getState) => {
       type: USERS_LIST_UPDATE,
       payload: usersUpdated
     });
-    return 'SUCCESS';
+    return { status: 'SUCCESS', responseLogin };
   } catch (error) {
     console.log(error);
     dispatch({
       type: USERS_LIST_ERROR,
       payload: error.response ? error.response.data : error
     });
-    return 'ERROR';
+    return { error: error.response };
   }
 };
 

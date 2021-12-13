@@ -54,7 +54,7 @@ const DialogTitle = withStyles(styles)((props) => {
       {children}{' '}
       {onClose ? (
         <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
+          <CloseIcon className="color-white" />
         </IconButton>
       ) : null}
     </MuiDialogTitle>
@@ -153,18 +153,20 @@ function UserDialog(props) {
       return;
     }
 
-    if (user === '') {
-      setUserError(true);
-      toastr.error(
-        t('menu.badge-panel-dialog-delivery-message-error-user', 'You must select a user')
-      );
-      return;
-    }
-
     if (role === '' || role.length === 0) {
       setRoleError(true);
       toastr.error(t('admin.user-panel-user-dialog-role-input-error', 'The role is required'));
       return;
+    }
+
+    if (role !== 1) {
+      if (user === '') {
+        setUserError(true);
+        toastr.error(
+          t('menu.badge-panel-dialog-delivery-message-error-user', 'You must select a user')
+        );
+        return;
+      }
     }
 
     let status;
@@ -198,18 +200,23 @@ function UserDialog(props) {
         .then((r) => (status = r));
     }
 
-    if (status === 'ERROR') {
+    if (status === 'SUCCESS') {
+      toastr.success(
+        t('admin.user-panel-user-dialog-message-success-user-save', 'User saved successfully')
+      );
+      handleClose();
+      return;
+    }
+
+    if (status.error && status.error.status === 422) {
+      toastr.error('A user with this username already exists.');
+    } else {
       toastr.error(
         t(
           'admin.user-panel-user-dialog-message-error-user-save',
           'An error occurred while trying to save the user'
         )
       );
-    } else {
-      toastr.success(
-        t('admin.user-panel-user-dialog-message-success-user-save', 'User saved successfully')
-      );
-      handleClose();
     }
   }
 
@@ -251,8 +258,12 @@ function UserDialog(props) {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Usuario
+        <DialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+          className="custom-bg-FA0050 color-white"
+        >
+          User
         </DialogTitle>
         <>
           <form>

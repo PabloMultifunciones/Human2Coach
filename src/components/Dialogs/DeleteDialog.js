@@ -37,7 +37,7 @@ const DialogTitle = withStyles(styles)((props) => {
       {children}{' '}
       {onClose ? (
         <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
+          <CloseIcon className="color-white" />
         </IconButton>
       ) : null}
     </MuiDialogTitle>
@@ -88,7 +88,11 @@ export default function DeleteDialog(props) {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <DialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+          className="custom-bg-FA0050 color-white"
+        >
           {props.title ? props.title : t('admin.actions-delete', 'Delete')}
         </DialogTitle>
 

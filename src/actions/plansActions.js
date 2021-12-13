@@ -20,7 +20,7 @@ const {
   PLANS_LIST_SAVED
 } = plansTypes;
 
-const { USERS_REQUEST } = generalTypes;
+const { COLLABORATOR_LIST_REQUEST } = generalTypes;
 
 export const setMetricsSelected = (payload) => async (dispatch, getState) => {
   const { metricsSelected } = getState().plansReducer;
@@ -130,17 +130,17 @@ export const savePlanRequest = (payload) => async (dispatch, getState) => {
   try {
     const responsePlan = await PlanService.savePlan(payload);
     const { plans } = getState().plansReducer;
-    const { users } = getState().generalReducer;
+    const { collaborators } = getState().generalReducer;
 
-    const plansUpdated = [responsePlan.data, ...plans];
+    const plansUpdated = [{ ...responsePlan.data, metricConfs: payload.metricConfs }, ...plans];
 
     await dispatch({
       type: RESET_STATE
     });
 
     await dispatch({
-      type: USERS_REQUEST,
-      payload: users
+      type: COLLABORATOR_LIST_REQUEST,
+      payload: collaborators
     });
 
     dispatch({
@@ -149,6 +149,7 @@ export const savePlanRequest = (payload) => async (dispatch, getState) => {
     });
     return 'SUCCESS';
   } catch (error) {
+    console.log(error);
     dispatch({
       type: PLANS_LIST_ERROR,
       payload: error.response ? error.response.data : error

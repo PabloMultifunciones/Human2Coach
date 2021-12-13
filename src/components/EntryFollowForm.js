@@ -54,18 +54,24 @@ function EntryFollowForm(props) {
   });
 
   useEffect(() => {
-    if (!props.generalReducer.users) {
-      props.usersRequest();
+    if (!props.generalReducer.collaborators) {
+      props.getCollaboratorsRequest();
     }
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    setState((prevState) => ({
-      ...prevState,
-      collaborator: props.generalReducer.users ? props.generalReducer.users.content[0] : ''
-    }));
-  }, [props.generalReducer.users]);
+    if (props.generalReducer.collaborators) {
+      setState((prevState) => ({
+        ...prevState,
+        collaborator:
+          props.generalReducer.collaborators && collaborator === ''
+            ? props.generalReducer.collaborators.content[0]
+            : collaborator
+      }));
+    }
+    // eslint-disable-next-line
+  }, [props.generalReducer.collaborators]);
 
   function getTablehead() {
     return [
@@ -110,9 +116,7 @@ function EntryFollowForm(props) {
 
     props.plansReducer.metricsSelected.forEach((element) => {
       metricArray.push({
-        metricConf: {
-          id: element.metricConf.id
-        },
+        metricConf: { ...element.metricConf },
         isChecked: true,
         targetValue: element.targetValue,
         date1: element.date1,
@@ -173,7 +177,7 @@ function EntryFollowForm(props) {
 
       setState((prevState) => ({
         ...prevState,
-        collaborator: props.generalReducer.users.content[0],
+        collaborator: props.generalReducer.collaborators.content[0],
         feedback: '',
         dashboard: 'oneonone',
         comments: '',
@@ -199,12 +203,12 @@ function EntryFollowForm(props) {
               </Grid>
             ) : (
               <>
-                {props.generalReducer.users && props.generalReducer.users.content && (
+                {props.generalReducer.collaborators && props.generalReducer.collaborators.content && (
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Autocomplete
                       id="combo-box-demo-login"
-                      value={collaborator || props.generalReducer.users.content[0]}
-                      options={props.generalReducer.users.content}
+                      value={collaborator || props.generalReducer.collaborators.content[0]}
+                      options={props.generalReducer.collaborators.content}
                       getOptionLabel={(option) =>
                         `${option.name} ${option.lastName} (${option.username})`
                       }

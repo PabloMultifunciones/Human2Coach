@@ -256,10 +256,6 @@ function FeedbackDialog(props) {
                                             name="targetValue"
                                             id="targetValue"
                                             type="number"
-                                            label={t(
-                                              'menu.metric-panel-dialog-objective',
-                                              'Objective'
-                                            )}
                                             variant="outlined"
                                             className="mt-1"
                                             fullWidth

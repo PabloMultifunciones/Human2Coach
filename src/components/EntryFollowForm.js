@@ -272,7 +272,7 @@ function EntryFollowForm(props) {
                       <TextField
                         className="w-100"
                         id="outlined-multiline-static"
-                        label="Notas"
+                        label="Private notes (Visible to the leader)"
                         multiline
                         rows={8}
                         variant="outlined"
@@ -288,7 +288,7 @@ function EntryFollowForm(props) {
                       <TextField
                         className="w-100"
                         id="outlined-multiline-static"
-                        label="Comentarios"
+                        label="Comments"
                         multiline
                         rows={8}
                         variant="outlined"
@@ -304,7 +304,7 @@ function EntryFollowForm(props) {
                       <TextField
                         className="w-100"
                         id="outlined-date"
-                        label="Envíado"
+                        label="Sent"
                         type="date"
                         disabled
                         value={dateCommitment}
@@ -320,7 +320,7 @@ function EntryFollowForm(props) {
                       <TextField
                         className="w-100"
                         id="outlined-date"
-                        label="Compromiso"
+                        label="Commitment"
                         type="date"
                         value={addReminder}
                         inputProps={
@@ -346,7 +346,7 @@ function EntryFollowForm(props) {
                       <TextField
                         className="w-100"
                         id="outlined-date"
-                        label="Recordatorio"
+                        label="Reminder"
                         type="date"
                         value={date}
                         variant="outlined"
@@ -366,7 +366,7 @@ function EntryFollowForm(props) {
                     className="ml-1"
                     onClick={() => submitFunction('DRAFT')}
                   >
-                    Guardar
+                    Save
                   </Button>
                   <Button
                     onClick={() => submitFunction('SENDED')}
@@ -374,7 +374,7 @@ function EntryFollowForm(props) {
                     variant="contained"
                     className="ml-1"
                   >
-                    Enviar
+                    Send
                   </Button>
                 </Grid>
               </>

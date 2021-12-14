@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Texta';
+    src: local('Texta Alt Regular'), local('Texta-Alt-Regular'),
+        url('TextaAlt-Regular.woff2') format('woff2'),
+        url('TextaAlt-Regular.woff') format('woff'),
+        url('TextaAlt-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }

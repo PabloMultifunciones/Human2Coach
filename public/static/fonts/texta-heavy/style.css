@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Texta';
+    src: local('Texta Alt Heavy It'), local('Texta-Alt-Heavy-It'),
+        url('TextaAlt-HeavyIt.woff2') format('woff2'),
+        url('TextaAlt-HeavyIt.woff') format('woff'),
+        url('TextaAlt-HeavyIt.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+  }

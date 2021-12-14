@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400&display=swap');
-
 ::-webkit-scrollbar {
   display: none !important;
 }
@@ -292,4 +290,8 @@
   padding: 1rem 1rem;
   color: white;
   background-color: #00d9fc;
+}
+
+* {
+  font-family: Texta, Helvetica, sans-serif !important;
 }

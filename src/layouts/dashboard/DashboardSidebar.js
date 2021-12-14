@@ -62,7 +62,7 @@ function DashboardSidebar({ isOpenSidebar, onCloseSidebar, userLogged }) {
       }}
       className="custom-bg-FA0050"
     >
-      <Box sx={{ px: 2.5, py: 2.25 }}>
+      <Box sx={{ px: 2.5, py: 2.2 }}>
         <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
           <Logo />
         </Box>

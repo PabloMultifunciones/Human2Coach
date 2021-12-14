@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import BackupIcon from '@material-ui/icons/Backup';
 import Tooltip from '@material-ui/core/Tooltip';
+import { Icon } from '@iconify/react';
+import peopleFill from '@iconify/icons-eva/pie-chart-fill';
 
 // material
 import {
@@ -157,8 +159,15 @@ function User(props) {
   return (
     <Page title="User | Human2Coach">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+          className="custom-title-blue"
+        >
+          <Typography variant="h4" gutterBottom className="d-flex">
+            <Icon icon={peopleFill} width={30} height={30} className="mr-1" />
             Users
           </Typography>
           <div>

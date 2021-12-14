@@ -1,6 +1,7 @@
 // material
-import { Box, Grid, Container, Typography } from '@material-ui/core';
+import { Box, Grid, Container, Typography, Stack } from '@material-ui/core';
 import faker from 'faker';
+
 import GeneralFunctions from '../libs/GeneralFunctions';
 
 // components
@@ -105,15 +106,46 @@ export default function DashboardApp() {
           <Typography variant="h4">Hola, {GeneralFunctions.getNameSession()}</Typography>
         </Box>
         <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={4} lg={4}>
+            <a href="#OneonOne" style={{ textDecoration: 'none', color: 'white' }}>
+              <Stack direction="row" alignItems="center" className="custom-title-blue" mb={5}>
+                <Typography variant="h4" gutterBottom className="d-flex">
+                  {GeneralFunctions.getIcon('One on One')}
+                  One on One
+                </Typography>
+              </Stack>
+            </a>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4} lg={4}>
+            <a href="#pds" style={{ textDecoration: 'none', color: 'white' }}>
+              <Stack direction="row" alignItems="center" className="custom-title-blue" mb={5}>
+                <Typography variant="h4" gutterBottom className="d-flex">
+                  {GeneralFunctions.getIcon('PDS')}
+                  PDS{' '}
+                </Typography>
+              </Stack>
+            </a>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4} lg={4}>
+            <a href="#pip" style={{ textDecoration: 'none', color: 'white' }}>
+              <Stack direction="row" alignItems="center" className="custom-title-blue" mb={5}>
+                <Typography variant="h4" gutterBottom className="d-flex">
+                  {GeneralFunctions.getIcon('PIP')}
+                  PIP{' '}
+                </Typography>
+              </Stack>
+            </a>
+          </Grid>
+
           <Grid item xs={12} sm={12} md={12}>
             <AppTableMetric
               title="One on One"
-              tableHead={getTablehead('Uno a uno')}
+              tableHead={getTablehead('One on one')}
               metrics={metrics}
-              id="oneonone"
+              id="OneonOne"
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={12} id="metric">
+          <Grid item xs={12} sm={12} md={12} id="pds">
             <AppTableMetric title="PDS" tableHead={getTablehead('PDS')} metrics={metrics} />
           </Grid>
 

@@ -1,4 +1,10 @@
 import { format } from 'date-fns';
+import { Icon } from '@iconify/react';
+
+import pieChartFill from '@iconify/icons-eva/pie-chart-fill';
+import usersIcon from '@iconify/icons-icomoon-free/users';
+import calendarIcon from '@iconify/icons-icomoon-free/calendar';
+import userCheck from '@iconify/icons-icomoon-free/user-check';
 
 export default {
   validateEmail(valor) {
@@ -93,8 +99,28 @@ export default {
   getNameSession() {
     if (localStorage.getItem('sesion')) {
       const sesion = JSON.parse(localStorage.getItem('sesion'));
-      return `${sesion.user.name} ${sesion.user.lastName}`;
+
+      if (sesion.user.name) {
+        return `${sesion.user.name} ${sesion.user.lastName}`;
+      }
+
+      return 'usuario';
     }
     return '';
+  },
+
+  getIcon(title) {
+    if (title === 'One on One') {
+      return <Icon icon={usersIcon} width={30} height={30} className="mr-1" />;
+    }
+
+    if (title === 'PDS') {
+      return <Icon icon={calendarIcon} width={30} height={30} className="mr-1" />;
+    }
+
+    if (title === 'PIP') {
+      return <Icon icon={userCheck} width={30} height={30} className="mr-1" />;
+    }
+    return <Icon icon={pieChartFill} width={30} height={30} className="mr-1" />;
   }
 };

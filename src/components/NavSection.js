@@ -20,7 +20,7 @@ const ListItemStyle = styled((props) => <ListItem button disableGutters {...prop
     paddingRight: theme.spacing(2.5),
     color: 'white',
     '&:hover': {
-      color: 'red',
+      color: '#00d9fc',
       backgroundColor: 'white'
     },
     '&:before': {
@@ -63,7 +63,7 @@ function NavItem({ item, active }) {
   };
 
   const activeRootStyle = {
-    color: '#F93154',
+    color: '#00d9fc',
     fontWeight: 'fontWeightMedium',
     bgcolor: 'white',
     '&:before': { display: 'block' }

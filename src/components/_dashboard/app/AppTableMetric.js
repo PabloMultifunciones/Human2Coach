@@ -14,6 +14,8 @@ import {
 } from '@material-ui/core';
 // components
 import Scrollbar from '../../Scrollbar';
+import GeneralFunctions from '../../../libs/GeneralFunctions';
+
 import SearchNotFound from '../../SearchNotFound';
 import { UserListHead, UserListToolbar } from '../user';
 //
@@ -96,8 +98,10 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
 
   return (
     <>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4" gutterBottom>
+      <Stack direction="row" alignItems="center" className="custom-title-blue" mb={5}>
+        <Typography variant="h4" gutterBottom className="d-flex">
+          {GeneralFunctions.getIcon(title)}
+
           {title}
         </Typography>
       </Stack>

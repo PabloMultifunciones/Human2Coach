@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import toastr from 'toastr';
 import { format } from 'date-fns';
+import { Icon } from '@iconify/react';
+import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
 
 // import toastr from 'toastr';
 
@@ -123,8 +125,9 @@ function IndividualFollow(props) {
   return (
     <Page title="Planes | Human2Coach">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+        <Stack direction="row" alignItems="center" mb={5} className="custom-title-blue">
+          <Typography variant="h4" gutterBottom className="d-flex">
+            <Icon icon={clipboardOutline} width={30} height={30} className="mr-1" />
             Planes
           </Typography>
         </Stack>

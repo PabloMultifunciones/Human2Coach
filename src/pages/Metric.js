@@ -3,6 +3,8 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import toastr from 'toastr';
+import { Icon } from '@iconify/react';
+import pieChartFill from '@iconify/icons-eva/pie-chart-fill';
 
 // material
 import {
@@ -160,8 +162,15 @@ function Metric(props) {
   return (
     <Page title="Metric | Human2Coach">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+          className="custom-title-blue"
+        >
+          <Typography variant="h4" gutterBottom className="d-flex">
+            <Icon icon={pieChartFill} width={30} height={30} className="mr-1" />
             Metric
           </Typography>
 

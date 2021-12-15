@@ -10,6 +10,11 @@ Logo.propTypes = {
 
 export default function Logo({ sx }) {
   return (
-    <Box component="img" src="/favicon/Human2Coach.ico" sx={{ width: 70, height: 50, ...sx }} />
+    <Box
+      className="bg-white"
+      component="img"
+      src="https://filesharingdev.nyc3.digitaloceanspaces.com/public/Human2Coach/Human2Coach.ico"
+      sx={{ width: 250, height: 50, ...sx }}
+    />
   );
 }

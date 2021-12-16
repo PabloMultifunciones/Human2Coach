@@ -145,7 +145,7 @@ function EntryFollowFormWorker(props) {
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <h3> {`${collaborator.name} ${collaborator.lastName}`}</h3>
                 </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex">
+                <Grid item xs={12} sm={12} md={12} lg={12}>
                   <FormControl component="fieldset" disabled>
                     <FormLabel component="legend">Tipo de feedback</FormLabel>
                     <RadioGroup aria-label="feedback" name="feedback" value={feedback}>
@@ -228,7 +228,7 @@ function EntryFollowFormWorker(props) {
                   <TextField
                     className="w-100"
                     id="outlined-date"
-                    label="Compromiso"
+                    label="Commitment"
                     type="date"
                     value={date}
                     name="date"
@@ -240,7 +240,7 @@ function EntryFollowFormWorker(props) {
                   <TextField
                     className="w-100"
                     id="outlined-date"
-                    label="Recordatorio"
+                    label="Reminder"
                     type="addReminder"
                     value={addReminder}
                     variant="outlined"
@@ -252,7 +252,7 @@ function EntryFollowFormWorker(props) {
                   <TextField
                     className="w-100"
                     id="outlined-multiline-static"
-                    label="Comentarios"
+                    label="Comments"
                     multiline
                     rows={8}
                     variant="outlined"

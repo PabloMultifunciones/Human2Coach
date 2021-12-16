@@ -12,8 +12,10 @@ import {
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from 'react-redux';
+import { format, subDays, startOfWeek } from 'date-fns';
 
 import { setMetricsSelected, deleteMetricsSelected } from '../../../actions/plansActions';
+import GeneralFunctions from '../../../libs/GeneralFunctions';
 
 // components
 import Scrollbar from '../../Scrollbar';
@@ -31,15 +33,25 @@ function TableFeedback({
   setMetricsSelected,
   deleteMetricsSelected
 }) {
-  const [order, setOrder] = useState('asc');
-  const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
-
   const [tableHead] = useState([
     { id: 'metric', label: 'Métrica', alignRight: false },
     { id: 'objective', label: 'Objetivo', alignRight: false },
-    { id: 'wbefore', label: 'W44 (25/10/2021)', alignRight: false },
-    { id: 'wafter', label: 'W44 (01/11/2021)', alignRight: false },
+    {
+      id: 'wbefore',
+      label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
+        subDays(startOfWeek(new Date()), 7),
+        'dd/MM/yyyy'
+      )}`,
+      alignRight: false
+    },
+    {
+      id: 'wafter',
+      label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
+        subDays(startOfWeek(new Date()), 1),
+        'dd/MM/yyyy'
+      )}`,
+      alignRight: false
+    },
     { id: 'check', label: 'Check', alignRight: false }
   ]);
 
@@ -48,21 +60,6 @@ function TableFeedback({
   useEffect(() => {
     myRefs.current = myRefs.current.slice(0, metrics.length);
   }, [metrics]);
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = metrics.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
 
   const setClassToCell = (ref, row) => {
     if (ref && ref.classList.contains('selected-cell')) {
@@ -87,18 +84,15 @@ function TableFeedback({
       )}
 
       <Card>
+        <h4 className="p-1">
+          {' '}
+          Feedback por objetivo{' '}
+          {`(W${GeneralFunctions.getWeekCount()}: ${format(new Date(), 'dd/MM/yyyy')})`}
+        </h4>
         <Scrollbar>
           <TableContainer>
             <Table>
-              <UserListHead
-                order={order}
-                orderBy={orderBy}
-                headLabel={tableHead}
-                rowCount={metrics.length}
-                numSelected={selected.length}
-                onRequestSort={handleRequestSort}
-                onSelectAllClick={handleSelectAllClick}
-              />
+              <UserListHead headLabel={tableHead} rowCount={metrics.length} />
               <TableBody>
                 {metrics.map((row, i) => (
                   <TableRow

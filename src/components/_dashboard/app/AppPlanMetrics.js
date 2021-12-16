@@ -41,7 +41,7 @@ export default function AppPlanMetrics(props) {
 
   useEffect(() => {
     if (props.planSelected && props.planSelected !== 'undefined') {
-      const name = getWeek(new Date(props.planSelected.metricConfs[0].date1));
+      const name = getWeek(new Date(props.planSelected.metricConfs[0].date1) - 1);
 
       const dateOne = [];
 

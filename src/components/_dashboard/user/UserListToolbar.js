@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Icon } from '@iconify/react';
+import searchFill from '@iconify/icons-eva/search-fill';
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Toolbar, Typography } from '@material-ui/core';
+import { Box, Toolbar, Typography, OutlinedInput, InputAdornment } from '@material-ui/core';
 import Autocomplete from '@material-ui/core/Autocomplete';
 
 import TextField from '@material-ui/core/TextField';
@@ -119,6 +121,19 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
   padding: theme.spacing(0, 1, 0, 3)
 }));
 
+const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
+  width: 240,
+  transition: theme.transitions.create(['box-shadow', 'width'], {
+    easing: theme.transitions.easing.easeInOut,
+    duration: theme.transitions.duration.shorter
+  }),
+  '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
+  '& fieldset': {
+    borderWidth: `1px !important`,
+    borderColor: `${theme.palette.grey[500_32]} !important`
+  }
+}));
+
 // ----------------------------------------------------------------------
 
 UserListToolbar.propTypes = {
@@ -127,8 +142,13 @@ UserListToolbar.propTypes = {
   onFilterName: PropTypes.func
 };
 
-export default function UserListToolbar({ numSelected, showTeam }) {
-  const [{ team }, setState] = useState({
+export default function UserListToolbar({
+  numSelected,
+  onFilterName,
+  showTeam,
+  title = 'Buscar...'
+}) {
+  const [{ search, team }, setState] = useState({
     search: '',
     team: ''
   });
@@ -136,6 +156,22 @@ export default function UserListToolbar({ numSelected, showTeam }) {
     setState((prevState) => ({
       ...prevState,
       [event.target.name]: value
+    }));
+  };
+
+  const handleSearch = (e) => {
+    if (e.target.value.length > 2) {
+      onFilterName(e);
+    }
+
+    if (e.target.value === '') {
+      console.log(e.target.value);
+      onFilterName(e);
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      search: e.target.value
     }));
   };
 
@@ -154,6 +190,16 @@ export default function UserListToolbar({ numSelected, showTeam }) {
         </Typography>
       ) : (
         <>
+          <SearchStyle
+            value={search}
+            onChange={(e) => handleSearch(e)}
+            placeholder={title}
+            startAdornment={
+              <InputAdornment position="start">
+                <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />
+              </InputAdornment>
+            }
+          />
           {showTeam && (
             <Autocomplete
               id="combo-box-demo-user-list"

@@ -56,7 +56,7 @@ function EntryFollowForm(props) {
 
   useEffect(() => {
     if (!props.generalReducer.collaborators) {
-      props.getCollaboratorsRequest();
+      props.getCollaboratorsRequest(999);
     }
     // eslint-disable-next-line
   }, []);

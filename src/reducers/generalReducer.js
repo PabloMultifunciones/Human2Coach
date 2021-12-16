@@ -3,6 +3,7 @@ import * as generalTypes from '../types/generalTypes';
 const {
   TEAMS_REQUEST,
   COLLABORATOR_LIST_REQUEST,
+  LEADER_LIST_REQUEST,
   TEAMS_CHARGING,
   TEAMS_ERROR,
   USERS_REQUEST,
@@ -18,6 +19,8 @@ const {
 const INITIAL_STATE = {
   teams: false,
   collaborators: false,
+
+  leaders: false,
   error_teams: false,
   teams_charging: false,
   secondaryTeams: false,
@@ -80,11 +83,20 @@ export default (state = INITIAL_STATE, action) => {
         error_users: false
       };
 
+    case LEADER_LIST_REQUEST:
+      return {
+        ...state,
+        users_charging: false,
+        leaders: action.payload,
+        error_users: false
+      };
+
     case RESET_STATE:
       return {
         ...state,
         teams: false,
         collaborators: false,
+        leaders: false,
         error_teams: false,
         teams_charging: false,
         secondaryTeams: false,
@@ -100,6 +112,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         teams: false,
         collaborators: false,
+        leaders: false,
         error_teams: false,
         teams_charging: false,
         secondaryTeams: false,

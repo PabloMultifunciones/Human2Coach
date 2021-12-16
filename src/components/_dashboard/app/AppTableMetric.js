@@ -28,6 +28,10 @@ import {
   getMetricsPipFilterRequest
 } from '../../../actions/dashboardActions';
 
+import { getCollaboratorsRequest, getLeadersRequest } from '../../../actions/generalActions';
+
+import { UserListToolbar } from '../user';
+
 import SearchNotFound from '../../SearchNotFound';
 import Spinner from '../../Spinner';
 
@@ -39,8 +43,20 @@ function AppTableMetric(props) {
   const [page, setPage] = useState(0);
   const [filterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [user, setUser] = useState(null);
 
   const handleChangePage = (event, newPage) => {
+    if (user) {
+      if (props.title === 'One on One') {
+        props.getMetricsOneFilterRequest({ number: newPage, filterOne: user.id });
+      } else if (props.title === 'PDS') {
+        props.getMetricsPdsFilterRequest({ number: newPage, filterPds: user.id });
+      } else {
+        props.getMetricsPipFilterRequest({ number: newPage, filterPip: user.id });
+      }
+      return;
+    }
+
     if (props.title === 'One on One') {
       props.getMetricsOneRequest({ number: newPage });
     } else if (props.title === 'PDS') {
@@ -56,16 +72,51 @@ function AppTableMetric(props) {
     setPage(0);
   };
 
+  const handleFilterUser = (value) => {
+    setUser(value);
+    setPage(0);
+
+    if (value) {
+      if (props.title === 'One on One') {
+        props.getMetricsOneFilterRequest({ number: 0, filterOne: value.id });
+      } else if (props.title === 'PDS') {
+        props.getMetricsPdsFilterRequest({ number: 0, filterPds: value.id });
+      } else {
+        props.getMetricsPipFilterRequest({ number: 0, filterPip: value.id });
+      }
+      return;
+    }
+
+    console.log('return');
+
+    if (props.title === 'One on One') {
+      props.getMetricsOneRequest({ number: 0 });
+    } else if (props.title === 'PDS') {
+      props.getMetricsPdsRequest({ number: 0 });
+    } else {
+      props.getMetricsPipRequest({ number: 0 });
+    }
+  };
+
   const getMetricsType = () => {
     if (props.title === 'One on One') {
-      return props.metricsOne;
+      if (user) {
+        return props.dashboardReducer.metricsOne_filtered;
+      }
+      return props.dashboardReducer.metricsOne;
     }
 
     if (props.title === 'PDS') {
-      return props.metricsPds;
+      if (user) {
+        return props.dashboardReducer.metricsPds_filtered;
+      }
+      return props.dashboardReducer.metricsPds;
     }
     if (props.title === 'PIP') {
-      return props.metricsPip;
+      if (user) {
+        return props.dashboardReducer.metricsPip_filtered;
+      }
+      return props.dashboardReducer.metricsPip;
     }
 
     return [];
@@ -73,14 +124,23 @@ function AppTableMetric(props) {
 
   const getMetricsTypeTotalElements = () => {
     if (props.title === 'One on One') {
-      return props.totalElementsOne;
+      if (user) {
+        return props.dashboardReducer.totalElementsOne_filtered;
+      }
+      return props.dashboardReducer.totalElementsOne;
     }
 
     if (props.title === 'PDS') {
-      return props.totalElementsPds;
+      if (user) {
+        return props.dashboardReducer.totalElementsPds_filtered;
+      }
+      return props.dashboardReducer.totalElementsPds;
     }
     if (props.title === 'PIP') {
-      return props.totalElementsPip;
+      if (user) {
+        return props.dashboardReducer.totalElementsPip_filtered;
+      }
+      return props.dashboardReducer.totalElementsPip;
     }
 
     return [];
@@ -88,14 +148,14 @@ function AppTableMetric(props) {
 
   const getMetricsTypeConditional = () => {
     if (props.title === 'One on One') {
-      return props.metricsOne_charging;
+      return props.dashboardReducer.metricsOne_charging;
     }
 
     if (props.title === 'PDS') {
-      return props.metricsPds_charging;
+      return props.dashboardReducer.metricsPds_charging;
     }
     if (props.title === 'PIP') {
-      return props.metricsPip_charging;
+      return props.dashboardReducer.metricsPip_charging;
     }
 
     return false;
@@ -109,8 +169,23 @@ function AppTableMetric(props) {
     } else {
       props.getMetricsPipRequest({ number: 0 });
     }
+
+    if (props.loginReducer.userLogged) {
+      if (props.loginReducer.userLogged.user.position === 1) {
+        if (!props.generalReducer.leaders) {
+          props.getLeadersRequest(999);
+        }
+      }
+
+      if (props.loginReducer.userLogged.user.position === 2) {
+        if (!props.generalReducer.collaborators) {
+          props.getCollaboratorsRequest(999);
+        }
+      }
+    }
+
     // eslint-disable-next-line
-  }, []);
+  }, [props.loginReducer.userLogged]);
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - getMetricsType().length) : 0;
 
@@ -126,7 +201,18 @@ function AppTableMetric(props) {
       </Stack>
 
       <Card>
-        {/* <UserListToolbar filterName={filterName} showTeam /> */}
+        {(props.generalReducer.leaders || props.generalReducer.collaborators) && (
+          <UserListToolbar
+            onFilterUser={handleFilterUser}
+            showUser
+            users={
+              [{ name: 'Todos', lastName: '' }, ...props.generalReducer.leaders.content] || [
+                { name: 'Todos', lastName: '' },
+                ...props.generalReducer.collaborators.content
+              ]
+            }
+          />
+        )}
 
         {getMetricsTypeConditional() ? (
           <Spinner />
@@ -212,7 +298,11 @@ function AppTableMetric(props) {
   );
 }
 
-const mapStateToProps = ({ dashboardReducer }) => dashboardReducer;
+const mapStateToProps = ({ dashboardReducer, loginReducer, generalReducer }) => ({
+  dashboardReducer,
+  loginReducer,
+  generalReducer
+});
 
 const mapDispatchToProps = {
   getMetricsOneRequest,
@@ -220,7 +310,9 @@ const mapDispatchToProps = {
   getMetricsPdsRequest,
   getMetricsPdsFilterRequest,
   getMetricsPipRequest,
-  getMetricsPipFilterRequest
+  getMetricsPipFilterRequest,
+  getCollaboratorsRequest,
+  getLeadersRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppTableMetric);

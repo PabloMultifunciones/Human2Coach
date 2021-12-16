@@ -12,7 +12,7 @@ import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 // material
 import {
-  Button,
+  // Button,
   Divider,
   Typography,
   // Link,
@@ -57,9 +57,12 @@ function LoginForm(props) {
     setShowPassword((show) => !show);
   };
 
-  const talkDeskLogin = () => {
+  /*
+ const talkDeskLogin = () => {
     props.loginTalkDeskRequest({ ...formik.values, type: 'talkdesk' });
   };
+
+*/
 
   const loginGmailHandler = (data) => {
     props.loginRequest({
@@ -80,8 +83,11 @@ function LoginForm(props) {
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Stack direction="row" spacing={2} className="d-flex-between">
-          <Button
+        <Stack direction="row" spacing={2} className="d-flex">
+          {' '}
+          {/* className="d-flex-between" */}
+          {/*
+            <Button
             size="large"
             color="secondary"
             variant="contained"
@@ -91,6 +97,7 @@ function LoginForm(props) {
             TALDESK LOGIN
           </Button>
 
+          */}
           <GoogleLogin
             disabled={formik.values.company === ''}
             clientId={`${environment.googleClientID}`}

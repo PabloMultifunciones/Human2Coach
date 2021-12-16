@@ -58,7 +58,6 @@ function AppTableMetric(props) {
 
   const getMetricsType = () => {
     if (props.title === 'One on One') {
-      console.log(props.metricsOne);
       return props.metricsOne;
     }
 
@@ -140,13 +139,15 @@ function AppTableMetric(props) {
                     <TableRow>
                       <TableCell key="type">{props.title}</TableCell>
 
-                      {getMetricsType()[0].metrics.map((row, index) => (
-                        <Tooltip key={index} title={row.name}>
-                          <TableCell>
-                            {row.name.length > 10 ? `${row.name.substring(0, 10)}...` : row.name}
-                          </TableCell>
-                        </Tooltip>
-                      ))}
+                      {getMetricsType() &&
+                        getMetricsType()[0] &&
+                        getMetricsType()[0].metrics.map((row, index) => (
+                          <Tooltip key={index} title={row.name}>
+                            <TableCell>
+                              {row.name.length > 10 ? `${row.name.substring(0, 10)}...` : row.name}
+                            </TableCell>
+                          </Tooltip>
+                        ))}
 
                       <TableCell key="sent">Sent</TableCell>
                       <TableCell key="slopes">Saved</TableCell>

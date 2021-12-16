@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { getWeek, format, subDays, startOfWeek } from 'date-fns';
 import { Icon } from '@iconify/react';
 
 import pieChartFill from '@iconify/icons-eva/pie-chart-fill';
@@ -122,5 +122,13 @@ export default {
       return <Icon icon={userCheck} width={30} height={30} className="mr-1" />;
     }
     return <Icon icon={pieChartFill} width={30} height={30} className="mr-1" />;
+  },
+
+  getWeekCount() {
+    return getWeek(new Date()) - 1;
+  },
+
+  getWeekCountBefore() {
+    return getWeek(subDays(startOfWeek(new Date()), 7)) - 1;
   }
 };

@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
-import { add, getWeek, format, subDays, startOfWeek } from 'date-fns';
+import { add, format, subDays, startOfWeek } from 'date-fns';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
 import Spinner from './Spinner';
@@ -22,6 +22,7 @@ import { TableFeedbackDone } from './_dashboard/app';
 import { usersRequest, getCollaboratorsRequest } from '../actions/generalActions';
 
 import { savePlanRequest, resetState } from '../actions/plansActions';
+import GeneralFunctions from '../libs/GeneralFunctions';
 
 function EntryFollowForm(props) {
   const [
@@ -79,7 +80,7 @@ function EntryFollowForm(props) {
       { id: 'objective', label: 'Objetivo', alignRight: false },
       {
         id: 'wbefore',
-        label: `W${getWeek(subDays(startOfWeek(new Date()), 7))}  ${format(
+        label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
           subDays(startOfWeek(new Date()), 7),
           'dd/MM/yyyy'
         )}`,
@@ -87,7 +88,7 @@ function EntryFollowForm(props) {
       },
       {
         id: 'wafter',
-        label: `W${getWeek(subDays(startOfWeek(new Date()), 7))}  ${format(
+        label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
           subDays(startOfWeek(new Date()), 1),
           'dd/MM/yyyy'
         )}`,

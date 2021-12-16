@@ -6,6 +6,7 @@ import metricsReducer from './metricsReducer';
 import plansReducer from './plansReducer';
 import avatarsReducer from './avatarsReducer';
 import preferencesReducer from './preferencesReducer';
+import dashboardReducer from './dashboardReducer';
 
 export default combineReducers({
   loginReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   metricsReducer,
   plansReducer,
   avatarsReducer,
-  preferencesReducer
+  preferencesReducer,
+  dashboardReducer
 });

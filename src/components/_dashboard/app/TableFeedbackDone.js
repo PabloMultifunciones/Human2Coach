@@ -12,12 +12,13 @@ import {
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from 'react-redux';
-import { getWeek, format } from 'date-fns';
+import { format } from 'date-fns';
 
 // components
 import Scrollbar from '../../Scrollbar';
 import { UserListHead } from '../user';
 //
+import GeneralFunctions from '../../../libs/GeneralFunctions';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +46,8 @@ function TableFeedbackDone({ title, tableHead, newPlan, metricsSelected }) {
         <Card>
           <h4 className="p-1">
             {' '}
-            Feedback por objetivo {`(W${getWeek(new Date())}: ${format(new Date(), 'dd/MM/yyyy')})`}
+            Feedback por objetivo{' '}
+            {`(W${GeneralFunctions.getWeekCount()}: ${format(new Date(), 'dd/MM/yyyy')})`}
           </h4>
           <Scrollbar>
             <TableContainer>

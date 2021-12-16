@@ -81,24 +81,6 @@ const metrics = [
 ];
 
 export default function DashboardApp() {
-  function getTablehead(type) {
-    return [
-      { id: 'type', label: type, alignRight: false },
-      { id: 'csatCases', label: 'CSAT Casos', alignRight: false },
-      { id: 'csatChats', label: 'CSAT Chats', alignRight: false },
-      { id: 'prodCases', label: 'Prod Casos', alignRight: false },
-      { id: 'prodChats', label: 'Prod Chats', alignRight: false },
-      { id: 'aht', label: 'AHT', alignRight: false },
-      { id: 'acw', label: 'ACW', alignRight: false },
-      { id: 'qa', label: 'QA', alignRight: false },
-      { id: 'sent', label: 'Enviados', alignRight: false },
-      { id: 'slopes', label: 'Pendientes', alignRight: false },
-      { id: 'signed', label: 'Firmados', alignRight: false },
-      { id: 'total', label: 'Total', alignRight: false },
-      { id: 'saved', label: 'Guardados', alignRight: false }
-    ];
-  }
-
   return (
     <Page title="Dashboard | Human2Coach">
       <Container maxWidth="xl">
@@ -138,18 +120,14 @@ export default function DashboardApp() {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} id="OneonOne">
-            <AppTableMetric
-              title="One on One"
-              tableHead={getTablehead('One on one')}
-              metrics={metrics}
-            />
+            <AppTableMetric title="One on One" metrics={metrics} />
           </Grid>
           <Grid item xs={12} sm={12} md={12} id="pds">
-            <AppTableMetric title="PDS" tableHead={getTablehead('PDS')} metrics={metrics} />
+            <AppTableMetric title="PDS" metrics={metrics} />
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} id="pip">
-            <AppTableMetric title="PIP" tableHead={getTablehead('PIP')} metrics={metrics} />
+            <AppTableMetric title="PIP" metrics={metrics} />
           </Grid>
         </Grid>
       </Container>

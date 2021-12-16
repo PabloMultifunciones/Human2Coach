@@ -16,7 +16,7 @@ import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import TimePicker from '@material-ui/lab/TimePicker';
 import TextField from '@material-ui/core/TextField';
 import toastr from 'toastr';
-import { getWeek, format, subDays, startOfWeek } from 'date-fns';
+import { format, subDays, startOfWeek } from 'date-fns';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
@@ -36,6 +36,7 @@ import {
 } from '@material-ui/core';
 import { UserListHead } from '../_dashboard/user';
 import SearchNotFound from '../SearchNotFound';
+import GeneralFunctions from '../../libs/GeneralFunctions';
 
 // import { TableFeedback } from '../_dashboard/app';
 import { setMetricsSelected, deleteMetricsSelected } from '../../actions/plansActions';
@@ -56,7 +57,7 @@ const TABLE_HEAD = [
   { id: 'objective', label: 'Objetivo', alignRight: false },
   {
     id: 'wbefore',
-    label: `W${getWeek(subDays(startOfWeek(new Date()), 7))}  ${format(
+    label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
       subDays(startOfWeek(new Date()), 7),
       'dd/MM/yyyy'
     )}`,
@@ -64,7 +65,7 @@ const TABLE_HEAD = [
   },
   {
     id: 'wafter',
-    label: `W${getWeek(subDays(startOfWeek(new Date()), 7))}  ${format(
+    label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
       subDays(startOfWeek(new Date()), 1),
       'dd/MM/yyyy'
     )}`,
@@ -203,7 +204,8 @@ function FeedbackDialog(props) {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Feedback por objetivo {`(W${getWeek(new Date())}: ${format(new Date(), 'dd/MM/yyyy')})`}
+          Feedback por objetivo{' '}
+          {`(W${GeneralFunctions.getWeekCount()}: ${format(new Date(), 'dd/MM/yyyy')})`}
         </DialogTitle>
 
         <>

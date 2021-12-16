@@ -8,16 +8,19 @@ const {
   METRICS_ONE_LIST_CHARGING,
   METRICS_ONE_LIST_FILTERED_CHARGING,
   METRICS_ONE_LIST_ERROR,
+  METRICS_ONE_LIST_SAVED,
   METRICS_PDS_LIST_REQUEST,
   METRICS_PDS_LIST_FILTER_REQUEST,
   METRICS_PDS_LIST_CHARGING,
   METRICS_PDS_LIST_FILTERED_CHARGING,
   METRICS_PDS_LIST_ERROR,
+  METRICS_PDS_LIST_SAVED,
   METRICS_PIP_LIST_REQUEST,
   METRICS_PIP_LIST_FILTER_REQUEST,
   METRICS_PIP_LIST_CHARGING,
   METRICS_PIP_LIST_FILTERED_CHARGING,
-  METRICS_PIP_LIST_ERROR
+  METRICS_PIP_LIST_ERROR,
+  METRICS_PIP_LIST_SAVED
 } = dashboardTypes;
 
 const INITIAL_STATE = {
@@ -105,6 +108,9 @@ export default (state = INITIAL_STATE, action) => {
         error_metricsOne: false
       };
 
+    case METRICS_ONE_LIST_SAVED:
+      return { ...state, metricsOne_charging: false, error_metricsOne: false };
+
     case METRICS_PIP_LIST_REQUEST:
       return {
         ...state,
@@ -156,6 +162,9 @@ export default (state = INITIAL_STATE, action) => {
         error_metricsPip: false
       };
 
+    case METRICS_PIP_LIST_SAVED:
+      return { ...state, metricsPip_charging: false, error_metricsPip: false };
+
     case METRICS_PDS_LIST_REQUEST:
       return {
         ...state,
@@ -206,6 +215,9 @@ export default (state = INITIAL_STATE, action) => {
         metricsPds_charging: true,
         error_metricsPds: false
       };
+
+    case METRICS_PDS_LIST_SAVED:
+      return { ...state, metricsPds_charging: false, error_metricsPds: false };
 
     case RESET_STATE:
       return {

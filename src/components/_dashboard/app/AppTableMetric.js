@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import TableHead from '@material-ui/core/TableHead';
+import { connect } from 'react-redux';
+
 // material
 import {
   Card,
@@ -15,13 +18,17 @@ import {
 import Scrollbar from '../../Scrollbar';
 import GeneralFunctions from '../../../libs/GeneralFunctions';
 
+import {
+  getMetricsOneRequest,
+  getMetricsOneFilterRequest
+} from '../../../actions/dashboardActions';
+
 import SearchNotFound from '../../SearchNotFound';
-import { UserListHead } from '../user'; // UserListToolbar
 //
 
 // ----------------------------------------------------------------------
 
-export default function AppTableMetric({ title, tableHead, metrics }) {
+function AppTableMetric(props) {
   const [page, setPage] = useState(0);
   const [filterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(7);
@@ -35,17 +42,24 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
     setPage(0);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - metrics.length) : 0;
+  useEffect(() => {
+    if (props.title === 'One on One') {
+      props.getMetricsOneRequest({ number: 0 });
+    }
+    // eslint-disable-next-line
+  }, []);
 
-  const isUserNotFound = metrics.length === 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.metrics.length) : 0;
+
+  const isUserNotFound = props.metrics.length === 0;
 
   return (
     <>
       <Stack direction="row" alignItems="center" className="custom-title-blue" mb={5}>
         <Typography variant="h4" gutterBottom className="d-flex">
-          {GeneralFunctions.getIcon(title)}
+          {GeneralFunctions.getIcon(props.title)}
 
-          {title}
+          {props.title}
         </Typography>
       </Stack>
 
@@ -54,9 +68,25 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
         <Scrollbar>
           <TableContainer sx={{ minWidth: 800 }}>
             <Table>
-              <UserListHead headLabel={tableHead} rowCount={metrics.length} />
+              <TableHead>
+                <TableRow>
+                  <TableCell key="type">One on one</TableCell>
+                  <TableCell key="csatCases">CSAT Cases </TableCell>
+                  <TableCell key="csatChats">CSAT Chats</TableCell>
+                  <TableCell key="prodCases">Prod Casos</TableCell>
+                  <TableCell key="prodChats">Prod Chats</TableCell>
+                  <TableCell key="aht">AHT</TableCell>
+                  <TableCell key="acw">ACW</TableCell>
+                  <TableCell key="qa">QA</TableCell>
+                  <TableCell key="sent">Sent</TableCell>
+                  <TableCell key="slopes">Pending</TableCell>
+                  <TableCell key="signed">Signed</TableCell>
+                  <TableCell key="total">Total</TableCell>
+                  <TableCell key="saved">Saved</TableCell>
+                </TableRow>
+              </TableHead>
               <TableBody>
-                {metrics.map((row) => (
+                {props.metrics.map((row) => (
                   <TableRow hover key={row.id} tabIndex={-1} role="checkbox">
                     <TableCell align="left">{row.type}</TableCell>
 
@@ -99,7 +129,7 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
         <TablePagination
           rowsPerPageOptions={[7]}
           component="div"
-          count={metrics.length}
+          count={props.metrics.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -109,3 +139,12 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
     </>
   );
 }
+
+const mapStateToProps = ({ dashboardReducer }) => dashboardReducer;
+
+const mapDispatchToProps = {
+  getMetricsOneRequest,
+  getMetricsOneFilterRequest
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppTableMetric);

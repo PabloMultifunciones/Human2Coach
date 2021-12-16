@@ -26,9 +26,7 @@ const {
 export const getMetricsOneRequest = (payload) => async (dispatch, getState) => {
   try {
     const { pagesOne } = getState().dashboardReducer;
-    console.log(payload.number);
     if (!pagesOne.includes(payload.number)) {
-      console.log('METRICS_ONE_LIST_CHARGING', pagesOne);
       dispatch({
         type: METRICS_ONE_LIST_CHARGING
       });
@@ -43,8 +41,6 @@ export const getMetricsOneRequest = (payload) => async (dispatch, getState) => {
         payload: { ...responseLogin.data, number: payload.number }
       });
     } else {
-      console.log('METRICS_ONE_LIST_SAVED', pagesOne);
-
       dispatch({
         type: METRICS_ONE_LIST_SAVED
       });

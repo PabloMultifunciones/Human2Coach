@@ -200,7 +200,7 @@ function UserDialog(props) {
         .then((r) => (status = r));
     }
 
-    if (status === 'SUCCESS') {
+    if (status.status === 'SUCCESS') {
       toastr.success(
         t('admin.user-panel-user-dialog-message-success-user-save', 'User saved successfully')
       );

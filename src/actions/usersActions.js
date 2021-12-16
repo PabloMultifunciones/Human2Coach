@@ -90,6 +90,7 @@ export const saveUserRequest = (payload) => async (dispatch, getState) => {
       type: USERS_LIST_SAVE,
       payload: usersUpdated
     });
+
     return { status: 'SUCCESS', responseLogin };
   } catch (error) {
     dispatch({

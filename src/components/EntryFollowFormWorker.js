@@ -42,16 +42,6 @@ function EntryFollowFormWorker(props) {
   const params = useParams();
   const navigate = useNavigate();
 
-  function getTablehead() {
-    return [
-      { id: 'metric', label: 'Métrica', alignRight: false },
-      { id: 'objective', label: 'Objetivo', alignRight: false },
-      { id: 'wbefore', label: 'W44 (25/10/2021)', alignRight: false },
-      { id: 'wafter', label: 'W44 (01/11/2021)', alignRight: false },
-      { id: 'check', label: 'Check', alignRight: false }
-    ];
-  }
-
   useEffect(() => {
     props.getPlanRequest(params.id);
     // eslint-disable-next-line
@@ -192,7 +182,6 @@ function EntryFollowFormWorker(props) {
                       ) : (
                         <TableFeedback
                           title=""
-                          tableHead={getTablehead()}
                           metrics={props.plansSelected.metricConfs}
                           disabled
                         />
@@ -216,7 +205,7 @@ function EntryFollowFormWorker(props) {
                   <TextField
                     className="w-100"
                     id="outlined-date"
-                    label="Envíado"
+                    label="Sent"
                     type="date"
                     value={dateCommitment}
                     name="dateCommitment"
@@ -230,8 +219,8 @@ function EntryFollowFormWorker(props) {
                     id="outlined-date"
                     label="Commitment"
                     type="date"
-                    value={date}
-                    name="date"
+                    value={addReminder}
+                    name="addReminder"
                     variant="outlined"
                     disabled
                   />
@@ -241,10 +230,10 @@ function EntryFollowFormWorker(props) {
                     className="w-100"
                     id="outlined-date"
                     label="Reminder"
-                    type="addReminder"
-                    value={addReminder}
+                    type="date"
+                    value={date}
                     variant="outlined"
-                    name="addReminder"
+                    name="date"
                     disabled
                   />
                 </Grid>

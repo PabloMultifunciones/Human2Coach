@@ -52,8 +52,7 @@ const TABLE_HEAD = [
   { id: 'description', label: 'Description', alignRight: false },
   { id: 'variableType', label: 'Type of variable', alignRight: false },
   { id: 'frequency', label: 'Frequency', alignRight: false },
-  { id: 'points', label: 'Points', alignRight: false },
-  { id: 'impact', label: 'Impact/Supervisor', alignRight: false },
+
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'actions', label: 'Actions', alignRight: false }
 ];
@@ -263,29 +262,6 @@ function Metric(props) {
                                   t('menu.metric-panel-table-eventual', 'Eventual')}
                               </TableCell>
 
-                              <TableCell align="left">
-                                {' '}
-                                {isPointsGranted &&
-                                  t('menu.metric-panel-table-add-points', 'Add points')}
-                                {!isPointsGranted &&
-                                  t(
-                                    'menu.metric-panel-table-not-add-points',
-                                    'Does not score points'
-                                  )}
-                              </TableCell>
-                              <TableCell align="left">
-                                {' '}
-                                {isApplyToSupervisor &&
-                                  t(
-                                    'admin.header-dropdown-dialog-notifications-input-item-yes',
-                                    'Yes'
-                                  )}
-                                {!isApplyToSupervisor &&
-                                  t(
-                                    'admin.header-dropdown-dialog-notifications-input-item-no',
-                                    'No'
-                                  )}
-                              </TableCell>
                               <TableCell align="left">
                                 {' '}
                                 {isActive === true &&

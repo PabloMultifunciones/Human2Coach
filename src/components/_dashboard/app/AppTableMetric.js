@@ -1,4 +1,3 @@
-import { filter } from 'lodash';
 import { useState } from 'react';
 // material
 import {
@@ -17,66 +16,15 @@ import Scrollbar from '../../Scrollbar';
 import GeneralFunctions from '../../../libs/GeneralFunctions';
 
 import SearchNotFound from '../../SearchNotFound';
-import { UserListHead, UserListToolbar } from '../user';
+import { UserListHead } from '../user'; // UserListToolbar
 //
 
 // ----------------------------------------------------------------------
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-
-  if (query) {
-    return filter(
-      array,
-      (_metric) => _metric.type.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
-
 export default function AppTableMetric({ title, tableHead, metrics }) {
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
-  const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = metrics.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
+  const [filterName] = useState('');
+  const [rowsPerPage, setRowsPerPage] = useState(7);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -87,14 +35,9 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - metrics.length) : 0;
-  const filteredUsers = applySortFilter(metrics, getComparator(order, orderBy), filterName);
 
-  const isUserNotFound = filteredUsers.length === 0;
+  const isUserNotFound = metrics.length === 0;
 
   return (
     <>
@@ -107,58 +50,33 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
       </Stack>
 
       <Card>
-        <UserListToolbar
-          numSelected={selected.length}
-          filterName={filterName}
-          onFilterName={(e) => handleFilterByName(e)}
-          showTeam
-        />
-
+        {/* <UserListToolbar filterName={filterName} showTeam /> */}
         <Scrollbar>
           <TableContainer sx={{ minWidth: 800 }}>
             <Table>
-              <UserListHead
-                order={order}
-                orderBy={orderBy}
-                headLabel={tableHead}
-                rowCount={metrics.length}
-                numSelected={selected.length}
-                onRequestSort={handleRequestSort}
-                onSelectAllClick={handleSelectAllClick}
-              />
+              <UserListHead headLabel={tableHead} rowCount={metrics.length} />
               <TableBody>
-                {filteredUsers.map((row) => {
-                  const isItemSelected = selected.indexOf(row.type) !== -1;
+                {metrics.map((row) => (
+                  <TableRow hover key={row.id} tabIndex={-1} role="checkbox">
+                    <TableCell align="left">{row.type}</TableCell>
 
-                  return (
-                    <TableRow
-                      hover
-                      key={row.id}
-                      tabIndex={-1}
-                      role="checkbox"
-                      selected={isItemSelected}
-                      aria-checked={isItemSelected}
-                    >
-                      <TableCell align="left">{row.type}</TableCell>
+                    <TableCell align="left">{row.csatCases}</TableCell>
+                    <TableCell align="left">{row.csatChats}</TableCell>
+                    <TableCell align="left">{row.prodCases}</TableCell>
+                    <TableCell align="left">{row.prodChats}</TableCell>
+                    <TableCell align="left">{row.aht}</TableCell>
 
-                      <TableCell align="left">{row.csatCases}</TableCell>
-                      <TableCell align="left">{row.csatChats}</TableCell>
-                      <TableCell align="left">{row.prodCases}</TableCell>
-                      <TableCell align="left">{row.prodChats}</TableCell>
-                      <TableCell align="left">{row.aht}</TableCell>
+                    <TableCell align="left">{row.acw}</TableCell>
 
-                      <TableCell align="left">{row.acw}</TableCell>
+                    <TableCell align="left">{row.qa}</TableCell>
+                    <TableCell align="left">{row.sent}</TableCell>
+                    <TableCell align="left">{row.slopes}</TableCell>
+                    <TableCell align="left">{row.signed}</TableCell>
 
-                      <TableCell align="left">{row.qa}</TableCell>
-                      <TableCell align="left">{row.sent}</TableCell>
-                      <TableCell align="left">{row.slopes}</TableCell>
-                      <TableCell align="left">{row.signed}</TableCell>
-
-                      <TableCell align="left">{row.total}</TableCell>
-                      <TableCell align="left">{row.saved}</TableCell>
-                    </TableRow>
-                  );
-                })}
+                    <TableCell align="left">{row.total}</TableCell>
+                    <TableCell align="left">{row.saved}</TableCell>
+                  </TableRow>
+                ))}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>
                     <TableCell colSpan={6} />
@@ -179,9 +97,8 @@ export default function AppTableMetric({ title, tableHead, metrics }) {
         </Scrollbar>
 
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[7]}
           component="div"
-          labelRowsPerPage="Columnas por página"
           count={metrics.length}
           rowsPerPage={rowsPerPage}
           page={page}

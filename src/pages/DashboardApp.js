@@ -103,7 +103,7 @@ export default function DashboardApp() {
     <Page title="Dashboard | Human2Coach">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Hola, {GeneralFunctions.getNameSession()}</Typography>
+          <Typography variant="h4">Hello, {GeneralFunctions.getNameSession()}</Typography>
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={4} lg={4}>
@@ -137,12 +137,11 @@ export default function DashboardApp() {
             </a>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid item xs={12} sm={12} md={12} id="OneonOne">
             <AppTableMetric
               title="One on One"
               tableHead={getTablehead('One on one')}
               metrics={metrics}
-              id="OneonOne"
             />
           </Grid>
           <Grid item xs={12} sm={12} md={12} id="pds">

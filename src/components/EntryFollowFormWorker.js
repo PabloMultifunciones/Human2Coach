@@ -132,7 +132,6 @@ function EntryFollowFormWorker(props) {
               </Grid>
             ) : (
               <>
-                {' '}
                 {params.id && (
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Link to="/dashboard/plans" rel="noopener noreferrer">

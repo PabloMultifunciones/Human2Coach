@@ -211,16 +211,7 @@ function Metric(props) {
                       {(filterName === '' ? props.metrics : props.metrics_filtered)
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => {
-                          const {
-                            id,
-                            name,
-                            description,
-                            type,
-                            frequency,
-                            isPointsGranted,
-                            isApplyToSupervisor,
-                            isActive
-                          } = row;
+                          const { id, name, description, type, frequency, isActive } = row;
 
                           return (
                             <TableRow hover key={id} tabIndex={-1}>

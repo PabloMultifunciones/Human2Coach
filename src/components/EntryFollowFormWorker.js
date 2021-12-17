@@ -59,28 +59,28 @@ function EntryFollowFormWorker(props) {
   }, []);
 
   useEffect(() => {
-    if (props.plansSelected) {
+    if (props.plansReducer.plansSelected) {
       setState((prevState) => ({
         ...prevState,
-        collaborator: props.plansSelected.user,
-        feedback: props.plansSelected.isObjetive ? 'objective' : 'general',
-        dashboard: props.plansSelected.isPDS
+        collaborator: props.plansReducer.plansSelected.user,
+        feedback: props.plansReducer.plansSelected.isObjetive ? 'objective' : 'general',
+        dashboard: props.plansReducer.plansSelected.isPDS
           ? 'pds'
-          : props.plansSelected.isPIP
+          : props.plansReducer.plansSelected.isPIP
           ? 'pip'
-          : props.plansSelected.isOneOnOne
+          : props.plansReducer.plansSelected.isOneOnOne
           ? 'oneonone'
           : '',
-        notes: props.plansSelected.supervisorNote,
-        comments: props.plansSelected.supervisorComment,
-        date: format(new Date(props.plansSelected.commitmentDate), 'yyyy-MM-dd'),
-        dateCommitment: format(new Date(props.plansSelected.sendedDate), 'yyyy-MM-dd'),
-        addReminder: format(new Date(props.plansSelected.reminderDate), 'yyyy-MM-dd'),
+        notes: props.plansReducer.plansSelected.supervisorNote,
+        comments: props.plansReducer.plansSelected.supervisorComment,
+        date: format(new Date(props.plansReducer.plansSelected.commitmentDate), 'yyyy-MM-dd'),
+        dateCommitment: format(new Date(props.plansReducer.plansSelected.sendedDate), 'yyyy-MM-dd'),
+        addReminder: format(new Date(props.plansReducer.plansSelected.reminderDate), 'yyyy-MM-dd'),
         ownComments: ''
       }));
     }
     // eslint-disable-next-line
-  }, [props.plansSelected]);
+  }, [props.plansReducer.plansSelected]);
 
   const handleChange = (event, value) => {
     setState((prevState) => ({
@@ -128,7 +128,7 @@ function EntryFollowFormWorker(props) {
       <Grid container spacing={3} justifyContent="center">
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Grid container spacing={3}>
-            {props.plans_charging ? (
+            {props.plansReducer.plans_charging ? (
               <Grid item xs={12} sm={12} md={12} lg={12}>
                 <Spinner />
               </Grid>
@@ -175,45 +175,49 @@ function EntryFollowFormWorker(props) {
                   </FormControl>
                 </Grid>
                 {params.id &&
-                  props.plansSelected.metricConfs &&
-                  props.plansSelected.metricConfs.length > 0 && (
+                  props.plansReducer.plansSelected.metricConfs &&
+                  props.plansReducer.plansSelected.metricConfs.length > 0 && (
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                       {params.id ? (
                         <>
                           <section className="mb-2">
                             <TableFeedback
                               title=""
-                              metrics={props.plansSelected.metricConfs}
+                              metrics={props.plansReducer.plansSelected.metricConfs}
                               disabled
                               checked
                             />
                           </section>
 
-                          <AppPlanMetrics planSelected={props.plansSelected} />
+                          <AppPlanMetrics planSelected={props.plansReducer.plansSelected} />
                         </>
                       ) : (
                         <TableFeedback
                           title=""
-                          metrics={props.plansSelected.metricConfs}
+                          metrics={props.plansReducer.plansSelected.metricConfs}
                           disabled
                         />
                       )}
                     </Grid>
                   )}
 
-                <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <TextField
-                    className="w-100"
-                    id="outlined-multiline-static"
-                    label="Private notes (Visible to the leader)"
-                    multiline
-                    rows={8}
-                    variant="outlined"
-                    value={notes}
-                    name="notes"
-                    disabled
-                  />
-                </Grid>
+                {props.loginReducer.userLogged &&
+                  props.loginReducer.userLogged.user.position !== 3 && (
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <TextField
+                        className="w-100"
+                        id="outlined-multiline-static"
+                        label="Private notes (Visible to the leader)"
+                        multiline
+                        rows={8}
+                        variant="outlined"
+                        value={notes}
+                        name="notes"
+                        disabled
+                      />
+                    </Grid>
+                  )}
+
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <TextField
                     className="w-100"
@@ -286,41 +290,44 @@ function EntryFollowFormWorker(props) {
                       </Button>
                     </Link>
 
-                    {props.plansSelected && props.plansSelected.status === 'DRAFT' && (
-                      <Button
-                        onClick={() => submitSend(props.plansSelected)}
-                        color="secondary"
-                        variant="contained"
-                        className="ml-1"
-                      >
-                        Send
-                      </Button>
-                    )}
+                    {props.plansReducer.plansSelected &&
+                      props.plansReducer.plansSelected.status === 'DRAFT' && (
+                        <Button
+                          onClick={() => submitSend(props.plansReducer.plansSelected)}
+                          color="secondary"
+                          variant="contained"
+                          className="ml-1"
+                        >
+                          Send
+                        </Button>
+                      )}
 
-                    {props.plansSelected && props.plansSelected.status === 'SENDED' && (
-                      <Button
-                        onClick={() => submitReceived(props.plansSelected)}
-                        color="secondary"
-                        variant="contained"
-                        className="ml-1"
-                      >
-                        Received
-                      </Button>
-                    )}
+                    {props.plansReducer.plansSelected &&
+                      props.plansReducer.plansSelected.status === 'SENDED' && (
+                        <Button
+                          onClick={() => submitReceived(props.plansReducer.plansSelected)}
+                          color="secondary"
+                          variant="contained"
+                          className="ml-1"
+                        >
+                          Received
+                        </Button>
+                      )}
                   </div>
-                  {props.plansSelected && props.plansSelected.status === 'SENDED' && (
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked
-                          label="Recibido"
-                          color="primary"
-                          inputProps={{ 'aria-label': 'secondary checkbox' }}
-                        />
-                      }
-                      label="Recibido"
-                    />
-                  )}
+                  {props.plansReducer.plansSelected &&
+                    props.plansReducer.plansSelected.status === 'SENDED' && (
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked
+                            label="Recibido"
+                            color="primary"
+                            inputProps={{ 'aria-label': 'secondary checkbox' }}
+                          />
+                        }
+                        label="Recibido"
+                      />
+                    )}
                 </Grid>
               </>
             )}
@@ -330,8 +337,10 @@ function EntryFollowFormWorker(props) {
     </>
   );
 }
-const mapStateToProps = ({ plansReducer }) => plansReducer;
-
+const mapStateToProps = ({ plansReducer, loginReducer }) => ({
+  plansReducer,
+  loginReducer
+});
 const mapDispatchToProps = {
   getPlanRequest,
   updateStatePlanRequest

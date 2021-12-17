@@ -87,8 +87,6 @@ function AppTableMetric(props) {
       return;
     }
 
-    console.log('return');
-
     if (props.title === 'One on One') {
       props.getMetricsOneRequest({ number: 0 });
     } else if (props.title === 'PDS') {

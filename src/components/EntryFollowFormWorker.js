@@ -25,12 +25,23 @@ import 'toastr/build/toastr.min.css';
 
 function EntryFollowFormWorker(props) {
   const [
-    { collaborator, feedback, dashboard, comments, date, dateCommitment, addReminder, ownComments },
+    {
+      collaborator,
+      feedback,
+      dashboard,
+      notes,
+      comments,
+      date,
+      dateCommitment,
+      addReminder,
+      ownComments
+    },
     setState
   ] = useState({
     collaborator: { name: '', lastName: '' },
     feedback: 'objective',
     dashboard: 'oneon',
+    notes: '',
     comments:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste voluptas explicabo commodi deleniti pariatur dolore sapiente obcaecati alias eaque quam ducimus, officiis saepe fugiat suscipit culpa. Voluptates tenetur omnis esse.',
     date: format(new Date(), 'yyyy-MM-dd'),
@@ -60,6 +71,7 @@ function EntryFollowFormWorker(props) {
           : props.plansSelected.isOneOnOne
           ? 'oneonone'
           : '',
+        notes: props.plansSelected.supervisorNote,
         comments: props.plansSelected.supervisorComment,
         date: format(new Date(props.plansSelected.commitmentDate), 'yyyy-MM-dd'),
         dateCommitment: format(new Date(props.plansSelected.sendedDate), 'yyyy-MM-dd'),
@@ -188,11 +200,25 @@ function EntryFollowFormWorker(props) {
                       )}
                     </Grid>
                   )}
+
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <TextField
                     className="w-100"
                     id="outlined-multiline-static"
-                    label="Comentarios del lider"
+                    label="Private notes (Visible to the leader)"
+                    multiline
+                    rows={8}
+                    variant="outlined"
+                    value={notes}
+                    name="notes"
+                    disabled
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TextField
+                    className="w-100"
+                    id="outlined-multiline-static"
+                    label="Comments"
                     multiline
                     rows={8}
                     variant="outlined"

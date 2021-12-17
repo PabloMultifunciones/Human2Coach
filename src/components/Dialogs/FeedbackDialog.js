@@ -65,7 +65,7 @@ const TABLE_HEAD = [
   },
   {
     id: 'wafter',
-    label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
+    label: `W${GeneralFunctions.getWeekCount()}  ${format(
       subDays(startOfWeek(new Date()), 1),
       'dd/MM/yyyy'
     )}`,

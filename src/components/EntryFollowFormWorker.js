@@ -34,7 +34,8 @@ function EntryFollowFormWorker(props) {
       date,
       dateCommitment,
       addReminder,
-      ownComments
+      ownComments,
+      received
     },
     setState
   ] = useState({
@@ -47,7 +48,8 @@ function EntryFollowFormWorker(props) {
     date: format(new Date(), 'yyyy-MM-dd'),
     dateCommitment: format(new Date(), 'yyyy-MM-dd'),
     addReminder: format(new Date(), 'yyyy-MM-dd'),
-    ownComments: ''
+    ownComments: '',
+    received: false
   });
 
   const params = useParams();
@@ -107,6 +109,10 @@ function EntryFollowFormWorker(props) {
   };
 
   const submitReceived = async (plan) => {
+    if (!received) {
+      toastr.error('You must check the received checkbox');
+      return;
+    }
     let status;
 
     await props
@@ -282,53 +288,84 @@ function EntryFollowFormWorker(props) {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex-between">
-                  <div>
-                    <Link to="/dashboard/plans" rel="noopener noreferrer">
-                      <Button className="bg-danger" color="inherit" variant="contained">
-                        Cancel
-                      </Button>
-                    </Link>
 
-                    {props.plansReducer.plansSelected &&
-                      props.plansReducer.plansSelected.status === 'DRAFT' && (
-                        <Button
-                          onClick={() => submitSend(props.plansReducer.plansSelected)}
-                          color="secondary"
-                          variant="contained"
-                          className="ml-1"
-                        >
-                          Send
+                {props.loginReducer.userLogged &&
+                props.loginReducer.userLogged.user.position === 3 ? (
+                  <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex-between">
+                    <div>
+                      <Link to="/dashboard/plans" rel="noopener noreferrer">
+                        <Button className="bg-danger" color="inherit" variant="contained">
+                          Back
                         </Button>
-                      )}
+                      </Link>
 
+                      {props.plansReducer.plansSelected &&
+                        props.plansReducer.plansSelected.status === 'DRAFT' && (
+                          <Button
+                            onClick={() => submitSend(props.plansReducer.plansSelected)}
+                            color="secondary"
+                            variant="contained"
+                            className="ml-1"
+                          >
+                            Send
+                          </Button>
+                        )}
+
+                      {props.plansReducer.plansSelected &&
+                        props.plansReducer.plansSelected.status === 'SENDED' && (
+                          <Button
+                            onClick={() => submitReceived(props.plansReducer.plansSelected)}
+                            color="secondary"
+                            variant="contained"
+                            className="ml-1"
+                          >
+                            Received
+                          </Button>
+                        )}
+                    </div>
                     {props.plansReducer.plansSelected &&
                       props.plansReducer.plansSelected.status === 'SENDED' && (
-                        <Button
-                          onClick={() => submitReceived(props.plansReducer.plansSelected)}
-                          color="secondary"
-                          variant="contained"
-                          className="ml-1"
-                        >
-                          Received
-                        </Button>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              defaultValue={false}
+                              label="Recibido"
+                              color="primary"
+                              inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              value={received}
+                              name="received"
+                              onChange={(event, value) => {
+                                handleChange(event, value);
+                              }}
+                            />
+                          }
+                          label="Recibido"
+                        />
                       )}
-                  </div>
-                  {props.plansReducer.plansSelected &&
-                    props.plansReducer.plansSelected.status === 'SENDED' && (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked
-                            label="Recibido"
-                            color="primary"
-                            inputProps={{ 'aria-label': 'secondary checkbox' }}
-                          />
-                        }
-                        label="Recibido"
-                      />
-                    )}
-                </Grid>
+                  </Grid>
+                ) : (
+                  <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex-between">
+                    <div>
+                      <Link to="/dashboard/plans" rel="noopener noreferrer">
+                        <Button className="bg-danger" color="inherit" variant="contained">
+                          Back
+                        </Button>
+                      </Link>
+
+                      {props.plansReducer.plansSelected &&
+                        props.plansReducer.plansSelected.status === 'DRAFT' && (
+                          <Button
+                            onClick={() => submitSend(props.plansReducer.plansSelected)}
+                            color="secondary"
+                            variant="contained"
+                            className="ml-1"
+                          >
+                            Send
+                          </Button>
+                        )}
+                    </div>
+                  </Grid>
+                )}
               </>
             )}
           </Grid>

@@ -3,6 +3,8 @@ import toastr from 'toastr';
 import { format } from 'date-fns';
 import { Icon } from '@iconify/react';
 import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import Tooltip from '@material-ui/core/Tooltip';
 
 // import toastr from 'toastr';
 
@@ -200,11 +202,21 @@ function IndividualFollow(props) {
                               )}
                             </TableCell>
                             <TableCell align="left">
-                              {row.status === 'DRAFT' && (
+                              {row.status === 'DRAFT' ? (
                                 <>
                                   <PlanDialog plan={row} />
                                   <DeleteDialog delete={() => deletePlan(row.id)} />
                                 </>
+                              ) : (
+                                <Link
+                                  to={`/dashboard/plan/${row.id}`}
+                                  rel="noopener noreferrer"
+                                  className="color-black"
+                                >
+                                  <Tooltip title="See details">
+                                    <VisibilityIcon />
+                                  </Tooltip>
+                                </Link>
                               )}
                             </TableCell>
                           </TableRow>

@@ -125,10 +125,19 @@ export default {
   },
 
   getWeekCount() {
-    return getWeek(new Date()) - 1;
+    const count = getWeek(new Date()) - 1;
+
+    if (count === 1) {
+      return getWeek(new Date()) - 1;
+    }
+    return 1;
   },
 
   getWeekCountBefore() {
-    return getWeek(subDays(startOfWeek(new Date()), 7)) - 1;
+    const count = getWeek(subDays(startOfWeek(new Date()), 7)) - 1;
+    if (count === 1) {
+      return getWeek(subDays(startOfWeek(new Date()), 7)) - 1;
+    }
+    return 1;
   }
 };

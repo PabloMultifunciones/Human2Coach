@@ -93,6 +93,24 @@ export const getCollaboratorsRequest = (payload) => async (dispatch) => {
   }
 };
 
+export const getCollaboratorsLeadersRequest = (payload) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USERS_CHARGING
+    });
+    const responseLogin = await GeneralService.getLeaders(0, payload);
+    dispatch({
+      type: COLLABORATOR_LIST_REQUEST,
+      payload: { ...responseLogin.data }
+    });
+  } catch (error) {
+    dispatch({
+      type: USERS_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
 export const getLeadersRequest = () => async (dispatch) => {
   try {
     dispatch({

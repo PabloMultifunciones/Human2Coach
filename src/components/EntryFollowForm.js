@@ -19,7 +19,11 @@ import TimeEntryFollowDialog from './Dialogs/TimeEntryFollowDialog';
 import 'toastr/build/toastr.min.css';
 
 import { TableFeedbackDone } from './_dashboard/app';
-import { usersRequest, getCollaboratorsRequest } from '../actions/generalActions';
+import {
+  usersRequest,
+  getCollaboratorsRequest,
+  getCollaboratorsLeadersRequest
+} from '../actions/generalActions';
 
 import { savePlanRequest, resetState } from '../actions/plansActions';
 import GeneralFunctions from '../libs/GeneralFunctions';
@@ -56,7 +60,11 @@ function EntryFollowForm(props) {
 
   useEffect(() => {
     if (!props.generalReducer.collaborators) {
-      props.getCollaboratorsRequest(999);
+      if (props.loginReducer.userLogged && props.loginReducer.userLogged.user.position === 1) {
+        props.getCollaboratorsLeadersRequest(999);
+      } else {
+        props.getCollaboratorsRequest(999);
+      }
     }
     // eslint-disable-next-line
   }, []);
@@ -204,24 +212,26 @@ function EntryFollowForm(props) {
               </Grid>
             ) : (
               <>
-                {props.generalReducer.collaborators && props.generalReducer.collaborators.content && (
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Autocomplete
-                      id="combo-box-demo-login"
-                      value={collaborator || props.generalReducer.collaborators.content[0]}
-                      options={props.generalReducer.collaborators.content}
-                      getOptionLabel={(option) =>
-                        `${option.name} ${option.lastName} (${option.username})`
-                      }
-                      onChange={(event, value) =>
-                        handleChange({ target: { name: 'collaborator' } }, value)
-                      }
-                      renderInput={(params) => (
-                        <TextField {...params} fullWidth label="Colaborador" variant="outlined" />
-                      )}
-                    />
-                  </Grid>
-                )}
+                {props.generalReducer.collaborators &&
+                  props.generalReducer.collaborators.content &&
+                  props.generalReducer.collaborators.content.length > 0 && (
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <Autocomplete
+                        id="combo-box-demo-login"
+                        value={collaborator || props.generalReducer.collaborators.content[0]}
+                        options={props.generalReducer.collaborators.content}
+                        getOptionLabel={(option) =>
+                          `${option.name} ${option.lastName} (${option.username})`
+                        }
+                        onChange={(event, value) =>
+                          handleChange({ target: { name: 'collaborator' } }, value)
+                        }
+                        renderInput={(params) => (
+                          <TextField {...params} fullWidth label="Colaborador" variant="outlined" />
+                        )}
+                      />
+                    </Grid>
+                  )}
 
                 {/* changes users to collaborators */}
 
@@ -360,24 +370,30 @@ function EntryFollowForm(props) {
                   </>
                 )}
 
-                <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <Button
-                    color="secondary"
-                    variant="contained"
-                    className="ml-1"
-                    onClick={() => submitFunction('DRAFT')}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    onClick={() => submitFunction('SENDED')}
-                    color="primary"
-                    variant="contained"
-                    className="ml-1"
-                  >
-                    Send
-                  </Button>
-                </Grid>
+                {props.generalReducer.collaborators &&
+                props.generalReducer.collaborators.content &&
+                props.generalReducer.collaborators.content.length > 0 ? (
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      className="ml-1"
+                      onClick={() => submitFunction('DRAFT')}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      onClick={() => submitFunction('SENDED')}
+                      color="primary"
+                      variant="contained"
+                      className="ml-1"
+                    >
+                      Send
+                    </Button>
+                  </Grid>
+                ) : (
+                  <h2 className="w-100 text-center">No tiene usuarios asignados</h2>
+                )}
               </>
             )}
           </Grid>
@@ -389,10 +405,15 @@ function EntryFollowForm(props) {
   );
 }
 
-const mapStateToProps = ({ plansReducer, generalReducer }) => ({ plansReducer, generalReducer });
+const mapStateToProps = ({ plansReducer, generalReducer, loginReducer }) => ({
+  plansReducer,
+  generalReducer,
+  loginReducer
+});
 
 const mapDispatchToProps = {
   getCollaboratorsRequest,
+  getCollaboratorsLeadersRequest,
   savePlanRequest,
   usersRequest,
   resetState

@@ -127,9 +127,10 @@ export default {
   getWeekCount() {
     const count = getWeek(new Date()) - 1;
 
-    if (count === 1) {
+    if (count !== 1) {
       return getWeek(new Date()) - 1;
     }
+
     return 1;
   },
 

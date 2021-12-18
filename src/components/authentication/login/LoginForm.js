@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { Icon } from '@iconify/react';
-import toastr from 'toastr';
 
 // material
 import { connect } from 'react-redux';
@@ -73,10 +72,6 @@ function LoginForm(props) {
     });
   };
 
-  const loginGmailHandlerError = () => {
-    toastr.error('An error has occurred while trying to login');
-  };
-
   if (props.userLogged) {
     return <Navigate to="/dashboard" />;
   }
@@ -103,7 +98,6 @@ function LoginForm(props) {
             clientId={`${environment.googleClientID}`}
             buttonText="Log in with Google"
             onSuccess={loginGmailHandler}
-            onFailure={loginGmailHandlerError}
             cookiePolicy="single_host_origin"
             className="mb-1"
           />
@@ -174,6 +168,7 @@ function LoginForm(props) {
           type="submit"
           variant="contained"
           loading={isSubmitting}
+          color="error"
         >
           Login
         </LoadingButton>

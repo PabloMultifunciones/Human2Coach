@@ -34,7 +34,8 @@ export const getMetricsOneRequest = (payload) => async (dispatch, getState) => {
         true,
         false,
         false,
-        payload.number
+        payload.number,
+        4
       );
       dispatch({
         type: METRICS_ONE_LIST_REQUEST,
@@ -69,7 +70,8 @@ export const getMetricsOneFilterRequest = (payload) => async (dispatch, getState
         true,
         false,
         false,
-        payload.number
+        payload.number,
+        4
       );
       dispatch({
         type: METRICS_ONE_LIST_FILTER_REQUEST,
@@ -99,7 +101,8 @@ export const getMetricsPdsRequest = (payload) => async (dispatch, getState) => {
         false,
         true,
         false,
-        payload.number
+        payload.number,
+        4
       );
       dispatch({
         type: METRICS_PDS_LIST_REQUEST,
@@ -134,7 +137,8 @@ export const getMetricsPdsFilterRequest = (payload) => async (dispatch, getState
         false,
         true,
         false,
-        payload.number
+        payload.number,
+        4
       );
       dispatch({
         type: METRICS_PDS_LIST_FILTER_REQUEST,
@@ -164,7 +168,8 @@ export const getMetricsPipRequest = (payload) => async (dispatch, getState) => {
         false,
         false,
         true,
-        payload.number
+        payload.number,
+        4
       );
       dispatch({
         type: METRICS_PIP_LIST_REQUEST,
@@ -199,7 +204,8 @@ export const getMetricsPipFilterRequest = (payload) => async (dispatch, getState
         false,
         false,
         true,
-        payload.number
+        payload.number,
+        4
       );
       dispatch({
         type: METRICS_PIP_LIST_FILTER_REQUEST,

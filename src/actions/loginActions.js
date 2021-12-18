@@ -16,13 +16,17 @@ export const loginRequest = (payload) => async (dispatch) => {
       'sesion',
       JSON.stringify({
         ...responseLogin.data,
-        expiresAt: new Date().getTime() + TOKEN_LIFE
+        expiresAt: new Date().getTime() + TOKEN_LIFE,
+        modeFeeback: payload.modeFeedback ? payload.modeFeedback : false
       })
     );
 
     dispatch({
       type: LOGIN_REQUEST,
-      payload: responseLogin.data
+      payload: {
+        ...responseLogin.data,
+        modeFeeback: payload.modeFeedback ? payload.modeFeedback : false
+      }
     });
   } catch (error) {
     dispatch({

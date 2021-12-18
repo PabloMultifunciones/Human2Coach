@@ -42,7 +42,7 @@ import Spinner from '../../Spinner';
 function AppTableMetric(props) {
   const [page, setPage] = useState(0);
   const [filterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState(4);
   const [user, setUser] = useState(null);
 
   const handleChangePage = (event, newPage) => {
@@ -160,24 +160,26 @@ function AppTableMetric(props) {
   };
 
   useEffect(() => {
-    if (props.title === 'One on One') {
-      props.getMetricsOneRequest({ number: 0 });
-    } else if (props.title === 'PDS') {
-      props.getMetricsPdsRequest({ number: 0 });
-    } else {
-      props.getMetricsPipRequest({ number: 0 });
-    }
-
     if (props.loginReducer.userLogged) {
-      if (props.loginReducer.userLogged.user.position === 1) {
-        if (!props.generalReducer.leaders) {
-          props.getLeadersRequest(999);
-        }
+      if (props.title === 'One on One') {
+        props.getMetricsOneRequest({ number: 0 });
+      } else if (props.title === 'PDS') {
+        props.getMetricsPdsRequest({ number: 0 });
+      } else {
+        props.getMetricsPipRequest({ number: 0 });
       }
 
-      if (props.loginReducer.userLogged.user.position === 2) {
-        if (!props.generalReducer.collaborators) {
-          props.getCollaboratorsRequest(999);
+      if (props.loginReducer.userLogged) {
+        if (props.loginReducer.userLogged.user.position === 1) {
+          if (!props.generalReducer.leaders) {
+            props.getLeadersRequest(999);
+          }
+        }
+
+        if (props.loginReducer.userLogged.user.position === 2) {
+          if (!props.generalReducer.collaborators) {
+            props.getCollaboratorsRequest(999);
+          }
         }
       }
     }
@@ -281,7 +283,7 @@ function AppTableMetric(props) {
             </Scrollbar>
 
             <TablePagination
-              rowsPerPageOptions={[7]}
+              rowsPerPageOptions={[4]}
               component="div"
               count={getMetricsTypeTotalElements()}
               rowsPerPage={rowsPerPage}

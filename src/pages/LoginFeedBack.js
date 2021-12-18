@@ -1,14 +1,12 @@
-import { Link as RouterLink } from 'react-router-dom';
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Card, Stack, Link, Container, Typography } from '@material-ui/core';
+import { Card, Stack, Container, Typography } from '@material-ui/core';
 // layouts
 import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
 import { MHidden } from '../components/@material-extend';
-import { LoginForm } from '../components/authentication/login';
-// import AuthSocial from '../components/authentication/AuthSocial';
+import { LoginFeedbackForm } from '../components/authentication/login';
 
 // ----------------------------------------------------------------------
 
@@ -39,21 +37,10 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Login() {
+export default function LoginFeedBack() {
   return (
-    <RootStyle title="Login | Human2Coach">
-      <AuthLayout>
-        Don’t have an account? &nbsp;
-        <Link
-          underline="none"
-          variant="subtitle2"
-          component={RouterLink}
-          to="/register"
-          color="error"
-        >
-          Get started
-        </Link>
-      </AuthLayout>
+    <RootStyle title="Modo Feeback">
+      <AuthLayout>''</AuthLayout>
 
       <MHidden width="mdDown">
         <SectionStyle>
@@ -66,22 +53,13 @@ export default function Login() {
 
       <Container maxWidth="sm">
         <ContentStyle>
-          <Stack sx={{ mb: 5 }}>
-            <Typography variant="h4" gutterBottom>
-              Sign in to Human2Coach
+          <Stack sx={{ mb: 10 }}>
+            <Typography variant="h2" gutterBottom className="text-center">
+              ModoFeedback{' '}
             </Typography>
           </Stack>
 
-          <LoginForm />
-
-          <MHidden width="smUp">
-            <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-              Don’t have an account?&nbsp;
-              <Link variant="subtitle2" component={RouterLink} to="register">
-                Get started
-              </Link>
-            </Typography>
-          </MHidden>
+          <LoginFeedbackForm />
         </ContentStyle>
       </Container>
     </RootStyle>

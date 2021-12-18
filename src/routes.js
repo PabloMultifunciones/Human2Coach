@@ -4,6 +4,8 @@ import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Login from './pages/Login';
+import LoginFeedBack from './pages/LoginFeedBack';
+
 import RecoverPassword from './pages/RecoverPassword';
 import Avatar from './pages/Avatar';
 
@@ -76,6 +78,8 @@ export default function Router() {
       ),
       children: [
         { path: 'login', element: <Login /> },
+        { path: 'modofeedback', element: <LoginFeedBack /> },
+
         { path: 'recover-password', element: <RecoverPassword /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },

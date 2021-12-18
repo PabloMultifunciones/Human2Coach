@@ -14,6 +14,7 @@ import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
 import sidebarConfigCollaborator from './SidebarConfigCollaborator';
+import sidebarConfigMaster from './SidebarConfigMaster';
 
 // ----------------------------------------------------------------------
 
@@ -79,11 +80,13 @@ function DashboardSidebar({ isOpenSidebar, onCloseSidebar, userLogged }) {
         </AccountStyle>
       </Box>
 
-      {userLogged.user.position === 3 ? (
-        <NavSection navConfig={sidebarConfigCollaborator} />
-      ) : (
+      {userLogged.user.position === 3 && <NavSection navConfig={sidebarConfigCollaborator} />}
+
+      {(userLogged.user.position === 1 || userLogged.user.position === 2) && (
         <NavSection navConfig={sidebarConfig} />
       )}
+
+      {userLogged.user.position === 4 && <NavSection navConfig={sidebarConfigMaster} />}
     </Scrollbar>
   );
 

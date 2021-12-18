@@ -61,10 +61,10 @@ export default function Router() {
           path: 'metrics',
           element:
             localStorage.getItem('sesion') &&
-            JSON.parse(localStorage.getItem('sesion')).user.postion === 3 ? (
-              <Navigate to="/dashboard/app" replace />
-            ) : (
+            JSON.parse(localStorage.getItem('sesion')).user.postion === 4 ? (
               <Metric />
+            ) : (
+              <Navigate to="/dashboard/app" replace />
             )
         },
         {

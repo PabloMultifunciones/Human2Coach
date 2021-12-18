@@ -23,7 +23,7 @@ import { getPlanRequest, updateStatePlanRequest } from '../actions/plansActions'
 
 import 'toastr/build/toastr.min.css';
 
-function EntryFollowFormWorker(props) {
+function Plan(props) {
   const [
     {
       collaborator,
@@ -383,4 +383,4 @@ const mapDispatchToProps = {
   updateStatePlanRequest
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntryFollowFormWorker);
+export default connect(mapStateToProps, mapDispatchToProps)(Plan);

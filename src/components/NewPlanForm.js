@@ -28,7 +28,7 @@ import {
 import { savePlanRequest, resetState } from '../actions/plansActions';
 import GeneralFunctions from '../libs/GeneralFunctions';
 
-function EntryFollowForm(props) {
+function NewPlanForm(props) {
   const [
     {
       collaborator,
@@ -419,4 +419,4 @@ const mapDispatchToProps = {
   resetState
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntryFollowForm);
+export default connect(mapStateToProps, mapDispatchToProps)(NewPlanForm);

@@ -59,7 +59,7 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-function IndividualFollow(props) {
+function Plans(props) {
   const [page, setPage] = useState(0);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(7);
@@ -264,4 +264,4 @@ const mapDispatchToProps = {
   deletePlanRequest
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IndividualFollow);
+export default connect(mapStateToProps, mapDispatchToProps)(Plans);

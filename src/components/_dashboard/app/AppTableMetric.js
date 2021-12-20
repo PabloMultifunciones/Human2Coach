@@ -73,10 +73,10 @@ function AppTableMetric(props) {
   };
 
   const handleFilterUser = (value) => {
-    setUser(value);
+    setUser(value && value.id ? value : null);
     setPage(0);
 
-    if (value) {
+    if (value && value.id) {
       if (props.title === 'One on One') {
         props.getMetricsOneFilterRequest({ number: 0, filterOne: value.id });
       } else if (props.title === 'PDS') {
@@ -206,8 +206,11 @@ function AppTableMetric(props) {
             onFilterUser={handleFilterUser}
             showUser
             users={
-              [{ name: 'Todos', lastName: '' }, ...props.generalReducer.leaders.content] || [
-                { name: 'Todos', lastName: '' },
+              [
+                { name: 'Todos', lastName: '', id: false },
+                ...props.generalReducer.leaders.content
+              ] || [
+                { name: 'Todos', lastName: '', id: false },
                 ...props.generalReducer.collaborators.content
               ]
             }

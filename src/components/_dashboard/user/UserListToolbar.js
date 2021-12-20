@@ -56,7 +56,12 @@ export default function UserListToolbar({
       ...prevState,
       [event.target.name]: value
     }));
-    onFilterUser(value);
+
+    if (value === 'undefined') {
+      onFilterUser('');
+    } else {
+      onFilterUser(value);
+    }
   };
 
   const handleSearch = (e) => {
@@ -108,6 +113,7 @@ export default function UserListToolbar({
               className="autocomplete-custom"
               value={user || users[0]}
               options={users}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
               getOptionLabel={(option) =>
                 `${option.name} ${option.lastName} ${option.username ? `(${option.username})` : ''}`
               }

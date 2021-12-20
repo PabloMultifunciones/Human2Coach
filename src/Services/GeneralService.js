@@ -46,7 +46,7 @@ export default {
   ) =>
     axios({
       method: 'GET',
-      url: `${environment.motivarnosBackend}/user?position=3&_number=${number}&_size=${size}&_sort=created_${order}`
+      url: `${environment.motivarnosBackend}/user?position=2&_number=${number}&_size=${size}&_sort=created_${order}`
     }),
 
   getLeaders: (

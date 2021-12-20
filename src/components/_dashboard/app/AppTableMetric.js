@@ -201,19 +201,25 @@ function AppTableMetric(props) {
       </Stack>
 
       <Card>
-        {(props.generalReducer.leaders || props.generalReducer.collaborators) && (
+        {props.generalReducer.leaders && (
           <UserListToolbar
             onFilterUser={handleFilterUser}
             showUser
-            users={
-              [
-                { name: 'Todos', lastName: '', id: false },
-                ...props.generalReducer.leaders.content
-              ] || [
-                { name: 'Todos', lastName: '', id: false },
-                ...props.generalReducer.collaborators.content
-              ]
-            }
+            users={[
+              { name: 'Todos', lastName: '', id: false },
+              ...props.generalReducer.leaders.content
+            ]}
+          />
+        )}
+
+        {props.generalReducer.collaborators && (
+          <UserListToolbar
+            onFilterUser={handleFilterUser}
+            showUser
+            users={[
+              { name: 'Todos', lastName: '', id: false },
+              ...props.generalReducer.collaborators.content
+            ]}
           />
         )}
 

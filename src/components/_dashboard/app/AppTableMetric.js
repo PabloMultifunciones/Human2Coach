@@ -230,6 +230,7 @@ function AppTableMetric(props) {
 
                       {getMetricsType() &&
                         getMetricsType()[0] &&
+                        getMetricsType()[0].metrics &&
                         getMetricsType()[0].metrics.map((row, index) => (
                           <Tooltip key={index} title={row.name}>
                             <TableCell>

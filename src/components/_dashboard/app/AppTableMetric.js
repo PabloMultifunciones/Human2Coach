@@ -28,7 +28,10 @@ import {
   getMetricsPipFilterRequest
 } from '../../../actions/dashboardActions';
 
-import { getCollaboratorsRequest, getLeadersRequest } from '../../../actions/generalActions';
+import {
+  getCollaboratorsRequest,
+  getLeadersCollaboratorsRequest
+} from '../../../actions/generalActions';
 
 import { UserListToolbar } from '../user';
 
@@ -171,8 +174,8 @@ function AppTableMetric(props) {
 
       if (props.loginReducer.userLogged) {
         if (props.loginReducer.userLogged.user.position === 1) {
-          if (!props.generalReducer.leaders) {
-            props.getLeadersRequest(999);
+          if (!props.generalReducer.leaderCollaborators) {
+            props.getLeadersCollaboratorsRequest(999);
           }
         }
 
@@ -201,13 +204,13 @@ function AppTableMetric(props) {
       </Stack>
 
       <Card>
-        {props.generalReducer.leaders && (
+        {props.generalReducer.leaderCollaborators && (
           <UserListToolbar
             onFilterUser={handleFilterUser}
             showUser
             users={[
               { name: 'Todos', lastName: '', id: false },
-              ...props.generalReducer.leaders.content
+              ...props.generalReducer.leaderCollaborators.content
             ]}
           />
         )}
@@ -322,7 +325,7 @@ const mapDispatchToProps = {
   getMetricsPipRequest,
   getMetricsPipFilterRequest,
   getCollaboratorsRequest,
-  getLeadersRequest
+  getLeadersCollaboratorsRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppTableMetric);

@@ -3,6 +3,7 @@ import GeneralService from '../Services/GeneralService';
 
 const {
   COLLABORATOR_LIST_REQUEST,
+  LEADER_COLLABORATOR_LIST_REQUEST,
   LEADER_LIST_REQUEST,
   TEAMS_REQUEST,
   TEAMS_CHARGING,
@@ -119,6 +120,24 @@ export const getLeadersRequest = () => async (dispatch) => {
     const responseLogin = await GeneralService.getLeaders();
     dispatch({
       type: LEADER_LIST_REQUEST,
+      payload: { ...responseLogin.data }
+    });
+  } catch (error) {
+    dispatch({
+      type: USERS_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
+export const getLeadersCollaboratorsRequest = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: USERS_CHARGING
+    });
+    const responseLogin = await GeneralService.getLeadersCollaborators();
+    dispatch({
+      type: LEADER_COLLABORATOR_LIST_REQUEST,
       payload: { ...responseLogin.data }
     });
   } catch (error) {

@@ -266,8 +266,8 @@ function NewPlanForm(props) {
                         }}
                       >
                         <FormControlLabel value="oneonone" control={<Radio />} label="One on one" />
-                        <FormControlLabel value="pds" control={<Radio />} label="PDS" />
-                        <FormControlLabel value="pip" control={<Radio />} label="PIP" />
+                        <FormControlLabel value="pds" control={<Radio />} label="P D S" />
+                        <FormControlLabel value="pip" control={<Radio />} label="P I P" />
                       </RadioGroup>
                     </FormControl>
                   </Grid>

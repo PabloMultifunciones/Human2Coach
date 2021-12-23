@@ -199,8 +199,8 @@ function UserListToolbar(props) {
             <Autocomplete
               id="combo-box-demo-user-list"
               className="autocomplete-custom"
-              value={user || props.users[0]}
-              options={props.users}
+              value={user || props.usersArray[0]}
+              options={props.usersArray}
               isOptionEqualToValue={(option, value) => option.id === value.id}
               getOptionLabel={(option) =>
                 `${option.name} ${option.lastName} ${option.username ? `(${option.username})` : ''}`

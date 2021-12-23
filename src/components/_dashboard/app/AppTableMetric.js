@@ -209,8 +209,8 @@ function AppTableMetric(props) {
             <UserListToolbar
               onFilterUser={handleFilterUser}
               showUser
-              users={[
-                { name: 'Todos', lastName: '', id: false },
+              usersArray={[
+                { name: 'All', lastName: '', id: false },
                 ...props.generalReducer.leaderCollaborators.content
               ]}
             />
@@ -221,8 +221,8 @@ function AppTableMetric(props) {
             <UserListToolbar
               onFilterUser={handleFilterUser}
               showUser
-              users={[
-                { name: 'Todos', lastName: '', id: false },
+              usersArray={[
+                { name: 'All', lastName: '', id: false },
                 ...props.generalReducer.collaborators.content
               ]}
             />

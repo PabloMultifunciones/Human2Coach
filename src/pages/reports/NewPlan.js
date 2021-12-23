@@ -16,7 +16,7 @@ export default function NewPlan() {
           <Stack direction="row" mb={5} className="custom-title-blue">
             <Typography variant="h4" gutterBottom className="d-flex">
               <Icon icon={clipboardOutline} width={30} height={30} className="mr-1" />
-              New plan
+              New record
             </Typography>
           </Stack>
           <NewPlanForm />

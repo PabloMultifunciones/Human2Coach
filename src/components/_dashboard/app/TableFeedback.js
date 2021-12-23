@@ -35,7 +35,7 @@ function TableFeedback({
 }) {
   const [tableHead] = useState([
     { id: 'metric', label: 'Métrica', alignRight: false },
-    { id: 'objective', label: 'Objetivo', alignRight: false },
+    { id: 'objective', label: 'Objective', alignRight: false },
     {
       id: 'wbefore',
       label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
@@ -86,7 +86,7 @@ function TableFeedback({
       <Card>
         <h4 className="p-1">
           {' '}
-          Feedback por objetivo{' '}
+          Feedback by objective{' '}
           {`(W${GeneralFunctions.getWeekCount()}: ${format(new Date(), 'dd/MM/yyyy')})`}
         </h4>
         <Scrollbar>

@@ -145,7 +145,7 @@ function Plan(props) {
                     <Link to="/dashboard/plans" rel="noopener noreferrer">
                       <Button variant="contained">
                         <ArrowBackIosIcon />
-                        Atrás
+                        Back
                       </Button>
                     </Link>
                   </Grid>
@@ -155,9 +155,9 @@ function Plan(props) {
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <FormControl component="fieldset" disabled>
-                    <FormLabel component="legend">Tipo de feedback</FormLabel>
+                    <FormLabel component="legend">Type of feedback</FormLabel>
                     <RadioGroup aria-label="feedback" name="feedback" value={feedback}>
-                      <FormControlLabel value="objective" control={<Radio />} label="Objetivo" />
+                      <FormControlLabel value="objective" control={<Radio />} label="Objective" />
                       <FormControlLabel
                         value="general"
                         control={<Radio />}

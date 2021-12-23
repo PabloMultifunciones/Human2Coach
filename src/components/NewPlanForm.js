@@ -85,7 +85,7 @@ function NewPlanForm(props) {
   function getTablehead() {
     return [
       { id: 'metric', label: 'Métrica', alignRight: false },
-      { id: 'objective', label: 'Objetivo', alignRight: false },
+      { id: 'objective', label: 'Objective', alignRight: false },
       {
         id: 'wbefore',
         label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
@@ -238,7 +238,7 @@ function NewPlanForm(props) {
                 {collaborator && collaborator !== '' && (
                   <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex">
                     <FormControl component="fieldset">
-                      <FormLabel component="legend">Tipo de feedback</FormLabel>
+                      <FormLabel component="legend">Type of feedback</FormLabel>
                       <RadioGroup
                         aria-label="feedback"
                         name="feedback"
@@ -247,7 +247,7 @@ function NewPlanForm(props) {
                           handleChange(event, value);
                         }}
                       >
-                        <FormControlLabel value="objective" control={<Radio />} label="Objetivo" />
+                        <FormControlLabel value="objective" control={<Radio />} label="Objective" />
                         <FormControlLabel
                           value="general"
                           control={<Radio />}
@@ -392,7 +392,7 @@ function NewPlanForm(props) {
                     </Button>
                   </Grid>
                 ) : (
-                  <h2 className="w-100 text-center">No tiene usuarios asignados</h2>
+                  <h2 className="w-100 text-center">You don't have users assigned</h2>
                 )}
               </>
             )}

@@ -149,12 +149,12 @@ function Plans(props) {
       : props.plansReducer.plans_filtered.length) === 0;
 
   return (
-    <Page title="Planes | Human2Coach">
+    <Page title="Records | Human2Coach">
       <Container>
         <Stack direction="row" alignItems="center" mb={5} className="custom-title-blue">
           <Typography variant="h4" gutterBottom className="d-flex">
             <Icon icon={clipboardOutline} width={30} height={30} className="mr-1" />
-            Planes
+            Records
           </Typography>
         </Stack>
 

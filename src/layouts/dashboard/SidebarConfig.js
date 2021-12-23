@@ -16,7 +16,7 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill)
   },
   {
-    title: 'New plan',
+    title: 'New record',
     path: '/dashboard/new-plan',
     icon: getIcon(clipboardOutline)
   },

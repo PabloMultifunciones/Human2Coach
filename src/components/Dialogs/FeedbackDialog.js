@@ -54,7 +54,7 @@ import 'toastr/build/toastr.min.css';
 
 const TABLE_HEAD = [
   { id: 'metric', label: 'Métrica', alignRight: false },
-  { id: 'objective', label: 'Objetivo', alignRight: false },
+  { id: 'objective', label: 'Objective', alignRight: false },
   {
     id: 'wbefore',
     label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
@@ -204,7 +204,7 @@ function FeedbackDialog(props) {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Feedback por objetivo{' '}
+          Feedback by objective{' '}
           {`(W${GeneralFunctions.getWeekCount()}: ${format(new Date(), 'dd/MM/yyyy')})`}
         </DialogTitle>
 

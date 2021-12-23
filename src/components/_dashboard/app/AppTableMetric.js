@@ -52,7 +52,7 @@ function AppTableMetric(props) {
     if (user) {
       if (props.title === 'One on One') {
         props.getMetricsOneFilterRequest({ number: newPage, filterOne: user.id });
-      } else if (props.title === 'PDS') {
+      } else if (props.title === 'P D S') {
         props.getMetricsPdsFilterRequest({ number: newPage, filterPds: user.id });
       } else {
         props.getMetricsPipFilterRequest({ number: newPage, filterPip: user.id });
@@ -62,7 +62,7 @@ function AppTableMetric(props) {
 
     if (props.title === 'One on One') {
       props.getMetricsOneRequest({ number: newPage });
-    } else if (props.title === 'PDS') {
+    } else if (props.title === 'P D S') {
       props.getMetricsPdsRequest({ number: newPage });
     } else {
       props.getMetricsPipRequest({ number: newPage });
@@ -82,7 +82,7 @@ function AppTableMetric(props) {
     if (value && value.id) {
       if (props.title === 'One on One') {
         props.getMetricsOneFilterRequest({ number: 0, filterOne: value.id });
-      } else if (props.title === 'PDS') {
+      } else if (props.title === 'P D S') {
         props.getMetricsPdsFilterRequest({ number: 0, filterPds: value.id });
       } else {
         props.getMetricsPipFilterRequest({ number: 0, filterPip: value.id });
@@ -92,7 +92,7 @@ function AppTableMetric(props) {
 
     if (props.title === 'One on One') {
       props.getMetricsOneRequest({ number: 0 });
-    } else if (props.title === 'PDS') {
+    } else if (props.title === 'P D S') {
       props.getMetricsPdsRequest({ number: 0 });
     } else {
       props.getMetricsPipRequest({ number: 0 });
@@ -107,13 +107,13 @@ function AppTableMetric(props) {
       return props.dashboardReducer.metricsOne;
     }
 
-    if (props.title === 'PDS') {
+    if (props.title === 'P D S') {
       if (user) {
         return props.dashboardReducer.metricsPds_filtered;
       }
       return props.dashboardReducer.metricsPds;
     }
-    if (props.title === 'PIP') {
+    if (props.title === 'P I P') {
       if (user) {
         return props.dashboardReducer.metricsPip_filtered;
       }
@@ -131,13 +131,13 @@ function AppTableMetric(props) {
       return props.dashboardReducer.totalElementsOne;
     }
 
-    if (props.title === 'PDS') {
+    if (props.title === 'P D S') {
       if (user) {
         return props.dashboardReducer.totalElementsPds_filtered;
       }
       return props.dashboardReducer.totalElementsPds;
     }
-    if (props.title === 'PIP') {
+    if (props.title === 'P I P') {
       if (user) {
         return props.dashboardReducer.totalElementsPip_filtered;
       }
@@ -152,10 +152,10 @@ function AppTableMetric(props) {
       return props.dashboardReducer.metricsOne_charging;
     }
 
-    if (props.title === 'PDS') {
+    if (props.title === 'P D S') {
       return props.dashboardReducer.metricsPds_charging;
     }
-    if (props.title === 'PIP') {
+    if (props.title === 'P I P') {
       return props.dashboardReducer.metricsPip_charging;
     }
 
@@ -166,7 +166,7 @@ function AppTableMetric(props) {
     if (props.loginReducer.userLogged) {
       if (props.title === 'One on One') {
         props.getMetricsOneRequest({ number: 0 });
-      } else if (props.title === 'PDS') {
+      } else if (props.title === 'P D S') {
         props.getMetricsPdsRequest({ number: 0 });
       } else {
         props.getMetricsPipRequest({ number: 0 });

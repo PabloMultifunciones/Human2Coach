@@ -62,6 +62,8 @@ const TABLE_HEAD = [
 function Plans(props) {
   const [page, setPage] = useState(0);
   const [filterName, setFilterName] = useState('');
+  const [filterUser, setFilterUser] = useState(false);
+
   const [rowsPerPage, setRowsPerPage] = useState(7);
 
   useEffect(() => {
@@ -70,10 +72,10 @@ function Plans(props) {
   }, []);
 
   const handleChangePage = (event, newPage) => {
-    if (filterName === '') {
-      props.getPlansRequest({ number: newPage, filterName });
+    if (filterName === '' && filterUser === 'ALL') {
+      props.getPlansRequest({ number: newPage });
     } else {
-      props.getPlansFilterRequest({ number: newPage, filterName });
+      props.getPlansFilterRequest({ number: newPage, filterName, filterUser });
     }
     setPage(newPage);
   };
@@ -85,7 +87,7 @@ function Plans(props) {
 
   const handleFilterByName = (event) => {
     if (event.target.value.length > 0) {
-      props.getPlansFilterRequest({ number: 0, filterName: event.target.value });
+      props.getPlansFilterRequest({ number: 0, filterName: event.target.value, filterUser });
       setFilterName(event.target.value);
       setPage(0);
     }
@@ -94,6 +96,20 @@ function Plans(props) {
       props.getPlansRequest({ number: 0, filterName: event.target.value });
       setFilterName('');
       setPage(0);
+    }
+  };
+
+  const handleFilterByUser = (value) => {
+    setFilterUser(value);
+
+    if (value && value !== 'ALL') {
+      props.getPlansFilterRequest({ number: 0, filterName, userId: value });
+    } else {
+      if (filterName === '') {
+        props.getPlansRequest({ number: 0, filterName });
+        return;
+      }
+      props.getPlansFilterRequest({ number: 0, filterName });
     }
   };
 
@@ -141,6 +157,7 @@ function Plans(props) {
         <Card>
           <UserListToolbar
             onFilterName={handleFilterByName}
+            onFilterUser={handleFilterByUser}
             title="Search..."
             showFilterPlan
             userLogged={props.loginReducer.userLogged}

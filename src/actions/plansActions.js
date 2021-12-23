@@ -98,13 +98,25 @@ export const getPlanRequest = (payload) => async (dispatch, getState) => {
 
 export const getPlansFilterRequest = (payload) => async (dispatch, getState) => {
   try {
-    const { pagesFiltered, filter } = getState().plansReducer;
-    if (!pagesFiltered.includes(payload.number) || filter !== payload.filterName) {
+    const { pagesFiltered, filter, userId } = getState().plansReducer;
+    if (
+      !pagesFiltered.includes(payload.number) ||
+      filter !== payload.filterName ||
+      userId !== payload.userId
+    ) {
       dispatch({
-        type: filter !== payload.filterName ? PLANS_LIST_FILTERED_CHARGING : PLANS_LIST_CHARGING
+        type:
+          filter !== payload.filterName && userId !== payload.userId
+            ? PLANS_LIST_FILTERED_CHARGING
+            : PLANS_LIST_CHARGING
       });
 
-      const responseLogin = await PlanService.filterPlans(payload.number, payload.filterName);
+      const responseLogin = await PlanService.filterPlans(
+        payload.number,
+        payload.filterName,
+        7,
+        payload.userId
+      );
       dispatch({
         type: PLANS_LIST_FILTER_REQUEST,
         payload: { ...responseLogin.data, filterName: payload.filterName }

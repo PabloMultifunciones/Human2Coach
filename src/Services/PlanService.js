@@ -14,10 +14,12 @@ export default {
       url: `${environment.motivarnosBackend}/plan/${id}`
     }),
 
-  filterPlans: (number = 1, filter = '', size = 7) =>
+  filterPlans: (number = 1, filter = '', size = 7, userId = '') =>
     axios({
       method: 'GET',
-      url: `${environment.motivarnosBackend}/plan?_number=${number}&_size=${size}&user.textSearch_like=%25${filter}%25`
+      url: `${environment.motivarnosBackend}/plan?_number=${number}&_size=${size}${
+        filter && filter !== '' ? `&user.textSearch_like=%25${filter}%25` : ''
+      }${userId && userId !== '' ? `&user.id=${userId}` : ''}`
     }),
 
   savePlan: (data) =>

@@ -32,6 +32,7 @@ const INITIAL_STATE = {
   totalElements_collaborators: 0,
   totalElements_filtered: 0,
   filter: '',
+  userId: '',
   pages: [],
   pagesCollaborators: [],
   pagesFiltered: []
@@ -82,6 +83,7 @@ export default (state = INITIAL_STATE, action) => {
             ? [...state.pagesFiltered]
             : [...state.pagesFiltered, action.payload.number],
         filter: action.payload.filterName,
+        userId: action.payload.userId,
         error_plans: false
       };
 
@@ -160,6 +162,7 @@ export default (state = INITIAL_STATE, action) => {
         totalElements_collaborators: 0,
         totalElements_filtered: 0,
         filter: '',
+        userId: '',
         pages: [],
         pagesCollaborators: [],
         pagesFiltered: []

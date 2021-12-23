@@ -56,7 +56,7 @@ function UserListToolbar(props) {
     search: '',
     user: '',
     role: 1,
-    collaborator: ''
+    collaborator: 'ALL'
   });
 
   const handleChange = (event, value) => {
@@ -87,6 +87,8 @@ function UserListToolbar(props) {
     }));
   };
 
+  /** ********************NEW SEARCH****************** */
+
   const handleChangeRol = ({ target: { name, value } }) => {
     if (value === 3) {
       if (!props.leaders) {
@@ -111,9 +113,17 @@ function UserListToolbar(props) {
       ...prevState,
       [name]: value
     }));
+
+    props.onFilterUser(value);
   };
 
-  const closeSearch = () => {};
+  const closeSearch = () => {
+    setState((prevState) => ({
+      ...prevState,
+      role: 1
+    }));
+    props.onFilterUser('ALL');
+  };
 
   return (
     <RootStyle
@@ -173,7 +183,7 @@ function UserListToolbar(props) {
                     label="Rol"
                     onChange={handleChangeRol}
                   >
-                    <MenuItem value={1}>Todos </MenuItem>
+                    <MenuItem value={1}>All </MenuItem>
                     <MenuItem value={2}>Team Leader </MenuItem>
                     <MenuItem value={3}>Colaborador</MenuItem>
                   </Select>
@@ -196,10 +206,11 @@ function UserListToolbar(props) {
                               labelId="collaborator"
                               id="collaborator"
                               name="collaborator"
-                              value={collaborator || props.collaborators.content[0].id}
+                              value={collaborator}
                               label="Collaborator"
                               onChange={handleChangeCollaborator}
                             >
+                              <MenuItem value="ALL">All</MenuItem>
                               {props.collaborators.content.map((user) => (
                                 <MenuItem key={user.id} value={user.id}>
                                   {user.name ? `${user.name} ${user.lastName}` : 'Without name'}

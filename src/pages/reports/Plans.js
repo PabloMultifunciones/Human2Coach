@@ -118,11 +118,15 @@ function Plans(props) {
       ? Math.max(
           0,
           (1 + page) * rowsPerPage -
-            (filterName === '' ? props.plans.length : props.plans_filtered.length)
+            (filterName === ''
+              ? props.plansReducer.plans.length
+              : props.plansReducer.plans_filtered.length)
         )
       : 0;
   const isPlanNotFound =
-    (filterName === '' ? props.plans.length : props.plans_filtered.length) === 0;
+    (filterName === ''
+      ? props.plansReducer.plans.length
+      : props.plansReducer.plans_filtered.length) === 0;
 
   return (
     <Page title="Planes | Human2Coach">
@@ -135,9 +139,14 @@ function Plans(props) {
         </Stack>
 
         <Card>
-          <UserListToolbar onFilterName={handleFilterByName} title="Search..." />
+          <UserListToolbar
+            onFilterName={handleFilterByName}
+            title="Search..."
+            showFilterPlan
+            userLogged={props.loginReducer.userLogged}
+          />
 
-          {props.plans_charging ? (
+          {props.plansReducer.plans_charging ? (
             <Spinner />
           ) : (
             <>
@@ -147,7 +156,10 @@ function Plans(props) {
                   <Table>
                     <UserListHead headLabel={TABLE_HEAD} />
                     <TableBody>
-                      {(filterName === '' ? props.plans : props.plans_filtered)
+                      {(filterName === ''
+                        ? props.plansReducer.plans
+                        : props.plansReducer.plans_filtered
+                      )
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => (
                           <TableRow hover key={row.id} tabIndex={-1}>
@@ -242,7 +254,11 @@ function Plans(props) {
               <TablePagination
                 rowsPerPageOptions={[7]}
                 component="div"
-                count={filterName === '' ? props.totalElements : props.totalElements_filtered}
+                count={
+                  filterName === ''
+                    ? props.plansReducer.totalElements
+                    : props.plansReducer.totalElements_filtered
+                }
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -256,7 +272,7 @@ function Plans(props) {
   );
 }
 
-const mapStateToProps = ({ plansReducer }) => plansReducer;
+const mapStateToProps = ({ plansReducer, loginReducer }) => ({ loginReducer, plansReducer });
 
 const mapDispatchToProps = {
   getPlansRequest,

@@ -146,7 +146,23 @@ export default (state = INITIAL_STATE, action) => {
 
     case RESET_STORE:
       return {
-        ...state
+        ...state,
+        metricsSelected: [],
+        plansSelected: false,
+        plans: [],
+        plans_filtered: [],
+        error_plans: false,
+        error_import_plans: false,
+        plans_import_charging: false,
+        plans_charging: false,
+        plans_save_charging: false,
+        totalElements: 0,
+        totalElements_collaborators: 0,
+        totalElements_filtered: 0,
+        filter: '',
+        pages: [],
+        pagesCollaborators: [],
+        pagesFiltered: []
       };
 
     default:

@@ -210,7 +210,7 @@ function UserListToolbar(props) {
                     label="Rol"
                     onChange={handleChangeRol}
                   >
-                    <MenuItem value={1}>All </MenuItem>
+                    <MenuItem value={1}>Select rol </MenuItem>
                     <MenuItem value={2}>Team Leader </MenuItem>
                     <MenuItem value={3}>Colaborador</MenuItem>
                   </Select>
@@ -226,16 +226,18 @@ function UserListToolbar(props) {
                       {props.leaders && (
                         <div className="d-flex w-custom">
                           <FormControl variant="outlined" fullWidth>
-                            <InputLabel id="frequency-select-outlined-label">Leader</InputLabel>
+                            <InputLabel id="frequency-select-outlined-label">
+                              Select Leader
+                            </InputLabel>
                             <Select
                               labelId="leader"
                               id="leader"
                               name="leader"
                               value={leader}
-                              label="leader"
+                              label="Select Leader"
                               onChange={handleChangeLeader}
                             >
-                              <MenuItem value="ALL">All</MenuItem>
+                              <MenuItem value="ALL">Select Leader</MenuItem>
                               {props.leaders.content.map((user) => (
                                 <MenuItem key={user.id} value={user.id}>
                                   {user.name ? `${user.name} ${user.lastName}` : 'Without name'}
@@ -268,14 +270,14 @@ function UserListToolbar(props) {
                         <div className="d-flex w-custom">
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel id="frequency-select-outlined-label">
-                              Team Leader
+                              Select Leader
                             </InputLabel>
                             <Select
                               labelId="collaboratorLeader"
                               id="collaboratorLeader"
                               name="collaboratorLeader"
                               value={collaboratorLeader}
-                              label="Team leader"
+                              label="Select leader"
                               onChange={handleChangeCollaboratorLeader}
                             >
                               <MenuItem value="ALL">Select Leader</MenuItem>

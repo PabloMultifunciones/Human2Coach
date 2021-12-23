@@ -62,7 +62,7 @@ const TABLE_HEAD = [
 function Plans(props) {
   const [page, setPage] = useState(0);
   const [filterName, setFilterName] = useState('');
-  const [filterUser, setFilterUser] = useState(false);
+  const [userId, setUserId] = useState(false);
 
   const [rowsPerPage, setRowsPerPage] = useState(7);
 
@@ -72,10 +72,10 @@ function Plans(props) {
   }, []);
 
   const handleChangePage = (event, newPage) => {
-    if (filterName === '' && filterUser === 'ALL') {
+    if (filterName === '' && userId === 'ALL') {
       props.getPlansRequest({ number: newPage });
     } else {
-      props.getPlansFilterRequest({ number: newPage, filterName, filterUser });
+      props.getPlansFilterRequest({ number: newPage, filterName, userId });
     }
     setPage(newPage);
   };
@@ -87,20 +87,24 @@ function Plans(props) {
 
   const handleFilterByName = (event) => {
     if (event.target.value.length > 0) {
-      props.getPlansFilterRequest({ number: 0, filterName: event.target.value, filterUser });
+      props.getPlansFilterRequest({ number: 0, filterName: event.target.value, userId });
       setFilterName(event.target.value);
       setPage(0);
     }
 
     if (event.target.value === '') {
-      props.getPlansRequest({ number: 0, filterName: event.target.value });
       setFilterName('');
       setPage(0);
+      if (userId && userId !== 'ALL') {
+        props.getPlansFilterRequest({ number: 0, filterName: '', userId });
+        return;
+      }
+      props.getPlansRequest({ number: 0, filterName: event.target.value });
     }
   };
 
   const handleFilterByUser = (value) => {
-    setFilterUser(value);
+    setUserId(value);
 
     if (value && value !== 'ALL') {
       props.getPlansFilterRequest({ number: 0, filterName, userId: value });

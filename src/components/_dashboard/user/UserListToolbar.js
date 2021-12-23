@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import toastr from 'toastr';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon } from '@iconify/react';
@@ -24,6 +26,7 @@ import {
   getCollaboratorsByLeadersRequest,
   getLeadersRequest
 } from '../../../actions/generalActions';
+import 'toastr/build/toastr.min.css';
 
 // ----------------------------------------------------------------------
 
@@ -98,13 +101,21 @@ function UserListToolbar(props) {
   const handleChangeRol = ({ target: { name, value } }) => {
     if (value === 2) {
       if (!props.leaders) {
-        props.getLeadersRequest(999);
+        props.getLeadersRequest(999).then((r) => {
+          if (r.content && r.content.length === 0) {
+            toastr.error('You dont have leaders');
+          }
+        });
       }
     }
 
     if (value === 3) {
       if (!props.leaders) {
-        props.getLeadersRequest(999);
+        props.getLeadersRequest(999).then((r) => {
+          if (r.content && r.content.length === 0) {
+            toastr.error('You dont have leaders');
+          }
+        });
       }
     }
 
@@ -129,7 +140,11 @@ function UserListToolbar(props) {
       [name]: value
     }));
 
-    props.getCollaboratorsByLeadersRequest(value);
+    props.getCollaboratorsByLeadersRequest(value).then((r) => {
+      if (r.content && r.content.length === 0) {
+        toastr.error('That leader dont have collaborators');
+      }
+    });
   };
 
   const handleChangeCollaborator = ({ target: { name, value } }) => {

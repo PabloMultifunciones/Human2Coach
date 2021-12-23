@@ -1,5 +1,6 @@
 import * as generalTypes from '../types/generalTypes';
 import GeneralService from '../Services/GeneralService';
+import 'toastr/build/toastr.min.css';
 
 const {
   COLLABORATOR_LIST_REQUEST,
@@ -123,11 +124,14 @@ export const getLeadersRequest = (payload) => async (dispatch) => {
       type: LEADER_LIST_REQUEST,
       payload: { ...responseLogin.data }
     });
+
+    return responseLogin.data;
   } catch (error) {
     dispatch({
       type: USERS_ERROR,
       payload: error.response ? error.response.data : error
     });
+    return '';
   }
 };
 
@@ -159,10 +163,12 @@ export const getCollaboratorsByLeadersRequest = (payload) => async (dispatch) =>
       type: COLLABORATOR_BY_LEADER_LIST_REQUEST,
       payload: { ...responseLogin.data }
     });
+    return responseLogin.data;
   } catch (error) {
     dispatch({
       type: USERS_ERROR,
       payload: error.response ? error.response.data : error
     });
+    return '';
   }
 };

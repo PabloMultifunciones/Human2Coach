@@ -173,12 +173,12 @@ function Plans(props) {
                             <TableCell align="left">
                               {row.isPDS && (
                                 <Label variant="ghost" color="warning">
-                                  PDS
+                                  P D S
                                 </Label>
                               )}
                               {row.isPIP && (
                                 <Label variant="ghost" color="warning">
-                                  PIP
+                                  P I P
                                 </Label>
                               )}
                               {row.isOneOnOne && (

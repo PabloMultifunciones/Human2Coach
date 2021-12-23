@@ -204,27 +204,29 @@ function AppTableMetric(props) {
       </Stack>
 
       <Card>
-        {props.generalReducer.leaderCollaborators && (
-          <UserListToolbar
-            onFilterUser={handleFilterUser}
-            showUser
-            users={[
-              { name: 'Todos', lastName: '', id: false },
-              ...props.generalReducer.leaderCollaborators.content
-            ]}
-          />
-        )}
+        {props.generalReducer.leaderCollaborators &&
+          props.loginReducer.userLogged.user.position === 1 && (
+            <UserListToolbar
+              onFilterUser={handleFilterUser}
+              showUser
+              users={[
+                { name: 'Todos', lastName: '', id: false },
+                ...props.generalReducer.leaderCollaborators.content
+              ]}
+            />
+          )}
 
-        {props.generalReducer.collaborators && (
-          <UserListToolbar
-            onFilterUser={handleFilterUser}
-            showUser
-            users={[
-              { name: 'Todos', lastName: '', id: false },
-              ...props.generalReducer.collaborators.content
-            ]}
-          />
-        )}
+        {props.generalReducer.collaborators &&
+          props.loginReducer.userLogged.user.position === 2 && (
+            <UserListToolbar
+              onFilterUser={handleFilterUser}
+              showUser
+              users={[
+                { name: 'Todos', lastName: '', id: false },
+                ...props.generalReducer.collaborators.content
+              ]}
+            />
+          )}
 
         {getMetricsTypeConditional() ? (
           <Spinner />

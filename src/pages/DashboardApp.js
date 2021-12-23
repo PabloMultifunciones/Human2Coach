@@ -31,8 +31,7 @@ export default function DashboardApp() {
             <a href="#pds" style={{ textDecoration: 'none', color: 'white' }}>
               <Stack direction="row" alignItems="center" className="custom-title-blue" mb={5}>
                 <Typography variant="h4" gutterBottom className="d-flex">
-                  {GeneralFunctions.getIcon('PDS')}
-                  PDS{' '}
+                  {GeneralFunctions.getIcon('PDS')}P D S{' '}
                 </Typography>
               </Stack>
             </a>
@@ -41,8 +40,7 @@ export default function DashboardApp() {
             <a href="#pip" style={{ textDecoration: 'none', color: 'white' }}>
               <Stack direction="row" alignItems="center" className="custom-title-blue" mb={5}>
                 <Typography variant="h4" gutterBottom className="d-flex">
-                  {GeneralFunctions.getIcon('PIP')}
-                  PIP{' '}
+                  {GeneralFunctions.getIcon('PIP')}P I P{' '}
                 </Typography>
               </Stack>
             </a>
@@ -52,11 +50,11 @@ export default function DashboardApp() {
             <AppTableMetric title="One on One" />
           </Grid>
           <Grid item xs={12} sm={12} md={12} id="pds">
-            <AppTableMetric title="PDS" />
+            <AppTableMetric title="P D S" />
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} id="pip">
-            <AppTableMetric title="PIP" />
+            <AppTableMetric title="P I P" />
           </Grid>
         </Grid>
       </Container>

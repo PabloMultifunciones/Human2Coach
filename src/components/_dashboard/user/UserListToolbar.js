@@ -19,7 +19,11 @@ import TextField from '@material-ui/core/TextField';
 
 import Spinner from '../../Spinner';
 
-import { getCollaboratorsRequest, getLeadersRequest } from '../../../actions/generalActions';
+import {
+  getCollaboratorsRequest,
+  getCollaboratorsByLeadersRequest,
+  getLeadersRequest
+} from '../../../actions/generalActions';
 
 // ----------------------------------------------------------------------
 
@@ -52,10 +56,12 @@ UserListToolbar.propTypes = {
 };
 
 function UserListToolbar(props) {
-  const [{ search, user, role, collaborator }, setState] = useState({
+  const [{ search, user, role, leader, collaboratorLeader, collaborator }, setState] = useState({
     search: '',
     user: '',
     role: 1,
+    leader: 'ALL',
+    collaboratorLeader: 'ALL',
     collaborator: 'ALL'
   });
 
@@ -90,15 +96,15 @@ function UserListToolbar(props) {
   /** ********************NEW SEARCH****************** */
 
   const handleChangeRol = ({ target: { name, value } }) => {
-    if (value === 3) {
+    if (value === 2) {
       if (!props.leaders) {
         props.getLeadersRequest(999);
       }
     }
 
-    if (value === 2) {
-      if (!props.collaborators) {
-        props.getCollaboratorsRequest(999);
+    if (value === 3) {
+      if (!props.leaders) {
+        props.getLeadersRequest(999);
       }
     }
 
@@ -106,6 +112,24 @@ function UserListToolbar(props) {
       ...prevState,
       [name]: value
     }));
+  };
+
+  const handleChangeLeader = ({ target: { name, value } }) => {
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+
+    props.onFilterUser(value);
+  };
+
+  const handleChangeCollaboratorLeader = ({ target: { name, value } }) => {
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+
+    props.getCollaboratorsByLeadersRequest(value);
   };
 
   const handleChangeCollaborator = ({ target: { name, value } }) => {
@@ -120,7 +144,10 @@ function UserListToolbar(props) {
   const closeSearch = () => {
     setState((prevState) => ({
       ...prevState,
-      role: 1
+      role: 1,
+      leader: 'ALL',
+      collaboratorLeader: 'ALL',
+      collaborator: 'ALL'
     }));
     props.onFilterUser('ALL');
   };
@@ -196,11 +223,95 @@ function UserListToolbar(props) {
                     <Spinner size={30} />
                   ) : (
                     <>
-                      {props.collaborators && (
+                      {props.leaders && (
+                        <div className="d-flex w-custom">
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="frequency-select-outlined-label">Leader</InputLabel>
+                            <Select
+                              labelId="leader"
+                              id="leader"
+                              name="leader"
+                              value={leader}
+                              label="leader"
+                              onChange={handleChangeLeader}
+                            >
+                              <MenuItem value="ALL">All</MenuItem>
+                              {props.leaders.content.map((user) => (
+                                <MenuItem key={user.id} value={user.id}>
+                                  {user.name ? `${user.name} ${user.lastName}` : 'Without name'}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                          <Button
+                            className="button-plan-search"
+                            variant="contained"
+                            color="error"
+                            onClick={() => closeSearch()}
+                          >
+                            Back
+                          </Button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
+
+              {role === 3 && collaboratorLeader === 'ALL' && (
+                <>
+                  {props.users_charging ? (
+                    <Spinner size={30} />
+                  ) : (
+                    <>
+                      {props.leaders && (
                         <div className="d-flex w-custom">
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel id="frequency-select-outlined-label">
-                              Collaborator
+                              Team Leader
+                            </InputLabel>
+                            <Select
+                              labelId="collaboratorLeader"
+                              id="collaboratorLeader"
+                              name="collaboratorLeader"
+                              value={collaboratorLeader}
+                              label="Team leader"
+                              onChange={handleChangeCollaboratorLeader}
+                            >
+                              <MenuItem value="ALL">Select Leader</MenuItem>
+                              {props.leaders.content.map((user) => (
+                                <MenuItem key={user.id} value={user.id}>
+                                  {user.name ? `${user.name} ${user.lastName}` : 'Without name'}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                          <Button
+                            className="button-plan-search"
+                            variant="contained"
+                            color="error"
+                            onClick={() => closeSearch()}
+                          >
+                            Back
+                          </Button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
+
+              {role === 3 && collaboratorLeader !== 'ALL' && (
+                <>
+                  {props.users_charging ? (
+                    <Spinner size={30} />
+                  ) : (
+                    <>
+                      {props.collaboratorsByLeader && (
+                        <div className="d-flex w-custom">
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel id="frequency-select-outlined-label">
+                              Collaborator{' '}
                             </InputLabel>
                             <Select
                               labelId="collaborator"
@@ -210,8 +321,8 @@ function UserListToolbar(props) {
                               label="Collaborator"
                               onChange={handleChangeCollaborator}
                             >
-                              <MenuItem value="ALL">All</MenuItem>
-                              {props.collaborators.content.map((user) => (
+                              <MenuItem value="ALL">Select collaborator</MenuItem>
+                              {props.collaboratorsByLeader.content.map((user) => (
                                 <MenuItem key={user.id} value={user.id}>
                                   {user.name ? `${user.name} ${user.lastName}` : 'Without name'}
                                 </MenuItem>
@@ -241,6 +352,10 @@ function UserListToolbar(props) {
 }
 
 const mapStateToProps = ({ generalReducer }) => generalReducer;
-const mapDispatchToProps = { getCollaboratorsRequest, getLeadersRequest };
+const mapDispatchToProps = {
+  getCollaboratorsRequest,
+  getCollaboratorsByLeadersRequest,
+  getLeadersRequest
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserListToolbar);

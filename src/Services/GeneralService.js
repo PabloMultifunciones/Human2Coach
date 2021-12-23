@@ -67,5 +67,16 @@ export default {
     axios({
       method: 'GET',
       url: `${environment.motivarnosBackend}/user?position_in=3,2&_number=${number}&_size=${size}&_sort=created_${order}`
+    }),
+
+  getCollaboratorsByLeaders: (
+    number = 0,
+    size = 7,
+    order = 'desc', // To Team manager
+    userId
+  ) =>
+    axios({
+      method: 'GET',
+      url: `${environment.motivarnosBackend}/user?position_in=3&teamLeader.id=${userId}&_number=${number}&_size=${size}&_sort=created_${order}`
     })
 };

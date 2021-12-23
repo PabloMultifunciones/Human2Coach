@@ -4,6 +4,7 @@ import GeneralService from '../Services/GeneralService';
 const {
   COLLABORATOR_LIST_REQUEST,
   LEADER_COLLABORATOR_LIST_REQUEST,
+  COLLABORATOR_BY_LEADER_LIST_REQUEST,
   LEADER_LIST_REQUEST,
   TEAMS_REQUEST,
   TEAMS_CHARGING,
@@ -112,12 +113,12 @@ export const getCollaboratorsLeadersRequest = (payload) => async (dispatch) => {
   }
 };
 
-export const getLeadersRequest = () => async (dispatch) => {
+export const getLeadersRequest = (payload) => async (dispatch) => {
   try {
     dispatch({
       type: USERS_CHARGING
     });
-    const responseLogin = await GeneralService.getLeaders();
+    const responseLogin = await GeneralService.getLeaders(0, payload);
     dispatch({
       type: LEADER_LIST_REQUEST,
       payload: { ...responseLogin.data }
@@ -130,14 +131,32 @@ export const getLeadersRequest = () => async (dispatch) => {
   }
 };
 
-export const getLeadersCollaboratorsRequest = () => async (dispatch) => {
+export const getLeadersCollaboratorsRequest = (payload) => async (dispatch) => {
   try {
     dispatch({
       type: USERS_CHARGING
     });
-    const responseLogin = await GeneralService.getLeadersCollaborators();
+    const responseLogin = await GeneralService.getLeadersCollaborators(0, payload);
     dispatch({
       type: LEADER_COLLABORATOR_LIST_REQUEST,
+      payload: { ...responseLogin.data }
+    });
+  } catch (error) {
+    dispatch({
+      type: USERS_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
+export const getCollaboratorsByLeadersRequest = (payload) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USERS_CHARGING
+    });
+    const responseLogin = await GeneralService.getCollaboratorsByLeaders(0, 999, 'desc', payload);
+    dispatch({
+      type: COLLABORATOR_BY_LEADER_LIST_REQUEST,
       payload: { ...responseLogin.data }
     });
   } catch (error) {

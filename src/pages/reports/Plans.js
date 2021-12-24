@@ -86,20 +86,22 @@ function Plans(props) {
   };
 
   const handleFilterByName = (event) => {
-    if (event.target.value.length > 0) {
-      props.getPlansFilterRequest({ number: 0, filterName: event.target.value, userId });
-      setFilterName(event.target.value);
-      setPage(0);
-    }
-
-    if (event.target.value === '') {
-      setFilterName('');
-      setPage(0);
-      if (userId && userId !== 'ALL') {
-        props.getPlansFilterRequest({ number: 0, filterName: '', userId });
-        return;
+    if (!props.plansReducer.plans_charging) {
+      if (event.target.value.length > 0) {
+        props.getPlansFilterRequest({ number: 0, filterName: event.target.value, userId });
+        setFilterName(event.target.value);
+        setPage(0);
       }
-      props.getPlansRequest({ number: 0, filterName: event.target.value });
+
+      if (event.target.value === '') {
+        setFilterName('');
+        setPage(0);
+        if (userId && userId !== 'ALL') {
+          props.getPlansFilterRequest({ number: 0, filterName: '', userId });
+          return;
+        }
+        props.getPlansRequest({ number: 0, filterName: event.target.value });
+      }
     }
   };
 

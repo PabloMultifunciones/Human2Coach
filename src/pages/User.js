@@ -85,16 +85,18 @@ function User(props) {
   };
 
   const handleFilterByName = (event) => {
-    if (event.target.value.length > 0) {
-      props.getUsersFilterRequest({ number: 0, filterName: event.target.value });
-      setFilterName(event.target.value);
-      setPage(0);
-    }
+    if (!props.users_charging) {
+      if (event.target.value.length > 0) {
+        props.getUsersFilterRequest({ number: 0, filterName: event.target.value });
+        setFilterName(event.target.value);
+        setPage(0);
+      }
 
-    if (event.target.value === '') {
-      props.getUsersRequest({ number: 0, filterName: event.target.value });
-      setFilterName('');
-      setPage(0);
+      if (event.target.value === '') {
+        props.getUsersRequest({ number: 0, filterName: event.target.value });
+        setFilterName('');
+        setPage(0);
+      }
     }
   };
 
@@ -214,7 +216,7 @@ function User(props) {
                             <TableRow hover key={index} tabIndex={-1} role="checkbox">
                               <TableCell align="left">{name}</TableCell>
                               <TableCell align="left">{username}</TableCell>
-                              <TableCell align="left">{team.name}</TableCell>
+                              <TableCell align="left">{team ? team.name : 'N/A'}</TableCell>
                               <TableCell align="left">
                                 <Label variant="ghost" color={(isActive && 'success') || 'error'}>
                                   {sentenceCase(isActive ? 'Active' : 'Disabled')}

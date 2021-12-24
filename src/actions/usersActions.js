@@ -93,6 +93,7 @@ export const saveUserRequest = (payload) => async (dispatch, getState) => {
 
     return { status: 'SUCCESS', responseLogin };
   } catch (error) {
+    console.log(error);
     dispatch({
       type: USERS_LIST_ERROR,
       payload: error.response ? error.response.data : error

@@ -26,7 +26,8 @@ const ConfLang = () => {
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    i18n.changeLanguage('en');
+    const session = JSON.parse(localStorage.getItem('sesion'));
+    i18n.changeLanguage(session ? session.user.lang : 'es');
     // eslint-disable-next-line
   }, []);
   return '';

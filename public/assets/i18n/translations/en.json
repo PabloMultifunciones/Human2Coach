@@ -1,5 +1,7 @@
 {
-    "loading-page": "Loading page...",
+    "new-plan": "New plan",
+    "plans": "Plans",
+    "loading-page": "New plan",
     "how-do-you-feel-today.label": "How do you feel today?",
     "trivia-answered": "This trivia has already been answered",
     "hall-fame-message-error": "There was an error trying to acquire the Hall of Fame",

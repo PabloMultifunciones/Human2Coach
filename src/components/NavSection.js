@@ -95,13 +95,13 @@ function NavItem({ item, active }) {
 
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {children.map((item) => {
+            {children.map((item, index) => {
               const { title, path } = item;
               const isActiveSub = active(path);
 
               return (
                 <ListItemStyle
-                  key={title}
+                  key={index}
                   component={RouterLink}
                   to={path}
                   sx={{
@@ -163,8 +163,8 @@ export default function NavSection({ navConfig, ...other }) {
   return (
     <Box {...other}>
       <List disablePadding>
-        {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} />
+        {navConfig.map((item, index) => (
+          <NavItem key={index} item={item} active={match} />
         ))}
       </List>
     </Box>

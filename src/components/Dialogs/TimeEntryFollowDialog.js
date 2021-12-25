@@ -65,7 +65,7 @@ export default function TimeEntryFollowDialog(props) {
 
   function getTablehead() {
     return [
-      { id: 'type', label: 'Tipo', alignRight: false },
+      { id: 'type', label: 'Type', alignRight: false },
       { id: 'check', label: 'Check', alignRight: false }
     ];
   }

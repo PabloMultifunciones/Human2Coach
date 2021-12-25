@@ -84,7 +84,7 @@ function NewPlanForm(props) {
 
   function getTablehead() {
     return [
-      { id: 'metric', label: 'Métrica', alignRight: false },
+      { id: 'metric', label: 'Metrics', alignRight: false },
       { id: 'objective', label: 'Objective', alignRight: false },
       {
         id: 'wbefore',

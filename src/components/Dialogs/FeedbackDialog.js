@@ -53,7 +53,7 @@ import 'toastr/build/toastr.min.css';
 // {getWeek(new Date())}: ${format(new Date(), 'dd/MM/yyyy')}
 
 const TABLE_HEAD = [
-  { id: 'metric', label: 'Métrica', alignRight: false },
+  { id: 'metric', label: 'Metric', alignRight: false },
   { id: 'objective', label: 'Objective', alignRight: false },
   {
     id: 'wbefore',

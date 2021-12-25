@@ -34,7 +34,7 @@ function TableFeedback({
   deleteMetricsSelected
 }) {
   const [tableHead] = useState([
-    { id: 'metric', label: 'Métrica', alignRight: false },
+    { id: 'metric', label: 'Metric', alignRight: false },
     { id: 'objective', label: 'Objective', alignRight: false },
     {
       id: 'wbefore',

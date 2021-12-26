@@ -1,4 +1,5 @@
 import Alert from '@material-ui/core/Alert';
+import { useTranslation } from 'react-i18next';
 
 // material
 import { connect } from 'react-redux';
@@ -18,14 +19,18 @@ import { loginRequest, loginTalkDeskRequest } from '../../../actions/loginAction
 
 // ----------------------------------------------------------------------
 function LoginFeedbackForm(props) {
-  const loginGmailHandler = (data) => {
-    props.loginRequest({
+  const { i18n } = useTranslation();
+
+  const loginGmailHandler = async (data) => {
+    await props.loginRequest({
       company: 'PedidosYa',
       tokenId: data.tokenId,
       useremail: '',
       type: 'gmail',
       modeFeedback: true
     });
+    const session = JSON.parse(localStorage.getItem('sesion'));
+    i18n.changeLanguage(session ? session.user.lang : 'es');
   };
 
   if (props.userLogged) {

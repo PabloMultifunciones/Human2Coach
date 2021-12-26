@@ -204,7 +204,10 @@ function AppTableMetric(props) {
       </Stack>
 
       <Card>
-        {props.generalReducer.leaderCollaborators &&
+        {props.generalReducer &&
+          props.loginReducer &&
+          props.loginReducer.userLogged &&
+          props.generalReducer.leaderCollaborators &&
           props.loginReducer.userLogged.user.position === 1 && (
             <UserListToolbar
               onFilterUser={handleFilterUser}
@@ -216,7 +219,10 @@ function AppTableMetric(props) {
             />
           )}
 
-        {props.generalReducer.collaborators &&
+        {props.generalReducer &&
+          props.loginReducer &&
+          props.loginReducer.userLogged &&
+          props.generalReducer.collaborators &&
           props.loginReducer.userLogged.user.position === 2 && (
             <UserListToolbar
               onFilterUser={handleFilterUser}

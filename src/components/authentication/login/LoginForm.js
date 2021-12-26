@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { Icon } from '@iconify/react';
+import { useTranslation } from 'react-i18next';
 
 // material
 import { connect } from 'react-redux';
@@ -31,6 +32,8 @@ import { loginRequest, loginTalkDeskRequest } from '../../../actions/loginAction
 
 // ----------------------------------------------------------------------
 function LoginForm(props) {
+  const { i18n } = useTranslation();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -47,7 +50,11 @@ function LoginForm(props) {
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: (values) => props.loginRequest(values)
+    onSubmit: async (values) => {
+      await props.loginRequest(values);
+      const session = JSON.parse(localStorage.getItem('sesion'));
+      i18n.changeLanguage(session ? session.user.lang : 'es');
+    }
   });
 
   const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik; // values
@@ -70,9 +77,13 @@ function LoginForm(props) {
       useremail: '',
       type: 'gmail'
     });
+
+    const session = JSON.parse(localStorage.getItem('sesion'));
+    i18n.changeLanguage(session ? session.user.lang : 'es');
   };
 
   if (props.userLogged) {
+    // eslint-disable-next-line
     return <Navigate to="/dashboard" />;
   }
   return (

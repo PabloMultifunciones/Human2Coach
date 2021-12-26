@@ -133,14 +133,16 @@ function UserDialog(props) {
 
     if (username === '') {
       setUsernameError(true);
-      toastr.error(t('admin.user-panel-user-dialog-username-input-error', 'Username is required'));
+      toastr.error(
+        t('admin.user-panel-user-dialog-username-input-error', '"El nombre de usuario es requerido')
+      );
       return;
     }
 
     if (name === '') {
       setNameError(true);
       toastr.error(
-        t('menu.trivia-panel-dialog-add-test-message-error-name', 'The name is required')
+        t('menu.trivia-panel-dialog-add-test-message-error-name', 'El nombre es requerido')
       );
       return;
     }
@@ -148,14 +150,14 @@ function UserDialog(props) {
     if (team === '') {
       setTeamError(true);
       toastr.error(
-        t('admin.user-panel-user-dialog-message-select-group', 'You must select a group')
+        t('admin.user-panel-user-dialog-message-select-group', 'Debes seleccionar un grupo')
       );
       return;
     }
 
     if (role === '' || role.length === 0) {
       setRoleError(true);
-      toastr.error(t('admin.user-panel-user-dialog-role-input-error', 'The role is required'));
+      toastr.error(t('admin.user-panel-user-dialog-role-input-error', 'El rol es requerido'));
       return;
     }
 
@@ -163,7 +165,7 @@ function UserDialog(props) {
       if (user === '') {
         setUserError(true);
         toastr.error(
-          t('menu.badge-panel-dialog-delivery-message-error-user', 'You must select a user')
+          t('menu.badge-panel-dialog-delivery-message-error-user', 'Debe seleccionar un usuario')
         );
         return;
       }
@@ -202,19 +204,19 @@ function UserDialog(props) {
 
     if (status.status === 'SUCCESS') {
       toastr.success(
-        t('admin.user-panel-user-dialog-message-success-user-save', 'User saved successfully')
+        t('admin.user-panel-user-dialog-message-success-user-save', 'Usuario guardado con éxito')
       );
       handleClose();
       return;
     }
 
     if (status.error && status.error.status === 422) {
-      toastr.error('A user with this username already exists.');
+      toastr.error(t('user-name-exists', 'Un usuario con este nombre de usuario ya existe'));
     } else {
       toastr.error(
         t(
           'admin.user-panel-user-dialog-message-error-user-save',
-          'An error occurred while trying to save the user'
+          'Ha ocurrido un error al intentar guardar el usuario'
         )
       );
     }
@@ -247,7 +249,7 @@ function UserDialog(props) {
           onClick={handleClickOpen}
           startIcon={<Icon icon={plusFill} />}
         >
-          {t('new-user', 'New user')}
+          {t('new-user', 'Nuevo usuario')}
         </Button>
       )}
 
@@ -354,8 +356,10 @@ function UserDialog(props) {
                               onChange={handleChange}
                             >
                               <MenuItem value={3}>{t('collaborator', 'Colaborador')}</MenuItem>
-                              <MenuItem value={2}>Team Leader </MenuItem>
-                              <MenuItem value={1}>Team Manager </MenuItem>
+                              <MenuItem value={2}>{t('team-leader', 'Lider del equipo')} </MenuItem>
+                              <MenuItem value={1}>
+                                {t('team-manager', 'Gerente del equipo')}{' '}
+                              </MenuItem>
                             </Select>
                           </FormControl>
                         </Grid>

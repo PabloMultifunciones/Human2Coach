@@ -1,4 +1,5 @@
 {
+    "user-name-exists": "Já existe um usuário com este nome de usuário",
     "commitment-date-required": "A data é obrigatória",
     "plan": "Plano",
     "commitment-date": "Data de compromisso",

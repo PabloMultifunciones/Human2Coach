@@ -65,8 +65,8 @@ export default function TimeEntryFollowDialog(props) {
 
   function getTablehead() {
     return [
-      { id: 'type', label: 'Type', alignRight: false },
-      { id: 'check', label: 'Check', alignRight: false }
+      { id: 'type', label: t('type.label', 'Tipo'), alignRight: false },
+      { id: 'check', label: t('check', 'Check'), alignRight: false }
     ];
   }
 
@@ -83,7 +83,7 @@ export default function TimeEntryFollowDialog(props) {
   return (
     <>
       <Button color="secondary" variant="contained" className="ml-1" onClick={handleClickOpen}>
-        Exception
+        {t('exception', 'Excepción')}
       </Button>
       <Dialog
         maxWidth="sm"
@@ -93,7 +93,7 @@ export default function TimeEntryFollowDialog(props) {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Extra time{' '}
+          {t('extra-time', 'Tiempo extra')}
         </DialogTitle>
 
         <>

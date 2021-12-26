@@ -1,5 +1,6 @@
 // material
 import { Box, Grid, Container, Typography, Stack } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 import GeneralFunctions from '../libs/GeneralFunctions';
 
@@ -10,11 +11,15 @@ import { AppTableMetric } from '../components/_dashboard/app';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+  const { t } = useTranslation();
+
   return (
     <Page title="Dashboard | Human2Coach">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Hello, {GeneralFunctions.getNameSession()}</Typography>
+          <Typography variant="h4">
+            {t('hello.label', 'Hola')}, {GeneralFunctions.getNameSession()}
+          </Typography>
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={4} lg={4}>

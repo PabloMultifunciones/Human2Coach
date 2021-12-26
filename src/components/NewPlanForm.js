@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { Grid } from '@material-ui/core';
 import Autocomplete from '@material-ui/core/Autocomplete';
 import FormControl from '@material-ui/core/FormControl';
@@ -29,6 +31,8 @@ import { savePlanRequest, resetState } from '../actions/plansActions';
 import GeneralFunctions from '../libs/GeneralFunctions';
 
 function NewPlanForm(props) {
+  const { t } = useTranslation();
+
   const [
     {
       collaborator,
@@ -84,8 +88,12 @@ function NewPlanForm(props) {
 
   function getTablehead() {
     return [
-      { id: 'metric', label: 'Metrics', alignRight: false },
-      { id: 'objective', label: 'Objective', alignRight: false },
+      { id: 'metric', label: t('metrics.label', 'Métricas'), alignRight: false },
+      {
+        id: 'objective',
+        label: t('menu.metric-panel-dialog-objective', 'Objetivo'),
+        alignRight: false
+      },
       {
         id: 'wbefore',
         label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
@@ -172,7 +180,7 @@ function NewPlanForm(props) {
     };
 
     if (!addReminder || addReminder === '') {
-      toastr.error('La fecha de envío es requerida');
+      toastr.error(t('date-required', 'La fecha de envío es requerida'));
     }
 
     let status;
@@ -180,7 +188,12 @@ function NewPlanForm(props) {
     await props.savePlanRequest(json).then((r) => (status = r));
 
     if (status === 'ERROR') {
-      toastr.error('An error occurred while trying to save the metric');
+      toastr.error(
+        t(
+          'menu.metric-panel-dialog-message-error-save-metric-two',
+          'Ha ocurrido un error al intentar guardar la métrica'
+        )
+      );
     } else {
       toastr.success('Plan saved successfully');
 
@@ -238,7 +251,9 @@ function NewPlanForm(props) {
                 {collaborator && collaborator !== '' && (
                   <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex">
                     <FormControl component="fieldset">
-                      <FormLabel component="legend">Type of feedback</FormLabel>
+                      <FormLabel component="legend">
+                        {t('feedback-type', 'Tipo de feedback')}
+                      </FormLabel>
                       <RadioGroup
                         aria-label="feedback"
                         name="feedback"
@@ -247,11 +262,15 @@ function NewPlanForm(props) {
                           handleChange(event, value);
                         }}
                       >
-                        <FormControlLabel value="objective" control={<Radio />} label="Objective" />
+                        <FormControlLabel
+                          value="objective"
+                          control={<Radio />}
+                          label={t('menu.metric-panel-dialog-objective', 'Objetivo')}
+                        />
                         <FormControlLabel
                           value="general"
                           control={<Radio />}
-                          label="Feedback General"
+                          label={t('feedback-general', 'Feedback general')}
                         />
                       </RadioGroup>
                     </FormControl>
@@ -283,7 +302,7 @@ function NewPlanForm(props) {
                       <TextField
                         className="w-100"
                         id="outlined-multiline-static"
-                        label="Private notes (Visible to the leader)"
+                        label={t('privates-notes', 'Notas privadas (Visible para el lider)')}
                         multiline
                         rows={8}
                         variant="outlined"
@@ -299,7 +318,7 @@ function NewPlanForm(props) {
                       <TextField
                         className="w-100"
                         id="outlined-multiline-static"
-                        label="Comments"
+                        label={t('menu.badge-panel-dialog-delivery-comments', 'Comentarios')}
                         multiline
                         rows={8}
                         variant="outlined"
@@ -315,7 +334,7 @@ function NewPlanForm(props) {
                       <TextField
                         className="w-100"
                         id="outlined-date"
-                        label="Sent"
+                        label={t('sent', 'Envíado')}
                         type="date"
                         disabled
                         value={dateCommitment}
@@ -331,7 +350,7 @@ function NewPlanForm(props) {
                       <TextField
                         className="w-100"
                         id="outlined-date"
-                        label="Commitment"
+                        label={t('commitment', 'Compromiso')}
                         type="date"
                         value={addReminder}
                         inputProps={
@@ -357,7 +376,7 @@ function NewPlanForm(props) {
                       <TextField
                         className="w-100"
                         id="outlined-date"
-                        label="Reminder"
+                        label={t('reminder', 'Recordatorio')}
                         type="date"
                         value={date}
                         variant="outlined"
@@ -380,7 +399,7 @@ function NewPlanForm(props) {
                       className="ml-1"
                       onClick={() => submitFunction('DRAFT')}
                     >
-                      Save
+                      {t('admin.header-dropdown-dialog-actions-save', 'Guardar')}
                     </Button>
                     <Button
                       onClick={() => submitFunction('SENDED')}
@@ -388,11 +407,13 @@ function NewPlanForm(props) {
                       variant="contained"
                       className="ml-1"
                     >
-                      Send
+                      {t('send', 'Enviar')}
                     </Button>
                   </Grid>
                 ) : (
-                  <h2 className="w-100 text-center">You don't have users assigned</h2>
+                  <h2 className="w-100 text-center">
+                    {t('assigned-users', 'No tienes usuarios asignados')}
+                  </h2>
                 )}
               </>
             )}

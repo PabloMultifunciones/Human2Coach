@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 // material
 import { Card, Table, TableRow, TableBody, TableCell, TableContainer } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -19,6 +21,8 @@ export default function TableExtraTime({
   propsHolidays,
   propsDisciplinaryProcess
 }) {
+  const { t } = useTranslation();
+
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
@@ -67,7 +71,7 @@ export default function TableExtraTime({
               />
               <TableBody>
                 <TableRow hover tabIndex={-1}>
-                  <TableCell align="left">Sick leave</TableCell>
+                  <TableCell align="left">{t('sick-leave', 'Baja por enfermedad')}</TableCell>
 
                   <TableCell align="left">
                     <Checkbox
@@ -82,7 +86,7 @@ export default function TableExtraTime({
                 </TableRow>
 
                 <TableRow hover tabIndex={-1}>
-                  <TableCell align="left">Vacations</TableCell>
+                  <TableCell align="left">{t('vacations', 'Vacaciones')}</TableCell>
 
                   <TableCell align="left">
                     <Checkbox
@@ -97,7 +101,9 @@ export default function TableExtraTime({
                 </TableRow>
 
                 <TableRow hover tabIndex={-1}>
-                  <TableCell align="left">Disciplinary process</TableCell>
+                  <TableCell align="left">
+                    {t('disciplinary-process', 'Proceso Disciplinario')}
+                  </TableCell>
 
                   <TableCell align="left">
                     <Checkbox

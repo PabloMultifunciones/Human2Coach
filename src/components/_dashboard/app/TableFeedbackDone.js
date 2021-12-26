@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 // material
 import {
   Card,
@@ -23,6 +25,8 @@ import GeneralFunctions from '../../../libs/GeneralFunctions';
 // ----------------------------------------------------------------------
 
 function TableFeedbackDone({ title, tableHead, newPlan, metricsSelected }) {
+  const { t } = useTranslation();
+
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
 
@@ -46,7 +50,7 @@ function TableFeedbackDone({ title, tableHead, newPlan, metricsSelected }) {
         <Card>
           <h4 className="p-1">
             {' '}
-            Feedback por objetivo{' '}
+            {t('feedback-objective', 'Feedback por objetivo')}
             {`(W${GeneralFunctions.getWeekCount()}: ${format(new Date(), 'dd/MM/yyyy')})`}
           </h4>
           <Scrollbar>

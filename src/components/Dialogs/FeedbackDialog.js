@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+
 import { withStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -156,7 +157,7 @@ function FeedbackDialog(props) {
       props.deleteMetricsSelected(row);
     } else {
       if (!row.dataTwo || row.dataTwo === 'undefined' || row.dataTwo === '') {
-        toastr.error('You must enter a valid data');
+        toastr.error(t('must-add-data', 'Debes ingresar un dato válido'));
         return;
       }
       ref.classList.add('selected-cell');
@@ -204,7 +205,7 @@ function FeedbackDialog(props) {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Feedback by objective{' '}
+          {t('feedback-objective', 'Feedback por objetivo')}
           {`(W${GeneralFunctions.getWeekCount()}: ${format(new Date(), 'dd/MM/yyyy')})`}
         </DialogTitle>
 
@@ -247,10 +248,109 @@ function FeedbackDialog(props) {
                                       <div>{targetValue}</div>
                                     </TableCell>
                                     <TableCell align="left">{row.value}</TableCell>
+                                    {metricConf ? (
+                                      <TableCell align="left">
+                                        {(metricConf.type === 'NUMBER' ||
+                                          metricConf.type === 'MULTIPLIER') && (
+                                          <Grid item xs={12} md={12} lg={12}>
+                                            <TextField
+                                              onChange={(e) => handleChange(e, i)}
+                                              value={dataTwo || ''}
+                                              name="targetValue"
+                                              id="targetValue"
+                                              type="number"
+                                              variant="outlined"
+                                              className="mt-1"
+                                              fullWidth
+                                            />
+                                          </Grid>
+                                        )}
 
-                                    <TableCell align="left">
-                                      {(metricConf.type === 'NUMBER' ||
-                                        metricConf.type === 'MULTIPLIER') && (
+                                        {metricConf.type === 'TIME' && (
+                                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                            <Grid item xs={12} md={12} lg={12}>
+                                              <TimePicker
+                                                ampm={false}
+                                                okLabel={t('accept.label', 'Aceptar')}
+                                                cancelLabel={t(
+                                                  'admin.header-dropdown-dialog-actions-cancel',
+                                                  'Cancelar'
+                                                )}
+                                                clearLabel={t(
+                                                  'menu.badge-panel-dialog-minimum-points-clean-up',
+                                                  'Limpiar'
+                                                )}
+                                                openTo="hours"
+                                                inputVariant="outlined"
+                                                views={['hours', 'minutes', 'seconds']}
+                                                inputFormat="HH:mm:ss"
+                                                mask="__:__:__"
+                                                label={t(
+                                                  'menu.metric-panel-dialog-objective',
+                                                  'Objetivo'
+                                                )}
+                                                value={
+                                                  dataTwo ||
+                                                  new Date(new Date().setHours(0, 0, 0, 0))
+                                                }
+                                                fullWidth
+                                                onChange={(e) => handleChangeTime(e, i)}
+                                                name="targetValue"
+                                                id="targetValue"
+                                                renderInput={(params) => (
+                                                  <TextField
+                                                    className="mt-1"
+                                                    fullWidth
+                                                    {...params}
+                                                  />
+                                                )}
+                                              />
+                                            </Grid>
+                                          </LocalizationProvider>
+                                        )}
+
+                                        {metricConf.type === 'BOOLEAN' && (
+                                          <Grid item xs={12} md={12} lg={12}>
+                                            <FormControl variant="outlined" className="w-100">
+                                              <InputLabel id="targetValue-select-outlined-label">
+                                                {t(
+                                                  'menu.metric-panel-dialog-objective',
+                                                  'Objetivo'
+                                                )}
+                                              </InputLabel>
+                                              <Select
+                                                onChange={(e) => handleChange(e, i)}
+                                                value={dataTwo || ''}
+                                                labelId="targetValue"
+                                                id="targetValue"
+                                                name="targetValue"
+                                                label={t(
+                                                  'menu.metric-panel-dialog-objective',
+                                                  'Objetivo'
+                                                )}
+                                              >
+                                                <MenuItem value="">
+                                                  {t('select-one', 'Seleccione uno')}
+                                                </MenuItem>
+                                                <MenuItem value="YES">
+                                                  {t(
+                                                    'admin.header-dropdown-dialog-notifications-input-item-yes',
+                                                    'Si'
+                                                  )}{' '}
+                                                </MenuItem>
+                                                <MenuItem value="NO">
+                                                  {t(
+                                                    'admin.header-dropdown-dialog-notifications-input-item-no',
+                                                    'No'
+                                                  )}
+                                                </MenuItem>
+                                              </Select>
+                                            </FormControl>
+                                          </Grid>
+                                        )}
+                                      </TableCell>
+                                    ) : (
+                                      <TableCell align="left">
                                         <Grid item xs={12} md={12} lg={12}>
                                           <TextField
                                             onChange={(e) => handleChange(e, i)}
@@ -263,78 +363,8 @@ function FeedbackDialog(props) {
                                             fullWidth
                                           />
                                         </Grid>
-                                      )}
-
-                                      {metricConf.type === 'TIME' && (
-                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                          <Grid item xs={12} md={12} lg={12}>
-                                            <TimePicker
-                                              ampm={false}
-                                              okLabel={t('accept.label', 'Accept')}
-                                              cancelLabel={t(
-                                                'admin.header-dropdown-dialog-actions-cancel',
-                                                'Cancel'
-                                              )}
-                                              clearLabel={t(
-                                                'menu.badge-panel-dialog-minimum-points-clean-up',
-                                                'Clean up'
-                                              )}
-                                              openTo="hours"
-                                              inputVariant="outlined"
-                                              views={['hours', 'minutes', 'seconds']}
-                                              inputFormat="HH:mm:ss"
-                                              mask="__:__:__"
-                                              label={t(
-                                                'menu.metric-panel-dialog-objective',
-                                                'Objective'
-                                              )}
-                                              value={
-                                                dataTwo || new Date(new Date().setHours(0, 0, 0, 0))
-                                              }
-                                              fullWidth
-                                              onChange={(e) => handleChangeTime(e, i)}
-                                              name="targetValue"
-                                              id="targetValue"
-                                              renderInput={(params) => (
-                                                <TextField className="mt-1" fullWidth {...params} />
-                                              )}
-                                            />
-                                          </Grid>
-                                        </LocalizationProvider>
-                                      )}
-
-                                      {metricConf.type === 'BOOLEAN' && (
-                                        <Grid item xs={12} md={12} lg={12}>
-                                          <FormControl variant="outlined" className="w-100">
-                                            <InputLabel id="targetValue-select-outlined-label">
-                                              {t('menu.metric-panel-dialog-objective', 'Objective')}
-                                            </InputLabel>
-                                            <Select
-                                              onChange={(e) => handleChange(e, i)}
-                                              value={dataTwo || ''}
-                                              labelId="targetValue"
-                                              id="targetValue"
-                                              name="targetValue"
-                                              label="targetValue"
-                                            >
-                                              <MenuItem value="">Select one</MenuItem>
-                                              <MenuItem value="YES">
-                                                {t(
-                                                  'admin.header-dropdown-dialog-notifications-input-item-yes',
-                                                  'Yes'
-                                                )}{' '}
-                                              </MenuItem>
-                                              <MenuItem value="NO">
-                                                {t(
-                                                  'admin.header-dropdown-dialog-notifications-input-item-no',
-                                                  'No'
-                                                )}
-                                              </MenuItem>
-                                            </Select>
-                                          </FormControl>
-                                        </Grid>
-                                      )}
-                                    </TableCell>
+                                      </TableCell>
+                                    )}
 
                                     <TableCell align="left">
                                       <Checkbox
@@ -357,7 +387,12 @@ function FeedbackDialog(props) {
                             <TableBody>
                               <TableRow>
                                 <TableCell align="center" colSpan={8} sx={{ py: 3 }}>
-                                  <SearchNotFound searchQuery="" />
+                                  <SearchNotFound
+                                    searchQuery={t(
+                                      'no-results-found',
+                                      'No se encontraron resultados'
+                                    )}
+                                  />
                                 </TableCell>
                               </TableRow>
                             </TableBody>

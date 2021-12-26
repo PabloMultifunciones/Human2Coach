@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import TableHead from '@material-ui/core/TableHead';
 import { connect } from 'react-redux';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -43,8 +45,9 @@ import Spinner from '../../Spinner';
 // ----------------------------------------------------------------------
 
 function AppTableMetric(props) {
+  const { t } = useTranslation();
+
   const [page, setPage] = useState(0);
-  const [filterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(4);
   const [user, setUser] = useState(null);
 
@@ -256,10 +259,10 @@ function AppTableMetric(props) {
                           </Tooltip>
                         ))}
 
-                      <TableCell key="sent">Sent</TableCell>
-                      <TableCell key="slopes">Saved</TableCell>
-                      <TableCell key="signed">Signed</TableCell>
-                      <TableCell key="total">Total</TableCell>
+                      <TableCell key="sent">{t('sent', 'Envíado')}</TableCell>
+                      <TableCell key="slopes">{t('saved', 'Guardado')}</TableCell>
+                      <TableCell key="signed">{t('assigned', 'Asignado')}</TableCell>
+                      <TableCell key="total">{t('total', 'Total')}</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -294,7 +297,9 @@ function AppTableMetric(props) {
                     <TableBody>
                       <TableRow>
                         <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                          <SearchNotFound searchQuery={filterName} />
+                          <SearchNotFound
+                            searchQuery={t('no-results-found', 'No se encontraron resultados')}
+                          />
                         </TableCell>
                       </TableRow>
                     </TableBody>

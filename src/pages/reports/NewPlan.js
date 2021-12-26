@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { Icon } from '@iconify/react';
 
 import { Container, Stack, Typography } from '@material-ui/core';
@@ -9,6 +11,8 @@ import NewPlanForm from '../../components/NewPlanForm';
 import Page from '../../components/Page';
 
 export default function NewPlan() {
+  const { t } = useTranslation();
+
   return (
     <>
       <Page title="Entry follow | Human2Coach">
@@ -16,7 +20,7 @@ export default function NewPlan() {
           <Stack direction="row" mb={5} className="custom-title-blue">
             <Typography variant="h4" gutterBottom className="d-flex">
               <Icon icon={clipboardOutline} width={30} height={30} className="mr-1" />
-              New record
+              {t('new-plan', 'Nuevo plan')}{' '}
             </Typography>
           </Stack>
           <NewPlanForm />

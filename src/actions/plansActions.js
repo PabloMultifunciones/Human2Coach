@@ -46,7 +46,7 @@ export const getPlansRequest = (payload) => async (dispatch, getState) => {
       dispatch({
         type: PLANS_LIST_CHARGING
       });
-      const responseLogin = await PlanService.getPlans(payload.number);
+      const responseLogin = await PlanService.getPlans(payload.number, 7, payload.position);
       dispatch({
         type: PLANS_LIST_REQUEST,
         payload: { ...responseLogin.data }

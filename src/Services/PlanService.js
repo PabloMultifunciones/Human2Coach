@@ -2,10 +2,12 @@ import axios from 'axios';
 import environment from '../libs/environment';
 
 export default {
-  getPlans: (number = 1, size = 7) =>
+  getPlans: (number = 1, size = 7, position) =>
     axios({
       method: 'GET',
-      url: `${environment.motivarnosBackend}/plan?_number=${number}&_size=${size}`
+      url: `${environment.motivarnosBackend}/plan?_number=${number}&_size=${size}&isLast=true${
+        position && position === 1 ? '&user.position=2' : ''
+      }`
     }),
 
   getPlan: (id) =>

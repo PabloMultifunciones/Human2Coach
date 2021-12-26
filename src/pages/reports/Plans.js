@@ -70,13 +70,19 @@ function Plans(props) {
   ];
 
   useEffect(() => {
-    props.getPlansRequest({ number: 0, filterName });
+    props.getPlansRequest({
+      number: 0,
+      position: props.loginReducer && props.loginReducer.userLogged.user.position
+    });
     // eslint-disable-next-line
   }, []);
 
   const handleChangePage = (event, newPage) => {
     if (filterName === '' && userId === 'ALL') {
-      props.getPlansRequest({ number: newPage });
+      props.getPlansRequest({
+        number: newPage,
+        position: props.loginReducer && props.loginReducer.userLogged.user.position
+      });
     } else {
       props.getPlansFilterRequest({ number: newPage, filterName, userId });
     }
@@ -103,7 +109,10 @@ function Plans(props) {
           props.getPlansFilterRequest({ number: 0, filterName: '', userId });
           return;
         }
-        props.getPlansRequest({ number: 0, filterName: event.target.value });
+        props.getPlansRequest({
+          number: 0,
+          position: props.loginReducer && props.loginReducer.userLogged.user.position
+        });
       }
     }
   };
@@ -115,7 +124,10 @@ function Plans(props) {
       props.getPlansFilterRequest({ number: 0, filterName, userId: value });
     } else {
       if (filterName === '') {
-        props.getPlansRequest({ number: 0, filterName });
+        props.getPlansRequest({
+          number: 0,
+          position: props.loginReducer && props.loginReducer.userLogged.user.position
+        });
         return;
       }
       props.getPlansFilterRequest({ number: 0, filterName });
@@ -309,7 +321,7 @@ function Plans(props) {
   );
 }
 
-const mapStateToProps = ({ plansReducer, loginReducer }) => ({ loginReducer, plansReducer });
+const mapStateToProps = ({ plansReducer, loginReducer }) => ({ plansReducer, loginReducer });
 
 const mapDispatchToProps = {
   getPlansRequest,

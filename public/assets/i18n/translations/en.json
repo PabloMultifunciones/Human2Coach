@@ -42,7 +42,7 @@
     "extra-time": "Extra time",
     "check": "Check",
     "collaborator": "Collaborator",
-    "mode": "Modo",
+    "mode": "Mode",
     "plans-removed": "Plan removed successfully",
     "plans-error-one-removed": "This plan is being used and cannot be removed",
     "plans-error-two-removed": "An error occurred while removing the plan",

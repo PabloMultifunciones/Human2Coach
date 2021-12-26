@@ -237,7 +237,7 @@ function UserDialog(props) {
   return (
     <>
       {props.type === 'EDIT' ? (
-        <Tooltip title="Edit user">
+        <Tooltip title={t('edit-user', 'Editar usuario')}>
           <EditIcon fontSize="small" className="cursor-pointer" onClick={handleClickOpen} />
         </Tooltip>
       ) : (
@@ -247,7 +247,7 @@ function UserDialog(props) {
           onClick={handleClickOpen}
           startIcon={<Icon icon={plusFill} />}
         >
-          New user
+          {t('new-user', 'New user')}
         </Button>
       )}
 
@@ -263,7 +263,7 @@ function UserDialog(props) {
           onClose={handleClose}
           className="custom-bg-FA0050 color-white"
         >
-          User
+          {t('user.label', 'Usuario')}
         </DialogTitle>
         <>
           <form>
@@ -282,7 +282,10 @@ function UserDialog(props) {
                             fullWidth
                             id="outlined-username"
                             variant="outlined"
-                            label="Username"
+                            label={t(
+                              'admin.user-panel-user-dialog-input-username',
+                              'Nombre de usuario'
+                            )}
                             name="username"
                             value={username}
                             error={usernameError}
@@ -294,7 +297,7 @@ function UserDialog(props) {
                             fullWidth
                             id="outlined-name"
                             variant="outlined"
-                            label="Name"
+                            label={t('admin.user-panel-user-dialog-input-name', 'Nombre')}
                             name="name"
                             value={name}
                             error={nameError}
@@ -305,18 +308,20 @@ function UserDialog(props) {
                         {props.generalReducer.teams && (
                           <Grid item xs={12} sm={12} md={12} lg={12}>
                             <FormControl variant="outlined" className="w-100">
-                              <InputLabel id="frequency-select-outlined-label">Team</InputLabel>
+                              <InputLabel id="frequency-select-outlined-label">
+                                {t('team.label', 'Equipo')}
+                              </InputLabel>
                               <Select
                                 labelId="team"
                                 id="team"
                                 name="team"
                                 value={team}
                                 error={teamError}
-                                label="Team"
+                                label={t('team.label', 'Equipo')}
                                 fullWidth
                                 onChange={handleChange}
                               >
-                                <MenuItem value="">Choose a team</MenuItem>
+                                <MenuItem value="">{t('choose-team', 'Choose a team')}</MenuItem>
 
                                 {props.generalReducer.teams.content.map((team) => (
                                   <MenuItem key={team.id} value={team.id}>
@@ -335,7 +340,9 @@ function UserDialog(props) {
 
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                           <FormControl variant="outlined" className="w-100">
-                            <InputLabel id="frequency-select-outlined-label">Rol</InputLabel>
+                            <InputLabel id="frequency-select-outlined-label">
+                              {t('admin.header-dropdown-view-conditions-table-role', 'Rol')}
+                            </InputLabel>
                             <Select
                               labelId="role"
                               id="role"
@@ -346,7 +353,7 @@ function UserDialog(props) {
                               fullWidth
                               onChange={handleChange}
                             >
-                              <MenuItem value={3}>Colaborador</MenuItem>
+                              <MenuItem value={3}>{t('collaborator', 'Colaborador')}</MenuItem>
                               <MenuItem value={2}>Team Leader </MenuItem>
                               <MenuItem value={1}>Team Manager </MenuItem>
                             </Select>
@@ -357,7 +364,9 @@ function UserDialog(props) {
                           <Grid item xs={12} sm={12} md={12} lg={12}>
                             <FormControl variant="outlined" className="w-100">
                               <InputLabel id="frequency-select-outlined-label">
-                                {role === 2 ? 'Team Manager' : 'Team Leader'}
+                                {role === 2
+                                  ? t('team-manager', 'Gerente del equipo')
+                                  : t('team-leader', 'Lider del equipo')}
                               </InputLabel>
                               <Select
                                 labelId="user"
@@ -365,12 +374,19 @@ function UserDialog(props) {
                                 name="user"
                                 value={user}
                                 error={userError}
-                                label={role === 2 ? 'Team Manager' : 'Team Leader'}
+                                label={
+                                  role === 2
+                                    ? t('team-manager', 'Gerente del equipo')
+                                    : t('team-leader', 'Lider del equipo')
+                                }
                                 fullWidth
                                 onChange={handleChange}
                               >
                                 <MenuItem value="">
-                                  Choose a {role === 2 ? 'Team Manager' : 'Team Leader'}
+                                  {t('choose', 'Elije un ')}{' '}
+                                  {role === 2
+                                    ? t('team-manager', 'Gerente del equipo')
+                                    : t('team-leader', 'Lider del equipo')}
                                 </MenuItem>
 
                                 {props.generalReducer.users.content.map((user) => (
@@ -390,20 +406,29 @@ function UserDialog(props) {
 
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                           <FormControl variant="outlined" className="w-100">
-                            <InputLabel id="frequency-select-outlined-label">Estado</InputLabel>
+                            <InputLabel id="frequency-select-outlined-label">
+                              {t('status.label', 'Estado')}
+                            </InputLabel>
                             <Select
                               labelId="isActive"
                               id="isActive"
                               name="isActive"
                               value={isActive}
                               error={isActiveError}
-                              label="Estado"
+                              label={t('status.label', 'Estado')}
                               defaultValue
                               fullWidth
                               onChange={handleChange}
                             >
-                              <MenuItem value>Activo</MenuItem>
-                              <MenuItem value={false}>Inactivo </MenuItem>
+                              <MenuItem value>
+                                {t(
+                                  'admin.header-dropdown-view-conditions-table-active-state',
+                                  'Activo'
+                                )}
+                              </MenuItem>
+                              <MenuItem value={false}>
+                                {t('menu.trivia-panel-table-inactive', 'Inactivo')}{' '}
+                              </MenuItem>
                             </Select>
                           </FormControl>
                         </Grid>

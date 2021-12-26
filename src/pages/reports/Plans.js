@@ -255,7 +255,12 @@ function Plans(props) {
                                   rel="noopener noreferrer"
                                   className="color-black"
                                 >
-                                  <Tooltip title="See details">
+                                  <Tooltip
+                                    title={t(
+                                      'menu.metric-panel-dialog-show-detail',
+                                      'Ver detalles'
+                                    )}
+                                  >
                                     <VisibilityIcon />
                                   </Tooltip>
                                 </Link>

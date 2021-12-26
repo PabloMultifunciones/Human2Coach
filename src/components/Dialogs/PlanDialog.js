@@ -88,7 +88,7 @@ function PlanDialog(props) {
 
   const handleSave = async () => {
     if (date === '' || !date) {
-      toastr.error('The date is required');
+      toastr.error(t('commitment-date-required', 'La fecha es requerida'));
       return;
     }
 
@@ -101,9 +101,9 @@ function PlanDialog(props) {
       })
       .then((r) => (status = r));
     if (status === 'ERROR') {
-      toastr.error('An error occurred while trying to save the plan');
+      toastr.error(t('plans-error-saved', 'Se produjo un error al intentar guardar el plan'));
     } else {
-      toastr.success('Plan saved successfully');
+      toastr.success(t('plans-successfully', 'Plan guardado con éxito'));
       handleClose();
     }
   };
@@ -128,7 +128,7 @@ function PlanDialog(props) {
           onClose={handleClose}
           className="custom-bg-FA0050 color-white"
         >
-          Plan
+          {t('plan', 'Plan')}
         </DialogTitle>
 
         {props.plans_save_charging ? (
@@ -143,7 +143,7 @@ function PlanDialog(props) {
                       className="w-100"
                       fullWidth
                       id="outlined-date"
-                      label="Commitment date"
+                      label={t('commitment-date', 'Fecha de compromiso')}
                       type="date"
                       value={date}
                       variant="outlined"

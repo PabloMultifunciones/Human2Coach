@@ -47,15 +47,6 @@ import 'toastr/build/toastr.min.css';
 
 // ----------------------------------------------------------------------
 
-const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'username', label: 'Username', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'status', label: 'State', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'actions', label: 'Actions', alignRight: false }
-];
-
 // ----------------------------------------------------------------------
 
 function User(props) {
@@ -64,6 +55,27 @@ function User(props) {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const { t } = useTranslation();
+
+  const TABLE_HEAD = [
+    {
+      id: 'name',
+      label: t('admin.user-panel-user-dialog-input-name', 'Nombre'),
+      alignRight: false
+    },
+    {
+      id: 'username',
+      label: t('admin.user-panel-user-dialog-input-username', 'Nombre de usuario'),
+      alignRight: false
+    },
+    { id: 'company', label: t('company.label', 'Empresa'), alignRight: false },
+    {
+      id: 'status',
+      label: t('admin.header-dropdown-view-conditions-table-state', 'Estado'),
+      alignRight: false
+    },
+    { id: 'role', label: t('admin.user-panel-table-role', 'Rol'), alignRight: false },
+    { id: 'actions', label: t('admin.user-panel-table-actions', 'Acciones'), alignRight: false }
+  ];
 
   useEffect(() => {
     props.getUsersRequest({ number: 0, filterName });
@@ -170,7 +182,7 @@ function User(props) {
         >
           <Typography variant="h4" gutterBottom className="d-flex">
             <Icon icon={peopleFill} width={30} height={30} className="mr-1" />
-            Users
+            {t('menu.rigth-list-item-users', 'Usuarios')}
           </Typography>
           <div>
             <UserDialog />
@@ -178,7 +190,7 @@ function User(props) {
               <Button className="button-table ml-1" variant="contained" color="primary">
                 <label htmlFor="avatar" className="d-flex">
                   <BackupIcon className="mr-1" />
-                  Import
+                  {t('menu.metric-panel-import', 'Importar')}
                   <input
                     type="file"
                     className="d-none"
@@ -196,7 +208,7 @@ function User(props) {
           <UserListToolbar
             numSelected={selected.length}
             onFilterName={handleFilterByName}
-            title="Search..."
+            title={t('search.label', 'Buscar')}
           />
           {props.users_charging ? (
             <Spinner />
@@ -219,7 +231,14 @@ function User(props) {
                               <TableCell align="left">{team ? team.name : 'N/A'}</TableCell>
                               <TableCell align="left">
                                 <Label variant="ghost" color={(isActive && 'success') || 'error'}>
-                                  {sentenceCase(isActive ? 'Active' : 'Disabled')}
+                                  {sentenceCase(
+                                    isActive
+                                      ? t(
+                                          'admin.header-dropdown-view-conditions-table-active-state',
+                                          'Activo'
+                                        )
+                                      : t('disabled', 'Deshabilitado')
+                                  )}
                                 </Label>
                               </TableCell>
                               <TableCell align="left">
@@ -229,7 +248,7 @@ function User(props) {
                                 <UserDialog type="EDIT" {...row} />
 
                                 {row.isActive && (
-                                  <Tooltip title="Disable">
+                                  <Tooltip title={t('disable', 'Deshabilitar')}>
                                     <RemoveCircleIcon onClick={() => disableUser(id)} />
                                   </Tooltip>
                                 )}
@@ -247,7 +266,9 @@ function User(props) {
                       <TableBody>
                         <TableRow>
                           <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                            <SearchNotFound searchQuery={filterName} />
+                            <SearchNotFound
+                              searchQuery={t('no-results-found', 'No se encontraron resultados')}
+                            />
                           </TableCell>
                         </TableRow>
                       </TableBody>

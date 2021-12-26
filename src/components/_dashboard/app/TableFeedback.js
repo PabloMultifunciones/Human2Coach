@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+
 // material
 import {
   Card,
@@ -33,9 +35,11 @@ function TableFeedback({
   setMetricsSelected,
   deleteMetricsSelected
 }) {
+  const { t } = useTranslation();
+
   const [tableHead] = useState([
-    { id: 'metric', label: 'Metric', alignRight: false },
-    { id: 'objective', label: 'Objective', alignRight: false },
+    { id: 'metric', label: t('menu.metric-panel-title', 'Métrica'), alignRight: false },
+    { id: 'objective', label: t('goal.label', 'Objetivo'), alignRight: false },
     {
       id: 'wbefore',
       label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
@@ -52,7 +56,7 @@ function TableFeedback({
       )}`,
       alignRight: false
     },
-    { id: 'check', label: 'Check', alignRight: false }
+    { id: 'check', label: t('check', 'Check'), alignRight: false }
   ]);
 
   const myRefs = useRef([]);
@@ -86,7 +90,7 @@ function TableFeedback({
       <Card>
         <h4 className="p-1">
           {' '}
-          Feedback by objective{' '}
+          {t('feedback-objective', 'Feedback por objetivo')}{' '}
           {`(W${GeneralFunctions.getWeekCount()}: ${format(new Date(), 'dd/MM/yyyy')})`}
         </h4>
         <Scrollbar>

@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Tooltip from '@material-ui/core/Tooltip';
+import { useTranslation } from 'react-i18next';
 
 // import toastr from 'toastr';
 
@@ -46,25 +47,27 @@ import 'toastr/build/toastr.min.css';
 
 // ----------------------------------------------------------------------
 
-const TABLE_HEAD = [
-  { id: 'collaborator', label: 'Colaborador', alignRight: false },
-  { id: 'sent', label: 'Sent', alignRight: false },
-  { id: 'commitment', label: 'Commitment', alignRight: false },
-  { id: 'objective', label: 'Objective', alignRight: false },
-  { id: 'feedback', label: 'Feedback', alignRight: false },
-  { id: 'mode', label: 'Mode', alignRight: false },
-  { id: 'state', label: 'State', alignRight: false },
-  { id: 'actions', label: 'Actions', alignRight: false }
-];
-
 // ----------------------------------------------------------------------
 
 function Plans(props) {
+  const { t } = useTranslation();
+
   const [page, setPage] = useState(0);
   const [filterName, setFilterName] = useState('');
   const [userId, setUserId] = useState(false);
 
   const [rowsPerPage, setRowsPerPage] = useState(7);
+
+  const TABLE_HEAD = [
+    { id: 'collaborator', label: t('collaborator', 'Colaborador'), alignRight: false },
+    { id: 'sent', label: t('sent', 'Envíado'), alignRight: false },
+    { id: 'commitment', label: t('commitment', 'Compromiso'), alignRight: false },
+    { id: 'objective', label: t('goal.label', 'Objetivo'), alignRight: false },
+    { id: 'feedback', label: 'Feedback', alignRight: false },
+    { id: 'mode', label: t('mode', 'Modo'), alignRight: false },
+    { id: 'state', label: t('status.label', 'Estado'), alignRight: false },
+    { id: 'actions', label: t('admin.user-panel-table-actions', 'Acciones'), alignRight: false }
+  ];
 
   useEffect(() => {
     props.getPlansRequest({ number: 0, filterName });
@@ -124,14 +127,16 @@ function Plans(props) {
     await props.deletePlanRequest({ id, filterName }).then((r) => (status = r));
 
     if (status === 'SUCCESS') {
-      toastr.success('menu.metric-panel-message-success-delete', 'Metric removed successfully');
+      toastr.success(t('plans-removed', 'Plan eliminado correctamente'));
       return;
     }
 
     if (status.error && status.error.status === 400) {
-      toastr.error('This plan is being used and cannot be removed');
+      toastr.error(
+        t('plans-error-one-removed', 'Este plan se está utilizando y no se puede eliminar')
+      );
     } else {
-      toastr.error('An error occurred while removing the plan');
+      toastr.error(t('plans-error-two-removed', 'Ocurrió un error al eliminar el plan'));
     }
   };
 
@@ -151,12 +156,12 @@ function Plans(props) {
       : props.plansReducer.plans_filtered.length) === 0;
 
   return (
-    <Page title="Records | Human2Coach">
+    <Page title="Plans | Human2Coach">
       <Container>
         <Stack direction="row" alignItems="center" mb={5} className="custom-title-blue">
           <Typography variant="h4" gutterBottom className="d-flex">
             <Icon icon={clipboardOutline} width={30} height={30} className="mr-1" />
-            Records
+            {t('plans', 'Planes')}
           </Typography>
         </Stack>
 
@@ -224,15 +229,17 @@ function Plans(props) {
                             </TableCell>
 
                             <TableCell align="left">
-                              {row.status === 'DRAFT' && <Label variant="ghost">DRAFT</Label>}
+                              {row.status === 'DRAFT' && (
+                                <Label variant="ghost">{t('draft', 'BORRADOR')}</Label>
+                              )}
                               {row.status === 'SENDED' && (
                                 <Label variant="ghost" color="warning">
-                                  SENDED
+                                  {t('sended', 'ENVÍADO')}
                                 </Label>
                               )}{' '}
                               {row.status === 'ACKNOWLEGED' && (
                                 <Label variant="ghost" color="info">
-                                  ACKNOWLEGED
+                                  {t('acknowledged', 'ADMITIDO')}
                                 </Label>
                               )}
                             </TableCell>
@@ -266,7 +273,9 @@ function Plans(props) {
                       <TableBody>
                         <TableRow>
                           <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                            <SearchNotFound searchQuery={filterName} />
+                            <SearchNotFound
+                              searchQuery={t('no-results-found', 'No se encontraron resultados')}
+                            />
                           </TableCell>
                         </TableRow>
                       </TableBody>

@@ -196,7 +196,7 @@ function Plans(props) {
                   <Table>
                     <UserListHead headLabel={TABLE_HEAD} />
                     <TableBody>
-                      {(filterName === ''
+                      {(filterName === '' && (!userId || userId === 'ALL')
                         ? props.plansReducer.plans
                         : props.plansReducer.plans_filtered
                       )
@@ -304,7 +304,7 @@ function Plans(props) {
                 rowsPerPageOptions={[7]}
                 component="div"
                 count={
-                  filterName === ''
+                  filterName === '' && (!userId || userId === 'ALL')
                     ? props.plansReducer.totalElements
                     : props.plansReducer.totalElements_filtered
                 }

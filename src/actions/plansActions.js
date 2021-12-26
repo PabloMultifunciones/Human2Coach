@@ -117,6 +117,7 @@ export const getPlansFilterRequest = (payload) => async (dispatch, getState) => 
         7,
         payload.userId
       );
+
       dispatch({
         type: PLANS_LIST_FILTER_REQUEST,
         payload: { ...responseLogin.data, filterName: payload.filterName }

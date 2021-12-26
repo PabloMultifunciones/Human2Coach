@@ -73,7 +73,8 @@ export default (state = INITIAL_STATE, action) => {
         plans_charging: false,
         plans_filtered:
           [...state.pagesFiltered].includes(action.payload.number) &&
-          state.filter === action.payload.filterName
+          state.filter === action.payload.filterName &&
+          state.userId === action.payload.userId
             ? [...state.plans_filtered]
             : [...state.plans_filtered, ...action.payload.content],
         totalElements_filtered: action.payload.totalElements,

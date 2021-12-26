@@ -216,7 +216,11 @@ function AppTableMetric(props) {
               onFilterUser={handleFilterUser}
               showUser
               usersArray={[
-                { name: 'All', lastName: '', id: false },
+                {
+                  name: t('menu.trivia-panel-dialog-add-test-select-pointsForFirst-all', 'Todos'),
+                  lastName: '',
+                  id: false
+                },
                 ...props.generalReducer.leaderCollaborators.content
               ]}
             />
@@ -231,7 +235,11 @@ function AppTableMetric(props) {
               onFilterUser={handleFilterUser}
               showUser
               usersArray={[
-                { name: 'All', lastName: '', id: false },
+                {
+                  name: t('menu.trivia-panel-dialog-add-test-select-pointsForFirst-all', 'Todos'),
+                  lastName: '',
+                  id: false
+                },
                 ...props.generalReducer.collaborators.content
               ]}
             />

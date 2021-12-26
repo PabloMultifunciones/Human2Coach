@@ -1,4 +1,10 @@
 {
+    "do-not-have-leaders": "You don't have leaders",
+    "do-not-have-leaders-collaborator": "That leader don't have collaborators'",
+    "selected": "Selected",
+    "select-rol": "Select a rol",
+    "select-leader": "Select a leader",
+    "select-collaborator": "Select collaborator",
     "user-name-exists": "A user with this username already exists",
     "commitment-date-required": "The date is required",
     "plan": "Plan",

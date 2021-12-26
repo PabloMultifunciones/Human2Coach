@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
 import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { useRef, useState } from 'react';
 import homeFill from '@iconify/icons-eva/home-fill';
@@ -21,24 +22,26 @@ import environment from '../../libs/environment';
 
 // ----------------------------------------------------------------------
 
-const MENU_OPTIONS = [
-  {
-    label: 'Home',
-    icon: homeFill,
-    linkTo: '/'
-  },
-  {
-    label: 'Avatar',
-    icon: personFill,
-    linkTo: '/dashboard//avatar'
-  }
-];
-
 // ----------------------------------------------------------------------
 
 function AccountPopover(props) {
+  const { t } = useTranslation();
+
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+
+  const MENU_OPTIONS = [
+    {
+      label: t('admin.header-dashboard', 'Panel de administración'),
+      icon: homeFill,
+      linkTo: '/'
+    },
+    {
+      label: t('menu.points-coins-table-avatar', 'Avatar'),
+      icon: personFill,
+      linkTo: '/dashboard//avatar'
+    }
+  ];
 
   const handleCloseDialog = (event) => {
     if (event && anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -146,7 +149,7 @@ function AccountPopover(props) {
                 variant="outlined"
                 onClick={() => handleLogout(props.userLogged.modeFeeback)}
               >
-                Logout
+                {t('admin.header-dropdown-user-leave', 'Salir')}
               </Button>
             </Box>
           </MenuPopover>

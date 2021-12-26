@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import toastr from 'toastr';
+import { useTranslation } from 'react-i18next';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -67,6 +68,7 @@ function UserListToolbar(props) {
     collaboratorLeader: 'ALL',
     collaborator: 'ALL'
   });
+  const { t } = useTranslation();
 
   const handleChange = (event, value) => {
     setState((prevState) => ({
@@ -103,7 +105,7 @@ function UserListToolbar(props) {
       if (!props.leaders) {
         props.getLeadersRequest(999).then((r) => {
           if (r.content && r.content.length === 0) {
-            toastr.error('You dont have leaders');
+            toastr.error(t('do-not-have-leaders', 'Tu no tienes lideres'));
           }
         });
       }
@@ -113,7 +115,7 @@ function UserListToolbar(props) {
       if (!props.leaders) {
         props.getLeadersRequest(999).then((r) => {
           if (r.content && r.content.length === 0) {
-            toastr.error('You dont have leaders');
+            toastr.error(t('do-not-have-leaders', 'Tu no tienes líderes'));
           }
         });
       }
@@ -142,7 +144,7 @@ function UserListToolbar(props) {
 
     props.getCollaboratorsByLeadersRequest(value).then((r) => {
       if (r.content && r.content.length === 0) {
-        toastr.error('That leader dont have collaborators');
+        toastr.error(t('do-not-have-leaders-collaborator', 'Ese lider no tiene colaboradores'));
       }
     });
   };
@@ -178,7 +180,7 @@ function UserListToolbar(props) {
     >
       {props.numSelected > 0 ? (
         <Typography component="div" variant="subtitle1">
-          {props.numSelected} selected
+          {props.numSelected} {t('selected', 'Seleccionado')}
         </Typography>
       ) : (
         <>
@@ -216,7 +218,9 @@ function UserListToolbar(props) {
             <>
               {role === 1 && (
                 <FormControl variant="outlined" className="w-custom">
-                  <InputLabel id="frequency-select-outlined-label">Rol</InputLabel>
+                  <InputLabel id="frequency-select-outlined-label">
+                    {t('admin.header-dropdown-view-conditions-table-role', 'Rol')}
+                  </InputLabel>
                   <Select
                     labelId="role"
                     id="role"
@@ -225,9 +229,9 @@ function UserListToolbar(props) {
                     label="Rol"
                     onChange={handleChangeRol}
                   >
-                    <MenuItem value={1}>Select rol </MenuItem>
-                    <MenuItem value={2}>Team Leader </MenuItem>
-                    <MenuItem value={3}>Colaborador</MenuItem>
+                    <MenuItem value={1}>{t('select-rol', 'Selecciona un rol')} </MenuItem>
+                    <MenuItem value={2}>{t('team-leader', 'Lider del equipo')} </MenuItem>
+                    <MenuItem value={3}>{t('collaborator', 'Colaborador')}</MenuItem>
                   </Select>
                 </FormControl>
               )}
@@ -242,17 +246,19 @@ function UserListToolbar(props) {
                         <div className="d-flex w-custom">
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel id="frequency-select-outlined-label">
-                              Select Leader
+                              {t('select-leader', 'Selecciona un lider')}{' '}
                             </InputLabel>
                             <Select
                               labelId="leader"
                               id="leader"
                               name="leader"
                               value={leader}
-                              label="Select Leader"
+                              label={t('select-leader', 'Selecciona un lider')}
                               onChange={handleChangeLeader}
                             >
-                              <MenuItem value="ALL">Select Leader</MenuItem>
+                              <MenuItem value="ALL">
+                                {t('select-leader', 'Selecciona un lider')}
+                              </MenuItem>
                               {props.leaders.content.map((user) => (
                                 <MenuItem key={user.id} value={user.id}>
                                   {user.name ? `${user.name} ${user.lastName}` : 'Without name'}
@@ -266,7 +272,7 @@ function UserListToolbar(props) {
                             color="error"
                             onClick={() => closeSearch()}
                           >
-                            Back
+                            {t('back.label', 'Anterior')}
                           </Button>
                         </div>
                       )}
@@ -285,17 +291,19 @@ function UserListToolbar(props) {
                         <div className="d-flex w-custom">
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel id="frequency-select-outlined-label">
-                              Select Leader
+                              {t('select-leader', 'Selecciona un lider')}
                             </InputLabel>
                             <Select
                               labelId="collaboratorLeader"
                               id="collaboratorLeader"
                               name="collaboratorLeader"
                               value={collaboratorLeader}
-                              label="Select leader"
+                              label={t('select-leader', 'Selecciona un lider')}
                               onChange={handleChangeCollaboratorLeader}
                             >
-                              <MenuItem value="ALL">Select Leader</MenuItem>
+                              <MenuItem value="ALL">
+                                {t('select-leader', 'Selecciona un lider')}
+                              </MenuItem>
                               {props.leaders.content.map((user) => (
                                 <MenuItem key={user.id} value={user.id}>
                                   {user.name ? `${user.name} ${user.lastName}` : 'Without name'}
@@ -309,7 +317,7 @@ function UserListToolbar(props) {
                             color="error"
                             onClick={() => closeSearch()}
                           >
-                            Back
+                            {t('back.label', 'Anterior')}
                           </Button>
                         </div>
                       )}
@@ -328,7 +336,7 @@ function UserListToolbar(props) {
                         <div className="d-flex w-custom">
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel id="frequency-select-outlined-label">
-                              Collaborator{' '}
+                              {t('collaborator', 'Colaborador')}
                             </InputLabel>
                             <Select
                               labelId="collaborator"
@@ -338,7 +346,9 @@ function UserListToolbar(props) {
                               label="Collaborator"
                               onChange={handleChangeCollaborator}
                             >
-                              <MenuItem value="ALL">Select collaborator</MenuItem>
+                              <MenuItem value="ALL">
+                                {t('select-collaborator', 'Selecciona un colaborador')}
+                              </MenuItem>
                               {props.collaboratorsByLeader.content.map((user) => (
                                 <MenuItem key={user.id} value={user.id}>
                                   {user.name ? `${user.name} ${user.lastName}` : 'Without name'}
@@ -352,7 +362,7 @@ function UserListToolbar(props) {
                             color="error"
                             onClick={() => closeSearch()}
                           >
-                            Back
+                            {t('back.label', 'Anterior')}
                           </Button>
                         </div>
                       )}

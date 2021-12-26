@@ -6,6 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import { connect } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -43,14 +44,14 @@ function Plan(props) {
     feedback: 'objective',
     dashboard: 'oneon',
     notes: '',
-    comments:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste voluptas explicabo commodi deleniti pariatur dolore sapiente obcaecati alias eaque quam ducimus, officiis saepe fugiat suscipit culpa. Voluptates tenetur omnis esse.',
+    comments: '',
     date: format(new Date(), 'yyyy-MM-dd'),
     dateCommitment: format(new Date(), 'yyyy-MM-dd'),
     addReminder: format(new Date(), 'yyyy-MM-dd'),
     ownComments: '',
     received: false
   });
+  const { t } = useTranslation();
 
   const params = useParams();
   const navigate = useNavigate();
@@ -101,16 +102,16 @@ function Plan(props) {
       })
       .then((r) => (status = r));
     if (status === 'ERROR') {
-      toastr.error('An error occurred while trying to save the plan');
+      toastr.error(t('plans-error-saved', 'Se produjo un error al intentar guardar el plan'));
     } else {
-      toastr.success('Plan saved successfully');
+      toastr.success(t('plans-successfully', 'Plan guardado con éxito'));
       navigate('/dashboard/plans');
     }
   };
 
   const submitReceived = async (plan) => {
     if (!received) {
-      toastr.error('You must check the received checkbox');
+      toastr.error(t('must-checbox', 'Debe marcar la casilla de verificación recibido'));
       return;
     }
     let status;
@@ -122,9 +123,9 @@ function Plan(props) {
       })
       .then((r) => (status = r));
     if (status === 'ERROR') {
-      toastr.error('An error occurred while trying to save the plan');
+      toastr.error(t('plans-error-saved', 'Se produjo un error al intentar guardar el plan'));
     } else {
-      toastr.success('Plan saved successfully');
+      toastr.success(t('plans-successfully', 'Plan guardado con éxito'));
       navigate('/dashboard/plans');
     }
   };
@@ -145,7 +146,7 @@ function Plan(props) {
                     <Link to="/dashboard/plans" rel="noopener noreferrer">
                       <Button variant="contained">
                         <ArrowBackIosIcon />
-                        Back
+                        {t('back.label', 'Anterior')}
                       </Button>
                     </Link>
                   </Grid>
@@ -155,13 +156,19 @@ function Plan(props) {
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <FormControl component="fieldset" disabled>
-                    <FormLabel component="legend">Type of feedback</FormLabel>
+                    <FormLabel component="legend">
+                      {t('feedback-type', 'Tipo de feedback')}
+                    </FormLabel>
                     <RadioGroup aria-label="feedback" name="feedback" value={feedback}>
-                      <FormControlLabel value="objective" control={<Radio />} label="Objective" />
+                      <FormControlLabel
+                        value="objective"
+                        control={<Radio />}
+                        label={t('menu.metric-panel-dialog-objective', 'Objetivo')}
+                      />
                       <FormControlLabel
                         value="general"
                         control={<Radio />}
-                        label="Feedback General"
+                        label={t('feedback-general', 'Feedback general')}
                       />
                     </RadioGroup>
                   </FormControl>
@@ -213,7 +220,7 @@ function Plan(props) {
                       <TextField
                         className="w-100"
                         id="outlined-multiline-static"
-                        label="Private notes (Visible to the leader)"
+                        label={t('privates-notes', 'Notas privadas (Visible para el lider)')}
                         multiline
                         rows={8}
                         variant="outlined"
@@ -228,7 +235,7 @@ function Plan(props) {
                   <TextField
                     className="w-100"
                     id="outlined-multiline-static"
-                    label="Comments"
+                    label={t('menu.badge-panel-dialog-delivery-comments', 'Comentarios')}
                     multiline
                     rows={8}
                     variant="outlined"
@@ -241,7 +248,7 @@ function Plan(props) {
                   <TextField
                     className="w-100"
                     id="outlined-date"
-                    label="Sent"
+                    label={t('sent', 'Envíado')}
                     type="date"
                     value={dateCommitment}
                     name="dateCommitment"
@@ -253,7 +260,7 @@ function Plan(props) {
                   <TextField
                     className="w-100"
                     id="outlined-date"
-                    label="Commitment"
+                    label={t('commitment', 'Compromiso')}
                     type="date"
                     value={addReminder}
                     name="addReminder"
@@ -265,7 +272,7 @@ function Plan(props) {
                   <TextField
                     className="w-100"
                     id="outlined-date"
-                    label="Reminder"
+                    label={t('reminder', 'Recordatorio')}
                     type="date"
                     value={date}
                     variant="outlined"
@@ -277,7 +284,7 @@ function Plan(props) {
                   <TextField
                     className="w-100"
                     id="outlined-multiline-static"
-                    label="Comments"
+                    label={t('leader-comments', 'Comentarios del líder')}
                     multiline
                     rows={8}
                     variant="outlined"
@@ -295,7 +302,7 @@ function Plan(props) {
                     <div>
                       <Link to="/dashboard/plans" rel="noopener noreferrer">
                         <Button className="bg-danger" color="inherit" variant="contained">
-                          Back
+                          {t('back.label', 'Anterior')}
                         </Button>
                       </Link>
 
@@ -307,7 +314,7 @@ function Plan(props) {
                             variant="contained"
                             className="ml-1"
                           >
-                            Send
+                            {t('send', 'Enviar')}
                           </Button>
                         )}
 
@@ -319,7 +326,7 @@ function Plan(props) {
                             variant="contained"
                             className="ml-1"
                           >
-                            Received
+                            {t('received', 'Recibido')}
                           </Button>
                         )}
                     </div>
@@ -329,7 +336,7 @@ function Plan(props) {
                           control={
                             <Checkbox
                               defaultValue={false}
-                              label="Recibido"
+                              label={t('received', 'Recibido')}
                               color="primary"
                               inputProps={{ 'aria-label': 'secondary checkbox' }}
                               value={received}
@@ -339,7 +346,7 @@ function Plan(props) {
                               }}
                             />
                           }
-                          label="Recibido"
+                          label={t('received', 'Recibido')}
                         />
                       )}
                   </Grid>
@@ -348,7 +355,7 @@ function Plan(props) {
                     <div>
                       <Link to="/dashboard/plans" rel="noopener noreferrer">
                         <Button className="bg-danger" color="inherit" variant="contained">
-                          Back
+                          {t('back.label', 'Anterior')}
                         </Button>
                       </Link>
 
@@ -360,7 +367,7 @@ function Plan(props) {
                             variant="contained"
                             className="ml-1"
                           >
-                            Send
+                            {t('send', 'Enviar')}
                           </Button>
                         )}
                     </div>

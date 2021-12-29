@@ -133,7 +133,7 @@ function NewPlanForm(props) {
 
     props.plansReducer.metricsSelected.forEach((element) => {
       metricArray.push({
-        metricConf: { ...element.metricConf },
+        metricConf: element.metricConf ? { ...element.metricConf } : null,
         isChecked: true,
         targetValue: element.targetValue,
         date1: element.date1,

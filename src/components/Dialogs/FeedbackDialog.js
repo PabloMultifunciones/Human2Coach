@@ -116,7 +116,7 @@ function FeedbackDialog(props) {
     {
       id: 'wbefore',
       label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
-        subDays(startOfWeek(new Date()), 7),
+        subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
         'dd/MM/yyyy'
       )}`,
       alignRight: false
@@ -124,7 +124,7 @@ function FeedbackDialog(props) {
     {
       id: 'wafter',
       label: `W${GeneralFunctions.getWeekCount()}  ${format(
-        subDays(startOfWeek(new Date()), 1),
+        subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 1),
         'dd/MM/yyyy'
       )}`,
       alignRight: false
@@ -164,8 +164,14 @@ function FeedbackDialog(props) {
       ref.classList.remove('not-selected-cell');
       props.setMetricsSelected({
         ...row,
-        date1: `${format(subDays(startOfWeek(new Date()), 7), 'yyyy-MM-dd')}T00:00:00`,
-        date2: `${format(subDays(startOfWeek(new Date()), 1), 'yyyy-MM-dd')}T00:00:00`,
+        date1: `${format(
+          subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
+          'yyyy-MM-dd'
+        )}T00:00:00`,
+        date2: `${format(
+          subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 1),
+          'yyyy-MM-dd'
+        )}T00:00:00`,
         value1: row.value,
         value2: row.dataTwo
       });

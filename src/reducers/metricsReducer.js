@@ -80,7 +80,7 @@ export default (state = INITIAL_STATE, action) => {
         metrics_collaborators: [...state.pages].includes(action.payload.number)
           ? [...state.metrics]
           : [...state.metrics, ...action.payload.content],
-        totalElements_collaborators: action.payload.totalPages,
+        totalElements_collaborators: action.payload.totalElements,
         pagesCollaborators: [...state.pages].includes(action.payload.number)
           ? [...state.pages]
           : [...state.pages, action.payload.number],

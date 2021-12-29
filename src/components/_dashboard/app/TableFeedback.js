@@ -51,7 +51,7 @@ function TableFeedback({
     {
       id: 'wafter',
       label: `W${GeneralFunctions.getWeekCount()}  ${format(
-        subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 1),
+        startOfWeek(new Date(), { weekStartsOn: 1 }),
         'dd/MM/yyyy'
       )}`,
       alignRight: false

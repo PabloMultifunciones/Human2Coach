@@ -22,7 +22,11 @@ import plusFill from '@iconify/icons-eva/plus-fill';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import { teamsRequest, usersRequest } from '../../actions/generalActions';
+import {
+  teamsRequest,
+  usersManagersRequest,
+  usersLeadersRequest
+} from '../../actions/generalActions';
 import { updateUserRequest, saveUserRequest } from '../../actions/usersActions';
 
 import Spinner from '../Spinner';
@@ -86,35 +90,35 @@ function UserDialog(props) {
   const [roleError, setRoleError] = useState(false);
   const [isActiveError, setIsActiveError] = useState(false);
 
-  const [{ id, username, name, team, user, role, isActive }, setState] = useState({
-    id: props.id ? props.id : null,
-    username: props.username ? props.username : '',
-    name: props.name ? props.name : '',
-    team: props.team ? props.team.id : '',
-    user:
-      props.role === 3
-        ? props.teamLeader
-          ? props.teamLeader.id
-          : ''
-        : props.teamManager
-        ? props.teamManager.id
-        : '',
-    role: props.role ? props.role : '1',
-    isActive: props.isActive || false
-  });
+  const [{ id, username, name, team, userManager, userLeader, role, isActive }, setState] =
+    useState({
+      id: props.id ? props.id : null,
+      username: props.username ? props.username : '',
+      name: props.name ? props.name : '',
+      team: props.team ? props.team.id : '',
+      userManager: props.teamManager ? props.teamManager.id : '',
+
+      userLeader: props.teamLeader ? props.teamLeader.id : '',
+      role: props.role ? props.role : '1',
+      isActive: props.isActive || false
+    });
 
   function handleChange({ target: { name, value } }) {
     setState((prevState) => ({ ...prevState, [name]: value }));
   }
 
-  const handleClickOpen = async () => {
+  const handleClickOpen = () => {
     setOpen(true);
     if (!props.generalReducer.teams) {
-      await props.teamsRequest();
+      props.teamsRequest();
     }
 
-    if (!props.generalReducer.users) {
-      await props.usersRequest();
+    if (!props.generalReducer.usersManagers) {
+      props.usersManagersRequest();
+    }
+
+    if (!props.generalReducer.usersLeaders) {
+      props.usersLeadersRequest();
     }
     setOriginalState();
   };
@@ -161,8 +165,25 @@ function UserDialog(props) {
       return;
     }
 
-    if (role !== 1) {
-      if (user === '') {
+    if (role === 2) {
+      if (userManager === '') {
+        setUserError(true);
+        toastr.error(
+          t('menu.badge-panel-dialog-delivery-message-error-user', 'Debe seleccionar un usuario')
+        );
+        return;
+      }
+    }
+
+    if (role === 2) {
+      if (userManager === '') {
+        setUserError(true);
+        toastr.error(
+          t('menu.badge-panel-dialog-delivery-message-error-user', 'Debe seleccionar un usuario')
+        );
+        return;
+      }
+      if (userLeader === '') {
         setUserError(true);
         toastr.error(
           t('menu.badge-panel-dialog-delivery-message-error-user', 'Debe seleccionar un usuario')
@@ -182,8 +203,9 @@ function UserDialog(props) {
           team: { id: team },
           role,
           position: role,
-          teamManager: role === 2 ? { id: user } : null,
-          teamLeader: role === 3 ? { id: user } : null,
+          teamManager:
+            role === 2 || role === 3 ? (userManager !== '' ? { id: userManager } : null) : null,
+          teamLeader: role === 3 ? (userLeader !== '' ? { id: userLeader } : null) : null,
           isActive
         })
         .then((r) => (status = r));
@@ -195,8 +217,9 @@ function UserDialog(props) {
           team: { id: team },
           role,
           position: role,
-          teamManager: role === 2 ? { id: user } : null,
-          teamLeader: role === 3 ? { id: user } : null,
+          teamManager:
+            role === 2 || role === 3 ? (userManager !== '' ? { id: userManager } : null) : null,
+          teamLeader: role === 3 ? (userLeader !== '' ? { id: userLeader } : null) : null,
           isActive
         })
         .then((r) => (status = r));
@@ -306,7 +329,6 @@ function UserDialog(props) {
                             onChange={handleChange}
                           />
                         </Grid>
-
                         {props.generalReducer.teams && (
                           <Grid item xs={12} sm={12} md={12} lg={12}>
                             <FormControl variant="outlined" className="w-100">
@@ -339,7 +361,6 @@ function UserDialog(props) {
                             </FormControl>
                           </Grid>
                         )}
-
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                           <FormControl variant="outlined" className="w-100">
                             <InputLabel id="frequency-select-outlined-label">
@@ -364,50 +385,119 @@ function UserDialog(props) {
                           </FormControl>
                         </Grid>
 
-                        {props.generalReducer.users && role && role !== 1 && (
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <FormControl variant="outlined" className="w-100">
-                              <InputLabel id="frequency-select-outlined-label">
-                                {role === 2
-                                  ? t('team-manager', 'Gerente del equipo')
-                                  : t('team-leader', 'Lider del equipo')}
-                              </InputLabel>
-                              <Select
-                                labelId="user"
-                                id="user"
-                                name="user"
-                                value={user}
-                                error={userError}
-                                label={
-                                  role === 2
-                                    ? t('team-manager', 'Gerente del equipo')
-                                    : t('team-leader', 'Lider del equipo')
-                                }
-                                fullWidth
-                                onChange={handleChange}
-                              >
-                                <MenuItem value="">
-                                  {t('choose', 'Elije un ')}{' '}
-                                  {role === 2
-                                    ? t('team-manager', 'Gerente del equipo')
-                                    : t('team-leader', 'Lider del equipo')}
-                                </MenuItem>
+                        {role && role !== 1 && (
+                          <>
+                            {props.generalReducer.usersManagers && role === 2 && (
+                              <Grid item xs={12} sm={12} md={12} lg={12}>
+                                <FormControl variant="outlined" className="w-100">
+                                  <InputLabel id="frequency-select-outlined-label">
+                                    {t('team-manager', 'Gerente del equipo')}
+                                  </InputLabel>
+                                  <Select
+                                    labelId="userManager"
+                                    id="userManager"
+                                    name="userManager"
+                                    value={userManager}
+                                    error={userError}
+                                    label={t('team-manager', 'Gerente del equipo')}
+                                    fullWidth
+                                    onChange={handleChange}
+                                  >
+                                    <MenuItem value="">
+                                      {t('choose', 'Elije un ')}{' '}
+                                      {t('team-manager', 'Gerente del equipo')}
+                                    </MenuItem>
 
-                                {props.generalReducer.users.content.map((user) => (
-                                  <MenuItem key={user.id} value={parseInt(user.id, 10)}>
-                                    {user.name
-                                      ? `${user.name} ${user.lastName}`
-                                      : t(
-                                          'admin.user-panel-user-dialog-input-select-without-name',
-                                          'Without name'
-                                        )}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          </Grid>
+                                    {props.generalReducer.usersManagers.content.map((user) => (
+                                      <MenuItem key={user.id} value={parseInt(user.id, 10)}>
+                                        {user.name
+                                          ? `${user.name} ${user.lastName}`
+                                          : t(
+                                              'admin.user-panel-user-dialog-input-select-without-name',
+                                              'Without name'
+                                            )}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                              </Grid>
+                            )}
+
+                            {props.generalReducer.usersManagers &&
+                              props.generalReducer.usersLeaders &&
+                              role === 3 && (
+                                <>
+                                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                                    <FormControl variant="outlined" className="w-100">
+                                      <InputLabel id="frequency-select-outlined-label">
+                                        {t('team-manager', 'Gerente del equipo')}
+                                      </InputLabel>
+                                      <Select
+                                        labelId="userManager"
+                                        id="userManager"
+                                        name="userManager"
+                                        value={userManager}
+                                        error={userError}
+                                        label={t('team-manager', 'Gerente del equipo')}
+                                        fullWidth
+                                        onChange={handleChange}
+                                      >
+                                        <MenuItem value="">
+                                          {t('choose', 'Elije un ')}{' '}
+                                          {t('team-manager', 'Gerente del equipo')}
+                                        </MenuItem>
+
+                                        {props.generalReducer.usersManagers.content.map((user) => (
+                                          <MenuItem key={user.id} value={parseInt(user.id, 10)}>
+                                            {user.name
+                                              ? `${user.name} ${user.lastName}`
+                                              : t(
+                                                  'admin.user-panel-user-dialog-input-select-without-name',
+                                                  'Without name'
+                                                )}
+                                          </MenuItem>
+                                        ))}
+                                      </Select>
+                                    </FormControl>
+                                  </Grid>
+
+                                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                                    <FormControl variant="outlined" className="w-100">
+                                      <InputLabel id="frequency-select-outlined-label">
+                                        {t('team-leader', 'Lider del equipo')}
+                                      </InputLabel>
+                                      <Select
+                                        labelId="userLeader"
+                                        id="userLeader"
+                                        name="userLeader"
+                                        value={userLeader}
+                                        error={userError}
+                                        label={t('team-leader', 'Lider del equipo')}
+                                        fullWidth
+                                        onChange={handleChange}
+                                      >
+                                        <MenuItem value="">
+                                          {t('choose', 'Elije un ')}{' '}
+                                          {t('team-leader', 'Lider del equipo')}
+                                        </MenuItem>
+
+                                        {props.generalReducer.usersLeaders.content.map((user) => (
+                                          <MenuItem key={user.id} value={parseInt(user.id, 10)}>
+                                            {user.name
+                                              ? `${user.name} ${user.lastName}`
+                                              : t(
+                                                  'admin.user-panel-user-dialog-input-select-without-name',
+                                                  'Without name'
+                                                )}
+                                          </MenuItem>
+                                        ))}
+                                      </Select>
+                                    </FormControl>
+                                  </Grid>
+                                </>
+                              )}
+                          </>
                         )}
-
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                           <FormControl variant="outlined" className="w-100">
                             <InputLabel id="frequency-select-outlined-label">
@@ -461,7 +551,8 @@ function UserDialog(props) {
 const mapStateToProps = ({ generalReducer, usersReducer }) => ({ generalReducer, usersReducer });
 const mapDispatchToProps = {
   teamsRequest,
-  usersRequest,
+  usersManagersRequest,
+  usersLeadersRequest,
   updateUserRequest,
   saveUserRequest
 };

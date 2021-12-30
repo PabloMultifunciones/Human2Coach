@@ -9,6 +9,8 @@ const {
   TEAMS_CHARGING,
   TEAMS_ERROR,
   USERS_REQUEST,
+  USERS_MANAGERS_REQUEST,
+  USERS_LEADERS_REQUEST,
   TEAMS_SECONDARY_CHARGING,
   TEAMS_SECONDARY_ERROR,
   TEAMS_SECONDARY_REQUEST,
@@ -30,6 +32,8 @@ const INITIAL_STATE = {
   error_secondaryTeams: false,
   secondaryTeams_charging: false,
   users: false,
+  usersManagers: false,
+  usersLeaders: false,
   error_users: false,
   users_charging: false
 };
@@ -69,6 +73,21 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         users_charging: false,
         users: action.payload,
+        error_users: false
+      };
+
+    case USERS_LEADERS_REQUEST:
+      return {
+        ...state,
+        users_charging: false,
+        usersLeaders: action.payload,
+        error_users: false
+      };
+    case USERS_MANAGERS_REQUEST:
+      return {
+        ...state,
+        users_charging: false,
+        usersManagers: action.payload,
         error_users: false
       };
 

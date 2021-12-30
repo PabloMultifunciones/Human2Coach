@@ -14,6 +14,8 @@ const {
   TEAMS_SECONDARY_ERROR,
   TEAMS_SECONDARY_REQUEST,
   USERS_REQUEST,
+  USERS_LEADERS_REQUEST,
+  USERS_MANAGERS_REQUEST,
   USERS_CHARGING,
   USERS_ERROR
 } = generalTypes;
@@ -68,6 +70,46 @@ export const usersRequest = () => async (dispatch) => {
 
     dispatch({
       type: USERS_REQUEST,
+      payload: responseLogin.data
+    });
+  } catch (error) {
+    dispatch({
+      type: USERS_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
+export const usersManagersRequest = () => async (dispatch) => {
+  dispatch({
+    type: USERS_CHARGING
+  });
+
+  try {
+    const responseLogin = await GeneralService.getUsersManagers();
+
+    dispatch({
+      type: USERS_MANAGERS_REQUEST,
+      payload: responseLogin.data
+    });
+  } catch (error) {
+    dispatch({
+      type: USERS_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
+export const usersLeadersRequest = () => async (dispatch) => {
+  dispatch({
+    type: USERS_CHARGING
+  });
+
+  try {
+    const responseLogin = await GeneralService.getUsersLeaders();
+
+    dispatch({
+      type: USERS_LEADERS_REQUEST,
       payload: responseLogin.data
     });
   } catch (error) {

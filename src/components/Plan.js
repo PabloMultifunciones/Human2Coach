@@ -82,6 +82,8 @@ function Plan(props) {
         ownComments: ''
       }));
     }
+
+    console.log('props.plansReducer.plansSelected', props.plansReducer.plansSelected);
     // eslint-disable-next-line
   }, [props.plansReducer.plansSelected]);
 
@@ -242,8 +244,8 @@ function Plan(props) {
                     multiline
                     rows={8}
                     variant="outlined"
-                    value={ownComments}
-                    name="ownComments"
+                    value={comments}
+                    name="comments"
                     disabled
                   />
                 </Grid>
@@ -284,21 +286,29 @@ function Plan(props) {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <TextField
-                    className="w-100"
-                    id="outlined-multiline-static"
-                    label={t('menu.badge-panel-dialog-delivery-comments', 'Comentarios')}
-                    multiline
-                    rows={8}
-                    variant="outlined"
-                    value={comments}
-                    name="comments"
-                    onChange={(event) => {
-                      handleChange(event, event.target.value);
-                    }}
-                  />
-                </Grid>
+                {props.plansReducer.plansSelected && (
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <TextField
+                      className="w-100"
+                      id="outlined-multiline-static"
+                      label={t('menu.badge-panel-dialog-delivery-comments', 'Comentarios')}
+                      multiline
+                      rows={8}
+                      variant="outlined"
+                      value={ownComments}
+                      name="ownComments"
+                      disabled={
+                        (props.loginReducer.userLogged &&
+                          props.loginReducer.userLogged.user.id !==
+                            props.plansReducer.plansSelected.user.id) ||
+                        false
+                      }
+                      onChange={(event) => {
+                        handleChange(event, event.target.value);
+                      }}
+                    />
+                  </Grid>
+                )}
 
                 {props.loginReducer.userLogged &&
                 props.loginReducer.userLogged.user.position === 3 ? (
@@ -357,7 +367,11 @@ function Plan(props) {
                 ) : (
                   <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex-between">
                     <div>
-                      <Link to="/dashboard/plans" rel="noopener noreferrer">
+                      <Link
+                        to="/dashboard/plans"
+                        rel="noopener noreferrer"
+                        className="not-underline"
+                      >
                         <Button className="bg-danger" color="inherit" variant="contained">
                           {t('back.label', 'Anterior')}
                         </Button>

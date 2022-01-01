@@ -310,6 +310,7 @@ function NewPlanForm(props) {
                         variant="outlined"
                         value={notes}
                         name="notes"
+                        inputProps={{ maxlength: 255 }}
                         onChange={(event) => {
                           handleChange(event, event.target.value);
                         }}
@@ -328,6 +329,7 @@ function NewPlanForm(props) {
                         variant="outlined"
                         value={comments}
                         name="comments"
+                        inputProps={{ maxlength: 255 }}
                         onChange={(event) => {
                           handleChange(event, event.target.value);
                         }}

@@ -318,6 +318,7 @@ function Plan(props) {
                       variant="outlined"
                       value={ownComments}
                       name="ownComments"
+                      inputProps={{ maxlength: 255 }}
                       disabled={
                         (props.loginReducer.userLogged &&
                           props.loginReducer.userLogged.user.id !==

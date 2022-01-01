@@ -40,13 +40,19 @@ export const deleteMetricsSelected = (payload) => async (dispatch, getState) => 
 };
 
 export const getPlansRequest = (payload) => async (dispatch, getState) => {
+  const { userLogged } = getState().loginReducer;
+
   try {
     const { pages } = getState().plansReducer;
     if (!pages.includes(payload.number)) {
       dispatch({
         type: PLANS_LIST_CHARGING
       });
-      const responseLogin = await PlanService.getPlans(payload.number, 7, payload.position);
+      const responseLogin = await PlanService.getPlans(
+        payload.number,
+        userLogged.user.position === 3 ? 10 : 7,
+        payload.position
+      );
       dispatch({
         type: PLANS_LIST_REQUEST,
         payload: { ...responseLogin.data }

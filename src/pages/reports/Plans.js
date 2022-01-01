@@ -56,7 +56,9 @@ function Plans(props) {
   const [filterName, setFilterName] = useState('');
   const [userId, setUserId] = useState(false);
 
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState(
+    props.loginReducer.userLogged && props.loginReducer.userLogged.user.position === 3 ? 10 : 7
+  );
 
   const TABLE_HEAD = [
     { id: 'collaborator', label: t('collaborator', 'Colaborador'), alignRight: false },
@@ -178,13 +180,15 @@ function Plans(props) {
         </Stack>
 
         <Card>
-          <UserListToolbar
-            onFilterName={handleFilterByName}
-            onFilterUser={handleFilterByUser}
-            title="Search..."
-            showFilterPlan
-            userLogged={props.loginReducer.userLogged}
-          />
+          {props.loginReducer.userLogged && props.loginReducer.userLogged.user.position !== 3 && (
+            <UserListToolbar
+              onFilterName={handleFilterByName}
+              onFilterUser={handleFilterByUser}
+              title="Search..."
+              showFilterPlan
+              userLogged={props.loginReducer.userLogged}
+            />
+          )}
 
           {props.plansReducer.plans_charging ? (
             <Spinner />
@@ -301,7 +305,11 @@ function Plans(props) {
                 </TableContainer>
               </Scrollbar>
               <TablePagination
-                rowsPerPageOptions={[7]}
+                rowsPerPageOptions={[
+                  props.loginReducer.userLogged && props.loginReducer.userLogged.user.position === 3
+                    ? 10
+                    : 7
+                ]}
                 component="div"
                 count={
                   filterName === '' && (!userId || userId === 'ALL')

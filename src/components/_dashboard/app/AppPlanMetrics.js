@@ -46,7 +46,7 @@ export default function AppPlanMetrics(props) {
       const dateOne = [];
 
       props.planSelected.metricConfs.forEach((element) => {
-        if (element.metricConf.type === 'TIME') {
+        if (element.metricConf && element.metricConf.type === 'TIME') {
           const value = element.value1.split(':');
 
           const secondsValue =

@@ -84,7 +84,7 @@ function Plan(props) {
         date: format(new Date(props.plansReducer.plansSelected.commitmentDate), 'yyyy-MM-dd'),
         dateCommitment: format(new Date(props.plansReducer.plansSelected.sendedDate), 'yyyy-MM-dd'),
         addReminder: format(new Date(props.plansReducer.plansSelected.reminderDate), 'yyyy-MM-dd'),
-        ownComments: ''
+        ownComments: props.plansReducer.plansSelected.userComment
       }));
     }
 
@@ -108,7 +108,7 @@ function Plan(props) {
     await props
       .updateStatePlanRequest({
         id: plan.id,
-        userComment: comments,
+        userComment: ownComments,
         status: 'SENDED'
       })
       .then((r) => (status = r));
@@ -126,7 +126,7 @@ function Plan(props) {
     await props
       .updateStatePlanRequest({
         id: plan.id,
-        userComment: comments,
+        userComment: ownComments,
         status: 'ACKNOWLEGED'
       })
       .then((r) => (status = r));
@@ -144,7 +144,7 @@ function Plan(props) {
     await props
       .updateStateCheckboxPlanRequest({
         id: plan.id,
-        userComment: comments,
+        userComment: ownComments,
         status: 'ACKNOWLEGED'
       })
       .then((r) => (status = r));
@@ -323,6 +323,7 @@ function Plan(props) {
                         (props.loginReducer.userLogged &&
                           props.loginReducer.userLogged.user.id !==
                             props.plansReducer.plansSelected.user.id) ||
+                        props.plansReducer.plansSelected.status === 'ACKNOWLEGED' ||
                         false
                       }
                       onChange={(event) => {

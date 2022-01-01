@@ -215,9 +215,9 @@ export const updateStatePlanRequest = (payload) => async (dispatch, getState) =>
 
   try {
     if (payload.status === 'SENDED') {
-      await PlanService.updateSendedPlan({ id: payload.id });
+      await PlanService.updateSendedPlan(payload);
     } else {
-      await PlanService.updateAckowlegePlan({ id: payload.id });
+      await PlanService.updateAckowlegePlan(payload);
     }
     const { plans } = getState().plansReducer;
 
@@ -249,7 +249,7 @@ export const updateStateCheckboxPlanRequest = (payload) => async (dispatch, getS
   });
 
   try {
-    await PlanService.updateOnlyReceivePlan({ id: payload.id });
+    await PlanService.updateOnlyReceivePlan(payload);
     const { plans } = getState().plansReducer;
 
     const plansUpdated = [...plans];

@@ -155,7 +155,7 @@ function NewPlanForm(props) {
       userComment: null,
       sendedDate: `${dateCommitment}T00:00:00`,
       status: type,
-      isSended: false,
+      isSended: type === 'SENDED' || false,
       commitmentDate: `${date}T00:00:00`,
       reminderDate: `${addReminder}T00:00:00`,
       isException: sick === true || holidays === true || disciplinaryProcess === true,

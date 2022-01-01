@@ -237,6 +237,37 @@ export const updateStatePlanRequest = (payload) => async (dispatch, getState) =>
   }
 };
 
+export const updateStateCheckboxPlanRequest = (payload) => async (dispatch, getState) => {
+  dispatch({
+    type: PLANS_SAVE_CHARGING
+  });
+
+  try {
+    await PlanService.updateOnlyReceivePlan({ id: payload.id });
+    const { plans } = getState().plansReducer;
+
+    const plansUpdated = [...plans];
+    const findById = (plan) => plan.id === payload.id;
+    const index = plansUpdated.findIndex(findById);
+    plansUpdated[index] = {
+      ...plansUpdated[index],
+      ...payload
+    };
+
+    dispatch({
+      type: PLANS_LIST_UPDATE,
+      payload: plansUpdated
+    });
+    return 'SUCCESS';
+  } catch (error) {
+    dispatch({
+      type: PLANS_LIST_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+    return 'ERROR';
+  }
+};
+
 export const deletePlanRequest = (payload) => async (dispatch) => {
   dispatch({
     type: PLANS_LIST_CHARGING

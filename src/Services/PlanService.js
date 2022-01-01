@@ -38,6 +38,13 @@ export default {
       data
     }),
 
+  updateOnlyReceivePlan: (data) =>
+    axios({
+      method: 'POST',
+      url: `${environment.motivarnosBackend}/plan/onlyrecive`,
+      data
+    }),
+
   updateSendedPlan: (data) =>
     axios({
       method: 'POST',

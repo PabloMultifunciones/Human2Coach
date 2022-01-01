@@ -20,7 +20,11 @@ import Spinner from './Spinner';
 
 import { TableFeedback, AppPlanMetrics } from './_dashboard/app';
 
-import { getPlanRequest, updateStatePlanRequest } from '../actions/plansActions';
+import {
+  getPlanRequest,
+  updateStatePlanRequest,
+  updateStateCheckboxPlanRequest
+} from '../actions/plansActions';
 
 import 'toastr/build/toastr.min.css';
 
@@ -83,7 +87,6 @@ function Plan(props) {
       }));
     }
 
-    console.log('props.plansReducer.plansSelected', props.plansReducer.plansSelected);
     // eslint-disable-next-line
   }, [props.plansReducer.plansSelected]);
 
@@ -92,6 +95,10 @@ function Plan(props) {
       ...prevState,
       [event.target.name]: value
     }));
+
+    if (event.target.name === 'received') {
+      submitReceivedCheckbox(props.plansReducer.plansSelected);
+    }
   };
 
   const submitSend = async (plan) => {
@@ -100,7 +107,7 @@ function Plan(props) {
     await props
       .updateStatePlanRequest({
         id: plan.id,
-        comments,
+        userComment: comments,
         status: 'SENDED'
       })
       .then((r) => (status = r));
@@ -113,17 +120,30 @@ function Plan(props) {
   };
 
   const submitReceived = async (plan) => {
-    if (!received) {
-      toastr.error(t('must-checbox', 'Debe marcar la casilla de verificación recibido'));
-      return;
-    }
     let status;
 
     await props
       .updateStatePlanRequest({
         id: plan.id,
-        comments,
+        userComment: comments,
+        status: 'ACKNOWLEGED'
+      })
+      .then((r) => (status = r));
+    if (status === 'ERROR') {
+      toastr.error(t('plans-error-saved', 'Se produjo un error al intentar guardar el plan'));
+    } else {
+      toastr.success(t('plans-successfully', 'Plan guardado con éxito'));
+      navigate('/dashboard/plans');
+    }
+  };
 
+  const submitReceivedCheckbox = async (plan) => {
+    let status;
+
+    await props
+      .updateStateCheckboxPlanRequest({
+        id: plan.id,
+        userComment: comments,
         status: 'ACKNOWLEGED'
       })
       .then((r) => (status = r));
@@ -310,8 +330,10 @@ function Plan(props) {
                   </Grid>
                 )}
 
-                {props.loginReducer.userLogged &&
-                props.loginReducer.userLogged.user.position === 3 ? (
+                {props.plansReducer.plansSelected &&
+                props.loginReducer.userLogged &&
+                props.loginReducer.userLogged.user.id ===
+                  props.plansReducer.plansSelected.user.id ? (
                   <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex-between">
                     <div>
                       <Link to="/dashboard/plans" rel="noopener noreferrer">
@@ -405,7 +427,8 @@ const mapStateToProps = ({ plansReducer, loginReducer }) => ({
 });
 const mapDispatchToProps = {
   getPlanRequest,
-  updateStatePlanRequest
+  updateStatePlanRequest,
+  updateStateCheckboxPlanRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Plan);

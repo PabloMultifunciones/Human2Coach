@@ -251,7 +251,7 @@ function Plans(props) {
                               )}{' '}
                               {row.status === 'ACKNOWLEGED' && (
                                 <Label variant="ghost" color="info">
-                                  {t('acknowledged', 'ADMITIDO')}
+                                  {t('acknowledged', 'RECIBIDO')}
                                 </Label>
                               )}
                             </TableCell>

@@ -98,6 +98,7 @@ function Plan(props) {
     await props
       .updateStatePlanRequest({
         id: plan.id,
+        comments,
         status: 'SENDED'
       })
       .then((r) => (status = r));
@@ -119,6 +120,8 @@ function Plan(props) {
     await props
       .updateStatePlanRequest({
         id: plan.id,
+        comments,
+
         status: 'ACKNOWLEGED'
       })
       .then((r) => (status = r));
@@ -235,12 +238,12 @@ function Plan(props) {
                   <TextField
                     className="w-100"
                     id="outlined-multiline-static"
-                    label={t('menu.badge-panel-dialog-delivery-comments', 'Comentarios')}
+                    label={t('leader-comments', 'Comentarios del líder')}
                     multiline
                     rows={8}
                     variant="outlined"
-                    value={comments}
-                    name="comments"
+                    value={ownComments}
+                    name="ownComments"
                     disabled
                   />
                 </Grid>
@@ -280,16 +283,17 @@ function Plan(props) {
                     disabled
                   />
                 </Grid>
+
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <TextField
                     className="w-100"
                     id="outlined-multiline-static"
-                    label={t('leader-comments', 'Comentarios del líder')}
+                    label={t('menu.badge-panel-dialog-delivery-comments', 'Comentarios')}
                     multiline
                     rows={8}
                     variant="outlined"
-                    value={ownComments}
-                    name="ownComments"
+                    value={comments}
+                    name="comments"
                     onChange={(event) => {
                       handleChange(event, event.target.value);
                     }}

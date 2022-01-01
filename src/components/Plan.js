@@ -15,6 +15,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import toastr from 'toastr';
+import LetterCounter from './Globals/LetterCounter';
 
 import Spinner from './Spinner';
 
@@ -327,6 +328,7 @@ function Plan(props) {
                         handleChange(event, event.target.value);
                       }}
                     />
+                    <LetterCounter letters={ownComments} />
                   </Grid>
                 )}
 

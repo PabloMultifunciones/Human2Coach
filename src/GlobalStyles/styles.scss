@@ -2,6 +2,14 @@
   display: none !important;
 }
 
+.number-letters-comment {
+  font-weight: bold;
+  font-size: 12px;
+  display: flex !important;
+  justify-content: flex-end;
+  align-content: center !important;
+}
+
 .selected-cell {
   td {
     font-weight: bold !important;

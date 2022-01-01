@@ -18,6 +18,8 @@ import Spinner from './Spinner';
 import FeedbackDialog from './Dialogs/FeedbackDialog';
 import TimeEntryFollowDialog from './Dialogs/TimeEntryFollowDialog';
 
+import LetterCounter from './Globals/LetterCounter';
+
 import 'toastr/build/toastr.min.css';
 
 import { TableFeedbackDone } from './_dashboard/app';
@@ -312,6 +314,8 @@ function NewPlanForm(props) {
                           handleChange(event, event.target.value);
                         }}
                       />
+
+                      <LetterCounter letters={notes} />
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -328,6 +332,8 @@ function NewPlanForm(props) {
                           handleChange(event, event.target.value);
                         }}
                       />
+
+                      <LetterCounter letters={comments} />
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={3} lg={3}>

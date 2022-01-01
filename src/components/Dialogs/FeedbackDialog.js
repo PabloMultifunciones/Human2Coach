@@ -179,7 +179,7 @@ function FeedbackDialog(props) {
   };
 
   const handleChangePage = (event, newPage) => {
-    props.getMetricsCollaboratorRequest({ number: newPage });
+    props.getMetricsCollaboratorRequest({ number: newPage, id: props.collaborator.id });
 
     setPage(newPage);
   };

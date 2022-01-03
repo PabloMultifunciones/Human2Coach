@@ -363,8 +363,11 @@ function NewPlanForm(props) {
                         value={addReminder}
                         inputProps={
                           sick || holidays || disciplinaryProcess
-                            ? {}
-                            : { max: format(add(new Date(), { days: 10 }), 'yyyy-MM-dd') }
+                            ? { min: format(new Date(), 'yyyy-MM-dd') }
+                            : {
+                                max: format(add(new Date(), { days: 10 }), 'yyyy-MM-dd'),
+                                min: format(new Date(), 'yyyy-MM-dd')
+                              }
                         }
                         name="addReminder"
                         variant="outlined"
@@ -387,6 +390,7 @@ function NewPlanForm(props) {
                         label={t('reminder', 'Recordatorio')}
                         type="date"
                         value={date}
+                        inputProps={{ min: format(new Date(), 'yyyy-MM-dd') }}
                         variant="outlined"
                         name="date"
                         onChange={(event) => {

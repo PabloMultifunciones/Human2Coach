@@ -41,7 +41,8 @@ function Plan(props) {
       dateCommitment,
       addReminder,
       ownComments,
-      received
+      received,
+      notReminder
     },
     setState
   ] = useState({
@@ -54,7 +55,8 @@ function Plan(props) {
     dateCommitment: format(new Date(), 'yyyy-MM-dd'),
     addReminder: format(new Date(), 'yyyy-MM-dd'),
     ownComments: '',
-    received: false
+    received: false,
+    notReminder: false
   });
   const { t } = useTranslation();
 
@@ -81,10 +83,15 @@ function Plan(props) {
           : '',
         notes: props.plansReducer.plansSelected.supervisorNote,
         comments: props.plansReducer.plansSelected.supervisorComment,
-        date: format(new Date(props.plansReducer.plansSelected.commitmentDate), 'yyyy-MM-dd'),
+        date: props.plansReducer.plansSelected.commitmentDate
+          ? format(new Date(props.plansReducer.plansSelected.commitmentDate), 'yyyy-MM-dd')
+          : format(new Date(), 'yyyy-MM-dd'),
         dateCommitment: format(new Date(props.plansReducer.plansSelected.sendedDate), 'yyyy-MM-dd'),
         addReminder: format(new Date(props.plansReducer.plansSelected.reminderDate), 'yyyy-MM-dd'),
         ownComments: props.plansReducer.plansSelected.userComment
+          ? props.plansReducer.plansSelected.userComment
+          : '',
+        notReminder: props.plansReducer.plansSelected.commitmentDate === null
       }));
     }
 
@@ -294,7 +301,7 @@ function Plan(props) {
                     disabled
                   />
                 </Grid>
-                <Grid item xs={12} sm={12} md={4} lg={4}>
+                <Grid item xs={12} sm={12} md={4} lg={4} className="d-flex-between">
                   <TextField
                     className="w-100"
                     id="outlined-date"
@@ -304,6 +311,19 @@ function Plan(props) {
                     variant="outlined"
                     name="date"
                     disabled
+                  />
+
+                  <FormControlLabel
+                    className="ml-1"
+                    control={
+                      <Checkbox
+                        checked={notReminder}
+                        label={t('no-reminder', 'Sin recordatorio')}
+                        color="primary"
+                        inputProps={{ 'aria-label': 'secondary checkbox' }}
+                      />
+                    }
+                    label={t('no-reminder', 'Sin recordatorio')}
                   />
                 </Grid>
 

@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+
 import { add, format, subDays, startOfWeek } from 'date-fns';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
@@ -47,7 +49,8 @@ function NewPlanForm(props) {
       disciplinaryProcess,
       date,
       dateCommitment,
-      addReminder
+      addReminder,
+      notReminder
     },
     setState
   ] = useState({
@@ -61,7 +64,8 @@ function NewPlanForm(props) {
     disciplinaryProcess: false,
     date: format(new Date(), 'yyyy-MM-dd'),
     dateCommitment: format(new Date(), 'yyyy-MM-dd'),
-    addReminder: format(new Date(), 'yyyy-MM-dd')
+    addReminder: format(new Date(), 'yyyy-MM-dd'),
+    notReminder: false
   });
 
   useEffect(() => {
@@ -156,7 +160,7 @@ function NewPlanForm(props) {
       sendedDate: `${dateCommitment}T00:00:00`,
       status: type,
       isSended: type === 'SENDED' || false,
-      commitmentDate: `${date}T00:00:00`,
+      commitmentDate: notReminder ? null : `${date}T00:00:00`,
       reminderDate: `${addReminder}T00:00:00`,
       isException: sick === true || holidays === true || disciplinaryProcess === true,
       metricConfs: metricArray,
@@ -211,7 +215,8 @@ function NewPlanForm(props) {
         disciplinaryProcess: false,
         date: format(new Date(), 'yyyy-MM-dd'),
         dateCommitment: format(new Date(), 'yyyy-MM-dd'),
-        addReminder: format(new Date(), 'yyyy-MM-dd')
+        addReminder: format(new Date(), 'yyyy-MM-dd'),
+        notReminder: false
       }));
     }
   };
@@ -310,7 +315,7 @@ function NewPlanForm(props) {
                         variant="outlined"
                         value={notes}
                         name="notes"
-                        inputProps={{ maxlength: 255 }}
+                        inputProps={{ maxLength: 255 }}
                         onChange={(event) => {
                           handleChange(event, event.target.value);
                         }}
@@ -329,7 +334,7 @@ function NewPlanForm(props) {
                         variant="outlined"
                         value={comments}
                         name="comments"
-                        inputProps={{ maxlength: 255 }}
+                        inputProps={{ maxLength: 255 }}
                         onChange={(event) => {
                           handleChange(event, event.target.value);
                         }}
@@ -354,7 +359,7 @@ function NewPlanForm(props) {
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={12} md={6} lg={6} className="d-flex-between">
+                    <Grid item xs={12} sm={12} md={6} lg={4} className="d-flex-between">
                       <TextField
                         className="w-100"
                         id="outlined-date"
@@ -383,19 +388,37 @@ function NewPlanForm(props) {
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={12} md={3} lg={3}>
+                    <Grid item xs={12} sm={12} md={5} lg={5} className="d-flex-between">
                       <TextField
                         className="w-100"
                         id="outlined-date"
                         label={t('reminder', 'Recordatorio')}
                         type="date"
                         value={date}
+                        disabled={notReminder}
                         inputProps={{ min: format(new Date(), 'yyyy-MM-dd') }}
                         variant="outlined"
                         name="date"
                         onChange={(event) => {
                           handleChange(event, event.target.value);
                         }}
+                      />
+                      <FormControlLabel
+                        className="ml-1"
+                        control={
+                          <Checkbox
+                            defaultValue={false}
+                            label={t('no-reminder', 'Sin recordatorio')}
+                            color="primary"
+                            inputProps={{ 'aria-label': 'secondary checkbox' }}
+                            value={notReminder}
+                            name="notReminder"
+                            onChange={(event, value) => {
+                              handleChange(event, value);
+                            }}
+                          />
+                        }
+                        label={t('no-reminder', 'Sin recordatorio')}
                       />
                     </Grid>
                   </>

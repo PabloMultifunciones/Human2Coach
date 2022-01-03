@@ -293,7 +293,7 @@ function Plans(props) {
                     {isPlanNotFound && (
                       <TableBody>
                         <TableRow>
-                          <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                          <TableCell align="center" colSpan={8} sx={{ py: 3 }}>
                             <SearchNotFound
                               searchQuery={t('no-results-found', 'No se encontraron resultados')}
                             />

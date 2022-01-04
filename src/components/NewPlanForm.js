@@ -157,11 +157,11 @@ function NewPlanForm(props) {
       supervisorNote: notes,
       supervisorComment: comments,
       userComment: null,
-      sendedDate: `${dateCommitment}T00:00:00`,
+      sendedDate: `${date}T00:00:00`,
       status: type,
       isSended: type === 'SENDED' || false,
-      commitmentDate: notReminder ? null : `${date}T00:00:00`,
-      reminderDate: `${addReminder}T00:00:00`,
+      commitmentDate: `${dateCommitment}T00:00:00`,
+      reminderDate: notReminder ? null : `${addReminder}T00:00:00`,
       isException: sick === true || holidays === true || disciplinaryProcess === true,
       metricConfs: metricArray,
 
@@ -354,8 +354,8 @@ function NewPlanForm(props) {
                         label={t('sent', 'Envíado')}
                         type="date"
                         disabled
-                        value={dateCommitment}
-                        name="dateCommitment"
+                        value={date}
+                        name="date"
                         variant="outlined"
                         onChange={(event) => {
                           handleChange(event, event.target.value);
@@ -366,10 +366,10 @@ function NewPlanForm(props) {
                     <Grid item xs={12} sm={12} md={6} lg={4} className="d-flex-between">
                       <TextField
                         className="w-100"
-                        id="outlined-date"
+                        id="outlined-dateCommitment"
                         label={t('commitment', 'Compromiso')}
                         type="date"
-                        value={addReminder}
+                        value={dateCommitment}
                         inputProps={
                           sick || holidays || disciplinaryProcess
                             ? { min: format(new Date(), 'yyyy-MM-dd') }
@@ -378,7 +378,7 @@ function NewPlanForm(props) {
                                 min: format(new Date(), 'yyyy-MM-dd')
                               }
                         }
-                        name="addReminder"
+                        name="dateCommitment"
                         variant="outlined"
                         onChange={(event) => {
                           handleChange(event, event.target.value);
@@ -395,14 +395,14 @@ function NewPlanForm(props) {
                     <Grid item xs={12} sm={12} md={5} lg={5} className="d-flex-between">
                       <TextField
                         className="w-100"
-                        id="outlined-date"
+                        id="outlined-addReminder"
                         label={t('reminder', 'Recordatorio')}
                         type="date"
-                        value={date}
+                        value={addReminder}
                         disabled={notReminder}
                         inputProps={{ min: format(new Date(), 'yyyy-MM-dd') }}
                         variant="outlined"
-                        name="date"
+                        name="addReminder"
                         onChange={(event) => {
                           handleChange(event, event.target.value);
                         }}

@@ -83,10 +83,10 @@ function Plan(props) {
           : '',
         notes: props.plansReducer.plansSelected.supervisorNote,
         comments: props.plansReducer.plansSelected.supervisorComment,
-        date: props.plansReducer.plansSelected.commitmentDate
+        date: format(new Date(props.plansReducer.plansSelected.sendedDate), 'yyyy-MM-dd'),
+        dateCommitment: props.plansReducer.plansSelected.commitmentDate
           ? format(new Date(props.plansReducer.plansSelected.commitmentDate), 'yyyy-MM-dd')
           : format(new Date(), 'yyyy-MM-dd'),
-        dateCommitment: format(new Date(props.plansReducer.plansSelected.sendedDate), 'yyyy-MM-dd'),
         addReminder: format(new Date(props.plansReducer.plansSelected.reminderDate), 'yyyy-MM-dd'),
         ownComments: props.plansReducer.plansSelected.userComment
           ? props.plansReducer.plansSelected.userComment
@@ -283,8 +283,8 @@ function Plan(props) {
                     id="outlined-date"
                     label={t('sent', 'Envíado')}
                     type="date"
-                    value={dateCommitment}
-                    name="dateCommitment"
+                    value={date}
+                    name="date"
                     variant="outlined"
                     disabled
                   />
@@ -292,11 +292,11 @@ function Plan(props) {
                 <Grid item xs={12} sm={12} md={4} lg={4}>
                   <TextField
                     className="w-100"
-                    id="outlined-date"
+                    id="outlined-dateCommitment"
                     label={t('commitment', 'Compromiso')}
                     type="date"
-                    value={addReminder}
-                    name="addReminder"
+                    value={dateCommitment}
+                    name="dateCommitment"
                     variant="outlined"
                     disabled
                   />
@@ -304,12 +304,12 @@ function Plan(props) {
                 <Grid item xs={12} sm={12} md={4} lg={4} className="d-flex-between">
                   <TextField
                     className="w-100"
-                    id="outlined-date"
+                    id="outlined-addReminder"
                     label={t('reminder', 'Recordatorio')}
                     type="date"
-                    value={date}
+                    value={addReminder}
                     variant="outlined"
-                    name="date"
+                    name="addReminder"
                     disabled
                   />
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 // material
 import { Card, Table, TableRow, TableBody, TableCell, TableContainer } from '@material-ui/core';
@@ -18,7 +19,7 @@ export default function TableExtraTime({
   disabled,
   setExtraTime,
   propsSick,
-  propsHolidays,
+  propsVacations,
   propsDisciplinaryProcess
 }) {
   const { t } = useTranslation();
@@ -27,9 +28,9 @@ export default function TableExtraTime({
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
 
-  const [{ sick, holidays, disciplinaryProcess }, setState] = useState({
+  const [{ sick, vacations, disciplinaryProcess }, setState] = useState({
     sick: propsSick,
-    holidays: propsHolidays,
+    vacations: propsVacations,
     disciplinaryProcess: propsDisciplinaryProcess
   });
 
@@ -74,13 +75,19 @@ export default function TableExtraTime({
                   <TableCell align="left">{t('sick-leave', 'Baja por enfermedad')}</TableCell>
 
                   <TableCell align="left">
-                    <Checkbox
-                      name="sick"
-                      checked={sick}
-                      onChange={handleChange}
-                      color="primary"
-                      inputProps={{ 'aria-label': 'secondary checkbox' }}
-                      disabled={disabled}
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="sick"
+                          checked={sick}
+                          value={sick}
+                          onChange={handleChange}
+                          color="primary"
+                          inputProps={{ 'aria-label': 'secondary checkbox' }}
+                          disabled={disabled}
+                        />
+                      }
+                      label=""
                     />
                   </TableCell>
                 </TableRow>
@@ -89,13 +96,19 @@ export default function TableExtraTime({
                   <TableCell align="left">{t('vacations', 'Vacaciones')}</TableCell>
 
                   <TableCell align="left">
-                    <Checkbox
-                      name="holidays"
-                      checked={holidays}
-                      onChange={handleChange}
-                      color="primary"
-                      inputProps={{ 'aria-label': 'secondary checkbox' }}
-                      disabled={disabled}
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="vacations"
+                          checked={vacations}
+                          value={vacations}
+                          onChange={handleChange}
+                          color="primary"
+                          inputProps={{ 'aria-label': 'secondary checkbox' }}
+                          disabled={disabled}
+                        />
+                      }
+                      label=""
                     />
                   </TableCell>
                 </TableRow>
@@ -106,13 +119,19 @@ export default function TableExtraTime({
                   </TableCell>
 
                   <TableCell align="left">
-                    <Checkbox
-                      name="disciplinaryProcess"
-                      checked={disciplinaryProcess}
-                      onChange={handleChange}
-                      color="primary"
-                      inputProps={{ 'aria-label': 'secondary checkbox' }}
-                      disabled={disabled}
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="disciplinaryProcess"
+                          checked={disciplinaryProcess}
+                          value={disciplinaryProcess}
+                          onChange={handleChange}
+                          color="primary"
+                          inputProps={{ 'aria-label': 'secondary checkbox' }}
+                          disabled={disabled}
+                        />
+                      }
+                      label=""
                     />
                   </TableCell>
                 </TableRow>

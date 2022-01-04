@@ -3,8 +3,8 @@ import toastr from 'toastr';
 import { format } from 'date-fns';
 import { Icon } from '@iconify/react';
 import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import Tooltip from '@material-ui/core/Tooltip';
+// import VisibilityIcon from '@material-ui/icons/Visibility';
+// import Tooltip from '@material-ui/core/Tooltip';
 import { useTranslation } from 'react-i18next';
 
 // import toastr from 'toastr';
@@ -259,27 +259,32 @@ function Plans(props) {
                               )}
                             </TableCell>
                             <TableCell align="left">
-                              {row.status === 'DRAFT' ? (
+                              {row.status === 'DRAFT' && (
                                 <>
                                   <PlanDialog plan={row} />
                                   <DeleteDialog delete={() => deletePlan(row.id)} />
                                 </>
-                              ) : (
-                                <Link
-                                  to={`/dashboard/plan/${row.id}`}
-                                  rel="noopener noreferrer"
-                                  className="color-black"
-                                >
-                                  <Tooltip
-                                    title={t(
-                                      'menu.metric-panel-dialog-show-detail',
-                                      'Ver detalles'
-                                    )}
-                                  >
-                                    <VisibilityIcon />
-                                  </Tooltip>
-                                </Link>
                               )}
+
+                              {row.status === 'SENDED' && (
+                                <>
+                                  <PlanDialog plan={row} />
+                                </>
+                              )}
+
+                              {/*
+                              <Link
+                                to={`/dashboard/plan/${row.id}`}
+                                rel="noopener noreferrer"
+                                className="color-black"
+                              >
+                                <Tooltip
+                                  title={t('menu.metric-panel-dialog-show-detail', 'Ver detalles')}
+                                >
+                                  <VisibilityIcon />
+                                </Tooltip>
+                              </Link>
+                             */}
                             </TableCell>
                           </TableRow>
                         ))}

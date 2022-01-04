@@ -45,7 +45,7 @@ function NewPlanForm(props) {
       comments,
       notes,
       sick,
-      holidays,
+      vacations,
       disciplinaryProcess,
       date,
       dateCommitment,
@@ -60,7 +60,7 @@ function NewPlanForm(props) {
     comments: '',
     notes: '',
     sick: false,
-    holidays: false,
+    vacations: false,
     disciplinaryProcess: false,
     date: format(new Date(), 'yyyy-MM-dd'),
     dateCommitment: format(new Date(), 'yyyy-MM-dd'),
@@ -162,7 +162,7 @@ function NewPlanForm(props) {
       isSended: type === 'SENDED' || false,
       commitmentDate: `${dateCommitment}T00:00:00`,
       reminderDate: notReminder ? null : `${addReminder}T00:00:00`,
-      isException: sick === true || holidays === true || disciplinaryProcess === true,
+      isException: sick === true || vacations === true || disciplinaryProcess === true,
       metricConfs: metricArray,
 
       isOneOnOne: dashboard === 'oneonone',
@@ -175,7 +175,7 @@ function NewPlanForm(props) {
         },
         {
           name: 'Vacations',
-          isChecked: holidays
+          isChecked: vacations
         },
         {
           name: 'Disciplinary process',
@@ -215,7 +215,7 @@ function NewPlanForm(props) {
         comments: '',
         notes: '',
         sick: false,
-        holidays: false,
+        vacations: false,
         disciplinaryProcess: false,
         date: format(new Date(), 'yyyy-MM-dd'),
         dateCommitment: format(new Date(), 'yyyy-MM-dd'),
@@ -371,7 +371,7 @@ function NewPlanForm(props) {
                         type="date"
                         value={dateCommitment}
                         inputProps={
-                          sick || holidays || disciplinaryProcess
+                          sick || vacations || disciplinaryProcess
                             ? { min: format(new Date(), 'yyyy-MM-dd') }
                             : {
                                 max: format(add(new Date(), { days: 10 }), 'yyyy-MM-dd'),
@@ -386,7 +386,7 @@ function NewPlanForm(props) {
                       />
                       <TimeEntryFollowDialog
                         sick={sick}
-                        holidays={holidays}
+                        vacations={vacations}
                         disciplinaryProcess={disciplinaryProcess}
                         setExtraTime={(name, value) => setExtraTime(name, value)}
                       />

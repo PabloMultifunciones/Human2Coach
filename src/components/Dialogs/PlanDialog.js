@@ -16,6 +16,11 @@ import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+
+import LetterCounter from '../Globals/LetterCounter';
+
 import Spinner from '../Spinner';
 
 import { updatePlanRequest } from '../../actions/plansActions';
@@ -39,6 +44,17 @@ const styles = (theme) => ({
     marginBottom: '5px'
   }
 });
+
+const findByIndex = (exceptions, name) => {
+  const findByName = (exception) => exception.name === name;
+  const index = exceptions.findIndex(findByName);
+
+  if (index === -1) {
+    return false;
+  }
+
+  return index;
+};
 
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
@@ -69,14 +85,30 @@ const DialogActions = withStyles((theme) => ({
 
 function PlanDialog(props) {
   const [open, setOpen] = React.useState(false);
+
   const { t } = useTranslation();
 
-  const [{ date }, setState] = useState({
-    date: format(new Date(props.plan.reminderDate), 'yyyy-MM-dd')
+  const [{ date, sick, vacations, disciplinaryProcess, others }, setState] = useState({
+    date: format(new Date(props.plan.reminderDate), 'yyyy-MM-dd'),
+    sick: findByIndex(props.plan.exceptions, 'Sick leave')
+      ? props.plan.exceptions[findByIndex(props.plan.exceptions, 'Sick leave')].isChecked
+      : false,
+    vacations: findByIndex(props.plan.exceptions, 'Vacations')
+      ? props.plan.exceptions[findByIndex(props.plan.exceptions, 'Vacations')].isChecked
+      : false,
+    disciplinaryProcess: findByIndex(props.plan.exceptions, 'Disciplinary process')
+      ? props.plan.exceptions[findByIndex(props.plan.exceptions, 'Disciplinary process')].isChecked
+      : false,
+
+    others: props.plan.others ? props.plan.others : ''
   });
 
   const handleChange = (event) => {
     setState((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
+  };
+
+  const handleChangeCheckbox = (event) => {
+    setState((prevState) => ({ ...prevState, [event.target.name]: event.target.checked }));
   };
 
   const handleClickOpen = () => {
@@ -97,7 +129,23 @@ function PlanDialog(props) {
     await props
       .updatePlanRequest({
         id: props.plan.id,
-        reminderDate: `${date}T00:00:00`
+        others,
+        reminderDate: `${date}T00:00:00`,
+        isException: sick === true || vacations === true || disciplinaryProcess === true,
+        exceptions: [
+          {
+            name: 'Sick leave',
+            isChecked: sick
+          },
+          {
+            name: 'Vacations',
+            isChecked: vacations
+          },
+          {
+            name: 'Disciplinary process',
+            isChecked: disciplinaryProcess
+          }
+        ]
       })
       .then((r) => (status = r));
     if (status === 'ERROR') {
@@ -150,6 +198,70 @@ function PlanDialog(props) {
                       name="date"
                       onChange={handleChange}
                     />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="sick"
+                          checked={sick}
+                          onChange={handleChangeCheckbox}
+                          color="primary"
+                          inputProps={{ 'aria-label': 'secondary checkbox' }}
+                        />
+                      }
+                      label={t('sick-leave', 'Baja por enfermedad')}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="vacations"
+                          checked={vacations}
+                          onChange={handleChangeCheckbox}
+                          color="primary"
+                          inputProps={{ 'aria-label': 'secondary checkbox' }}
+                        />
+                      }
+                      label={t('vacations', 'Vacaciones')}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="disciplinaryProcess"
+                          checked={disciplinaryProcess}
+                          onChange={handleChangeCheckbox}
+                          color="primary"
+                          inputProps={{ 'aria-label': 'secondary checkbox' }}
+                        />
+                      }
+                      label={t('disciplinary-process', 'Proceso Disciplinario')}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <TextField
+                      className="w-100"
+                      id="outlined-multiline-static"
+                      label={t('menu.badge-panel-dialog-delivery-comments', 'Comentarios')}
+                      multiline
+                      rows={8}
+                      variant="outlined"
+                      value={others}
+                      name="others"
+                      inputProps={{ maxLength: 255 }}
+                      onChange={(event) => {
+                        handleChange(event, event.target.value);
+                      }}
+                    />
+
+                    <LetterCounter letters={others} />
                   </Grid>
                 </Grid>
               </Container>

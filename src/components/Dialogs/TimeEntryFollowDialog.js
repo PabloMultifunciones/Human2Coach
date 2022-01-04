@@ -103,7 +103,7 @@ export default function TimeEntryFollowDialog(props) {
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <TableExtraTime
                     propsSick={props.sick}
-                    propsHolidays={props.holidays}
+                    propsVacations={props.vacations}
                     propsDisciplinaryProcess={props.disciplinaryProcess}
                     tableHead={getTablehead()}
                     setExtraTime={(name, value) => props.setExtraTime(name, value)}

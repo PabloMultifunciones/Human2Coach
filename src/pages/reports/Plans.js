@@ -219,10 +219,11 @@ function Plans(props) {
                               new Date(row.sendedDate),
                               'dd/MM/yyyy'
                             )}`}</TableCell>
-                            <TableCell align="left">{` ${format(
-                              new Date(row.reminderDate),
-                              'dd/MM/yyyy'
-                            )}`}</TableCell>
+                            <TableCell align="left">
+                              {row.reminderDate
+                                ? ` ${format(new Date(row.reminderDate), 'dd/MM/yyyy')}`
+                                : 'N/A'}
+                            </TableCell>
 
                             <TableCell align="left">{row.isObjetive ? 'X' : 'N/A'}</TableCell>
                             <TableCell align="left">{row.isFeedback ? 'X' : 'N/A'}</TableCell>

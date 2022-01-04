@@ -84,10 +84,9 @@ function Plan(props) {
         notes: props.plansReducer.plansSelected.supervisorNote,
         comments: props.plansReducer.plansSelected.supervisorComment,
         date: format(new Date(props.plansReducer.plansSelected.sendedDate), 'yyyy-MM-dd'),
-        dateCommitment: format(
-          new Date(props.plansReducer.plansSelected.commitmentDate),
-          'yyyy-MM-dd'
-        ),
+        dateCommitment: props.plansReducer.plansSelected.commitmentDate
+          ? format(new Date(props.plansReducer.plansSelected.commitmentDate), 'yyyy-MM-dd')
+          : format(new Date(), 'yyyy-MM-dd'),
         addReminder: props.plansReducer.plansSelected.reminderDate
           ? format(new Date(props.plansReducer.plansSelected.reminderDate), 'yyyy-MM-dd')
           : format(new Date(), 'yyyy-MM-dd'),

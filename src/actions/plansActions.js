@@ -177,6 +177,42 @@ export const savePlanRequest = (payload) => async (dispatch, getState) => {
   }
 };
 
+export const saveSendedPlanRequest = (payload) => async (dispatch, getState) => {
+  dispatch({
+    type: PLANS_SAVE_CHARGING
+  });
+
+  try {
+    const responsePlan = await PlanService.updateSendedPlan(payload);
+    const { plans } = getState().plansReducer;
+    const { collaborators } = getState().generalReducer;
+
+    const plansUpdated = [{ ...responsePlan.data, metricConfs: payload.metricConfs }, ...plans];
+
+    await dispatch({
+      type: RESET_STATE
+    });
+
+    await dispatch({
+      type: COLLABORATOR_LIST_REQUEST,
+      payload: collaborators
+    });
+
+    dispatch({
+      type: PLANS_LIST_SAVE,
+      payload: plansUpdated
+    });
+    return 'SUCCESS';
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: PLANS_LIST_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+    return 'ERROR';
+  }
+};
+
 export const updatePlanRequest = (payload) => async (dispatch, getState) => {
   dispatch({
     type: PLANS_SAVE_CHARGING

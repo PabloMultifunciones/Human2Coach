@@ -31,7 +31,7 @@ import {
   getCollaboratorsLeadersRequest
 } from '../actions/generalActions';
 
-import { savePlanRequest, resetState } from '../actions/plansActions';
+import { savePlanRequest, saveSendedPlanRequest, resetState } from '../actions/plansActions';
 import GeneralFunctions from '../libs/GeneralFunctions';
 
 function NewPlanForm(props) {
@@ -191,7 +191,11 @@ function NewPlanForm(props) {
 
     let status;
 
-    await props.savePlanRequest(json).then((r) => (status = r));
+    if (type === 'SENDED') {
+      await props.saveSendedPlanRequest(json).then((r) => (status = r));
+    } else {
+      await props.savePlanRequest(json).then((r) => (status = r));
+    }
 
     if (status === 'ERROR') {
       toastr.error(
@@ -471,6 +475,7 @@ const mapDispatchToProps = {
   getCollaboratorsRequest,
   getCollaboratorsLeadersRequest,
   savePlanRequest,
+  saveSendedPlanRequest,
   usersRequest,
   resetState
 };

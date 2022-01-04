@@ -220,9 +220,7 @@ function Plans(props) {
                               'dd/MM/yyyy'
                             )}`}</TableCell>
                             <TableCell align="left">
-                              {row.reminderDate
-                                ? ` ${format(new Date(row.reminderDate), 'dd/MM/yyyy')}`
-                                : 'N/A'}
+                              {` ${format(new Date(row.commitmentDate), 'dd/MM/yyyy')}`}
                             </TableCell>
 
                             <TableCell align="left">{row.isObjetive ? 'X' : 'N/A'}</TableCell>

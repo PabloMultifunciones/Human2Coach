@@ -33,6 +33,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'plans', element: <Plans /> },
         { path: 'plan/:id', element: <Plan /> },
+        { path: 'plan-edit/:id', element: <NewPlan /> },
 
         {
           path: 'new-plan',

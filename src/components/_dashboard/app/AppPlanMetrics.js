@@ -61,7 +61,7 @@ export default function AppPlanMetrics(props) {
       const dateTwo = [];
 
       props.planSelected.metricConfs.forEach((element) => {
-        if (element.metricConf.type === 'TIME') {
+        if (element.metricConf && element.metricConf.type === 'TIME') {
           const value = element.value2.split(':');
 
           const secondsValue =
@@ -76,7 +76,7 @@ export default function AppPlanMetrics(props) {
       const categoriesName = [];
 
       props.planSelected.metricConfs.forEach((element) => {
-        categoriesName.push(element.metricConf.name);
+        categoriesName.push(element.metricConf ? element.metricConf.name : 'N/A');
       });
 
       setData(name, dateOne, dateTwo, categoriesName);

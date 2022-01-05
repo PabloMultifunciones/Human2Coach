@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 
 import { Icon } from '@iconify/react';
 
@@ -7,10 +8,13 @@ import { Container, Stack, Typography } from '@material-ui/core';
 import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
 
 import NewPlanForm from '../../components/NewPlanForm';
+import EditPlanForm from '../../components/EditPlanForm';
 
 import Page from '../../components/Page';
 
 export default function NewPlan() {
+  const params = useParams();
+
   const { t } = useTranslation();
 
   return (
@@ -23,7 +27,12 @@ export default function NewPlan() {
               {t('new-plan', 'Nuevo plan')}{' '}
             </Typography>
           </Stack>
-          <NewPlanForm />
+
+          {params.id && params.id !== 'undefined' ? (
+            <EditPlanForm id={params.id} />
+          ) : (
+            <NewPlanForm />
+          )}
         </Container>
       </Page>
     </>

@@ -3,8 +3,8 @@ import toastr from 'toastr';
 import { format } from 'date-fns';
 import { Icon } from '@iconify/react';
 import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
-// import VisibilityIcon from '@material-ui/icons/Visibility';
-// import Tooltip from '@material-ui/core/Tooltip';
+import EditIcon from '@material-ui/icons/Edit';
+import Tooltip from '@material-ui/core/Tooltip';
 import { useTranslation } from 'react-i18next';
 
 // import toastr from 'toastr';
@@ -259,9 +259,17 @@ function Plans(props) {
                               )}
                             </TableCell>
                             <TableCell align="left">
+                              <Link
+                                to={`/dashboard/plan-edit/${row.id}`}
+                                rel="noopener noreferrer"
+                                className="color-black"
+                              >
+                                <Tooltip title={t('admin.actions-edit', 'Edit')}>
+                                  <EditIcon />
+                                </Tooltip>
+                              </Link>
                               {row.status === 'DRAFT' && (
                                 <>
-                                  <PlanDialog plan={row} />
                                   <DeleteDialog delete={() => deletePlan(row.id)} />
                                 </>
                               )}

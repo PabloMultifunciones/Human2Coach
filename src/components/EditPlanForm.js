@@ -504,7 +504,7 @@ function EditPlanForm(props) {
                       color="secondary"
                       variant="contained"
                       className="ml-1"
-                      onClick={() => submitFunction(props.plansReducer.plansSelected, 'DRAFT')}
+                      onClick={() => submitFunction(props.plansReducer.plansSelected, 'UPDATE')}
                     >
                       {t('admin.header-dropdown-dialog-actions-save', 'Guardar')}
                     </Button>

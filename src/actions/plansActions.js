@@ -256,7 +256,7 @@ export const updateStatePlanRequest = (payload) => async (dispatch, getState) =>
   try {
     if (payload.status === 'SENDED') {
       await PlanService.updateSendedPlan(payload);
-    } else if (payload.status === 'DRAFT') {
+    } else if (payload.status === 'UPDATE') {
       await PlanService.updatePlan(payload);
     } else {
       await PlanService.updateAckowlegePlan(payload);

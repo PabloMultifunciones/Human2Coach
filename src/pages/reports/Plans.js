@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { Icon } from '@iconify/react';
 import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
 import EditIcon from '@material-ui/icons/Edit';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import Tooltip from '@material-ui/core/Tooltip';
 import { useTranslation } from 'react-i18next';
 
@@ -208,11 +209,23 @@ function Plans(props) {
                         .map((row) => (
                           <TableRow hover key={row.id} tabIndex={-1}>
                             <TableCell align="left">
-                              <Link to={`/dashboard/plan/${row.id}`} rel="noopener noreferrer">
-                                {row.user && row.user.name
-                                  ? `${row.user.name} ${row.user.lastName}`
-                                  : 'N/A'}
-                              </Link>
+                              {props.loginReducer.userLogged &&
+                              props.loginReducer.userLogged.user.id === row.user.id ? (
+                                <Link to={`/dashboard/plan/${row.id}`} rel="noopener noreferrer">
+                                  {row.user && row.user.name
+                                    ? `${row.user.name} ${row.user.lastName}`
+                                    : 'N/A'}
+                                </Link>
+                              ) : (
+                                <Link
+                                  to={`/dashboard/plan-edit/${row.id}`}
+                                  rel="noopener noreferrer"
+                                >
+                                  {row.user && row.user.name
+                                    ? `${row.user.name} ${row.user.lastName}`
+                                    : 'N/A'}
+                                </Link>
+                              )}
                             </TableCell>
 
                             <TableCell align="left">{` ${format(
@@ -259,40 +272,63 @@ function Plans(props) {
                               )}
                             </TableCell>
                             <TableCell align="left">
-                              <Link
-                                to={`/dashboard/plan-edit/${row.id}`}
-                                rel="noopener noreferrer"
-                                className="color-black"
-                              >
-                                <Tooltip title={t('admin.actions-edit', 'Edit')}>
-                                  <EditIcon />
-                                </Tooltip>
-                              </Link>
                               {row.status === 'DRAFT' && (
                                 <>
+                                  {props.loginReducer.userLogged &&
+                                  props.loginReducer.userLogged.user.id === row.user.id ? (
+                                    <Link
+                                      to={`/dashboard/plan/${row.id}`}
+                                      rel="noopener noreferrer"
+                                      className="color-black"
+                                    >
+                                      <Tooltip
+                                        title={t(
+                                          'menu.metric-panel-dialog-show-detail',
+                                          'Ver detalles'
+                                        )}
+                                      >
+                                        <VisibilityIcon fontSize="small" />
+                                      </Tooltip>
+                                    </Link>
+                                  ) : (
+                                    <Link
+                                      to={`/dashboard/plan-edit/${row.id}`}
+                                      rel="noopener noreferrer"
+                                      className="color-black"
+                                    >
+                                      <Tooltip title={t('admin.actions-edit', 'Edit')}>
+                                        <EditIcon fontSize="small" />
+                                      </Tooltip>
+                                    </Link>
+                                  )}
+
                                   <DeleteDialog delete={() => deletePlan(row.id)} />
                                 </>
                               )}
 
                               {row.status === 'SENDED' && (
                                 <>
-                                  <PlanDialog plan={row} />
+                                  {props.loginReducer.userLogged &&
+                                  props.loginReducer.userLogged.user.id === row.user.id ? (
+                                    <Link
+                                      to={`/dashboard/plan/${row.id}`}
+                                      rel="noopener noreferrer"
+                                      className="color-black"
+                                    >
+                                      <Tooltip
+                                        title={t(
+                                          'menu.metric-panel-dialog-show-detail',
+                                          'Ver detalles'
+                                        )}
+                                      >
+                                        <VisibilityIcon fontSize="small" />
+                                      </Tooltip>
+                                    </Link>
+                                  ) : (
+                                    <PlanDialog plan={row} />
+                                  )}
                                 </>
                               )}
-
-                              {/*
-                              <Link
-                                to={`/dashboard/plan/${row.id}`}
-                                rel="noopener noreferrer"
-                                className="color-black"
-                              >
-                                <Tooltip
-                                  title={t('menu.metric-panel-dialog-show-detail', 'Ver detalles')}
-                                >
-                                  <VisibilityIcon />
-                                </Tooltip>
-                              </Link>
-                             */}
                             </TableCell>
                           </TableRow>
                         ))}

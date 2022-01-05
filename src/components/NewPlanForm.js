@@ -50,7 +50,8 @@ function NewPlanForm(props) {
       date,
       dateCommitment,
       addReminder,
-      notReminder
+      notReminder,
+      openDialog
     },
     setState
   ] = useState({
@@ -65,7 +66,8 @@ function NewPlanForm(props) {
     date: format(new Date(), 'yyyy-MM-dd'),
     dateCommitment: format(new Date(), 'yyyy-MM-dd'),
     addReminder: format(new Date(), 'yyyy-MM-dd'),
-    notReminder: false
+    notReminder: false,
+    openDialog: false
   });
 
   useEffect(() => {
@@ -121,6 +123,13 @@ function NewPlanForm(props) {
   }
 
   const handleChange = (event, value) => {
+    if (event.target.name === 'feedback' && event.target.value === 'general') {
+      setState((prevState) => ({
+        ...prevState,
+        openDialog: true
+      }));
+    }
+
     setState((prevState) => ({
       ...prevState,
       [event.target.name]: value
@@ -460,7 +469,18 @@ function NewPlanForm(props) {
         </Grid>
       </Grid>
 
-      {feedback && feedback === 'objective' && <FeedbackDialog collaborator={collaborator} />}
+      {feedback && feedback === 'objective' && (
+        <FeedbackDialog
+          collaborator={collaborator}
+          openDialog={openDialog}
+          closeDialog={() =>
+            setState((prevState) => ({
+              ...prevState,
+              openDialog: false
+            }))
+          }
+        />
+      )}
     </>
   );
 }

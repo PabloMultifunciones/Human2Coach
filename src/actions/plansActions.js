@@ -25,6 +25,7 @@ const { COLLABORATOR_LIST_REQUEST } = generalTypes;
 export const setMetricsSelected = (payload) => async (dispatch, getState) => {
   const { metricsSelected } = getState().plansReducer;
   const metricsUpdated = [payload, ...metricsSelected];
+
   dispatch({
     type: SET_PLANS_METRICS_TABLE,
     payload: metricsUpdated
@@ -173,7 +174,6 @@ export const savePlanRequest = (payload) => async (dispatch, getState) => {
     });
     return 'SUCCESS';
   } catch (error) {
-    console.log(error);
     dispatch({
       type: PLANS_LIST_ERROR,
       payload: error.response ? error.response.data : error
@@ -209,7 +209,6 @@ export const saveSendedPlanRequest = (payload) => async (dispatch, getState) => 
     });
     return 'SUCCESS';
   } catch (error) {
-    console.log(error);
     dispatch({
       type: PLANS_LIST_ERROR,
       payload: error.response ? error.response.data : error
@@ -257,6 +256,8 @@ export const updateStatePlanRequest = (payload) => async (dispatch, getState) =>
   try {
     if (payload.status === 'SENDED') {
       await PlanService.updateSendedPlan(payload);
+    } else if (payload.status === 'DRAFT') {
+      await PlanService.updatePlan(payload);
     } else {
       await PlanService.updateAckowlegePlan(payload);
     }

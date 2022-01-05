@@ -145,8 +145,8 @@ export default {
   getWeekCountBefore() {
     const count = getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7)) - 1;
 
-    if (count === 1) {
-      return 1;
+    if (count === 0) {
+      return 52;
     }
     return getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7)) - 1;
   }

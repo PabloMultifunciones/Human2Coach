@@ -101,7 +101,7 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 function FeedbackDialog(props) {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(props.openDialog);
   const { t } = useTranslation();
 
   const [page, setPage] = useState(0);
@@ -180,7 +180,6 @@ function FeedbackDialog(props) {
 
   const handleChangePage = (event, newPage) => {
     props.getMetricsCollaboratorRequest({ number: newPage, id: props.collaborator.id });
-
     setPage(newPage);
   };
 
@@ -197,6 +196,7 @@ function FeedbackDialog(props) {
 
   const handleClose = () => {
     setOpen(false);
+    props.closeDialog(false);
   };
 
   /** *********Data Binding Form******* */

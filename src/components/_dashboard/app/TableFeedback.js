@@ -66,14 +66,16 @@ function TableFeedback({
   }, [metrics]);
 
   const setClassToCell = (ref, row) => {
-    if (ref && ref.classList.contains('selected-cell')) {
-      ref.classList.add('not-selected-cell');
-      ref.classList.remove('selected-cell');
-      deleteMetricsSelected(row);
-    } else {
-      ref.classList.add('selected-cell');
-      ref.classList.remove('not-selected-cell');
-      setMetricsSelected(row);
+    if (disabled) {
+      if (ref && ref.classList.contains('selected-cell')) {
+        ref.classList.add('not-selected-cell');
+        ref.classList.remove('selected-cell');
+        deleteMetricsSelected(row);
+      } else {
+        ref.classList.add('selected-cell');
+        ref.classList.remove('not-selected-cell');
+        setMetricsSelected(row);
+      }
     }
   };
 

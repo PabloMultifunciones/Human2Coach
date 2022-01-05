@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // material
@@ -29,6 +29,10 @@ function TableFeedbackDone({ title, tableHead, newPlan, metricsSelected }) {
 
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
+
+  useEffect(() => {
+    // eslint-disable-next-line
+  }, [metricsSelected]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

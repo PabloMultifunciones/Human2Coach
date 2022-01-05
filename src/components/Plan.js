@@ -362,8 +362,14 @@ function Plan(props) {
                   props.plansReducer.plansSelected.user.id ? (
                   <Grid item xs={12} sm={12} md={12} lg={12} className="d-flex-between">
                     <div>
-                      <Link to="/dashboard/plans" rel="noopener noreferrer">
+                      <Link
+                        to="/dashboard/plans"
+                        rel="noopener noreferrer"
+                        className="not-underline"
+                      >
                         <Button className="bg-danger" color="inherit" variant="contained">
+                          <ArrowBackIosIcon />
+
                           {t('back.label', 'Anterior')}
                         </Button>
                       </Link>

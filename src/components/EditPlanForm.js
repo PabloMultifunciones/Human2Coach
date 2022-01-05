@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import { Grid } from '@material-ui/core';
 import Autocomplete from '@material-ui/core/Autocomplete';
@@ -11,6 +12,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { add, format, subDays, startOfWeek } from 'date-fns';
 import toastr from 'toastr';
@@ -24,7 +26,7 @@ import LetterCounter from './Globals/LetterCounter';
 
 import 'toastr/build/toastr.min.css';
 
-import { TableFeedbackDone } from './_dashboard/app';
+import { TableFeedback, TableFeedbackDone } from './_dashboard/app';
 import {
   usersRequest,
   getCollaboratorsRequest,
@@ -34,7 +36,7 @@ import {
 import {
   getPlanRequest,
   savePlanRequest,
-  saveSendedPlanRequest,
+  updateStatePlanRequest,
   setMetricsSelected,
   resetState
 } from '../actions/plansActions';
@@ -53,6 +55,7 @@ const findByIndex = (exceptions, name) => {
 
 function EditPlanForm(props) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [
     {
@@ -67,7 +70,8 @@ function EditPlanForm(props) {
       date,
       dateCommitment,
       addReminder,
-      notReminder
+      notReminder,
+      openDialog
     },
     setState
   ] = useState({
@@ -82,7 +86,8 @@ function EditPlanForm(props) {
     date: format(new Date(), 'yyyy-MM-dd'),
     dateCommitment: format(new Date(), 'yyyy-MM-dd'),
     addReminder: format(new Date(), 'yyyy-MM-dd'),
-    notReminder: false
+    notReminder: false,
+    openDialog: false
   });
 
   useEffect(() => {
@@ -121,30 +126,6 @@ function EditPlanForm(props) {
             ? plan.exceptions[findByIndex(plan.exceptions, 'Disciplinary process')].isChecked
             : false
         }));
-
-        if (
-          plan.metricConfs &&
-          plan.metricConfs.length > 0 &&
-          props.plansReducer.metricsSelected.length === 0
-        ) {
-          plan.metricConfs.forEach((row) => {
-            props.setMetricsSelected({
-              ...row,
-              metricConfName: row.metricConf ? row.metricConf.name : 'N/A',
-              targetValue: row.targetValue,
-              date1: `${format(
-                subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
-                'yyyy-MM-dd'
-              )}T00:00:00`,
-              date2: `${format(
-                subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 1),
-                'yyyy-MM-dd'
-              )}T00:00:00`,
-              value1: row.value1,
-              value2: row.value2
-            });
-          });
-        }
       });
     }
 
@@ -182,6 +163,13 @@ function EditPlanForm(props) {
   }
 
   const handleChange = (event, value) => {
+    if (event.target.name === 'feedback' && event.target.value === 'general') {
+      setState((prevState) => ({
+        ...prevState,
+        openDialog: true
+      }));
+    }
+
     setState((prevState) => ({
       ...prevState,
       [event.target.name]: value
@@ -195,7 +183,7 @@ function EditPlanForm(props) {
     }));
   };
 
-  const submitFunction = async (type) => {
+  const submitFunction = async (plan, type) => {
     const metricArray = [];
 
     props.plansReducer.metricsSelected.forEach((element) => {
@@ -212,6 +200,7 @@ function EditPlanForm(props) {
     });
 
     const json = {
+      id: plan.id,
       isObjetive: feedback === 'objective',
       isFeedback: feedback === 'general',
       user: collaborator,
@@ -252,11 +241,7 @@ function EditPlanForm(props) {
 
     let status;
 
-    if (type === 'SENDED') {
-      await props.saveSendedPlanRequest(json).then((r) => (status = r));
-    } else {
-      await props.savePlanRequest(json).then((r) => (status = r));
-    }
+    await props.updateStatePlanRequest(json).then((r) => (status = r));
 
     if (status === 'ERROR') {
       toastr.error(
@@ -268,21 +253,7 @@ function EditPlanForm(props) {
     } else {
       toastr.success('Plan saved successfully');
 
-      setState((prevState) => ({
-        ...prevState,
-        collaborator: props.generalReducer.collaborators.content[0],
-        feedback: '',
-        dashboard: 'oneonone',
-        comments: '',
-        notes: '',
-        sick: false,
-        vacations: false,
-        disciplinaryProcess: false,
-        date: format(new Date(), 'yyyy-MM-dd'),
-        dateCommitment: format(new Date(), 'yyyy-MM-dd'),
-        addReminder: format(new Date(), 'yyyy-MM-dd'),
-        notReminder: false
-      }));
+      navigate('/dashboard/plans');
     }
   };
 
@@ -297,6 +268,14 @@ function EditPlanForm(props) {
               </Grid>
             ) : (
               <>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <Link to="/dashboard/plans" rel="noopener noreferrer" className="not-underline">
+                    <Button className="bg-danger" variant="contained">
+                      <ArrowBackIosIcon />
+                      {t('back.label', 'Anterior')}
+                    </Button>
+                  </Link>
+                </Grid>
                 {props.generalReducer.collaborators &&
                   props.generalReducer.collaborators.content &&
                   props.generalReducer.collaborators.content.length > 0 && (
@@ -364,11 +343,33 @@ function EditPlanForm(props) {
                     </FormControl>
                   </Grid>
                 )}
-                {feedback === 'objective' && (
+
+                {console.log(
+                  'props.plansReducer.metricsSelected',
+                  props.plansReducer.metricsSelected
+                )}
+                {props.plansReducer.metricsSelected.length > 0 && feedback === 'objective' && (
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <TableFeedbackDone title="" tableHead={getTablehead()} newPlan />
                   </Grid>
                 )}
+
+                {props.plansReducer.metricsSelected.length === 0 &&
+                  props.plansReducer.plansSelected.metricConfs &&
+                  props.plansReducer.plansSelected.metricConfs.length > 0 &&
+                  feedback === 'objective' && (
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <section className="mb-2">
+                        <TableFeedback
+                          title=""
+                          metrics={props.plansReducer.plansSelected.metricConfs}
+                          disabled={false}
+                          checked
+                        />
+                      </section>
+                    </Grid>
+                  )}
+
                 {feedback && feedback !== '' && (
                   <>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -494,16 +495,21 @@ function EditPlanForm(props) {
                 props.generalReducer.collaborators.content &&
                 props.generalReducer.collaborators.content.length > 0 ? (
                   <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <Link to="/dashboard/plans" rel="noopener noreferrer" className="not-underline">
+                      <Button className="bg-danger" color="inherit" variant="contained">
+                        {t('back.label', 'Anterior')}
+                      </Button>
+                    </Link>
                     <Button
                       color="secondary"
                       variant="contained"
                       className="ml-1"
-                      onClick={() => submitFunction('DRAFT')}
+                      onClick={() => submitFunction(props.plansReducer.plansSelected, 'DRAFT')}
                     >
                       {t('admin.header-dropdown-dialog-actions-save', 'Guardar')}
                     </Button>
                     <Button
-                      onClick={() => submitFunction('SENDED')}
+                      onClick={() => submitFunction(props.plansReducer.plansSelected, 'SENDED')}
                       color="primary"
                       variant="contained"
                       className="ml-1"
@@ -522,7 +528,18 @@ function EditPlanForm(props) {
         </Grid>
       </Grid>
 
-      {feedback && feedback === 'objective' && <FeedbackDialog collaborator={collaborator} />}
+      {feedback && feedback === 'objective' && (
+        <FeedbackDialog
+          collaborator={collaborator}
+          openDialog={openDialog}
+          closeDialog={() =>
+            setState((prevState) => ({
+              ...prevState,
+              openDialog: false
+            }))
+          }
+        />
+      )}
     </>
   );
 }
@@ -538,7 +555,7 @@ const mapDispatchToProps = {
   getCollaboratorsLeadersRequest,
   savePlanRequest,
   getPlanRequest,
-  saveSendedPlanRequest,
+  updateStatePlanRequest,
   setMetricsSelected,
   usersRequest,
   resetState

@@ -86,87 +86,72 @@ function EditPlanForm(props) {
   });
 
   useEffect(() => {
-    if (!props.generalReducer.collaborators) {
-      if (props.loginReducer.userLogged && props.loginReducer.userLogged.user.position === 1) {
-        props.getCollaboratorsLeadersRequest(999);
-      } else {
-        props.getCollaboratorsRequest(999);
+    async function setData() {
+      if (!props.generalReducer.collaborators) {
+        if (props.loginReducer.userLogged && props.loginReducer.userLogged.user.position === 1) {
+          await props.getCollaboratorsLeadersRequest(999);
+        } else {
+          await props.getCollaboratorsRequest(999);
+        }
       }
+
+      props.getPlanRequest(props.id).then((plan) => {
+        setState((prevState) => ({
+          ...prevState,
+          collaborator: plan.user,
+          feedback: plan.isObjetive ? 'objective' : 'general',
+          dashboard: plan.isPDS ? 'pds' : plan.isPIP ? 'pip' : plan.isOneOnOne ? 'oneonone' : '',
+          notes: plan.supervisorNote,
+          comments: plan.supervisorComment,
+          date: format(new Date(plan.sendedDate), 'yyyy-MM-dd'),
+          dateCommitment: plan.commitmentDate
+            ? format(new Date(plan.commitmentDate), 'yyyy-MM-dd')
+            : format(new Date(), 'yyyy-MM-dd'),
+          addReminder: plan.reminderDate
+            ? format(new Date(plan.reminderDate), 'yyyy-MM-dd')
+            : format(new Date(), 'yyyy-MM-dd'),
+          notReminder: plan.reminderDate === null,
+          sick: findByIndex(plan.exceptions, 'Sick leave')
+            ? plan.exceptions[findByIndex(plan.exceptions, 'Sick leave')].isChecked
+            : false,
+          vacations: findByIndex(plan.exceptions, 'Vacations')
+            ? plan.exceptions[findByIndex(plan.exceptions, 'Vacations')].isChecked
+            : false,
+          disciplinaryProcess: findByIndex(plan.exceptions, 'Disciplinary process')
+            ? plan.exceptions[findByIndex(plan.exceptions, 'Disciplinary process')].isChecked
+            : false
+        }));
+
+        if (
+          plan.metricConfs &&
+          plan.metricConfs.length > 0 &&
+          props.plansReducer.metricsSelected.length === 0
+        ) {
+          plan.metricConfs.forEach((row) => {
+            props.setMetricsSelected({
+              ...row,
+              metricConfName: row.metricConf ? row.metricConf.name : 'N/A',
+              targetValue: row.targetValue,
+              date1: `${format(
+                subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
+                'yyyy-MM-dd'
+              )}T00:00:00`,
+              date2: `${format(
+                subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 1),
+                'yyyy-MM-dd'
+              )}T00:00:00`,
+              value1: row.value1,
+              value2: row.value2
+            });
+          });
+        }
+      });
     }
-    props.getPlanRequest(props.id);
+
+    setData();
 
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (props.plansReducer.plansSelected && props.generalReducer.collaborators) {
-      setState((prevState) => ({
-        ...prevState,
-        collaborator: props.plansReducer.plansSelected.user,
-        feedback: props.plansReducer.plansSelected.isObjetive ? 'objective' : 'general',
-        dashboard: props.plansReducer.plansSelected.isPDS
-          ? 'pds'
-          : props.plansReducer.plansSelected.isPIP
-          ? 'pip'
-          : props.plansReducer.plansSelected.isOneOnOne
-          ? 'oneonone'
-          : '',
-        notes: props.plansReducer.plansSelected.supervisorNote,
-        comments: props.plansReducer.plansSelected.supervisorComment,
-        date: format(new Date(props.plansReducer.plansSelected.sendedDate), 'yyyy-MM-dd'),
-        dateCommitment: props.plansReducer.plansSelected.commitmentDate
-          ? format(new Date(props.plansReducer.plansSelected.commitmentDate), 'yyyy-MM-dd')
-          : format(new Date(), 'yyyy-MM-dd'),
-        addReminder: props.plansReducer.plansSelected.reminderDate
-          ? format(new Date(props.plansReducer.plansSelected.reminderDate), 'yyyy-MM-dd')
-          : format(new Date(), 'yyyy-MM-dd'),
-        notReminder: props.plansReducer.plansSelected.reminderDate === null,
-        sick: findByIndex(props.plansReducer.plansSelected.exceptions, 'Sick leave')
-          ? props.plansReducer.plansSelected.exceptions[
-              findByIndex(props.plansReducer.plansSelected.exceptions, 'Sick leave')
-            ].isChecked
-          : false,
-        vacations: findByIndex(props.plansReducer.plansSelected.exceptions, 'Vacations')
-          ? props.plansReducer.plansSelected.exceptions[
-              findByIndex(props.plansReducer.plansSelected.exceptions, 'Vacations')
-            ].isChecked
-          : false,
-        disciplinaryProcess: findByIndex(
-          props.plansReducer.plansSelected.exceptions,
-          'Disciplinary process'
-        )
-          ? props.plansReducer.plansSelected.exceptions[
-              findByIndex(props.plansReducer.plansSelected.exceptions, 'Disciplinary process')
-            ].isChecked
-          : false
-      }));
-
-      if (
-        props.plansReducer.plansSelected.metricConfs &&
-        props.plansReducer.plansSelected.metricConfs.length > 0
-      ) {
-        props.plansReducer.plansSelected.metricConfs.forEach((row) => {
-          props.setMetricsSelected({
-            ...row,
-            metricConfName: row.metricConf ? row.metricConf.name : 'N/A',
-            targetValue: row.targetValue,
-            date1: `${format(
-              subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
-              'yyyy-MM-dd'
-            )}T00:00:00`,
-            date2: `${format(
-              subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 1),
-              'yyyy-MM-dd'
-            )}T00:00:00`,
-            value1: row.value1,
-            value2: row.value2
-          });
-        });
-      }
-    }
-
-    // eslint-disable-next-line
-  }, [props.plansReducer.plansSelected, props.generalReducer.collaborators]);
 
   function getTablehead() {
     return [

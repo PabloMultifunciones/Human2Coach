@@ -88,17 +88,22 @@ export const getPlanRequest = (payload) => async (dispatch, getState) => {
         type: PLAN_SELECTED,
         payload: { ...responsePlan.data }
       });
-    } else {
-      dispatch({
-        type: PLAN_SELECTED,
-        payload: plansUpdated[index]
-      });
+
+      return { ...responsePlan.data };
     }
+
+    dispatch({
+      type: PLAN_SELECTED,
+      payload: plansUpdated[index]
+    });
+
+    return plansUpdated[index];
   } catch (error) {
     dispatch({
       type: PLANS_LIST_ERROR,
       payload: error.response ? error.response.data : error
     });
+    return false;
   }
 };
 

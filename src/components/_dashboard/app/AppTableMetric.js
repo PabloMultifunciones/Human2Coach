@@ -267,10 +267,11 @@ function AppTableMetric(props) {
                           </Tooltip>
                         ))}
 
-                      <TableCell key="sent">{t('sent', 'Envíado')}</TableCell>
-                      <TableCell key="slopes">{t('saved', 'Guardado')}</TableCell>
-                      <TableCell key="signed">{t('assigned', 'Asignado')}</TableCell>
+                      <TableCell key="sent">{t('sent', 'Envíados')}</TableCell>
+                      <TableCell key="sent">{t('pending', 'Pendientes')}</TableCell>
+                      <TableCell key="signed">{t('signed', 'Firmados')}</TableCell>
                       <TableCell key="total">{t('total', 'Total')}</TableCell>
+                      <TableCell key="slopes">{t('saved', 'Guardados')}</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -278,21 +279,20 @@ function AppTableMetric(props) {
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row, index) => (
                         <TableRow hover key={index} tabIndex={-1} role="checkbox">
-                          <TableCell align="left">
-                            W{GeneralFunctions.getWeekCount() - (row.weekcount - 1)}
-                          </TableCell>
+                          <TableCell align="left">W{row.weekcount - 1}</TableCell>
 
                           {row.metrics.map((metric, index) => (
                             <TableCell key={index}>
                               {metric.valueAvg === false ? 'False' : metric.valueAvg}
                             </TableCell>
                           ))}
-
                           <TableCell align="left">{row.sended}</TableCell>
-                          <TableCell align="left">{row.draft}</TableCell>
-                          <TableCell align="left">{row.acknowleged}</TableCell>
 
+                          <TableCell align="left">{row.pendindg}</TableCell>
+                          <TableCell align="left">{row.acknowleged}</TableCell>
                           <TableCell align="left">{row.total}</TableCell>
+
+                          <TableCell align="left">{row.draft}</TableCell>
                         </TableRow>
                       ))}
                     {emptyRows > 0 && (

@@ -208,7 +208,7 @@ function EditPlanForm(props) {
       supervisorComment: comments,
       userComment: null,
       sendedDate: `${date}T00:00:00`,
-      status: type === 'UPDATE' ? 'DRAFT' : type,
+      status: type,
       isSended: type === 'SENDED' || false,
       commitmentDate: `${dateCommitment}T00:00:00`,
       reminderDate: notReminder ? null : `${addReminder}T00:00:00`,

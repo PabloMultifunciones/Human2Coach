@@ -210,7 +210,8 @@ function Plans(props) {
                           <TableRow hover key={row.id} tabIndex={-1}>
                             <TableCell align="left">
                               {props.loginReducer.userLogged &&
-                              props.loginReducer.userLogged.user.id === row.user.id ? (
+                              (props.loginReducer.userLogged.user.id === row.user.id ||
+                                row.status !== 'DRAFT') ? (
                                 <Link to={`/dashboard/plan/${row.id}`} rel="noopener noreferrer">
                                   {row.user && row.user.name
                                     ? `${row.user.name} ${row.user.lastName}`
@@ -271,6 +272,7 @@ function Plans(props) {
                                 </Label>
                               )}
                             </TableCell>
+
                             <TableCell align="left">
                               {row.status === 'DRAFT' && (
                                 <>

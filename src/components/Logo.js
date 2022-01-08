@@ -13,7 +13,7 @@ export default function Logo({ sx }) {
     <Box
       component="img"
       src="https://filesharingdev.nyc3.digitaloceanspaces.com/public/Human2Coach/Human2Coach2.ico"
-      sx={{ width: 210, height: 50, ...sx }}
+      sx={{ width: 180, height: 50, ...sx }}
     />
   );
 }

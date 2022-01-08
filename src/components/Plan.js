@@ -249,6 +249,8 @@ function Plan(props) {
                     </Grid>
                   )}
 
+                {console.log(props.loginReducer.userLogged)}
+
                 {props.loginReducer.userLogged &&
                   props.loginReducer.userLogged.user.position !== 3 && (
                     <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -266,7 +268,8 @@ function Plan(props) {
                     </Grid>
                   )}
 
-                {props.loginReducer.userLogged &&
+                {props.plansReducer.plansSelected &&
+                  props.loginReducer.userLogged &&
                   props.loginReducer.userLogged.user.id !==
                     props.plansReducer.plansSelected.user.id && (
                     <Grid item xs={12} sm={12} md={12} lg={12}>

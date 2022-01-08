@@ -266,19 +266,24 @@ function Plan(props) {
                     </Grid>
                   )}
 
-                <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <TextField
-                    className="w-100"
-                    id="outlined-multiline-static"
-                    label={t('leader-comments', 'Comentarios del líder')}
-                    multiline
-                    rows={8}
-                    variant="outlined"
-                    value={comments}
-                    name="comments"
-                    disabled
-                  />
-                </Grid>
+                {props.loginReducer.userLogged &&
+                  props.loginReducer.userLogged.user.id !==
+                    props.plansReducer.plansSelected.user.id && (
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <TextField
+                        className="w-100"
+                        id="outlined-multiline-static"
+                        label={t('leader-comments', 'Comentarios del líder')}
+                        multiline
+                        rows={8}
+                        variant="outlined"
+                        value={comments}
+                        name="comments"
+                        disabled
+                      />
+                    </Grid>
+                  )}
+
                 <Grid item xs={12} sm={12} md={4} lg={4}>
                   <TextField
                     className="w-100"

@@ -163,7 +163,7 @@ function EditPlanForm(props) {
   }
 
   const handleChange = (event, value) => {
-    if (event.target.name === 'feedback' && event.target.value === 'general') {
+    if (event.target.name === 'feedback' && event.target.value === 'objective') {
       setState((prevState) => ({
         ...prevState,
         openDialog: true

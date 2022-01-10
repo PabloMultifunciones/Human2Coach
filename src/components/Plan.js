@@ -249,10 +249,10 @@ function Plan(props) {
                     </Grid>
                   )}
 
-                {console.log(props.loginReducer.userLogged)}
-
-                {props.loginReducer.userLogged &&
-                  props.loginReducer.userLogged.user.position !== 3 && (
+                {props.plansReducer.plansSelected &&
+                  props.loginReducer.userLogged &&
+                  props.loginReducer.userLogged.user.id !==
+                    props.plansReducer.plansSelected.user.id && (
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                       <TextField
                         className="w-100"
@@ -268,24 +268,19 @@ function Plan(props) {
                     </Grid>
                   )}
 
-                {props.plansReducer.plansSelected &&
-                  props.loginReducer.userLogged &&
-                  props.loginReducer.userLogged.user.id !==
-                    props.plansReducer.plansSelected.user.id && (
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
-                      <TextField
-                        className="w-100"
-                        id="outlined-multiline-static"
-                        label={t('leader-comments', 'Comentarios del líder')}
-                        multiline
-                        rows={8}
-                        variant="outlined"
-                        value={comments}
-                        name="comments"
-                        disabled
-                      />
-                    </Grid>
-                  )}
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TextField
+                    className="w-100"
+                    id="outlined-multiline-static"
+                    label={t('leader-comments', 'Comentarios del líder')}
+                    multiline
+                    rows={8}
+                    variant="outlined"
+                    value={comments}
+                    name="comments"
+                    disabled
+                  />
+                </Grid>
 
                 <Grid item xs={12} sm={12} md={4} lg={4}>
                   <TextField

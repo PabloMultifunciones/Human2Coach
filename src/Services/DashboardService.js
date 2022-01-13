@@ -19,5 +19,17 @@ export default {
     axios({
       method: 'GET',
       url: `${environment.motivarnosBackend}/plan/dashboard?user.id=${id}&isOneOnOne=${isOneOnOne}&isPDS=${isPDS}&isPIP=${isPIP}&_page=${number}&_size=${size}`
+    }),
+
+  getDashboardResumeMetrics: (number = 0, size = 7) =>
+    axios({
+      method: 'GET',
+      url: `${environment.motivarnosBackend}/plan/dashboard?_page=${number}&_size=${size}`
+    }),
+
+  getDashboardResumeMetricsFiltered: (id, number = 0, size = 7) =>
+    axios({
+      method: 'GET',
+      url: `${environment.motivarnosBackend}/plan/dashboard?user.id=${id}&_page=${number}&_size=${size}`
     })
 };

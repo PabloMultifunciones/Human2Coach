@@ -3,6 +3,12 @@ import * as dashboardTypes from '../types/dashboardTypes';
 const {
   RESET_STATE,
   RESET_STORE,
+  METRICS_RESUME_LIST_REQUEST,
+  METRICS_RESUME_LIST_FILTER_REQUEST,
+  METRICS_RESUME_LIST_CHARGING,
+  METRICS_RESUME_LIST_FILTERED_CHARGING,
+  METRICS_RESUME_LIST_ERROR,
+  METRICS_RESUME_LIST_SAVED,
   METRICS_ONE_LIST_REQUEST,
   METRICS_ONE_LIST_FILTER_REQUEST,
   METRICS_ONE_LIST_CHARGING,
@@ -24,6 +30,16 @@ const {
 } = dashboardTypes;
 
 const INITIAL_STATE = {
+  metricsResume: [],
+  filterResume: '',
+  metricsResume_filtered: [],
+  pagesResume: [],
+  pagesResumeFiltered: [],
+  error_metricsResume: false,
+  metricsResume_charging: false,
+  totalElementsResume: 0,
+  totalElementsResume_filtered: 0,
+
   metricsOne: [],
   filterOne: '',
   metricsOne_filtered: [],
@@ -57,6 +73,60 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case METRICS_RESUME_LIST_REQUEST:
+      return {
+        ...state,
+        metricsResume_charging: false,
+        metricsResume: [...state.pagesResume].includes(action.payload.number)
+          ? [...state.metricsResume]
+          : [...state.metricsResume, ...action.payload.content],
+        totalElementsResume: action.payload.totalElements,
+        pagesResume: [...state.pagesResume].includes(action.payload.number)
+          ? [...state.pagesResume]
+          : [...state.pagesResume, action.payload.number],
+        error_metricsResume: false
+      };
+
+    case METRICS_RESUME_LIST_FILTER_REQUEST:
+      return {
+        ...state,
+        metricsResume_charging: false,
+        metricsResume_filtered:
+          [...state.pagesResumeFiltered].includes(action.payload.number) &&
+          state.filterResume === action.payload.filterResume
+            ? [...state.metricsResume_filtered]
+            : [...state.metricsResume_filtered, ...action.payload.content],
+        totalElementsResume_filtered: action.payload.totalElements,
+        pagesResumeFiltered:
+          [...state.pagesResumeFiltered].includes(action.payload.number) &&
+          state.filterResume === action.payload.filterResume
+            ? [...state.pagesResumeFiltered]
+            : [...state.pagesResumeFiltered, action.payload.number],
+        filterResume: action.payload.filterResume,
+        error_metricsResume: false
+      };
+
+    case METRICS_RESUME_LIST_CHARGING:
+      return { ...state, metricsResume_charging: true, error_metricsResume: false };
+
+    case METRICS_RESUME_LIST_ERROR:
+      return {
+        ...state,
+        error_metricsResume: action.payload,
+        metricsResume_charging: false
+      };
+
+    case METRICS_RESUME_LIST_FILTERED_CHARGING:
+      return {
+        ...state,
+        metricsResume_filtered: [],
+        metricsResume_charging: true,
+        error_metricsResume: false
+      };
+
+    case METRICS_RESUME_LIST_SAVED:
+      return { ...state, metricsResume_charging: false, error_metricsResume: false };
+
     case METRICS_ONE_LIST_REQUEST:
       return {
         ...state,

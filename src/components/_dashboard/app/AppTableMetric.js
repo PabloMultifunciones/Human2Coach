@@ -27,7 +27,9 @@ import {
   getMetricsPdsRequest,
   getMetricsPdsFilterRequest,
   getMetricsPipRequest,
-  getMetricsPipFilterRequest
+  getMetricsPipFilterRequest,
+  getMetricsResumeRequest,
+  getMetricsResumeFilterRequest
 } from '../../../actions/dashboardActions';
 
 import {
@@ -57,9 +59,12 @@ function AppTableMetric(props) {
         props.getMetricsOneFilterRequest({ number: newPage, filterOne: user.id });
       } else if (props.title === 'P D S') {
         props.getMetricsPdsFilterRequest({ number: newPage, filterPds: user.id });
-      } else {
+      } else if (props.title === 'P I P') {
         props.getMetricsPipFilterRequest({ number: newPage, filterPip: user.id });
+      } else {
+        props.getMetricsResumeFilterRequest({ number: newPage, filterPip: user.id });
       }
+
       return;
     }
 
@@ -67,8 +72,10 @@ function AppTableMetric(props) {
       props.getMetricsOneRequest({ number: newPage });
     } else if (props.title === 'P D S') {
       props.getMetricsPdsRequest({ number: newPage });
-    } else {
+    } else if (props.title === 'P I P') {
       props.getMetricsPipRequest({ number: newPage });
+    } else {
+      props.getMetricsResumeRequest({ number: newPage });
     }
     setPage(newPage);
   };
@@ -87,8 +94,10 @@ function AppTableMetric(props) {
         props.getMetricsOneFilterRequest({ number: 0, filterOne: value.id });
       } else if (props.title === 'P D S') {
         props.getMetricsPdsFilterRequest({ number: 0, filterPds: value.id });
-      } else {
+      } else if (props.title === 'P I P') {
         props.getMetricsPipFilterRequest({ number: 0, filterPip: value.id });
+      } else {
+        props.getMetricsResumeFilterRequest({ number: 0, filterResume: value.id });
       }
       return;
     }
@@ -97,8 +106,10 @@ function AppTableMetric(props) {
       props.getMetricsOneRequest({ number: 0 });
     } else if (props.title === 'P D S') {
       props.getMetricsPdsRequest({ number: 0 });
-    } else {
+    } else if (props.title === 'P I P') {
       props.getMetricsPipRequest({ number: 0 });
+    } else {
+      props.getMetricsResumeRequest({ number: 0 });
     }
   };
 
@@ -121,6 +132,13 @@ function AppTableMetric(props) {
         return props.dashboardReducer.metricsPip_filtered;
       }
       return props.dashboardReducer.metricsPip;
+    }
+
+    if (props.title === 'RESUME') {
+      if (user) {
+        return props.dashboardReducer.metricsResume_filtered;
+      }
+      return props.dashboardReducer.metricsResume;
     }
 
     return [];
@@ -147,6 +165,13 @@ function AppTableMetric(props) {
       return props.dashboardReducer.totalElementsPip;
     }
 
+    if (props.title === 'RESUME') {
+      if (user) {
+        return props.dashboardReducer.totalElementsResume_filtered;
+      }
+      return props.dashboardReducer.totalElementsResume;
+    }
+
     return [];
   };
 
@@ -162,6 +187,10 @@ function AppTableMetric(props) {
       return props.dashboardReducer.metricsPip_charging;
     }
 
+    if (props.title === 'RESUME') {
+      return props.dashboardReducer.metricsResume_charging;
+    }
+
     return false;
   };
 
@@ -171,8 +200,10 @@ function AppTableMetric(props) {
         props.getMetricsOneRequest({ number: 0 });
       } else if (props.title === 'P D S') {
         props.getMetricsPdsRequest({ number: 0 });
-      } else {
+      } else if (props.title === 'P I P') {
         props.getMetricsPipRequest({ number: 0 });
+      } else {
+        props.getMetricsResumeRequest({ number: 0 });
       }
 
       if (props.loginReducer.userLogged) {
@@ -202,12 +233,13 @@ function AppTableMetric(props) {
       <Stack direction="row" alignItems="center" className="custom-title-blue" mb={5}>
         <Typography variant="h4" gutterBottom className="d-flex">
           {GeneralFunctions.getIcon(props.title)}
-          {props.title}
+          {props.title !== 'RESUME' ? props.title : t('resume', 'Resumen')}
         </Typography>
       </Stack>
 
       <Card>
-        {props.generalReducer &&
+        {props.title !== 'RESUME' &&
+          props.generalReducer &&
           props.loginReducer &&
           props.loginReducer.userLogged &&
           props.generalReducer.leaderCollaborators &&
@@ -226,7 +258,8 @@ function AppTableMetric(props) {
             />
           )}
 
-        {props.generalReducer &&
+        {props.title !== 'RESUME' &&
+          props.generalReducer &&
           props.loginReducer &&
           props.loginReducer.userLogged &&
           props.generalReducer.collaborators &&
@@ -254,18 +287,10 @@ function AppTableMetric(props) {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell key="type">{props.title}</TableCell>
-
-                      {getMetricsType() &&
-                        getMetricsType()[0] &&
-                        getMetricsType()[0].metrics &&
-                        getMetricsType()[0].metrics.map((row, index) => (
-                          <Tooltip key={index} title={row.name}>
-                            <TableCell>
-                              {row.name.length > 10 ? `${row.name.substring(0, 10)}...` : row.name}
-                            </TableCell>
-                          </Tooltip>
-                        ))}
+                      <TableCell key="type">
+                        {' '}
+                        {props.title !== 'RESUME' ? props.title : t('resume', 'Resumen')}
+                      </TableCell>
 
                       {props.loginReducer.userLogged &&
                       props.loginReducer.userLogged.user.position === 3 ? (
@@ -291,12 +316,6 @@ function AppTableMetric(props) {
                       .map((row, index) => (
                         <TableRow hover key={index} tabIndex={-1} role="checkbox">
                           <TableCell align="left">W{row.weekcount - 1}</TableCell>
-
-                          {row.metrics.map((metric, index) => (
-                            <TableCell key={index}>
-                              {metric.valueAvg === false ? 'False' : metric.valueAvg}
-                            </TableCell>
-                          ))}
 
                           {props.loginReducer.userLogged &&
                           props.loginReducer.userLogged.user.position === 3 ? (
@@ -336,16 +355,17 @@ function AppTableMetric(props) {
                 </Table>
               </TableContainer>
             </Scrollbar>
-
-            <TablePagination
-              rowsPerPageOptions={[4]}
-              component="div"
-              count={getMetricsTypeTotalElements()}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            {props.title !== 'RESUME' && (
+              <TablePagination
+                rowsPerPageOptions={[4]}
+                component="div"
+                count={getMetricsTypeTotalElements()}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
           </>
         )}
       </Card>
@@ -367,7 +387,9 @@ const mapDispatchToProps = {
   getMetricsPipRequest,
   getMetricsPipFilterRequest,
   getCollaboratorsRequest,
-  getLeadersCollaboratorsRequest
+  getLeadersCollaboratorsRequest,
+  getMetricsResumeRequest,
+  getMetricsResumeFilterRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppTableMetric);

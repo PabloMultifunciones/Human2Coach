@@ -3,6 +3,12 @@ import * as dashboardTypes from '../types/dashboardTypes';
 import DashboardService from '../Services/DashboardService';
 
 const {
+  METRICS_RESUME_LIST_REQUEST,
+  METRICS_RESUME_LIST_FILTER_REQUEST,
+  METRICS_RESUME_LIST_CHARGING,
+  METRICS_RESUME_LIST_FILTERED_CHARGING,
+  METRICS_RESUME_LIST_ERROR,
+  METRICS_RESUME_LIST_SAVED,
   METRICS_ONE_LIST_REQUEST,
   METRICS_ONE_LIST_FILTER_REQUEST,
   METRICS_ONE_LIST_CHARGING,
@@ -22,6 +28,68 @@ const {
   METRICS_PIP_LIST_ERROR,
   METRICS_PIP_LIST_SAVED
 } = dashboardTypes;
+
+export const getMetricsResumeRequest = (payload) => async (dispatch, getState) => {
+  try {
+    const { pagesResume } = getState().dashboardReducer;
+    if (!pagesResume.includes(payload.number)) {
+      dispatch({
+        type: METRICS_RESUME_LIST_CHARGING
+      });
+      const responseLogin = await DashboardService.getDashboardResumeMetrics(payload.number, 4);
+      dispatch({
+        type: METRICS_RESUME_LIST_REQUEST,
+        payload: { ...responseLogin.data, number: payload.number }
+      });
+    } else {
+      dispatch({
+        type: METRICS_RESUME_LIST_SAVED
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: METRICS_RESUME_LIST_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
+
+export const getMetricsResumeFilterRequest = (payload) => async (dispatch, getState) => {
+  try {
+    const { pagesResumeFiltered, filterResume } = getState().dashboardReducer;
+    if (!pagesResumeFiltered.includes(payload.number) || filterResume !== payload.filterResume) {
+      dispatch({
+        type:
+          filterResume !== payload.filterResume
+            ? METRICS_RESUME_LIST_FILTERED_CHARGING
+            : METRICS_RESUME_LIST_CHARGING
+      });
+
+      const responseLogin = await DashboardService.getDashboardResumeMetricsFiltered(
+        payload.filterResume,
+        payload.number,
+        4
+      );
+      dispatch({
+        type: METRICS_RESUME_LIST_FILTER_REQUEST,
+        payload: {
+          ...responseLogin.data,
+          filterResume: payload.filterResume,
+          number: payload.number
+        }
+      });
+    } else {
+      dispatch({
+        type: METRICS_RESUME_LIST_SAVED
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: METRICS_RESUME_LIST_ERROR,
+      payload: error.response ? error.response.data : error
+    });
+  }
+};
 
 export const getMetricsOneRequest = (payload) => async (dispatch, getState) => {
   try {

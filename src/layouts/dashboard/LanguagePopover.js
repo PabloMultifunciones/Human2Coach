@@ -23,6 +23,16 @@ const LANGS = [
     value: 'po',
     label: 'Portuguese',
     icon: '/static/icons/po.png'
+  },
+  {
+    value: 'fr',
+    label: 'French',
+    icon: '/static/icons/ic_flag_fr.svg'
+  },
+  {
+    value: 'it',
+    label: 'italian',
+    icon: '/static/icons/it.png'
   }
 ];
 
@@ -55,6 +65,14 @@ function LanguagePopover(props) {
 
         {props.userLogged && props.userLogged.user.lang === 'po' && (
           <img src={LANGS[2].icon} alt={LANGS[2].label} width="35" height="30" />
+        )}
+
+        {props.userLogged && props.userLogged.user.lang === 'fr' && (
+          <img src={LANGS[3].icon} alt={LANGS[3].label} width="35" height="30" />
+        )}
+
+        {props.userLogged && props.userLogged.user.lang === 'it' && (
+          <img src={LANGS[4].icon} alt={LANGS[4].label} width="35" height="30" />
         )}
       </IconButton>
     </>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { format, subDays, startOfWeek } from 'date-fns';
 
 import TableHead from '@material-ui/core/TableHead';
 import { connect } from 'react-redux';
@@ -327,7 +328,13 @@ function AppTableMetric(props) {
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row, index) => (
                         <TableRow hover key={index} tabIndex={-1} role="checkbox">
-                          <TableCell align="left">W{row.weekcount - 1}</TableCell>
+                          <TableCell align="left">
+                            W{row.weekcount - 1} -{' '}
+                            {format(
+                              subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7 * index),
+                              'dd/MM/yyyy'
+                            )}
+                          </TableCell>
 
                           {props.title !== 'RESUME' &&
                             row.metrics.map((metric, index) => (

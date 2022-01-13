@@ -292,6 +292,18 @@ function AppTableMetric(props) {
                         {props.title !== 'RESUME' ? props.title : t('resume', 'Resumen')}
                       </TableCell>
 
+                      {props.title !== 'RESUME' &&
+                        getMetricsType() &&
+                        getMetricsType()[0] &&
+                        getMetricsType()[0].metrics &&
+                        getMetricsType()[0].metrics.map((row, index) => (
+                          <Tooltip key={index} title={row.name}>
+                            <TableCell>
+                              {row.name.length > 10 ? `${row.name.substring(0, 10)}...` : row.name}
+                            </TableCell>
+                          </Tooltip>
+                        ))}
+
                       {props.loginReducer.userLogged &&
                       props.loginReducer.userLogged.user.position === 3 ? (
                         <>
@@ -316,6 +328,13 @@ function AppTableMetric(props) {
                       .map((row, index) => (
                         <TableRow hover key={index} tabIndex={-1} role="checkbox">
                           <TableCell align="left">W{row.weekcount - 1}</TableCell>
+
+                          {props.title !== 'RESUME' &&
+                            row.metrics.map((metric, index) => (
+                              <TableCell key={index}>
+                                {metric.valueAvg === false ? 'False' : metric.valueAvg}
+                              </TableCell>
+                            ))}
 
                           {props.loginReducer.userLogged &&
                           props.loginReducer.userLogged.user.position === 3 ? (

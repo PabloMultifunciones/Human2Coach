@@ -288,7 +288,7 @@ function AppTableMetric(props) {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell key="type">
+                      <TableCell key="type" className="custom-width">
                         {' '}
                         {props.title !== 'RESUME' ? props.title : t('resume', 'Resumen')}
                       </TableCell>

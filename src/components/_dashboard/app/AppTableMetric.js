@@ -62,7 +62,7 @@ function AppTableMetric(props) {
       } else if (props.title === 'P I P') {
         props.getMetricsPipFilterRequest({ number: newPage, filterPip: user.id });
       } else {
-        props.getMetricsResumeFilterRequest({ number: newPage, filterPip: user.id });
+        props.getMetricsResumeFilterRequest({ number: newPage, filterResume: user.id });
       }
 
       return;

@@ -197,6 +197,7 @@ function PlanDialog(props) {
                       variant="outlined"
                       name="date"
                       onChange={handleChange}
+                      inputProps={{ min: format(new Date(), 'yyyy-MM-dd') }}
                     />
                   </Grid>
 

@@ -18,6 +18,8 @@ import {
   TableContainer,
   TablePagination
 } from '@material-ui/core';
+import Label from '../../Label';
+
 // components
 import Scrollbar from '../../Scrollbar';
 import GeneralFunctions from '../../../libs/GeneralFunctions';
@@ -352,7 +354,15 @@ function AppTableMetric(props) {
                             <>
                               {' '}
                               <TableCell align="left">{row.sended}</TableCell>
-                              <TableCell align="left">{row.pendindg}</TableCell>
+                              <TableCell align="left">
+                                {row.pendindg > 0 ? (
+                                  <Label variant="ghost" color="error">
+                                    {row.pendindg}
+                                  </Label>
+                                ) : (
+                                  row.pendindg
+                                )}
+                              </TableCell>
                               <TableCell align="left">{row.acknowleged}</TableCell>
                               <TableCell align="left">{row.total}</TableCell>
                               <TableCell align="left">{row.draft}</TableCell>

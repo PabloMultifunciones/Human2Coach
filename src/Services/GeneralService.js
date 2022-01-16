@@ -27,7 +27,7 @@ export default {
       method: 'GET',
       url: `${
         environment.motivarnosBackend
-      }/user/compact?_size=${999}&isActive=true&position=1&_sort=name_desc`
+      }/user/all?_size=${999}&isActive=true&position=1&_sort=name_desc`
     }),
 
   getUsersLeaders: () =>
@@ -35,7 +35,7 @@ export default {
       method: 'GET',
       url: `${
         environment.motivarnosBackend
-      }/user/compact?_size=${999}&isActive=true&position=2&_sort=name_desc`
+      }/user/all?_size=${999}&isActive=true&position=2&_sort=name_desc`
     }),
 
   getPreferences: () =>

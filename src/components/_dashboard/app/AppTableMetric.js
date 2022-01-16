@@ -313,9 +313,8 @@ function AppTableMetric(props) {
                         </>
                       ) : (
                         <>
-                          {' '}
                           <TableCell key="sent">{t('sent', 'Envíados')}</TableCell>
-                          <TableCell key="sent">{t('pending', 'Pendientes')}</TableCell>
+                          <TableCell key="pending">{t('pending', 'Pendientes')}</TableCell>
                           <TableCell key="signed">{t('signed', 'Firmados')}</TableCell>
                           <TableCell key="total">{t('total', 'Total')}</TableCell>
                           <TableCell key="slopes">{t('saved', 'Guardados')}</TableCell>

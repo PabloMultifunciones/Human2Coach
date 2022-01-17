@@ -130,7 +130,7 @@ function PlanDialog(props) {
       .updatePlanRequest({
         id: props.plan.id,
         others,
-        reminderDate: `${commitmentDate}T00:00:00`,
+        commitmentDate: `${commitmentDate}T00:00:00`,
         isException: sick === true || vacations === true || disciplinaryProcess === true,
         exceptions: [
           {

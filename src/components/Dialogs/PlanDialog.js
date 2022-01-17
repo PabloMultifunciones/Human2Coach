@@ -88,8 +88,8 @@ function PlanDialog(props) {
 
   const { t } = useTranslation();
 
-  const [{ date, sick, vacations, disciplinaryProcess, others }, setState] = useState({
-    date: format(new Date(props.plan.reminderDate), 'yyyy-MM-dd'),
+  const [{ commitmentDate, sick, vacations, disciplinaryProcess, others }, setState] = useState({
+    commitmentDate: format(new Date(props.plan.commitmentDate), 'yyyy-MM-dd'),
     sick: findByIndex(props.plan.exceptions, 'Sick leave')
       ? props.plan.exceptions[findByIndex(props.plan.exceptions, 'Sick leave')].isChecked
       : false,
@@ -119,7 +119,7 @@ function PlanDialog(props) {
   };
 
   const handleSave = async () => {
-    if (date === '' || !date) {
+    if (commitmentDate === '' || !commitmentDate) {
       toastr.error(t('commitment-date-required', 'La fecha es requerida'));
       return;
     }
@@ -130,7 +130,7 @@ function PlanDialog(props) {
       .updatePlanRequest({
         id: props.plan.id,
         others,
-        reminderDate: `${date}T00:00:00`,
+        reminderDate: `${commitmentDate}T00:00:00`,
         isException: sick === true || vacations === true || disciplinaryProcess === true,
         exceptions: [
           {
@@ -190,12 +190,12 @@ function PlanDialog(props) {
                     <TextField
                       className="w-100"
                       fullWidth
-                      id="outlined-date"
+                      id="outlined-commitmentDate"
                       label={t('commitment-date', 'Fecha de compromiso')}
                       type="date"
-                      value={date}
+                      value={commitmentDate}
                       variant="outlined"
-                      name="date"
+                      name="commitmentDate"
                       onChange={handleChange}
                       inputProps={{ min: format(new Date(), 'yyyy-MM-dd') }}
                     />

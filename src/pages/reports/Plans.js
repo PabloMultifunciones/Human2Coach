@@ -81,12 +81,15 @@ function Plans(props) {
   }, []);
 
   const handleChangePage = (event, newPage) => {
-    if (filterName === '' && userId === 'ALL') {
+    if ((filterName === '' && userId === 'ALL') || (filterName === '' && userId === false)) {
+      console.log('HERE');
       props.getPlansRequest({
         number: newPage,
         position: props.loginReducer && props.loginReducer.userLogged.user.position
       });
     } else {
+      console.log('HERE TWO');
+
       props.getPlansFilterRequest({ number: newPage, filterName, userId });
     }
     setPage(newPage);

@@ -21,7 +21,7 @@ export default {
       method: 'GET',
       url: `${environment.motivarnosBackend}/plan?_number=${number}&_size=${size}${
         filter && filter !== '' ? `&user.textSearch_like=%25${filter}%25` : ''
-      }${userId && userId !== '' ? `&user.id=${userId}` : ''}`
+      }${userId && userId !== '' && userId !== 'ALL' ? `&user.id=${userId}` : ''}`
     }),
 
   savePlan: (data) =>

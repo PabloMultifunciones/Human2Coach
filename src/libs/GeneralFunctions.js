@@ -166,5 +166,35 @@ export default {
       subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
       'dd/MM/yyyy'
     )})`;
+  },
+
+  getWeekCountBack(index) {
+    const count = getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7 * index)) - 1;
+
+    if (count === 1) {
+      return `(W${1} - ${format(
+        subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7 * index),
+        'dd/MM/yyyy'
+      )})`;
+    }
+
+    if (count === 51) {
+      return `(W${52} - ${format(
+        subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7 * index),
+        'dd/MM/yyyy'
+      )})`;
+    }
+
+    if (count < 1) {
+      return `(W${1} - ${format(
+        subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7 * index),
+        'dd/MM/yyyy'
+      )})`;
+    }
+
+    return `(W${count} - ${format(
+      subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7 * index),
+      'dd/MM/yyyy'
+    )})`;
   }
 };

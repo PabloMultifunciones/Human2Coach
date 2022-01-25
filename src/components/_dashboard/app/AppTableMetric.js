@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { format, subDays, startOfWeek } from 'date-fns';
 
 import TableHead from '@material-ui/core/TableHead';
 import { connect } from 'react-redux';
@@ -291,8 +290,9 @@ function AppTableMetric(props) {
                   <TableHead>
                     <TableRow>
                       <TableCell key="type" className="custom-width">
-                        {' '}
-                        {props.title !== 'RESUME' ? props.title : t('resume', 'Resumen')}
+                        {props.title !== 'RESUME'
+                          ? props.title
+                          : t('collaborators', 'Colaboradores')}
                       </TableCell>
 
                       {props.title !== 'RESUME' &&
@@ -319,9 +319,8 @@ function AppTableMetric(props) {
 
                           {props.title === 'RESUME' && (
                             <>
-                              <TableCell key="pending">{t('pending', 'Pendientes')}</TableCell>
                               <TableCell key="signed">{t('signed', 'Firmados')}</TableCell>
-                              <TableCell key="total">{t('total', 'Total')}</TableCell>
+                              <TableCell key="pending">{t('pending', 'Pendientes')}</TableCell>
                               <TableCell key="slopes">{t('saved', 'Guardados')}</TableCell>
                             </>
                           )}
@@ -334,13 +333,17 @@ function AppTableMetric(props) {
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row, index) => (
                         <TableRow hover key={index} tabIndex={-1} role="checkbox">
-                          <TableCell align="left">
-                            W{row.weekcount - 1} -{' '}
-                            {format(
-                              subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7 * index),
-                              'dd/MM/yyyy'
-                            )}
-                          </TableCell>
+                          {props.title !== 'RESUME' && (
+                            <TableCell align="left">
+                              {GeneralFunctions.getWeekCountBack(index)}
+                            </TableCell>
+                          )}
+
+                          {props.title === 'RESUME' && (
+                            <TableCell align="left">
+                              {row.totalSupervised} - {GeneralFunctions.getWeekCountBack(index)}
+                            </TableCell>
+                          )}
 
                           {props.title !== 'RESUME' &&
                             row.metrics.map((metric, index) => (
@@ -361,17 +364,17 @@ function AppTableMetric(props) {
 
                               {props.title === 'RESUME' && (
                                 <>
+                                  <TableCell align="left">{row.acknowleged}</TableCell>
+
                                   <TableCell align="left">
-                                    {row.pendindg > 0 ? (
+                                    {row.total - row.sended > 0 ? (
                                       <Label variant="ghost" color="error">
-                                        {row.pendindg}
+                                        {row.total - row.sended}
                                       </Label>
                                     ) : (
-                                      row.pendindg
+                                      row.total - row.sended
                                     )}
                                   </TableCell>
-                                  <TableCell align="left">{row.acknowleged}</TableCell>
-                                  <TableCell align="left">{row.total}</TableCell>
                                   <TableCell align="left">{row.draft}</TableCell>
                                 </>
                               )}

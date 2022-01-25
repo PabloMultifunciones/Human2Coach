@@ -114,12 +114,27 @@ function UserListToolbar(props) {
     }
 
     if (value === 3) {
-      if (!props.leaders) {
-        props.getLeadersRequest(999).then((r) => {
+      if (props.userLogged && props.userLogged.user.position === 2) {
+        setState((prevState) => ({
+          ...prevState,
+          collaboratorLeader: props.userLogged.user.id
+        }));
+
+        props.getCollaboratorsByLeadersRequest(props.userLogged.user.id).then((r) => {
           if (r.content && r.content.length === 0) {
-            toastr.error(t('do-not-have-leaders', 'Tu no tienes líderes'));
+            toastr.error(t('do-not-have-leaders-collaborator', 'Ese lider no tiene colaboradores'));
           }
         });
+      }
+
+      if (props.userLogged && props.userLogged.user.position !== 2) {
+        if (!props.leaders) {
+          props.getLeadersRequest(999).then((r) => {
+            if (r.content && r.content.length === 0) {
+              toastr.error(t('do-not-have-leaders', 'Tu no tienes líderes'));
+            }
+          });
+        }
       }
     }
 
@@ -285,11 +300,11 @@ function UserListToolbar(props) {
 
               {role === 3 && collaboratorLeader === 'ALL' && (
                 <>
-                  {props.users_charging ? (
+                  {props.generalReducer.users_charging ? (
                     <Spinner size={30} />
                   ) : (
                     <>
-                      {props.leaders && (
+                      {props.generalReducer.leaders && (
                         <div className="d-flex w-custom">
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel id="frequency-select-outlined-label">
@@ -306,7 +321,7 @@ function UserListToolbar(props) {
                               <MenuItem value="ALL">
                                 {t('select-leader', 'Selecciona un lider')}
                               </MenuItem>
-                              {props.leaders.content.map((user) => (
+                              {props.generalReducer.leaders.content.map((user) => (
                                 <MenuItem key={user.id} value={user.id}>
                                   {user.name ? `${user.name} ${user.lastName}` : 'Without name'}
                                 </MenuItem>
@@ -330,11 +345,11 @@ function UserListToolbar(props) {
 
               {role === 3 && collaboratorLeader !== 'ALL' && (
                 <>
-                  {props.users_charging ? (
+                  {props.generalReducer.users_charging ? (
                     <Spinner size={30} />
                   ) : (
                     <>
-                      {props.collaboratorsByLeader && (
+                      {props.generalReducer.collaboratorsByLeader && (
                         <div className="d-flex w-custom">
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel id="frequency-select-outlined-label">
@@ -351,7 +366,7 @@ function UserListToolbar(props) {
                               <MenuItem value="ALL">
                                 {t('select-collaborator', 'Selecciona un colaborador')}
                               </MenuItem>
-                              {props.collaboratorsByLeader.content.map((user) => (
+                              {props.generalReducer.collaboratorsByLeader.content.map((user) => (
                                 <MenuItem key={user.id} value={user.id}>
                                   {user.name ? `${user.name} ${user.lastName}` : 'Without name'}
                                 </MenuItem>

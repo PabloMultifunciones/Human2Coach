@@ -46,6 +46,7 @@
     "extra-time": "Tempo extra",
     "check": "Verifica",
     "collaborator": "Colaborador",
+    "collaborators": "Colaboradores",
     "mode": "Modo",
     "plans-removed": "Plano removido com sucesso",
     "plans-error-one-removed": "Este plano está sendo usado e não pode ser removido",

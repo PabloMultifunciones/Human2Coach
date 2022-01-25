@@ -290,10 +290,12 @@ function AppTableMetric(props) {
                   <TableHead>
                     <TableRow>
                       <TableCell key="type" className="custom-width">
-                        {props.title !== 'RESUME'
-                          ? props.title
-                          : t('collaborators', 'Colaboradores')}
+                        {props.title !== 'RESUME' ? props.title : t('resume.label', 'RESUMEN')}
                       </TableCell>
+
+                      {props.title === 'RESUME' && (
+                        <TableCell key="sent">{t('collaborators', 'Colaboradores')}</TableCell>
+                      )}
 
                       {props.title !== 'RESUME' &&
                         getMetricsType() &&
@@ -333,16 +335,12 @@ function AppTableMetric(props) {
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row, index) => (
                         <TableRow hover key={index} tabIndex={-1} role="checkbox">
-                          {props.title !== 'RESUME' && (
-                            <TableCell align="left">
-                              {GeneralFunctions.getWeekCountBack(index)}
-                            </TableCell>
-                          )}
+                          <TableCell align="left">
+                            {GeneralFunctions.getWeekCountBack(index)}
+                          </TableCell>
 
                           {props.title === 'RESUME' && (
-                            <TableCell align="left">
-                              {row.totalSupervised} - {GeneralFunctions.getWeekCountBack(index)}
-                            </TableCell>
+                            <TableCell align="left">{row.totalSupervised} </TableCell>
                           )}
 
                           {props.title !== 'RESUME' &&

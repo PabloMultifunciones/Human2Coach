@@ -128,26 +128,43 @@ export default {
     const count = getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7)) - 1;
 
     if (count === 1) {
-      return 1;
+      return `(W${1}: ${format(new Date(), 'dd/MM/yyyy')})`;
     }
 
     if (count === 51) {
-      return 52;
+      return `(W${52}: ${format(new Date(), 'dd/MM/yyyy')})`;
     }
 
     if (count < 1) {
-      return 1;
+      return `(W${1}: ${format(new Date(), 'dd/MM/yyyy')})`;
     }
 
-    return 1;
+    return `(W${count}: ${format(new Date(), 'dd/MM/yyyy')})`;
   },
 
-  getWeekCountBefore() {
-    const count = getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7)) - 1;
+  getWeekCountLastBefore() {
+    const count = getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 21)) - 1;
 
     if (count === 0) {
       return 52;
     }
-    return getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7)) - 1;
+
+    return `(W${getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 21)) - 1}: ${format(
+      subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 14),
+      'dd/MM/yyyy'
+    )})`;
+  },
+
+  getWeekCountBefore() {
+    const count = getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 14)) - 1;
+
+    if (count === 0) {
+      return 52;
+    }
+
+    return `(W${getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 14)) - 1}: ${format(
+      subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
+      'dd/MM/yyyy'
+    )})`;
   }
 };

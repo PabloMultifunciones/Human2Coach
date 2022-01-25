@@ -14,7 +14,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { add, format, subDays, startOfWeek } from 'date-fns';
+import { add, format } from 'date-fns';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
 import Spinner from './Spinner';
@@ -143,19 +143,13 @@ function EditPlanForm(props) {
         alignRight: false
       },
       {
-        id: 'wbefore',
-        label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
-          subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
-          'dd/MM/yyyy'
-        )}`,
+        id: 'wLastbefore',
+        label: GeneralFunctions.getWeekCountLastBefore(),
         alignRight: false
       },
       {
-        id: 'wafter',
-        label: `W${GeneralFunctions.getWeekCount()}  ${format(
-          startOfWeek(new Date(), { weekStartsOn: 1 }),
-          'dd/MM/yyyy'
-        )}`,
+        id: 'wbefore',
+        label: GeneralFunctions.getWeekCountBefore(),
         alignRight: false
       },
       { id: 'check', label: 'Check', alignRight: false }
@@ -382,7 +376,7 @@ function EditPlanForm(props) {
                         variant="outlined"
                         value={notes}
                         name="notes"
-                        inputProps={{ maxLength: 255 }}
+                        inputProps={{ maxLength: 2000 }}
                         onChange={(event) => {
                           handleChange(event, event.target.value);
                         }}
@@ -401,7 +395,7 @@ function EditPlanForm(props) {
                         variant="outlined"
                         value={comments}
                         name="comments"
-                        inputProps={{ maxLength: 255 }}
+                        inputProps={{ maxLength: 2000 }}
                         onChange={(event) => {
                           handleChange(event, event.target.value);
                         }}

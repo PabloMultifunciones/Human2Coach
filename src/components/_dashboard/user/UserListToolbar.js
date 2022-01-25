@@ -84,18 +84,20 @@ function UserListToolbar(props) {
   };
 
   const handleSearch = (e) => {
-    if (e.target.value.length > 2) {
-      props.onFilterName(e);
-    }
+    if (!props.plansReducer.plans_charging) {
+      if (e.target.value.length > 2) {
+        props.onFilterName(e);
+      }
 
-    if (e.target.value === '') {
-      props.onFilterName(e);
-    }
+      if (e.target.value === '') {
+        props.onFilterName(e);
+      }
 
-    setState((prevState) => ({
-      ...prevState,
-      search: e.target.value
-    }));
+      setState((prevState) => ({
+        ...prevState,
+        search: e.target.value
+      }));
+    }
   };
 
   /** ********************NEW SEARCH****************** */
@@ -238,11 +240,11 @@ function UserListToolbar(props) {
 
               {role === 2 && (
                 <>
-                  {props.users_charging ? (
+                  {props.generalReducer.users_charging ? (
                     <Spinner size={30} />
                   ) : (
                     <>
-                      {props.leaders && (
+                      {props.generalReducer.leaders && (
                         <div className="d-flex w-custom">
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel id="frequency-select-outlined-label">
@@ -259,7 +261,7 @@ function UserListToolbar(props) {
                               <MenuItem value="ALL">
                                 {t('select-leader', 'Selecciona un lider')}
                               </MenuItem>
-                              {props.leaders.content.map((user) => (
+                              {props.generalReducer.leaders.content.map((user) => (
                                 <MenuItem key={user.id} value={user.id}>
                                   {user.name ? `${user.name} ${user.lastName}` : 'Without name'}
                                 </MenuItem>
@@ -378,7 +380,7 @@ function UserListToolbar(props) {
   );
 }
 
-const mapStateToProps = ({ generalReducer }) => generalReducer;
+const mapStateToProps = ({ plansReducer, generalReducer }) => ({ plansReducer, generalReducer });
 const mapDispatchToProps = {
   getCollaboratorsRequest,
   getCollaboratorsByLeadersRequest,

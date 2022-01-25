@@ -114,19 +114,13 @@ function FeedbackDialog(props) {
     { id: 'metric', label: t('menu.metric-panel-title', 'Métrica'), alignRight: false },
     { id: 'objective', label: t('goal.label', 'Objetivo'), alignRight: false },
     {
-      id: 'wbefore',
-      label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
-        subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
-        'dd/MM/yyyy'
-      )}`,
+      id: 'wLastbefore',
+      label: GeneralFunctions.getWeekCountLastBefore(),
       alignRight: false
     },
     {
-      id: 'wafter',
-      label: `W${GeneralFunctions.getWeekCount()}  ${format(
-        startOfWeek(new Date(), { weekStartsOn: 1 }),
-        'dd/MM/yyyy'
-      )}`,
+      id: 'wbefore',
+      label: GeneralFunctions.getWeekCountBefore(),
       alignRight: false
     },
     { id: 'actions', label: t('admin.user-panel-table-actions', 'Acciones'), alignRight: false }
@@ -212,7 +206,7 @@ function FeedbackDialog(props) {
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           {t('feedback-objective', 'Feedback por objetivo')}
-          {`(W${GeneralFunctions.getWeekCount()}: ${format(new Date(), 'dd/MM/yyyy')})`}
+          {GeneralFunctions.getWeekCount()}
         </DialogTitle>
 
         <>

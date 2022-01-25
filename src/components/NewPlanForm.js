@@ -12,7 +12,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { add, format, subDays, startOfWeek } from 'date-fns';
+import { add, format } from 'date-fns';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
 import Spinner from './Spinner';
@@ -103,19 +103,13 @@ function NewPlanForm(props) {
         alignRight: false
       },
       {
-        id: 'wbefore',
-        label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
-          subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
-          'dd/MM/yyyy'
-        )}`,
+        id: 'wLastbefore',
+        label: GeneralFunctions.getWeekCountLastBefore(),
         alignRight: false
       },
       {
-        id: 'wafter',
-        label: `W${GeneralFunctions.getWeekCount()}  ${format(
-          startOfWeek(new Date(), { weekStartsOn: 1 }),
-          'dd/MM/yyyy'
-        )}`,
+        id: 'wbefore',
+        label: GeneralFunctions.getWeekCountBefore(),
         alignRight: false
       },
       { id: 'check', label: 'Check', alignRight: false }
@@ -328,7 +322,7 @@ function NewPlanForm(props) {
                         variant="outlined"
                         value={notes}
                         name="notes"
-                        inputProps={{ maxLength: 255 }}
+                        inputProps={{ maxLength: 2000 }}
                         onChange={(event) => {
                           handleChange(event, event.target.value);
                         }}
@@ -347,7 +341,7 @@ function NewPlanForm(props) {
                         variant="outlined"
                         value={comments}
                         name="comments"
-                        inputProps={{ maxLength: 255 }}
+                        inputProps={{ maxLength: 2000 }}
                         onChange={(event) => {
                           handleChange(event, event.target.value);
                         }}
@@ -450,6 +444,7 @@ function NewPlanForm(props) {
                       {t('admin.header-dropdown-dialog-actions-save', 'Guardar')}
                     </Button>
                     <Button
+                      disabled={feedback === '' || !feedback}
                       onClick={() => submitFunction('SENDED')}
                       color="primary"
                       variant="contained"

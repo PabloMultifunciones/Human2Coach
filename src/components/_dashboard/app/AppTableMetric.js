@@ -316,10 +316,15 @@ function AppTableMetric(props) {
                       ) : (
                         <>
                           <TableCell key="sent">{t('sent', 'Envíados')}</TableCell>
-                          <TableCell key="pending">{t('pending', 'Pendientes')}</TableCell>
-                          <TableCell key="signed">{t('signed', 'Firmados')}</TableCell>
-                          <TableCell key="total">{t('total', 'Total')}</TableCell>
-                          <TableCell key="slopes">{t('saved', 'Guardados')}</TableCell>
+
+                          {props.title === 'RESUME' && (
+                            <>
+                              <TableCell key="pending">{t('pending', 'Pendientes')}</TableCell>
+                              <TableCell key="signed">{t('signed', 'Firmados')}</TableCell>
+                              <TableCell key="total">{t('total', 'Total')}</TableCell>
+                              <TableCell key="slopes">{t('saved', 'Guardados')}</TableCell>
+                            </>
+                          )}
                         </>
                       )}
                     </TableRow>
@@ -352,20 +357,24 @@ function AppTableMetric(props) {
                             </>
                           ) : (
                             <>
-                              {' '}
                               <TableCell align="left">{row.sended}</TableCell>
-                              <TableCell align="left">
-                                {row.pendindg > 0 ? (
-                                  <Label variant="ghost" color="error">
-                                    {row.pendindg}
-                                  </Label>
-                                ) : (
-                                  row.pendindg
-                                )}
-                              </TableCell>
-                              <TableCell align="left">{row.acknowleged}</TableCell>
-                              <TableCell align="left">{row.total}</TableCell>
-                              <TableCell align="left">{row.draft}</TableCell>
+
+                              {props.title === 'RESUME' && (
+                                <>
+                                  <TableCell align="left">
+                                    {row.pendindg > 0 ? (
+                                      <Label variant="ghost" color="error">
+                                        {row.pendindg}
+                                      </Label>
+                                    ) : (
+                                      row.pendindg
+                                    )}
+                                  </TableCell>
+                                  <TableCell align="left">{row.acknowleged}</TableCell>
+                                  <TableCell align="left">{row.total}</TableCell>
+                                  <TableCell align="left">{row.draft}</TableCell>
+                                </>
+                              )}
                             </>
                           )}
                         </TableRow>

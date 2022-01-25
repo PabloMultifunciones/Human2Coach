@@ -256,7 +256,7 @@ function PlanDialog(props) {
                       variant="outlined"
                       value={others}
                       name="others"
-                      inputProps={{ maxLength: 255 }}
+                      inputProps={{ maxLength: 2000 }}
                       onChange={(event) => {
                         handleChange(event, event.target.value);
                       }}

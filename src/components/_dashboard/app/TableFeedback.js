@@ -14,7 +14,6 @@ import {
 } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from 'react-redux';
-import { format, subDays, startOfWeek } from 'date-fns';
 
 import { setMetricsSelected, deleteMetricsSelected } from '../../../actions/plansActions';
 import GeneralFunctions from '../../../libs/GeneralFunctions';
@@ -41,19 +40,13 @@ function TableFeedback({
     { id: 'metric', label: t('menu.metric-panel-title', 'Métrica'), alignRight: false },
     { id: 'objective', label: t('goal.label', 'Objetivo'), alignRight: false },
     {
-      id: 'wbefore',
-      label: `W${GeneralFunctions.getWeekCountBefore()}  ${format(
-        subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
-        'dd/MM/yyyy'
-      )}`,
+      id: 'wLastbefore',
+      label: GeneralFunctions.getWeekCountLastBefore(),
       alignRight: false
     },
     {
-      id: 'wafter',
-      label: `W${GeneralFunctions.getWeekCount()}  ${format(
-        startOfWeek(new Date(), { weekStartsOn: 1 }),
-        'dd/MM/yyyy'
-      )}`,
+      id: 'wbefore',
+      label: GeneralFunctions.getWeekCountBefore(),
       alignRight: false
     },
     { id: 'check', label: t('check', 'Check'), alignRight: false }
@@ -92,8 +85,7 @@ function TableFeedback({
       <Card>
         <h4 className="p-1">
           {' '}
-          {t('feedback-objective', 'Feedback por objetivo')}{' '}
-          {`(W${GeneralFunctions.getWeekCount()}: ${format(new Date(), 'dd/MM/yyyy')})`}
+          {t('feedback-objective', 'Feedback por objetivo')} {GeneralFunctions.getWeekCount()}
         </h4>
         <Scrollbar>
           <TableContainer>

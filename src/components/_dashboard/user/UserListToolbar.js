@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import toastr from 'toastr';
 import { useTranslation } from 'react-i18next';
 
@@ -70,6 +70,13 @@ function UserListToolbar(props) {
   });
   const { t } = useTranslation();
 
+  useEffect(() => {
+    if (props.userLogged && props.userLogged.user.position === 2) {
+      handleChangeRol({ target: { name: 'collaboratorLeader', value: 3 } });
+    }
+    // eslint-disable-next-line
+  }, []);
+
   const handleChange = (event, value) => {
     setState((prevState) => ({
       ...prevState,
@@ -117,7 +124,8 @@ function UserListToolbar(props) {
       if (props.userLogged && props.userLogged.user.position === 2) {
         setState((prevState) => ({
           ...prevState,
-          collaboratorLeader: props.userLogged.user.id
+          collaboratorLeader: props.userLogged.user.id,
+          role: 3
         }));
 
         props.getCollaboratorsByLeadersRequest(props.userLogged.user.id).then((r) => {
@@ -136,12 +144,12 @@ function UserListToolbar(props) {
           });
         }
       }
+    } else {
+      setState((prevState) => ({
+        ...prevState,
+        [name]: value
+      }));
     }
-
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value
-    }));
   };
 
   const handleChangeLeader = ({ target: { name, value } }) => {
@@ -373,14 +381,20 @@ function UserListToolbar(props) {
                               ))}
                             </Select>
                           </FormControl>
-                          <Button
-                            className="button-plan-search"
-                            variant="contained"
-                            color="error"
-                            onClick={() => closeSearch()}
-                          >
-                            {t('back.label', 'Anterior')}
-                          </Button>
+
+                          <>
+                            {' '}
+                            {props.userLogged && props.userLogged.user.position !== 2 && (
+                              <Button
+                                className="button-plan-search"
+                                variant="contained"
+                                color="error"
+                                onClick={() => closeSearch()}
+                              >
+                                {t('back.label', 'Anterior')}
+                              </Button>
+                            )}
+                          </>
                         </div>
                       )}
                     </>

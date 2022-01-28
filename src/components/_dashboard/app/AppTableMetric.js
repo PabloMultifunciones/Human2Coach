@@ -365,12 +365,12 @@ function AppTableMetric(props) {
                                   <TableCell align="left">{row.acknowleged}</TableCell>
 
                                   <TableCell align="left">
-                                    {row.total - row.sended > 0 ? (
+                                    {row.pendindg > 0 ? (
                                       <Label variant="ghost" color="error">
-                                        {row.total - row.sended}
+                                        {row.pendindg}
                                       </Label>
                                     ) : (
-                                      row.total - row.sended
+                                      row.pendindg
                                     )}
                                   </TableCell>
                                   <TableCell align="left">{row.draft}</TableCell>

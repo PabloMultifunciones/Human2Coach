@@ -27,9 +27,7 @@ const { COLLABORATOR_LIST_REQUEST } = generalTypes;
 export const getMetricsCollaboratorRequest = (payload) => async (dispatch, getState) => {
   try {
     const { pagesCollaborators } = getState().metricsReducer;
-    console.log(pagesCollaborators);
 
-    console.log(payload.number);
     if (!pagesCollaborators.includes(payload.number)) {
       dispatch({
         type: METRICS_LIST_CHARGING
@@ -172,8 +170,11 @@ export const updateMetricData = (payload) => async (dispatch, getState) => {
 
     const metricsUpdated = [...metricsData.metrics_collaborators];
 
-    metricsUpdated[payload.index] = {
-      ...metricsUpdated[payload.index],
+    const findById = (metric) => metric.id === payload.id;
+    const index = metricsUpdated.findIndex(findById);
+
+    metricsUpdated[index] = {
+      ...metricsUpdated[index],
       dataTwo: payload.data
     };
 

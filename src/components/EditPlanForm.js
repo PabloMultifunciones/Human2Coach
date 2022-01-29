@@ -338,10 +338,6 @@ function EditPlanForm(props) {
                   </Grid>
                 )}
 
-                {console.log(
-                  'props.plansReducer.metricsSelected',
-                  props.plansReducer.metricsSelected
-                )}
                 {props.plansReducer.metricsSelected.length > 0 && feedback === 'objective' && (
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <TableFeedbackDone title="" tableHead={getTablehead()} newPlan />

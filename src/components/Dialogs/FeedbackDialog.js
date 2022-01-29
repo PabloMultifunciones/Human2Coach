@@ -126,12 +126,12 @@ function FeedbackDialog(props) {
     { id: 'actions', label: t('admin.user-panel-table-actions', 'Acciones'), alignRight: false }
   ];
 
-  const handleChange = (e, i) => {
-    props.updateMetricData({ data: e.target.value, index: i });
+  const handleChange = (e, id) => {
+    props.updateMetricData({ data: e.target.value, id });
   };
 
-  const handleChangeTime = (e, i) => {
-    props.updateMetricData({ data: e, index: i });
+  const handleChangeTime = (e, id) => {
+    props.updateMetricData({ data: e, id });
   };
 
   useEffect(() => {
@@ -250,14 +250,15 @@ function FeedbackDialog(props) {
                                     <TableCell align="left">{row.value}</TableCell>
                                     {metricConf ? (
                                       <TableCell align="left">
-                                        {(metricConf.type === 'NUMBER' ||
+                                        {(metricConf.type === 'PERCENT' ||
+                                          metricConf.type === 'NUMBER' ||
                                           metricConf.type === 'MULTIPLIER') && (
                                           <Grid item xs={12} md={12} lg={12}>
                                             <TextField
-                                              onChange={(e) => handleChange(e, i)}
+                                              onChange={(e) => handleChange(e, id)}
                                               value={dataTwo || ''}
-                                              name="targetValue"
-                                              id="targetValue"
+                                              name={`targetValue${id}`}
+                                              id={`targetValue${id}`}
                                               type="number"
                                               variant="outlined"
                                               className="mt-1"
@@ -294,9 +295,9 @@ function FeedbackDialog(props) {
                                                   new Date(new Date().setHours(0, 0, 0, 0))
                                                 }
                                                 fullWidth
-                                                onChange={(e) => handleChangeTime(e, i)}
-                                                name="targetValue"
-                                                id="targetValue"
+                                                onChange={(e) => handleChangeTime(e, id)}
+                                                name={`targetValue${id}`}
+                                                id={`targetValue${id}`}
                                                 renderInput={(params) => (
                                                   <TextField
                                                     className="mt-1"
@@ -319,11 +320,11 @@ function FeedbackDialog(props) {
                                                 )}
                                               </InputLabel>
                                               <Select
-                                                onChange={(e) => handleChange(e, i)}
+                                                onChange={(e) => handleChange(e, id)}
                                                 value={dataTwo || ''}
-                                                labelId="targetValue"
-                                                id="targetValue"
-                                                name="targetValue"
+                                                labelId={`targetValue${id}`}
+                                                id={`targetValue${id}`}
+                                                name={`targetValue${id}`}
                                                 label={t(
                                                   'menu.metric-panel-dialog-objective',
                                                   'Objetivo'
@@ -353,10 +354,10 @@ function FeedbackDialog(props) {
                                       <TableCell align="left">
                                         <Grid item xs={12} md={12} lg={12}>
                                           <TextField
-                                            onChange={(e) => handleChange(e, i)}
+                                            onChange={(e) => handleChange(e, id)}
                                             value={dataTwo || ''}
-                                            name="targetValue"
-                                            id="targetValue"
+                                            name={`targetValue${id}`}
+                                            id={`targetValue${id}`}
                                             type="number"
                                             variant="outlined"
                                             className="mt-1"

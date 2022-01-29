@@ -67,7 +67,7 @@ function User(props) {
       label: t('admin.user-panel-user-dialog-input-username', 'Nombre de usuario'),
       alignRight: false
     },
-    { id: 'company', label: t('company.label', 'Empresa'), alignRight: false },
+    { id: 'company', label: t('team.label', 'Equipo'), alignRight: false },
     {
       id: 'status',
       label: t('admin.header-dropdown-view-conditions-table-state', 'Estado'),

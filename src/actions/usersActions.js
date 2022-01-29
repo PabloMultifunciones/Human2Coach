@@ -79,7 +79,7 @@ export const saveUserRequest = (payload) => async (dispatch, getState) => {
     const { teams } = getState().generalReducer;
 
     const teamsFiltered = [...teams.content].filter((team) =>
-      team.id === responseLogin.data.team ? responseLogin.data.team.id : null
+      team.id === responseLogin.data.team.id ? responseLogin.data.team.id : null
     );
 
     const usersUpdated = [

@@ -90,11 +90,12 @@ function UserDialog(props) {
   const [roleError, setRoleError] = useState(false);
   const [isActiveError, setIsActiveError] = useState(false);
 
-  const [{ id, username, name, team, userManager, userLeader, role, isActive }, setState] =
+  const [{ id, username, name, email, team, userManager, userLeader, role, isActive }, setState] =
     useState({
       id: props.id ? props.id : null,
       username: props.username ? props.username : '',
       name: props.name ? props.name : '',
+      email: props.email ? props.email : '',
       team: props.team ? props.team.id : '',
       userManager: props.teamManager ? props.teamManager.id : '',
 
@@ -199,6 +200,7 @@ function UserDialog(props) {
         .updateUserRequest({
           id,
           name,
+          email,
           username,
           team: { id: team },
           role,
@@ -213,6 +215,7 @@ function UserDialog(props) {
       await props
         .saveUserRequest({
           name,
+          email,
           username,
           team: { id: team },
           role,
@@ -251,6 +254,7 @@ function UserDialog(props) {
       id: props.id ? props.id : null,
       username: props.username ? props.username : '',
       name: props.name ? props.name : '',
+      email: props.email ? props.email : '',
       team: props.team ? props.team.id : '',
       role: props.role ? props.role : '',
       isActive: props.isActive || false
@@ -326,6 +330,18 @@ function UserDialog(props) {
                             name="name"
                             value={name}
                             error={nameError}
+                            onChange={handleChange}
+                          />
+                        </Grid>
+
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                          <TextField
+                            fullWidth
+                            id="outlined-email"
+                            variant="outlined"
+                            label={t('email.label', 'Correo')}
+                            name="email"
+                            value={email}
                             onChange={handleChange}
                           />
                         </Grid>

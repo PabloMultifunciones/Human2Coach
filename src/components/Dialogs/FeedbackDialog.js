@@ -106,7 +106,7 @@ function FeedbackDialog(props) {
 
   const [page, setPage] = useState(0);
 
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState(4);
 
   const myRefs = useRef([]);
 
@@ -401,7 +401,7 @@ function FeedbackDialog(props) {
                       </TableContainer>
 
                       <TablePagination
-                        rowsPerPageOptions={[7]}
+                        rowsPerPageOptions={[4]}
                         component="div"
                         count={props.metricsReducer.totalElements_collaborators}
                         rowsPerPage={rowsPerPage}

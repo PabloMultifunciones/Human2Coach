@@ -33,7 +33,7 @@ export const getMetricsCollaboratorRequest = (payload) => async (dispatch, getSt
       });
       const responseLogin = await MetricService.getMetricsCollaborator(
         payload.number,
-        7,
+        4,
         payload.id
       );
       dispatch({

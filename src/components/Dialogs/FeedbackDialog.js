@@ -236,7 +236,7 @@ function FeedbackDialog(props) {
                                     ref={(el) => (myRefs.current[i] = el)}
                                     className="not-selected-cell"
                                   >
-                                    <TableCell align="left">
+                                    <TableCell align="left" className="custom-feedback-td">
                                       <div>
                                         {' '}
                                         {metricConfName.length > 20
@@ -244,24 +244,26 @@ function FeedbackDialog(props) {
                                           : metricConfName}
                                       </div>
                                     </TableCell>
-                                    <TableCell align="left">
+                                    <TableCell align="left" className="custom-feedback-td">
                                       <div>{targetValue}</div>
                                     </TableCell>
-                                    <TableCell align="left">{row.value}</TableCell>
+                                    <TableCell align="left" className="custom-feedback-td">
+                                      {row.value}
+                                    </TableCell>
                                     {metricConf ? (
-                                      <TableCell align="left">
+                                      <TableCell align="left" className="custom-feedback-td">
                                         {(metricConf.type === 'PERCENT' ||
                                           metricConf.type === 'NUMBER' ||
                                           metricConf.type === 'MULTIPLIER') && (
                                           <Grid item xs={12} md={12} lg={12}>
                                             <TextField
+                                              size="small"
                                               onChange={(e) => handleChange(e, id)}
                                               value={dataTwo || ''}
                                               name={`targetValue${id}`}
                                               id={`targetValue${id}`}
                                               type="number"
                                               variant="outlined"
-                                              className="mt-1"
                                               fullWidth
                                             />
                                           </Grid>
@@ -299,11 +301,7 @@ function FeedbackDialog(props) {
                                                 name={`targetValue${id}`}
                                                 id={`targetValue${id}`}
                                                 renderInput={(params) => (
-                                                  <TextField
-                                                    className="mt-1"
-                                                    fullWidth
-                                                    {...params}
-                                                  />
+                                                  <TextField size="small" fullWidth {...params} />
                                                 )}
                                               />
                                             </Grid>
@@ -320,6 +318,7 @@ function FeedbackDialog(props) {
                                                 )}
                                               </InputLabel>
                                               <Select
+                                                size="small"
                                                 onChange={(e) => handleChange(e, id)}
                                                 value={dataTwo || ''}
                                                 labelId={`targetValue${id}`}
@@ -351,23 +350,23 @@ function FeedbackDialog(props) {
                                         )}
                                       </TableCell>
                                     ) : (
-                                      <TableCell align="left">
+                                      <TableCell align="left" className="custom-feedback-td">
                                         <Grid item xs={12} md={12} lg={12}>
                                           <TextField
+                                            size="small"
                                             onChange={(e) => handleChange(e, id)}
                                             value={dataTwo || ''}
                                             name={`targetValue${id}`}
                                             id={`targetValue${id}`}
                                             type="number"
                                             variant="outlined"
-                                            className="mt-1"
                                             fullWidth
                                           />
                                         </Grid>
                                       </TableCell>
                                     )}
 
-                                    <TableCell align="left">
+                                    <TableCell align="left" className="custom-feedback-td">
                                       <Checkbox
                                         disabled={dataTwo === 'undefined' || !dataTwo}
                                         onClick={() => setClassToCell(myRefs.current[i], row)}

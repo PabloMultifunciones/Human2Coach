@@ -77,13 +77,13 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         metrics_charging: false,
-        metrics_collaborators: [...state.pages].includes(action.payload.number)
-          ? [...state.metrics]
-          : [...state.metrics, ...action.payload.content],
+        metrics_collaborators: [...state.pagesCollaborators].includes(action.payload.number)
+          ? [...state.metrics_collaborators]
+          : [...state.metrics_collaborators, ...action.payload.content],
         totalElements_collaborators: action.payload.totalElements,
-        pagesCollaborators: [...state.pages].includes(action.payload.number)
-          ? [...state.pages]
-          : [...state.pages, action.payload.number],
+        pagesCollaborators: [...state.pagesCollaborators].includes(action.payload.number)
+          ? [...state.pagesCollaborators]
+          : [...state.pagesCollaborators, action.payload.number],
         error_metrics: false
       };
 

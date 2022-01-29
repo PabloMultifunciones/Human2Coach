@@ -27,6 +27,9 @@ const { COLLABORATOR_LIST_REQUEST } = generalTypes;
 export const getMetricsCollaboratorRequest = (payload) => async (dispatch, getState) => {
   try {
     const { pagesCollaborators } = getState().metricsReducer;
+    console.log(pagesCollaborators);
+
+    console.log(payload.number);
     if (!pagesCollaborators.includes(payload.number)) {
       dispatch({
         type: METRICS_LIST_CHARGING
@@ -38,7 +41,7 @@ export const getMetricsCollaboratorRequest = (payload) => async (dispatch, getSt
       );
       dispatch({
         type: METRICS_COLLABORATOR_LIST_REQUEST,
-        payload: { ...responseLogin.data }
+        payload: { ...responseLogin.data, number: payload.number }
       });
     } else {
       dispatch({

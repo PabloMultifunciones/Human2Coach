@@ -159,11 +159,11 @@ function FeedbackDialog(props) {
       props.setMetricsSelected({
         ...row,
         date1: `${format(
-          subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
+          subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 14),
           'yyyy-MM-dd'
         )}T00:00:00`,
         date2: `${format(
-          subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 1),
+          subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
           'yyyy-MM-dd'
         )}T00:00:00`,
         value1: row.value,

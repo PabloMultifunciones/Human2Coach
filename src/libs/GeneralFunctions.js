@@ -124,22 +124,23 @@ export default {
     return <Icon icon={pieChartFill} width={30} height={30} className="mr-1" />;
   },
 
-  getWeekCount() {
-    const count = getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 0)) - 1;
+  getWeekCount(date) {
+    const count =
+      getWeek(subDays(startOfWeek(date ? new Date(date) : new Date(), { weekStartsOn: 1 }), 0)) - 1;
 
     if (count === 1) {
-      return `(W${1}: ${format(new Date(), 'dd/MM/yyyy')})`;
+      return `(W${1}: ${format(date ? new Date(date) : new Date(), 'dd/MM/yyyy')})`;
     }
 
     if (count === 51) {
-      return `(W${52}: ${format(new Date(), 'dd/MM/yyyy')})`;
+      return `(W${52}: ${format(date ? new Date(date) : new Date(), 'dd/MM/yyyy')})`;
     }
 
     if (count < 1) {
-      return `(W${1}: ${format(new Date(), 'dd/MM/yyyy')})`;
+      return `(W${1}: ${format(date ? new Date(date) : new Date(), 'dd/MM/yyyy')})`;
     }
 
-    return `(W${count}: ${format(new Date(), 'dd/MM/yyyy')})`;
+    return `(W${count}: ${format(date ? new Date(date) : new Date(), 'dd/MM/yyyy')})`;
   },
 
   getWeekCountLastBefore() {
@@ -164,6 +165,32 @@ export default {
 
     return `(W${getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7)) - 1}: ${format(
       subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
+      'dd/MM/yyyy'
+    )})`;
+  },
+
+  getWeekCountLastBeforeSaved(date) {
+    const count = getWeek(startOfWeek(date ? new Date(date) : new Date(), { weekStartsOn: 1 })) - 1;
+
+    if (count === 0) {
+      return 52;
+    }
+
+    return `(W${getWeek(startOfWeek(new Date(date), { weekStartsOn: 1 })) - 1}: ${format(
+      date ? new Date(date) : new Date(),
+      'dd/MM/yyyy'
+    )})`;
+  },
+
+  getWeekCountBeforeSaved(date) {
+    const count = getWeek(startOfWeek(date ? new Date(date) : new Date(), { weekStartsOn: 1 })) - 1;
+
+    if (count === 0) {
+      return 52;
+    }
+
+    return `(W${getWeek(startOfWeek(new Date(date), { weekStartsOn: 1 })) - 1}: ${format(
+      date ? new Date(date) : new Date(),
       'dd/MM/yyyy'
     )})`;
   },

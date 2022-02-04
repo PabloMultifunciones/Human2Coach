@@ -231,6 +231,7 @@ function Plan(props) {
                           <section className="mb-2">
                             <TableFeedback
                               title=""
+                              planSelected={props.plansReducer.plansSelected}
                               metrics={props.plansReducer.plansSelected.metricConfs}
                               disabled
                               checked

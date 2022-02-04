@@ -27,6 +27,7 @@ import { UserListHead } from '../user';
 
 function TableFeedback({
   title,
+  planSelected,
   metrics,
   disabled,
   checked,
@@ -41,12 +42,16 @@ function TableFeedback({
     { id: 'objective', label: t('goal.label', 'Objetivo'), alignRight: false },
     {
       id: 'wLastbefore',
-      label: GeneralFunctions.getWeekCountLastBefore(),
+      label: GeneralFunctions.getWeekCountLastBeforeSaved(
+        planSelected ? planSelected.metricConfs[0].date1 : null
+      ),
       alignRight: false
     },
     {
       id: 'wbefore',
-      label: GeneralFunctions.getWeekCountBefore(),
+      label: GeneralFunctions.getWeekCountBeforeSaved(
+        planSelected ? planSelected.metricConfs[0].date2 : null
+      ),
       alignRight: false
     },
     { id: 'check', label: t('check', 'Check'), alignRight: false }
@@ -84,8 +89,8 @@ function TableFeedback({
 
       <Card>
         <h4 className="p-1">
-          {' '}
-          {t('feedback-objective', 'Feedback por objetivo')} {GeneralFunctions.getWeekCount()}
+          {t('feedback-objective', 'Feedback por objetivo')}{' '}
+          {GeneralFunctions.getWeekCount(planSelected ? planSelected.created : null)}
         </h4>
         <Scrollbar>
           <TableContainer>

@@ -152,6 +152,7 @@ function FeedbackDialog(props) {
         toastr.error(t('must-add-data', 'Debes ingresar un dato válido'));
         return;
       }
+
       ref.classList.add('selected-cell');
       ref.classList.remove('not-selected-cell');
       props.setMetricsSelected({

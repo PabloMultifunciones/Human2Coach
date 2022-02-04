@@ -51,8 +51,6 @@ import Spinner from '../Spinner';
 
 import 'toastr/build/toastr.min.css';
 
-// {getWeek(new Date())}: ${format(new Date(), 'dd/MM/yyyy')}
-
 /** *****Services******* */
 
 const styles = (theme) => ({

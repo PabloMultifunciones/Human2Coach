@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { format } from 'date-fns';
 
 // material
 import {
@@ -73,7 +74,11 @@ function TableFeedbackDone({ title, tableHead, newPlan, metricsSelected }) {
                       <TableCell align="left">{row.metricConfName}</TableCell>
                       <TableCell align="left">{row.targetValue}</TableCell>
                       <TableCell align="left">{row.value1}</TableCell>
-                      <TableCell align="left">{row.value2}</TableCell>
+                      <TableCell align="left">
+                        {row.metricConf && row.metricConf.type === 'TIME'
+                          ? `${format(new Date(row.value2), 'HH:mm:ss')}`
+                          : row.value2}
+                      </TableCell>
                       <TableCell align="left">
                         <Checkbox
                           color="primary"

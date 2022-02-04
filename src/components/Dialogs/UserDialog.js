@@ -388,7 +388,7 @@ function UserDialog(props) {
                               name="role"
                               value={role}
                               error={roleError}
-                              label="Rol"
+                              label={t('admin.header-dropdown-view-conditions-table-role', 'Rol')}
                               fullWidth
                               onChange={handleChange}
                             >

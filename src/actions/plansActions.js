@@ -24,7 +24,7 @@ const { COLLABORATOR_LIST_REQUEST } = generalTypes;
 
 export const setMetricsSelected = (payload) => async (dispatch, getState) => {
   const { metricsSelected } = getState().plansReducer;
-  const metricsUpdated = [payload, ...metricsSelected];
+  const metricsUpdated = [...metricsSelected, payload];
 
   dispatch({
     type: SET_PLANS_METRICS_TABLE,

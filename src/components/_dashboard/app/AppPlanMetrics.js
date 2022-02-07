@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { getWeek } from 'date-fns';
 
 import { merge } from 'lodash';
 import ReactApexChart from 'react-apexcharts';
@@ -7,6 +6,8 @@ import ReactApexChart from 'react-apexcharts';
 import { Box, Card, CardHeader } from '@material-ui/core';
 // utils
 import { fNumber } from '../../../utils/formatNumber';
+import GeneralFunctions from '../../../libs/GeneralFunctions';
+
 //
 import Spinner from '../../Spinner';
 
@@ -16,7 +17,6 @@ import { BaseOptionChart } from '../../charts';
 
 export default function AppPlanMetrics(props) {
   const [chartData, setChartData] = useState(null);
-  const [name, setName] = useState(null);
 
   const [chartOptions, setChartOptions] = useState(
     merge(BaseOptionChart(), {
@@ -41,8 +41,6 @@ export default function AppPlanMetrics(props) {
 
   useEffect(() => {
     if (props.planSelected && props.planSelected !== 'undefined') {
-      const name = getWeek(new Date(props.planSelected.metricConfs[0].date1) - 1);
-
       const dateOne = [];
 
       props.planSelected.metricConfs.forEach((element) => {
@@ -79,31 +77,46 @@ export default function AppPlanMetrics(props) {
         categoriesName.push(element.metricConf ? element.metricConf.name : 'N/A');
       });
 
-      setData(name, dateOne, dateTwo, categoriesName);
+      setData(dateOne, dateTwo, categoriesName);
     }
 
     // eslint-disable-next-line
   }, [props.planSelected]);
 
-  const setData = (name, dateOne, dateTwo, categoriesName) => {
+  const setData = (dateOne, dateTwo, categoriesName) => {
     const chartOptionsOriginal = { ...chartOptions };
     chartOptionsOriginal.xaxis = { categories: categoriesName };
 
     setChartOptions(chartOptionsOriginal);
-    setName(name);
     setChartData([
-      { name: `W${name}`, data: dateOne },
-      { name: `W${name + 1}`, data: dateTwo }
+      {
+        name: `W${GeneralFunctions.getWeekCountLastBeforeSaved(
+          props.planSelected ? props.planSelected.metricConfs[0].date1 : null
+        )}`,
+        data: dateOne
+      },
+      {
+        name: `W${GeneralFunctions.getWeekCountLastBeforeSaved(
+          props.planSelected ? props.planSelected.metricConfs[0].date2 : null
+        )}`,
+        data: dateTwo
+      }
     ]);
   };
 
   return (
     <Card>
-      {(!chartData || !chartOptions || !name) && <Spinner />}
+      {(!chartData || !chartOptions) && <Spinner />}
 
-      {chartData && chartOptions && name && (
+      {chartData && chartOptions && (
         <>
-          <CardHeader title={`W${name} y W${name + 1}`} />
+          <CardHeader
+            title={`${GeneralFunctions.getWeekCountLastBeforeSavedNumber(
+              props.planSelected ? props.planSelected.metricConfs[0].date1 : null
+            )} / ${GeneralFunctions.getWeekCountLastBeforeSavedNumber(
+              props.planSelected ? props.planSelected.metricConfs[0].date2 : null
+            )}`}
+          />
           <Box sx={{ mx: 3 }} dir="ltr">
             <ReactApexChart type="bar" series={chartData} options={chartOptions} height={364} />
           </Box>

@@ -147,7 +147,10 @@ export default {
     const count = getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 14)) - 1;
 
     if (count === 0) {
-      return 52;
+      return `(W52: ${format(
+        subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 14),
+        'dd/MM/yyyy'
+      )})`;
     }
 
     return `(W${getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 14)) - 1}: ${format(
@@ -160,7 +163,10 @@ export default {
     const count = getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7)) - 1;
 
     if (count === 0) {
-      return 52;
+      return `(W52: ${format(
+        subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7),
+        'dd/MM/yyyy'
+      )})`;
     }
 
     return `(W${getWeek(subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7)) - 1}: ${format(
@@ -173,7 +179,7 @@ export default {
     const count = getWeek(startOfWeek(date ? new Date(date) : new Date(), { weekStartsOn: 1 })) - 1;
 
     if (count === 0) {
-      return 52;
+      return `(W52: ${format(date ? new Date(date) : new Date(), 'dd/MM/yyyy')})`;
     }
 
     return `(W${getWeek(startOfWeek(new Date(date), { weekStartsOn: 1 })) - 1}: ${format(
@@ -186,13 +192,33 @@ export default {
     const count = getWeek(startOfWeek(date ? new Date(date) : new Date(), { weekStartsOn: 1 })) - 1;
 
     if (count === 0) {
-      return 52;
+      return `(W52: ${format(date ? new Date(date) : new Date(), 'dd/MM/yyyy')})`;
     }
 
     return `(W${getWeek(startOfWeek(new Date(date), { weekStartsOn: 1 })) - 1}: ${format(
       date ? new Date(date) : new Date(),
       'dd/MM/yyyy'
     )})`;
+  },
+
+  getWeekCountLastBeforeSavedNumber(date) {
+    const count = getWeek(startOfWeek(date ? new Date(date) : new Date(), { weekStartsOn: 1 })) - 1;
+
+    if (count === 0) {
+      return `W52`;
+    }
+
+    return `W${getWeek(startOfWeek(new Date(date), { weekStartsOn: 1 })) - 1}`;
+  },
+
+  getWeekCountBeforeSavedNumber(date) {
+    const count = getWeek(startOfWeek(date ? new Date(date) : new Date(), { weekStartsOn: 1 })) - 1;
+
+    if (count === 0) {
+      return `W52`;
+    }
+
+    return `(W${getWeek(startOfWeek(new Date(date), { weekStartsOn: 1 })) - 1}`;
   },
 
   getWeekCountBack(index) {

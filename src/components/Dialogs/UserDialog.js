@@ -311,10 +311,15 @@ function UserDialog(props) {
                             fullWidth
                             id="outlined-username"
                             variant="outlined"
-                            label={t(
-                              'admin.user-panel-user-dialog-input-username',
-                              'Nombre de usuario'
-                            )}
+                            label={
+                              props.loginReducer.userLogged.user &&
+                              props.loginReducer.userLogged.user.company_name === 'PedidosYa'
+                                ? t('nameLastname', 'Name.Lastname')
+                                : t(
+                                    'admin.user-panel-user-dialog-input-username',
+                                    'Nombre de usuario'
+                                  )
+                            }
                             name="username"
                             value={username}
                             error={usernameError}
@@ -564,7 +569,11 @@ function UserDialog(props) {
   );
 }
 
-const mapStateToProps = ({ generalReducer, usersReducer }) => ({ generalReducer, usersReducer });
+const mapStateToProps = ({ generalReducer, usersReducer, loginReducer }) => ({
+  generalReducer,
+  usersReducer,
+  loginReducer
+});
 const mapDispatchToProps = {
   teamsRequest,
   usersManagersRequest,

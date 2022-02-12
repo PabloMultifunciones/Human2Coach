@@ -1,4 +1,8 @@
 {
+    "changeDate": "Change date",
+    "commitDateOld": "Commitment date changed",
+    "commitDateNew": "New commitment date",
+    "shippingDate": "Shipping date",
     "resume": "Resume",
     "nameLastname": "Name.Lastname",
     "do-not-have-leaders": "You don't have leaders",

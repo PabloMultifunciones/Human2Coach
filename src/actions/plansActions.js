@@ -223,7 +223,7 @@ export const updatePlanRequest = (payload) => async (dispatch, getState) => {
   });
 
   try {
-    await PlanService.updatePlan(payload);
+    PlanService.updatePlan(payload);
     const { plans } = getState().plansReducer;
 
     const plansUpdated = [...plans];
@@ -254,12 +254,13 @@ export const updateStatePlanRequest = (payload) => async (dispatch, getState) =>
   });
 
   try {
+    let responsePlan;
     if (payload.status === 'SENDED') {
-      await PlanService.updateSendedPlan(payload);
+      responsePlan = await PlanService.updateSendedPlan(payload);
     } else if (payload.status === 'UPDATE') {
-      await PlanService.updatePlan({ ...payload, status: 'DRAFT' });
+      responsePlan = await PlanService.updatePlan({ ...payload, status: 'DRAFT' });
     } else {
-      await PlanService.updateAckowlegePlan(payload);
+      responsePlan = await PlanService.updateAckowlegePlan(payload);
     }
     const { plans } = getState().plansReducer;
 
@@ -268,7 +269,7 @@ export const updateStatePlanRequest = (payload) => async (dispatch, getState) =>
     const index = plansUpdated.findIndex(findById);
     plansUpdated[index] = {
       ...plansUpdated[index],
-      ...payload
+      ...responsePlan.data
     };
 
     dispatch({

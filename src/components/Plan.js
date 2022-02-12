@@ -19,7 +19,7 @@ import LetterCounter from './Globals/LetterCounter';
 
 import Spinner from './Spinner';
 
-import { TableFeedback, AppPlanMetrics } from './_dashboard/app';
+import { TableFeedback, TableRecord, AppPlanMetrics } from './_dashboard/app';
 
 import {
   getPlanRequest,
@@ -359,6 +359,14 @@ function Plan(props) {
                     <LetterCounter letters={ownComments} />
                   </Grid>
                 )}
+
+                {props.plansReducer.plansSelected &&
+                  props.plansReducer.plansSelected.changeLogs &&
+                  props.plansReducer.plansSelected.changeLogs.length > 0 && (
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <TableRecord planSelected={props.plansReducer.plansSelected} />
+                    </Grid>
+                  )}
 
                 {props.plansReducer.plansSelected &&
                 props.loginReducer.userLogged &&

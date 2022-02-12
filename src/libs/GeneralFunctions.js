@@ -249,5 +249,8 @@ export default {
       subDays(startOfWeek(new Date(), { weekStartsOn: 1 }), 7 * index),
       'dd/MM/yyyy'
     )})`;
+  },
+  getDate(date) {
+    return format(new Date(date), 'dd/MM/yyyy');
   }
 };

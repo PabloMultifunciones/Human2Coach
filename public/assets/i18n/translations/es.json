@@ -1,4 +1,8 @@
 {
+    "changeDate": "Fecha de cambio",
+    "commitDateOld": "Fecha de compromiso cambiada",
+    "commitDateNew": "Fecha de compromiso nueva",
+    "shippingDate": "Fecha de envío",
     "resume": "Resumen",
     "nameLastname": "Nombre.Apellido",
     "do-not-have-leaders": "Tu no tienes líderes",

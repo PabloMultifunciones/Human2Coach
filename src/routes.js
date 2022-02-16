@@ -15,6 +15,8 @@ import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import Plans from './pages/reports/Plans';
+import PlansOwn from './pages/reports/PlansOwn';
+
 import NewPlan from './pages/reports/NewPlan';
 import User from './pages/User';
 import Metric from './pages/Metric';
@@ -34,6 +36,16 @@ export default function Router() {
         { path: 'plans', element: <Plans /> },
         { path: 'plan/:id', element: <Plan /> },
         { path: 'plan-edit/:id', element: <NewPlan /> },
+        {
+          path: 'own',
+          element:
+            localStorage.getItem('sesion') &&
+            JSON.parse(localStorage.getItem('sesion')).user.postion === 2 ? (
+              <Navigate to="/dashboard/app" replace />
+            ) : (
+              <PlansOwn />
+            )
+        },
 
         {
           path: 'new-plan',

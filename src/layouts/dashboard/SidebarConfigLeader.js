@@ -5,13 +5,15 @@ import { Translation } from 'react-i18next';
 
 // import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
+import personDoneFill from '@iconify/icons-eva/person-done-fill';
+
 // import alertCircleFill from '@iconify/icons-eva/alert-circle-fill';
 
 // ----------------------------------------------------------------------
 
 const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 
-const sidebarConfig = [
+const SidebarConfigLeader = [
   {
     title: (
       <Translation>
@@ -29,6 +31,11 @@ const sidebarConfig = [
   {
     title: <Translation>{(t) => <p>{t('my-collaborators', 'Mis colaboradores')}</p>}</Translation>,
     path: '/dashboard/plans',
+    icon: getIcon(personDoneFill)
+  },
+  {
+    title: <Translation>{(t) => <p>{t('my-plans', 'Mis Planes')}</p>}</Translation>,
+    path: '/dashboard/own',
     icon: getIcon(clipboardOutline)
   },
   /* 
@@ -57,4 +64,4 @@ const sidebarConfig = [
   } */
 ];
 
-export default sidebarConfig;
+export default SidebarConfigLeader;

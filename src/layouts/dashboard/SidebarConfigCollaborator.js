@@ -22,7 +22,7 @@ const SidebarConfigCollaborator = [
   },
 
   {
-    title: <Translation>{(t) => <p>{t('plans', 'Planes')}</p>}</Translation>,
+    title: <Translation>{(t) => <p>{t('my-plans', 'Mis Planes')}</p>}</Translation>,
     path: '/dashboard/plans',
     icon: getIcon(clipboardOutline)
   }

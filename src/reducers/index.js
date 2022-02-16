@@ -4,6 +4,8 @@ import generalReducer from './generalReducer';
 import usersReducer from './usersReducer';
 import metricsReducer from './metricsReducer';
 import plansReducer from './plansReducer';
+import plansOwnReducer from './plansOwnReducer';
+
 import avatarsReducer from './avatarsReducer';
 import preferencesReducer from './preferencesReducer';
 import dashboardReducer from './dashboardReducer';
@@ -14,6 +16,7 @@ export default combineReducers({
   usersReducer,
   metricsReducer,
   plansReducer,
+  plansOwnReducer,
   avatarsReducer,
   preferencesReducer,
   dashboardReducer

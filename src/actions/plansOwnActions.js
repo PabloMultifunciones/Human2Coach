@@ -5,7 +5,7 @@ import PlanService from '../Services/PlanService';
 
 const {
   RESET_STATE,
-  PLAN_SELECTED,
+  PLAN_OWN_SELECTED,
   SET_PLANS_METRICS_TABLE,
   PLANS_OWN_LIST_REQUEST,
   PLANS_OWN_LIST_FILTER_REQUEST,
@@ -86,7 +86,7 @@ export const getPlanRequest = (payload) => async (dispatch, getState) => {
       const responsePlan = await PlanService.getPlan(payload);
 
       dispatch({
-        type: PLAN_SELECTED,
+        type: PLAN_OWN_SELECTED,
         payload: { ...responsePlan.data }
       });
 
@@ -94,7 +94,7 @@ export const getPlanRequest = (payload) => async (dispatch, getState) => {
     }
 
     dispatch({
-      type: PLAN_SELECTED,
+      type: PLAN_OWN_SELECTED,
       payload: plansUpdated[index]
     });
 

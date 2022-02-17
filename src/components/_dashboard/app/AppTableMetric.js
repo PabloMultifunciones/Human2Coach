@@ -40,6 +40,7 @@ import {
 } from '../../../actions/generalActions';
 
 import { UserListToolbar } from '../user';
+import MetricsChart from '../../charts/MetricsChart';
 
 import SearchNotFound from '../../SearchNotFound';
 import Spinner from '../../Spinner';
@@ -414,6 +415,14 @@ function AppTableMetric(props) {
           </>
         )}
       </Card>
+
+      {props.title === 'RESUME' &&
+        props.dashboardReducer.metricsResume &&
+        props.dashboardReducer.metricsResume.length > 0 && (
+          <div className="mt-2">
+            <MetricsChart dataMetric={props.dashboardReducer.metricsResume} />
+          </div>
+        )}
     </>
   );
 }

@@ -6,7 +6,7 @@ import PlanService from '../Services/PlanService';
 const {
   RESET_STATE,
   PLAN_OWN_SELECTED,
-  SET_PLANS_METRICS_TABLE,
+  SET_PLANS_OWN_METRICS_TABLE,
   PLANS_OWN_LIST_REQUEST,
   PLANS_OWN_LIST_FILTER_REQUEST,
   PLANS_OWN_LIST_SAVE,
@@ -27,7 +27,7 @@ export const setMetricsSelected = (payload) => async (dispatch, getState) => {
   const metricsUpdated = [...metricsSelected, payload];
 
   dispatch({
-    type: SET_PLANS_METRICS_TABLE,
+    type: SET_PLANS_OWN_METRICS_TABLE,
     payload: metricsUpdated
   });
 };
@@ -35,7 +35,7 @@ export const deleteMetricsSelected = (payload) => async (dispatch, getState) => 
   const { metricsSelected } = getState().plansOwnReducer;
   const metricsFiltered = [...metricsSelected].filter((metric) => metric.id !== payload.id);
   dispatch({
-    type: SET_PLANS_METRICS_TABLE,
+    type: SET_PLANS_OWN_METRICS_TABLE,
     payload: metricsFiltered
   });
 };

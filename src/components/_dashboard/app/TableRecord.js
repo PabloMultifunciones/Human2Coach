@@ -16,21 +16,26 @@ function TableRecord(props) {
   const { t } = useTranslation();
 
   const [tableHead] = useState([
-    { id: 'lastChange', label: t('changeDate', 'Fecha de cambio'), alignRight: false },
+    { id: 'dateChange', label: t('changeDate', 'Fecha de cambio'), alignRight: false },
     {
-      id: 'lastChange',
+      id: 'commitDate',
       label: t('commitDateOld', 'Fecha de compromiso cambiada'),
       alignRight: false
     },
-    { id: 'lastChange', label: t('commitDateNew', 'Fecha de compromiso nueva'), alignRight: false }
+    {
+      id: 'commitLastChange',
+      label: t('commitDateNew', 'Fecha de compromiso nueva'),
+      alignRight: false
+    }
   ]);
 
   return (
     <>
       <Card>
+        {console.log(props.planSelected.sendedDate)}
         <h4 className="p-1">
           {t('shippingDate', 'Fecha de envío')}:{' '}
-          {GeneralFunctions.getDate(props.planSelected.row.sendedDate)}
+          {GeneralFunctions.getDate(props.planSelected.sendedDate)}
         </h4>
         <Scrollbar>
           <TableContainer>

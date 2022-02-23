@@ -14,26 +14,31 @@ export default function UploadFile(props) {
   const [file, setFile] = useState(false);
 
   const handleFile = (e) => {
+    console.log(e.target.files[0]);
     props.getFile(e.target.files[0]);
     setFile(e.target.files[0]);
   };
 
   return (
-    <Grid>
+    <Grid className="d-flex">
       {props.showUpload && (
-        <Button variant="contained" color="error">
-          <BackupIcon className="mr-1" />
-          <label htmlFor="avatar">
-            {file ? t('change', 'Cambiar archivo') : t('import', 'Importar')}
-          </label>
-          <input
-            type="file"
-            className="fileInputUser"
-            onChange={(e) => handleFile(e)}
-            id="avatar"
-            name="avatar"
-          />
-        </Button>
+        <div className="d-flex">
+          <Button variant="contained" color="error">
+            <BackupIcon className="mr-1" />
+            <label htmlFor="avatar">
+              {file ? t('change', 'Cambiar archivo') : t('import', 'Importar')}
+            </label>
+            <input
+              type="file"
+              className="fileInputUser"
+              onChange={(e) => handleFile(e)}
+              id="avatar"
+              name="avatar"
+            />
+          </Button>
+
+          <div> {file && <p className="ml-1">{file.name}</p>}</div>
+        </div>
       )}
       {props.fileUrl && (
         <a

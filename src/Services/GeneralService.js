@@ -2,6 +2,34 @@ import axios from 'axios';
 import environment from '../libs/environment';
 
 export default {
+  uploadFile: (data, folder, name) => {
+    let paramstr = '';
+    const param = {};
+    if (folder) {
+      param.folder = folder;
+    }
+
+    if (name) {
+      param.name = name;
+    }
+
+    if (folder || name) {
+      paramstr = Object.entries(param)
+        .map(([key, val]) => `${key}=${val}`)
+        .join('&');
+      if (paramstr) {
+        paramstr = `?${paramstr}`;
+      }
+    }
+    return axios({
+      method: 'POST',
+      url: `${environment.motivarnosBackend}/file/upload${paramstr}`,
+      data,
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    });
+  },
   getTeams: () =>
     axios({
       method: 'GET',

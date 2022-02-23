@@ -2,6 +2,7 @@ import * as plansTypes from '../types/plansTypes';
 import * as generalTypes from '../types/generalTypes';
 
 import PlanService from '../Services/PlanService';
+import GeneralService from '../Services/GeneralService';
 
 const {
   RESET_STATE,
@@ -153,7 +154,20 @@ export const savePlanRequest = (payload) => async (dispatch, getState) => {
   });
 
   try {
-    const responsePlan = await PlanService.savePlan(payload);
+    let urlImage = null;
+    if (payload.file) {
+      const formData = new FormData();
+      formData.append('file', payload.file);
+      await GeneralService.uploadFile(formData, 'plans')
+        .then((response) => {
+          urlImage = response.data.url;
+        })
+        .catch(() => {
+          urlImage = null;
+        });
+    }
+
+    const responsePlan = await PlanService.savePlan({ ...payload, fileurl: urlImage });
     const { plans } = getState().plansReducer;
     const { collaborators } = getState().generalReducer;
 
@@ -188,7 +202,20 @@ export const saveSendedPlanRequest = (payload) => async (dispatch, getState) => 
   });
 
   try {
-    const responsePlan = await PlanService.updateSendedPlan(payload);
+    let urlImage = null;
+    if (payload.file) {
+      const formData = new FormData();
+      formData.append('file', payload.file);
+      await GeneralService.uploadFile(formData, 'plans')
+        .then((response) => {
+          urlImage = response.data.url;
+        })
+        .catch(() => {
+          urlImage = null;
+        });
+    }
+
+    const responsePlan = await PlanService.updateSendedPlan({ ...payload, fileurl: urlImage });
     const { plans } = getState().plansReducer;
     const { collaborators } = getState().generalReducer;
 
@@ -254,11 +281,29 @@ export const updateStatePlanRequest = (payload) => async (dispatch, getState) =>
   });
 
   try {
+    let urlImage = null;
+
+    if (payload.file) {
+      const formData = new FormData();
+      formData.append('file', payload.file);
+      await GeneralService.uploadFile(formData, 'plans')
+        .then((response) => {
+          urlImage = response.data.url;
+        })
+        .catch(() => {
+          urlImage = null;
+        });
+    }
+
     let responsePlan;
     if (payload.status === 'SENDED') {
       responsePlan = await PlanService.updateSendedPlan(payload);
     } else if (payload.status === 'UPDATE') {
-      responsePlan = await PlanService.updatePlan({ ...payload, status: 'DRAFT' });
+      responsePlan = await PlanService.updatePlan({
+        ...payload,
+        status: 'DRAFT',
+        fileurl: urlImage
+      });
     } else {
       responsePlan = await PlanService.updateAckowlegePlan(payload);
     }
@@ -278,6 +323,7 @@ export const updateStatePlanRequest = (payload) => async (dispatch, getState) =>
     });
     return 'SUCCESS';
   } catch (error) {
+    console.log(error);
     dispatch({
       type: PLANS_LIST_ERROR,
       payload: error.response ? error.response.data : error

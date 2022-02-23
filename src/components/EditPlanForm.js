@@ -23,6 +23,7 @@ import FeedbackDialog from './Dialogs/FeedbackDialog';
 import TimeEntryFollowDialog from './Dialogs/TimeEntryFollowDialog';
 
 import LetterCounter from './Globals/LetterCounter';
+import UploadFile from './UploadFile';
 
 import 'toastr/build/toastr.min.css';
 
@@ -71,7 +72,8 @@ function EditPlanForm(props) {
       dateCommitment,
       addReminder,
       notReminder,
-      openDialog
+      openDialog,
+      file
     },
     setState
   ] = useState({
@@ -87,7 +89,8 @@ function EditPlanForm(props) {
     dateCommitment: format(new Date(), 'yyyy-MM-dd'),
     addReminder: format(new Date(), 'yyyy-MM-dd'),
     notReminder: false,
-    openDialog: false
+    openDialog: false,
+    file: null
   });
 
   useEffect(() => {
@@ -177,6 +180,13 @@ function EditPlanForm(props) {
     }));
   };
 
+  const handleFile = (file) => {
+    setState((prevState) => ({
+      ...prevState,
+      file
+    }));
+  };
+
   const submitFunction = async (plan, type) => {
     const metricArray = [];
 
@@ -208,7 +218,7 @@ function EditPlanForm(props) {
       reminderDate: notReminder ? null : `${addReminder}T00:00:00`,
       isException: sick === true || vacations === true || disciplinaryProcess === true,
       metricConfs: metricArray,
-
+      file,
       isOneOnOne: dashboard === 'oneonone',
       isPDS: dashboard === 'pds',
       isPIP: dashboard === 'pip',
@@ -399,6 +409,14 @@ function EditPlanForm(props) {
                       />
 
                       <LetterCounter letters={comments} />
+                    </Grid>
+
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <UploadFile
+                        getFile={(file) => handleFile(file)}
+                        fileUrl={props.plansReducer.plansSelected.fileurl}
+                        showUpload
+                      />
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={3} lg={3}>

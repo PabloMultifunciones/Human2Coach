@@ -1,4 +1,6 @@
 {
+    "import": "Importar",
+    "download": "Descargar",
     "changeDate": "Fecha de cambio",
     "commitDateOld": "Fecha de compromiso cambiada",
     "commitDateNew": "Fecha de compromiso nueva",

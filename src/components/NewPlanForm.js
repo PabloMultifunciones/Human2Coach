@@ -25,6 +25,8 @@ import LetterCounter from './Globals/LetterCounter';
 import 'toastr/build/toastr.min.css';
 
 import { TableFeedbackDone } from './_dashboard/app';
+import UploadFile from './UploadFile';
+
 import {
   usersRequest,
   getCollaboratorsRequest,
@@ -51,7 +53,8 @@ function NewPlanForm(props) {
       dateCommitment,
       addReminder,
       notReminder,
-      openDialog
+      openDialog,
+      file
     },
     setState
   ] = useState({
@@ -67,7 +70,8 @@ function NewPlanForm(props) {
     dateCommitment: format(new Date(), 'yyyy-MM-dd'),
     addReminder: format(new Date(), 'yyyy-MM-dd'),
     notReminder: false,
-    openDialog: false
+    openDialog: false,
+    file: null
   });
 
   useEffect(() => {
@@ -137,6 +141,13 @@ function NewPlanForm(props) {
     }));
   };
 
+  const handleFile = (file) => {
+    setState((prevState) => ({
+      ...prevState,
+      file
+    }));
+  };
+
   const submitFunction = async (type) => {
     const metricArray = [];
 
@@ -167,7 +178,7 @@ function NewPlanForm(props) {
       reminderDate: notReminder ? null : `${addReminder}T00:00:00`,
       isException: sick === true || vacations === true || disciplinaryProcess === true,
       metricConfs: metricArray,
-
+      file,
       isOneOnOne: dashboard === 'oneonone',
       isPDS: dashboard === 'pds',
       isPIP: dashboard === 'pip',
@@ -223,7 +234,8 @@ function NewPlanForm(props) {
         date: format(new Date(), 'yyyy-MM-dd'),
         dateCommitment: format(new Date(), 'yyyy-MM-dd'),
         addReminder: format(new Date(), 'yyyy-MM-dd'),
-        notReminder: false
+        notReminder: false,
+        file: null
       }));
     }
   };
@@ -348,6 +360,10 @@ function NewPlanForm(props) {
                       />
 
                       <LetterCounter letters={comments} />
+                    </Grid>
+
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <UploadFile getFile={(file) => handleFile(file)} showUpload />
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={3} lg={3}>

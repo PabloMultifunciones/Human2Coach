@@ -16,6 +16,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import toastr from 'toastr';
 import LetterCounter from './Globals/LetterCounter';
+import UploadFile from './UploadFile';
 
 import Spinner from './Spinner';
 
@@ -357,6 +358,14 @@ function Plan(props) {
                       }}
                     />
                     <LetterCounter letters={ownComments} />
+                  </Grid>
+                )}
+                {props.plansReducer.plansSelected && (
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <UploadFile
+                      fileUrl={props.plansReducer.plansSelected.fileurl}
+                      showUpload={false}
+                    />
                   </Grid>
                 )}
 

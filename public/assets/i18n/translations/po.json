@@ -1,5 +1,6 @@
 {
     "import": "importar arquivo",
+    "change": "Alterar arquivo",
     "download": "Fazer download do arquivo",
     "changeDate": "Alterar data",
     "commitDateOld": "Data do compromisso alterada",

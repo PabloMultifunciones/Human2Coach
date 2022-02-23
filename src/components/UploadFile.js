@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Grid from '@material-ui/core/Grid';
@@ -11,9 +11,11 @@ import environment from '../libs/environment';
 // props
 export default function UploadFile(props) {
   const { t } = useTranslation();
+  const [file, setFile] = useState(false);
 
   const handleFile = (e) => {
     props.getFile(e.target.files[0]);
+    setFile(e.target.files[0]);
   };
 
   return (
@@ -21,7 +23,9 @@ export default function UploadFile(props) {
       {props.showUpload && (
         <Button variant="contained" color="error">
           <BackupIcon className="mr-1" />
-          <label htmlFor="avatar">{t('import', 'Importar')}</label>
+          <label htmlFor="avatar">
+            {file ? t('change', 'Cambiar archivo') : t('import', 'Importar')}
+          </label>
           <input
             type="file"
             className="fileInputUser"

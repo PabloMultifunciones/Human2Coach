@@ -1,6 +1,6 @@
 {
-    "import": "Import",
-    "download": "Download",
+    "import": "Import file",
+    "download": "Download file",
     "changeDate": "Change date",
     "commitDateOld": "Commitment date changed",
     "commitDateNew": "New commitment date",

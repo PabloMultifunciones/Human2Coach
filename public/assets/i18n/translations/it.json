@@ -1,6 +1,6 @@
 {
-    "import": "Importare",
-    "download": "Scaricamento",
+    "import": "Importare file",
+    "download": "Download file",
     "changeDate": "Cambia data",
     "commitDateOld": "La data dell'impegno è cambiata",
     "commitDateNew": "Nuova data di impegno",

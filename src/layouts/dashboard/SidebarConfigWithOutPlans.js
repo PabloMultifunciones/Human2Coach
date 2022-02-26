@@ -11,7 +11,7 @@ import clipboardOutline from '@iconify/icons-eva/clipboard-outline';
 
 const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 
-const sidebarConfig = [
+const SidebarConfigWithOutPlans = [
   {
     title: (
       <Translation>
@@ -21,11 +21,7 @@ const sidebarConfig = [
     path: '/dashboard/app',
     icon: getIcon(pieChart2Fill)
   },
-  {
-    title: <Translation>{(t) => <p>{t('new-plan', ' Nuevo plan')}</p>}</Translation>,
-    path: '/dashboard/new-plan',
-    icon: getIcon(clipboardOutline)
-  },
+
   {
     title: <Translation>{(t) => <p>{t('my-collaborators', 'Mis colaboradores')}</p>}</Translation>,
     path: '/dashboard/plans',
@@ -39,4 +35,4 @@ const sidebarConfig = [
   }
 ];
 
-export default sidebarConfig;
+export default SidebarConfigWithOutPlans;

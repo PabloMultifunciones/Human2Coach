@@ -106,8 +106,6 @@ function Permissions(props) {
   };
 
   const handleChange = (prop) => (event) => {
-    console.log(prop);
-
     if (prop === 'isCreateToTeamLeader') {
       setPermissions({
         ...permissions,

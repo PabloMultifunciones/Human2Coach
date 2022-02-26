@@ -13,6 +13,8 @@ import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
+import SidebarConfigWithOutPlans from './SidebarConfigWithOutPlans';
+
 import SidebarConfigLeader from './SidebarConfigLeader';
 
 import sidebarConfigCollaborator from './SidebarConfigCollaborator';
@@ -70,7 +72,6 @@ function DashboardSidebar({ isOpenSidebar, onCloseSidebar, userLogged }) {
           <Logo />
         </Box>
       </Box>
-
       <Box sx={{ mb: 1 }} className="custom-bg-white">
         <AccountStyle>
           <Avatar src="/static/icons/icon-message.png" alt="photoURL" />
@@ -81,12 +82,18 @@ function DashboardSidebar({ isOpenSidebar, onCloseSidebar, userLogged }) {
           </Box>
         </AccountStyle>
       </Box>
-
       {userLogged.user.position === 3 && <NavSection navConfig={sidebarConfigCollaborator} />}
-
       {userLogged.user.position === 2 && <NavSection navConfig={SidebarConfigLeader} />}
 
-      {userLogged.user.position === 1 && <NavSection navConfig={sidebarConfig} />}
+      {userLogged.user.position === 1 &&
+        (userLogged.permissions.isCreateToColaborator ||
+          userLogged.permissions.isCreateToTeamLeader) && <NavSection navConfig={sidebarConfig} />}
+
+      {userLogged.user.position === 1 &&
+        !userLogged.permissions.isCreateToColaborator &&
+        !userLogged.permissions.isCreateToTeamLeader && (
+          <NavSection navConfig={SidebarConfigWithOutPlans} />
+        )}
 
       {userLogged.user.position === 4 && <NavSection navConfig={sidebarConfigMaster} />}
     </Scrollbar>

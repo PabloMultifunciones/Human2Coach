@@ -50,8 +50,10 @@ export default function Router() {
         {
           path: 'new-plan',
           element:
-            localStorage.getItem('sesion') &&
-            JSON.parse(localStorage.getItem('sesion')).user.postion === 3 ? (
+            (localStorage.getItem('sesion') &&
+              JSON.parse(localStorage.getItem('sesion')).user.postion === 3) ||
+            (!JSON.parse(localStorage.getItem('sesion')).permissions.isCreateToColaborator &&
+              !JSON.parse(localStorage.getItem('sesion')).permissions.isCreateToTeamLeader) ? (
               <Navigate to="/dashboard/app" replace />
             ) : (
               <NewPlan />

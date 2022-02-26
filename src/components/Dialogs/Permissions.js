@@ -114,6 +114,8 @@ function Permissions(props) {
           isColaboratorOneOnOne: false,
           isColaboratorPDS: false,
           isColaboratorPIP: false,
+          isTeamLeaderOneOnOne: true,
+
           [prop]:
             permissions.isTeamLeaderOneOnOne ||
             permissions.isTeamLeaderPDS ||
@@ -144,6 +146,8 @@ function Permissions(props) {
           isTeamLeaderOneOnOne: false,
           isTeamLeaderPDS: false,
           isTeamLeaderPIP: false,
+          isColaboratorOneOnOne: true,
+
           [prop]:
             permissions.isColaboratorOneOnOne ||
             permissions.isColaboratorPDS ||

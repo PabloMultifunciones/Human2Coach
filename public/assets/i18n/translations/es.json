@@ -11,7 +11,7 @@
     "permissions": "Permisos",
     "message-error-getting-permissions": "Ha ocurrido un error obteniendo los permisos",
     "message-error-saving-permissions": "Ha ocurrido un error guardando los permisos",
-    "message-success-saving-permissions": "Permisos guardado satisfactoriamente",
+    "message-success-saving-permissions": "Permisos guardados satisfactoriamente",
     "change": "Cambiar archivo",
     "download": "Descargar archivo",
     "changeDate": "Fecha de cambio",

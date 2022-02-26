@@ -207,7 +207,7 @@ function Permissions(props) {
       );
     } else {
       toastr.success(
-        t('message-success-saving-permissions', 'Permisos guardado satisfactoriamente')
+        t('message-success-saving-permissions', 'Permisos guardados satisfactoriamente')
       );
       handleClose();
     }

@@ -77,7 +77,13 @@ function NewPlanForm(props) {
   useEffect(() => {
     if (!props.generalReducer.collaborators) {
       if (props.loginReducer.userLogged && props.loginReducer.userLogged.user.position === 1) {
-        props.getCollaboratorsLeadersRequest(999);
+        if (props.loginReducer.userLogged.permissions.isCreateToTeamLeader) {
+          props.getCollaboratorsLeadersRequest(999);
+          return;
+        }
+        if (props.loginReducer.userLogged.permissions.isCreateToColaborator) {
+          props.getCollaboratorsRequest(999);
+        }
       } else {
         props.getCollaboratorsRequest(999);
       }

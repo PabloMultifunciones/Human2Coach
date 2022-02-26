@@ -138,9 +138,11 @@ function AccountPopover(props) {
               <MetricPreference handleCloseDialog={() => handleCloseDialog()} />
             </MenuItem>
 
-            <MenuItem>
-              <Permissions handleCloseDialog={() => handleCloseDialog()} />
-            </MenuItem>
+            {props.userLogged && props.userLogged.user.position === 1 && (
+              <MenuItem>
+                <Permissions handleCloseDialog={() => handleCloseDialog()} />
+              </MenuItem>
+            )}
 
             {props.userLogged && props.userLogged.souceType === 'WEB' && (
               <MenuItem>

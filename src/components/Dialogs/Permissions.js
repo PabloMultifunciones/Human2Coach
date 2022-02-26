@@ -107,6 +107,24 @@ function Permissions(props) {
 
   const handleChange = (prop) => (event) => {
     if (prop === 'isCreateToTeamLeader') {
+      if (event.target.checked) {
+        setPermissions({
+          ...permissions,
+          isCreateToColaborator: false,
+          isColaboratorOneOnOne: false,
+          isColaboratorPDS: false,
+          isColaboratorPIP: false,
+          [prop]:
+            permissions.isTeamLeaderOneOnOne ||
+            permissions.isTeamLeaderPDS ||
+            permissions.isTeamLeaderPIP
+              ? true
+              : event.target.checked
+        });
+
+        return;
+      }
+
       setPermissions({
         ...permissions,
         [prop]:
@@ -116,10 +134,27 @@ function Permissions(props) {
             ? true
             : event.target.checked
       });
-      return;
     }
 
     if (prop === 'isCreateToColaborator') {
+      if (event.target.checked) {
+        setPermissions({
+          ...permissions,
+          isCreateToTeamLeader: false,
+          isTeamLeaderOneOnOne: false,
+          isTeamLeaderPDS: false,
+          isTeamLeaderPIP: false,
+          [prop]:
+            permissions.isColaboratorOneOnOne ||
+            permissions.isColaboratorPDS ||
+            permissions.isColaboratorPIP
+              ? true
+              : event.target.checked
+        });
+
+        return;
+      }
+
       setPermissions({
         ...permissions,
         [prop]:
@@ -129,7 +164,6 @@ function Permissions(props) {
             ? true
             : event.target.checked
       });
-      return;
     }
 
     setPermissions({ ...permissions, [prop]: event.target.checked });

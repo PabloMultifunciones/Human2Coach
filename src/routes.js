@@ -40,7 +40,7 @@ export default function Router() {
           path: 'own',
           element:
             localStorage.getItem('sesion') &&
-            JSON.parse(localStorage.getItem('sesion')).user.postion === 2 ? (
+            JSON.parse(localStorage.getItem('sesion')).user.position === 2 ? (
               <Navigate to="/dashboard/app" replace />
             ) : (
               <PlansOwn />
@@ -51,7 +51,7 @@ export default function Router() {
           path: 'new-plan',
           element:
             (localStorage.getItem('sesion') &&
-              JSON.parse(localStorage.getItem('sesion')).user.postion === 3) ||
+              JSON.parse(localStorage.getItem('sesion')).user.position === 3) ||
             (!JSON.parse(localStorage.getItem('sesion')).permissions.isCreateToColaborator &&
               !JSON.parse(localStorage.getItem('sesion')).permissions.isCreateToTeamLeader) ? (
               <Navigate to="/dashboard/app" replace />
@@ -63,7 +63,7 @@ export default function Router() {
           path: 'metrics',
           element:
             localStorage.getItem('sesion') &&
-            JSON.parse(localStorage.getItem('sesion')).user.postion === 4 ? (
+            JSON.parse(localStorage.getItem('sesion')).user.position === 4 ? (
               <Metric />
             ) : (
               <Navigate to="/dashboard/app" replace />
@@ -73,7 +73,7 @@ export default function Router() {
           path: 'users',
           element:
             localStorage.getItem('sesion') &&
-            JSON.parse(localStorage.getItem('sesion')).user.postion === 3 ? (
+            JSON.parse(localStorage.getItem('sesion')).user.position === 3 ? (
               <Navigate to="/dashboard/app" replace />
             ) : (
               <User />

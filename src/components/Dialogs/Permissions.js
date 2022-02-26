@@ -181,10 +181,7 @@ function Permissions(props) {
 
     if (status.error) {
       toastr.error(
-        t(
-          'admin.user-panel-message-error-save-import',
-          'It has happened when integrating the information'
-        )
+        t('message-error-getting-permissions', 'Ha ocurrido un error obteniendo los permisos')
       );
     }
   };
@@ -206,14 +203,11 @@ function Permissions(props) {
 
     if (status === 'ERROR') {
       toastr.error(
-        t(
-          'admin.header-dropdown-dialog-preference-error',
-          'An error occurred while trying to save the preferences'
-        )
+        t('message-error-saving-permissions', 'Ha ocurrido un error guardando los permisos')
       );
     } else {
       toastr.success(
-        t('admin.header-dropdown-dialog-preference-success', 'Preferences saved successfully')
+        t('message-success-saving-permissions', 'Permisos guardado satisfactoriamente')
       );
       handleClose();
     }
@@ -236,7 +230,7 @@ function Permissions(props) {
             height: 24
           }}
         />{' '}
-        Permisos
+        {t('permissions', 'Permisos')}
       </div>
 
       <Dialog
@@ -247,7 +241,7 @@ function Permissions(props) {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Permisos
+          {t('permissions', 'Permisos')}
         </DialogTitle>
         <DialogContent dividers>
           {props.permissions_charging && (
@@ -272,7 +266,7 @@ function Permissions(props) {
                         name="isCreateToTeamLeader"
                       />
                     }
-                    label="isCreateToTeamLeader"
+                    label={t('create-to-team-leader', 'Crear para el líder de equipo')}
                   />
                   <FormControlLabel
                     control={
@@ -282,7 +276,7 @@ function Permissions(props) {
                         name="isCreateToColaborator"
                       />
                     }
-                    label="isCreateToColaborator"
+                    label={t('create-to-collaborator', 'Crear para el colaborador')}
                   />
 
                   <FormControlLabel
@@ -293,7 +287,10 @@ function Permissions(props) {
                         name="isTeamLeaderOneOnOne"
                       />
                     }
-                    label="isTeamLeaderOneOnOne"
+                    label={t(
+                      'create-to-team-leader-one-to-one',
+                      'Crear para el líder de equipo OneonOne'
+                    )}
                   />
                   <FormControlLabel
                     control={
@@ -303,7 +300,7 @@ function Permissions(props) {
                         name="isTeamLeaderPDS"
                       />
                     }
-                    label="isTeamLeaderPDS"
+                    label={t('create-to-team-leader-pds', 'Crear para el líder de equipo PDS')}
                   />
 
                   <FormControlLabel
@@ -314,7 +311,7 @@ function Permissions(props) {
                         name="isTeamLeaderPIP"
                       />
                     }
-                    label="isTeamLeaderPIP"
+                    label={t('create-to-team-leader-pip', 'Crear para el líder de equipo PIP')}
                   />
 
                   <FormControlLabel
@@ -325,7 +322,10 @@ function Permissions(props) {
                         name="isColaboratorOneOnOne"
                       />
                     }
-                    label="isColaboratorOneOnOne"
+                    label={t(
+                      'create-to-collaborator-one-to-one',
+                      'Crear para el colaborador OneonOne'
+                    )}
                   />
 
                   <FormControlLabel
@@ -336,7 +336,7 @@ function Permissions(props) {
                         name="isColaboratorPDS"
                       />
                     }
-                    label="isColaboratorPDS"
+                    label={t('create-to-collaborator-pds', 'Crear para el colaborador pds')}
                   />
 
                   <FormControlLabel
@@ -347,7 +347,7 @@ function Permissions(props) {
                         name="isColaboratorPIP"
                       />
                     }
-                    label="isColaboratorPIP"
+                    label={t('create-to-collaborator-pip', 'Crear para el colaborador pip')}
                   />
                 </FormGroup>
               </FormControl>

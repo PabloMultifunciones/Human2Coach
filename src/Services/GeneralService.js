@@ -124,5 +124,12 @@ export default {
     axios({
       method: 'GET',
       url: `${environment.motivarnosBackend}/user?position_in=3&teamLeader.id=${userId}&_number=${number}&_size=${size}&_sort=created_${order}`
+    }),
+
+  savePermissions: (data) =>
+    axios({
+      method: 'POST',
+      url: `${environment.motivarnosBackend}/permission/teammanager`,
+      data
     })
 };

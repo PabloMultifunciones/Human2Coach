@@ -15,6 +15,8 @@ import MenuPopover from '../../components/MenuPopover';
 //
 
 import MetricPreference from '../../components/Dialogs/MetricPreference';
+import Permissions from '../../components/Dialogs/Permissions';
+
 import MetricPassword from '../../components/Dialogs/MetricPassword';
 
 import { logoutRequest } from '../../actions/loginActions';
@@ -134,6 +136,10 @@ function AccountPopover(props) {
 
             <MenuItem>
               <MetricPreference handleCloseDialog={() => handleCloseDialog()} />
+            </MenuItem>
+
+            <MenuItem>
+              <Permissions handleCloseDialog={() => handleCloseDialog()} />
             </MenuItem>
 
             {props.userLogged && props.userLogged.souceType === 'WEB' && (

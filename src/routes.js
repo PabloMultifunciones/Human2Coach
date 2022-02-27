@@ -52,7 +52,8 @@ export default function Router() {
           element:
             (localStorage.getItem('sesion') &&
               JSON.parse(localStorage.getItem('sesion')).user.position === 3) ||
-            (!JSON.parse(localStorage.getItem('sesion')).permissions.isCreateToColaborator &&
+            (localStorage.getItem('sesion') &&
+              !JSON.parse(localStorage.getItem('sesion')).permissions.isCreateToColaborator &&
               !JSON.parse(localStorage.getItem('sesion')).permissions.isCreateToTeamLeader) ? (
               <Navigate to="/dashboard/app" replace />
             ) : (

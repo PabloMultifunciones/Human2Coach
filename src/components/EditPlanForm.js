@@ -337,20 +337,82 @@ function EditPlanForm(props) {
                       </RadioGroup>
                     </FormControl>
 
-                    <FormControl component="fieldset" className="ml-30-percent">
-                      <RadioGroup
-                        aria-label="dashboard"
-                        name="dashboard"
-                        value={dashboard}
-                        onChange={(event, value) => {
-                          handleChange(event, value);
-                        }}
-                      >
-                        <FormControlLabel value="oneonone" control={<Radio />} label="One on one" />
-                        <FormControlLabel value="pds" control={<Radio />} label="P D S" />
-                        <FormControlLabel value="pip" control={<Radio />} label="P I P" />
-                      </RadioGroup>
-                    </FormControl>
+                    {props.loginReducer.userLogged &&
+                    props.loginReducer.userLogged.user.position === 1 ? (
+                      <FormControl component="fieldset" className="ml-30-percent">
+                        <RadioGroup
+                          aria-label="dashboard"
+                          name="dashboard"
+                          value={dashboard}
+                          onChange={(event, value) => {
+                            handleChange(event, value);
+                          }}
+                        >
+                          {props.loginReducer.userLogged &&
+                            props.loginReducer.userLogged.permissions.isCreateToColaborator && (
+                              <>
+                                {props.loginReducer.userLogged.permissions
+                                  .isColaboratorOneOnOne && (
+                                  <FormControlLabel
+                                    value="oneonone"
+                                    control={<Radio />}
+                                    label="One on one"
+                                  />
+                                )}
+
+                                {props.loginReducer.userLogged.permissions.isColaboratorPDS && (
+                                  <FormControlLabel value="pds" control={<Radio />} label="P D S" />
+                                )}
+
+                                {props.loginReducer.userLogged.permissions.isColaboratorPIP && (
+                                  <FormControlLabel value="pip" control={<Radio />} label="P I P" />
+                                )}
+                              </>
+                            )}
+
+                          {props.loginReducer.userLogged &&
+                            props.loginReducer.userLogged.permissions.isCreateToTeamLeader && (
+                              <>
+                                {props.loginReducer.userLogged.permissions.isTeamLeaderOneOnOne && (
+                                  <FormControlLabel
+                                    value="oneonone"
+                                    control={<Radio />}
+                                    label="One on one"
+                                  />
+                                )}
+
+                                {props.loginReducer.userLogged.permissions.isTeamLeaderPDS && (
+                                  <FormControlLabel value="pds" control={<Radio />} label="P D S" />
+                                )}
+
+                                {props.loginReducer.userLogged.permissions.isTeamLeaderPIP && (
+                                  <FormControlLabel value="pip" control={<Radio />} label="P I P" />
+                                )}
+                              </>
+                            )}
+                        </RadioGroup>
+                      </FormControl>
+                    ) : (
+                      <FormControl component="fieldset" className="ml-30-percent">
+                        <RadioGroup
+                          aria-label="dashboard"
+                          name="dashboard"
+                          value={dashboard}
+                          onChange={(event, value) => {
+                            handleChange(event, value);
+                          }}
+                        >
+                          <FormControlLabel
+                            value="oneonone"
+                            control={<Radio />}
+                            label="One on one"
+                          />
+
+                          <FormControlLabel value="pds" control={<Radio />} label="P D S" />
+                          <FormControlLabel value="pip" control={<Radio />} label="P I P" />
+                        </RadioGroup>
+                      </FormControl>
+                    )}
                   </Grid>
                 )}
 

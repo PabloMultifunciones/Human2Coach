@@ -195,7 +195,7 @@ function EditPlanForm(props) {
 
   const submitFunction = async (plan, type) => {
     const metricArray = [];
-    // -------------------- ESTO ES LO QUE MODIFIQUE -----------------------------
+    // -------------------- ESTO ES LO QUE MODIFIQUE -------------------------------
     if (props.plansReducer.metricsSelected.length === 0) {
       props.plansReducer.plansSelected.metricConfs.forEach((element) => {
         metricArray.push({

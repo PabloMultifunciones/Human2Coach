@@ -195,6 +195,22 @@ function EditPlanForm(props) {
 
   const submitFunction = async (plan, type) => {
     const metricArray = [];
+    // -------------------- ESTO ES LO QUE MODIFIQUE -----------------------------
+    if (props.plansReducer.metricsSelected.length === 0) {
+      props.plansReducer.plansSelected.metricConfs.forEach((element) => {
+        metricArray.push({
+          metricConf: element.metricConf ? { ...element.metricConf } : null,
+          isChecked: true,
+          targetValue: element.targetValue,
+          date1: element.date1,
+          date2: element.date2,
+          value1: element.value1,
+          value2: element.value2,
+          isActive: true
+        });
+      });
+    }
+    // -----------------------------------------------------
 
     props.plansReducer.metricsSelected.forEach((element) => {
       metricArray.push({
@@ -262,7 +278,6 @@ function EditPlanForm(props) {
       );
     } else {
       toastr.success('Plan saved successfully');
-
       navigate('/dashboard/plans');
     }
   };
